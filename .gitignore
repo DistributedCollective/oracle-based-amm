@@ -1,0 +1,25 @@
+.DS_Store
+.vscode/
+*/**/.DS_Store
+
+# node
+/node_modules
+npm-debug.log
+
+# python
+*.pyc
+
+solidity/build/contracts
+.coverage_artifacts
+.coverage_contracts
+coverage
+coverageEnv
+coverage.json
+allFiredEvents
+scTopics
+
+solidity/build/ConverterV*
+solidity/build/NewConverter*
+solidity/build/NonStandardToken*
+solidity/build/OldConverter*
+solidity/build/Test*
