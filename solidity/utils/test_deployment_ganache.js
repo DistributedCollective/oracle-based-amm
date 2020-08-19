@@ -119,10 +119,15 @@ const percentageToPPM = (value) => {
 };
 
 const run = async () => {
-    //const web3 = new Web3(NODE_ADDRESS);
-    //todo
-    //web3.setProvider(ganache.provider());
-    const web3 = new Web3(ganache.provider({accounts:[{balance: 0xffffffffffffffffffff, secretKey: PRIVATE_KEY}],  gasLimit: 10000000}));
+    let web3;
+    // Use empty string ('') as the NODE_ADDRESS arg to
+    // skip connecting to an URL and use the ganache provider instead
+    if (NODE_ADDRESS) {
+        web3 = new Web3(NODE_ADDRESS);
+    } else {
+        web3 = new Web3(ganache.provider({ accounts:[{ balance: 0xffffffffffffffffffff, secretKey: PRIVATE_KEY }],  gasLimit: 10000000 }));
+    }
+
     console.log(await web3.eth.getAccounts());
     const gasPrice = await getGasPrice(web3);
     const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
@@ -214,8 +219,11 @@ const run = async () => {
         const weights = converter.reserves.map(reserve => percentageToPPM(reserve.weight));
         const amounts = converter.reserves.map(reserve => decimalToInteger(reserve.balance, tokenDecimals[reserve.symbol]));
         const value = amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'ETH')];
-        console.log("going to deploy converter");
+
+        const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights).call();
         await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights));
+        await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
+
         console.log("done. doing the settings now");
         const anchor = deployed(web3, 'IConverterAnchor', (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
         const converterBase = deployed(web3, 'ConverterBase', await anchor.methods.owner().call());
@@ -238,7 +246,7 @@ const run = async () => {
                         //else coment out
                         const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, 'ChainlinkETHToETHOracle', []);
                         reserve.oracle = chainlinkPriceOracle._address;
-                        
+
                     }
                     console.log("adding the oracle to the whitelist "+reserve.oracle);
                     await execute(oracleWhitelist.methods.addAddress(reserve.oracle));
