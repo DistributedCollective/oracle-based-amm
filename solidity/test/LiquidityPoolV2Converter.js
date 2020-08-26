@@ -850,7 +850,8 @@ contract('LiquidityPoolV2Converter', accounts => {
                         const res = await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount);
 
                         expectAlmostEqual(expectedTargetAmount, res[0]);
-                        expect(expectedFee).to.be.bignumber.equal(res[1]);
+                        expect(expectedFee).to.be.bignumber;
+                        expectAlmostEqual(expectedFee, res[1]);
                     });
 
                     // eslint-disable-next-line max-len

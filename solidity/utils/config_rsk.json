@@ -1,0 +1,160 @@
+{
+    "reserves": [
+        {
+            "symbol": "SUSD",
+            "decimals": 18,
+            "address": "0xE631653c4Dc6Fb98192b950BA0b598f90FA18B3E"
+        },
+        {
+            "symbol": "RBTC",
+            "decimals": 18,
+            "address": "0xE53d858A78D884659BF6955Ea43CBA67c0Ae293F"
+        }
+    ],
+    "converters": [
+        {
+            "type": 2,
+            "symbol": "sUSDrBTC",
+            "decimals": 18,
+            "fee": "0.1%",
+            "reserves": [
+                {
+                    "symbol": "SUSD",
+                    "weight": "50%",
+                    "balance": "1"
+                },
+                {
+                    "symbol": "RBTC",
+                    "weight": "50%",
+                    "balance": "1"
+                }
+            ]
+        }
+    ],
+    "phase": 26,
+    "contractRegistry": {
+        "name": "ContractRegistry",
+        "addr": "0xc395F0b336Cf2895E6E24A7B4A1f9d1faf4567f4",
+        "args": ""
+    },
+    "converterFactory": {
+        "name": "ConverterFactory",
+        "addr": "0x0b7528F0834acb774b531E0732be07e5b0134DBA",
+        "args": ""
+    },
+    "bancorFormula": {
+        "name": "BancorFormula",
+        "addr": "0xd75B6cBE6A6FD3062f29C1f5bDD7dE3533aD0074",
+        "args": ""
+    },
+    "bancorNetwork": {
+        "name": "BancorNetwork",
+        "addr": "0xEB7e4839D2aAF0E9c64AC49B5fd3b53cf9EDa3e8",
+        "args": "000000000000000000000000c395f0b336cf2895e6e24a7b4a1f9d1faf4567f4"
+    },
+    "conversionPathFinder": {
+        "name": "ConversionPathFinder",
+        "addr": "0xFB5E6fB6F2d30Fe3228Bb729740130816971B6AC",
+        "args": "000000000000000000000000c395f0b336cf2895e6e24a7b4a1f9d1faf4567f4"
+    },
+    "converterUpgrader": {
+        "name": "ConverterUpgrader",
+        "addr": "0x55180053Da4Abb0caa458b859a556FbD183b48a0",
+        "args": "000000000000000000000000c395f0b336cf2895e6e24a7b4a1f9d1faf4567f4000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0xD79Cb99125A7180759DAb672A69a3dE83e36Ea82",
+        "args": "000000000000000000000000c395f0b336cf2895e6e24a7b4a1f9d1faf4567f4"
+    },
+    "converterRegistryData": {
+        "name": "ConverterRegistryData",
+        "addr": "0x61ADC7407a4edAbc5B55f0310e3C95d96fb193EE",
+        "args": "000000000000000000000000c395f0b336cf2895e6e24a7b4a1f9d1faf4567f4"
+    },
+    "liquidTokenConverterFactory": {
+        "name": "LiquidTokenConverterFactory",
+        "addr": "0x597997C6E965f9cd2BacD871Ec3A364F7c7b8139",
+        "args": ""
+    },
+    "liquidityPoolV1ConverterFactory": {
+        "name": "LiquidityPoolV1ConverterFactory",
+        "addr": "0xed873853CFFC6766847FEe57913f1F9f49327996",
+        "args": ""
+    },
+    "liquidityPoolV2ConverterFactory": {
+        "name": "LiquidityPoolV2ConverterFactory",
+        "addr": "0xCd1Ff2FA5791E45c32Cb63136C2bE1E35EF3e2b2",
+        "args": ""
+    },
+    "liquidityPoolV2ConverterAnchorFactory": {
+        "name": "LiquidityPoolV2ConverterAnchorFactory",
+        "addr": "0xf5ACce0b270C6BF50120f191668d6374EE550f44",
+        "args": ""
+    },
+    "liquidityPoolV2ConverterCustomFactory": {
+        "name": "LiquidityPoolV2ConverterCustomFactory",
+        "addr": "0x527E3dD0C1eD8B6edf222FA80B90Bed46624934a",
+        "args": ""
+    },
+    "oracleWhitelist": {
+        "name": "Whitelist",
+        "addr": "0x899fBB65D1799E5ef8F6fd4C78F95b2888cd70da",
+        "args": ""
+    },
+    "smartToken": {
+        "name": "SmartToken",
+        "addr": "0x38Ea5984cFFcF97C67dD9779c92368873bA7cB28",
+        "args": "000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000006546f6b656e3100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004544b4e3100000000000000000000000000000000000000000000000000000000"
+    },
+    "smartToken2": {
+        "name": "SmartToken",
+        "addr": "0xb9Bf468ba5309C112bd951D4E83bD2DaFD91518a",
+        "args": "000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000006546f6b656e3200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004544b4e3200000000000000000000000000000000000000000000000000000000"
+    },
+    "poolTokensContainer": {
+        "name": "PoolTokensContainer",
+        "addr": "0x0FAE35e7caAd1AF3012eE35aacCd6406CDdD3F68",
+        "args": "000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000004506f6f6c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004504f4f4c00000000000000000000000000000000000000000000000000000000"
+    },
+    "chainlinkOracle1": {
+        "name": "ChainlinkETHToETHOracle",
+        "addr": "0x4edb37453567c5a31c3A5140769BBB83cb9b16bC",
+        "args": ""
+    },
+    "chainlinkOracle2": {
+        "name": "ChainlinkETHToETHOracle",
+        "addr": "0xA99f2cE5651F40C4aD95107A4985edc45CC4B011",
+        "args": ""
+    },
+    "priceOracle": {
+        "name": "PriceOracle",
+        "addr": "0x3A58Ba24Fb2515abd077677B69A220539243602f",
+        "args": "00000000000000000000000038ea5984cffcf97c67dd9779c92368873ba7cb28000000000000000000000000b9bf468ba5309c112bd951d4e83bd2dafd91518a0000000000000000000000004edb37453567c5a31c3a5140769bbb83cb9b16bc000000000000000000000000a99f2ce5651f40c4ad95107a4985edc45cc4b011"
+    },
+    "liquidTokenConverter": {
+        "name": "LiquidTokenConverter",
+        "addr": "0x18AAcb12a23533a90C19D0e3E42bFEBa166DA29C",
+        "args": "00000000000000000000000038ea5984cffcf97c67dd9779c92368873ba7cb28000000000000000000000000c395f0b336cf2895e6e24a7b4a1f9d1faf4567f400000000000000000000000000000000000000000000000000000000000003e8"
+    },
+    "liquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0x8188B9b5C5F45Be00Ce8FeE9221aC8c6AC7AE12c",
+        "args": "000000000000000000000000b9bf468ba5309c112bd951d4e83bd2dafd91518a000000000000000000000000c395f0b336cf2895e6e24a7b4a1f9d1faf4567f400000000000000000000000000000000000000000000000000000000000003e8"
+    },
+    "liquidityPoolV2Converter": {
+        "name": "LiquidityPoolV2Converter",
+        "addr": "0xF97B061aeb9f016b696d4c0eFC3bCe9D2e05E4DB",
+        "args": "0000000000000000000000000fae35e7caad1af3012ee35aaccd6406cddd3f68000000000000000000000000c395f0b336cf2895e6e24a7b4a1f9d1faf4567f400000000000000000000000000000000000000000000000000000000000003e8"
+    },
+    "chainlinkPriceOraclesUSDrBTCSUSD": {
+        "name": "ChainlinkETHToETHOracle",
+        "addr": "0x6Eb54AbD9991FB78835B188D14eF69429c02EaEc",
+        "args": ""
+    },
+    "chainlinkPriceOraclesUSDrBTCRBTC": {
+        "name": "ChainlinkETHToETHOracle",
+        "addr": "0xAbDE18186708F58F42F9C6FB288B51dD6Bf8bD38",
+        "args": ""
+    }
+}

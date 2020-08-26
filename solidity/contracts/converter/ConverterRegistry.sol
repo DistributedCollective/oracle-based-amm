@@ -120,19 +120,45 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
         IConverterFactory factory = IConverterFactory(addressOf(CONVERTER_FACTORY));
         IConverterAnchor anchor = IConverterAnchor(factory.createAnchor(_type, _name, _symbol, _decimals));
         IConverter converter = IConverter(factory.createConverter(_type, anchor, registry, _maxConversionFee));
+        return converter;
+    }
+
+    /**
+      * @dev completes the configuration for a converter
+      *
+      * @param _type                converter type, see ConverterBase contract main doc
+      * @param _reserveTokens       reserve tokens
+      * @param _reserveWeights      reserve weights
+      * @param _converter           the converter previously created through newConverter method
+      *
+      * @return converter
+    */
+    function setupConverter(
+        uint16 _type,
+        IERC20Token[] memory _reserveTokens,
+        uint32[] memory _reserveWeights,
+        IConverter _converter
+    )
+    public returns (IConverter)
+    {
+        uint256 length = _reserveTokens.length;
+        require(length == _reserveWeights.length, "ERR_INVALID_RESERVES");
+        require(getLiquidityPoolByConfig(_type, _reserveTokens, _reserveWeights) == IConverterAnchor(0), "ERR_ALREADY_EXISTS");
+
+        IConverterAnchor anchor = _converter.anchor();
 
         anchor.acceptOwnership();
-        converter.acceptOwnership();
+        _converter.acceptOwnership();
 
         for (uint256 i = 0; i < length; i++)
-            converter.addReserve(_reserveTokens[i], _reserveWeights[i]);
+            _converter.addReserve(_reserveTokens[i], _reserveWeights[i]);
 
-        anchor.transferOwnership(converter);
-        converter.acceptAnchorOwnership();
-        converter.transferOwnership(msg.sender);
+        anchor.transferOwnership(_converter);
+        _converter.acceptAnchorOwnership();
+        _converter.transferOwnership(msg.sender);
 
-        addConverterInternal(converter);
-        return converter;
+        addConverterInternal(_converter);
+        return _converter;
     }
 
     /**

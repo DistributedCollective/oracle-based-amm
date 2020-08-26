@@ -119,6 +119,8 @@ const percentageToPPM = (value) => {
 
 const run = async () => {
     const web3 = new Web3(NODE_ADDRESS);
+    // const eventProvider = new Web3.providers.WebsocketProvider('ws://public-node.testnet.rsk.co');
+    // web3.setProvider(eventProvider);
 
     const gasPrice = await getGasPrice(web3);
     const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
@@ -188,16 +190,7 @@ const run = async () => {
         if (reserve.address) {
             addresses[reserve.symbol] = reserve.address;
             tokenDecimals[reserve.symbol] = reserve.decimals;
-            continue;
         }
-
-        const name = reserve.symbol + ' ERC20 Token';
-        const symbol = reserve.symbol;
-        const decimals = reserve.decimals;
-        const supply = decimalToInteger(reserve.supply, decimals);
-        const token = await web3Func(deploy, 'erc20Token' + symbol, 'ERC20Token', [name, symbol, decimals, supply]);
-        addresses[reserve.symbol] = token._address;
-        tokenDecimals[reserve.symbol] = reserve.decimals;
     }
 
     for (const converter of getConfig().converters) {
@@ -206,37 +199,37 @@ const run = async () => {
         const symbol = converter.symbol;
         const decimals = converter.decimals;
         const fee = percentageToPPM(converter.fee);
+
         const tokens = converter.reserves.map(reserve => addresses[reserve.symbol]);
         const weights = converter.reserves.map(reserve => percentageToPPM(reserve.weight));
         const amounts = converter.reserves.map(reserve => decimalToInteger(reserve.balance, tokenDecimals[reserve.symbol]));
-        const value = amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'ETH')];
+        const value = 0; // amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'RBTC')];
 
-        console.log("deploying converter for ", type, " - ", name, " with value ", value);
+        console.log('Deploying converter for ', type, ' - ', name, ' with value ', value);
 
         const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights).call();
-        console.log("newConverter is  ", newConverter);
-
         await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights));
-        console.log("completed newConverter  ");
-
         await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
-        console.log("completed setup newConverter  ");
+        console.log('New Converter is  ', newConverter);
 
-        console.log("calling anchors");
+        console.log('Calling anchors');
         console.log(await converterRegistry.methods.getAnchors().call())
+
         const anchor = deployed(web3, 'IConverterAnchor', (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
         const converterBase = deployed(web3, 'ConverterBase', await anchor.methods.owner().call());
-        console.log("now executing the settings on "+converterBase._address);
+
+        console.log('Now executing the settings on ' +converterBase._address);
         await execute(converterBase.methods.acceptOwnership());
         await execute(converterBase.methods.setConversionFee(fee));
-        console.log("done with conversion fee");
+        console.log('Done with conversion fee');
 
-        console.log("done with ownership acceptance");
+        console.log('Done with ownership acceptance');
 
         if (type !== 0 && amounts.every(amount => amount > 0)) {
             for (let i = 0; i < converter.reserves.length; i++) {
                 const reserve = converter.reserves[i];
                 if (reserve.symbol !== 'ETH') {
+                    console.log('Approving amount for ERC20Token')
                     await execute(deployed(web3, 'ERC20Token', tokens[i]).methods.approve(converterBase._address, amounts[i]));
                 }
 
@@ -254,13 +247,14 @@ const run = async () => {
 
             if (type == 1) {
                 await execute(deployed(web3, 'LiquidityPoolV1Converter', converterBase._address).methods.addLiquidity(tokens, amounts, 1), value);
-            }
-            else if (type == 2) {
+            } else if (type == 2) {
                 const deployedConverter = deployed(web3, 'LiquidityPoolV2Converter', converterBase._address);
                 await execute(deployedConverter.methods.activate(tokens[0], converter.reserves[0].oracle, converter.reserves[1].oracle));
 
                 for (let i = 0; i < converter.reserves.length; i++) {
+                    console.log('Adding liquidity for LiquidityPoolV2Converter. ', 'For token: ', tokens[i], ' with amount ', amounts[i]);
                     await execute(deployedConverter.methods.addLiquidity(tokens[i], amounts[i], 1), value);
+                    console.log('Liquidity added')
                 }
             }
         }
@@ -268,9 +262,8 @@ const run = async () => {
         addresses[converter.symbol] = anchor._address;
     }
 
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BNTToken'), addresses.BNT));
-    await execute(conversionPathFinder.methods.setAnchorToken(addresses.BNT));
     await execute(bancorFormula.methods.init());
+    console.log('All done');
 
     if (web3.currentProvider.constructor.name === 'WebsocketProvider') {
         web3.currentProvider.connection.close();
