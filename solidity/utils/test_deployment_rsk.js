@@ -119,8 +119,6 @@ const percentageToPPM = (value) => {
 
 const run = async () => {
     const web3 = new Web3(NODE_ADDRESS);
-    // const eventProvider = new Web3.providers.WebsocketProvider('ws://public-node.testnet.rsk.co');
-    // web3.setProvider(eventProvider);
 
     const gasPrice = await getGasPrice(web3);
     const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
@@ -161,8 +159,8 @@ const run = async () => {
     const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "TKN1", 18]);
     const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "TKN2", 18]);
     const poolTokensContainer = await web3Func(deploy, 'poolTokensContainer', 'PoolTokensContainer', ["Pool", "POOL", 18]);
-    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkETHToETHOracle', []);
-    const chainlinkOracle2 = await web3Func(deploy, 'chainlinkOracle2', 'ChainlinkETHToETHOracle', []);
+    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkBTCToUSDOracle', []);
+    const chainlinkOracle2 = await web3Func(deploy, 'chainlinkOracle2', 'ChainlinkBTCToUSDOracle', []);
     await web3Func(deploy, 'priceOracle', 'PriceOracle', [smartToken._address, smartToken2._address, chainlinkOracle1._address, chainlinkOracle2._address]);
     await web3Func(deploy, 'liquidTokenConverter', 'LiquidTokenConverter', [smartToken._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV1Converter', 'LiquidityPoolV1Converter', [smartToken2._address, contractRegistry._address, 1000]);
@@ -237,7 +235,7 @@ const run = async () => {
                     if (!reserve.oracle) {
                         // can be used to deploy test (static) oracles
 
-                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, 'ChainlinkETHToETHOracle', []);
+                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, 'ChainlinkBTCToUSDOracle', []);
                         reserve.oracle = chainlinkPriceOracle._address;
 
                     }
@@ -262,6 +260,8 @@ const run = async () => {
         addresses[converter.symbol] = anchor._address;
     }
 
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('RBTCToken'), addresses.RBTC));
+    await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
     await execute(bancorFormula.methods.init());
     console.log('All done');
 
