@@ -156,12 +156,14 @@ const run = async () => {
     const oracleWhitelist = await web3Func(deploy, 'oracleWhitelist', 'Whitelist', []);
 
     // contract deployment for etherscan verification only
-    const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "TKN1", 18]);
-    const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "TKN2", 18]);
+    const tokens = getConfig().reserves;
+
+    const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "RBTC", 18]);
+    const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "SUSD", 18]);
     const poolTokensContainer = await web3Func(deploy, 'poolTokensContainer', 'PoolTokensContainer', ["Pool", "POOL", 18]);
-    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkBTCToUSDOracle', []);
+    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkUSDToBTCOracle', []);
     const chainlinkOracle2 = await web3Func(deploy, 'chainlinkOracle2', 'ChainlinkBTCToUSDOracle', []);
-    await web3Func(deploy, 'priceOracle', 'PriceOracle', [smartToken._address, smartToken2._address, chainlinkOracle1._address, chainlinkOracle2._address]);
+    await web3Func(deploy, 'priceOracle', 'PriceOracle', [tokens[0].address, tokens[1].address, chainlinkOracle1._address, chainlinkOracle2._address]);
     await web3Func(deploy, 'liquidTokenConverter', 'LiquidTokenConverter', [smartToken._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV1Converter', 'LiquidityPoolV1Converter', [smartToken2._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV2Converter', 'LiquidityPoolV2Converter', [poolTokensContainer._address, contractRegistry._address, 1000]);
@@ -233,11 +235,9 @@ const run = async () => {
 
                 if (type == 2) {
                     if (!reserve.oracle) {
-                        // can be used to deploy test (static) oracles
-
-                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, 'ChainlinkBTCToUSDOracle', []);
+                        const oracleName = reserve.symbol === 'RBTC' ? 'ChainlinkUSDToBTCOracle' : 'ChainlinkUSDToBTCOracle';
+                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, oracleName, []);
                         reserve.oracle = chainlinkPriceOracle._address;
-
                     }
                     await execute(oracleWhitelist.methods.addAddress(reserve.oracle));
                 }

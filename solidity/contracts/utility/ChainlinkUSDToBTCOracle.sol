@@ -3,22 +3,22 @@ pragma solidity 0.4.26;
 import "./interfaces/IChainlinkPriceOracle.sol";
 
 /**
-  * @dev Provides the BTC/USD rate
+  * @dev Provides the USD/BTC rate
 */
-contract ChainlinkBTCToUSDOracle is IChainlinkPriceOracle {
-    int256 private constant BTC_RATE = 1;
+contract ChainlinkUSDToBTCOracle is IChainlinkPriceOracle {
+    int256 private constant USD_RATE = 10000;
 
     /**
-      * @dev returns the BTC/USD rate.
+      * @dev returns the USD/BTC rate.
       *
-      * @return always returns the rate of 1
+      * @return always returns the rate of 10000
     */
     function latestAnswer() external view returns (int256) {
-        return BTC_RATE;
+        return USD_RATE;
     }
 
     /**
-      * @dev returns the BTC/USD update time.
+      * @dev returns the USD/BTC update time.
       *
       * @return always returns current block's timestamp
     */
