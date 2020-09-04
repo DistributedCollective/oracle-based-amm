@@ -8,16 +8,16 @@ import "./interfaces/IContractRegistry.sol";
 */
 contract ContractRegistryClient is Owned, Utils {
     bytes32 internal constant CONTRACT_REGISTRY = "ContractRegistry";
-    bytes32 internal constant BANCOR_NETWORK = "BancorNetwork";
-    bytes32 internal constant BANCOR_FORMULA = "BancorFormula";
+    bytes32 internal constant SOVRYNSWAP_NETWORK = "SovrynSwapNetwork";
+    bytes32 internal constant SOVRYNSWAP_FORMULA = "SovrynSwapFormula";
     bytes32 internal constant CONVERTER_FACTORY = "ConverterFactory";
     bytes32 internal constant CONVERSION_PATH_FINDER = "ConversionPathFinder";
-    bytes32 internal constant CONVERTER_UPGRADER = "BancorConverterUpgrader";
-    bytes32 internal constant CONVERTER_REGISTRY = "BancorConverterRegistry";
-    bytes32 internal constant CONVERTER_REGISTRY_DATA = "BancorConverterRegistryData";
+    bytes32 internal constant CONVERTER_UPGRADER = "SovrynSwapConverterUpgrader";
+    bytes32 internal constant CONVERTER_REGISTRY = "SovrynSwapConverterRegistry";
+    bytes32 internal constant CONVERTER_REGISTRY_DATA = "SovrynSwapConverterRegistryData";
     bytes32 internal constant BNT_TOKEN = "BNTToken";
-    bytes32 internal constant BANCOR_X = "BancorX";
-    bytes32 internal constant BANCOR_X_UPGRADER = "BancorXUpgrader";
+    bytes32 internal constant SOVRYNSWAP_X = "SovrynSwapX";
+    bytes32 internal constant SOVRYNSWAP_X_UPGRADER = "SovrynSwapXUpgrader";
     bytes32 internal constant CHAINLINK_ORACLE_WHITELIST = "ChainlinkOracleWhitelist";
 
     IContractRegistry public registry;      // address of the current contract-registry

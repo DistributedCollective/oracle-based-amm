@@ -2,9 +2,9 @@ pragma solidity 0.4.26;
 import "./token/interfaces/IERC20Token.sol";
 
 /*
-    Bancor Network interface
+    SovrynSwap Network interface
 */
-contract IBancorNetwork {
+contract ISovrynSwapNetwork {
     function convert2(
         IERC20Token[] _path,
         uint256 _amount,

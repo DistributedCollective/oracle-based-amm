@@ -1,5 +1,5 @@
 pragma solidity 0.4.26;
-import "../BancorNetwork.sol";
+import "../SovrynSwapNetwork.sol";
 
 contract OldConverter {
     uint256 private amount;
@@ -57,11 +57,11 @@ contract ConverterV28OrHigherWithFallback {
     }
 }
 
-contract TestBancorNetwork is BancorNetwork {
+contract TestSovrynSwapNetwork is SovrynSwapNetwork {
     OldConverter private oldConverter;
     NewConverter private newConverter;
 
-    constructor(uint256 _amount, uint256 _fee) public BancorNetwork(IContractRegistry(address(1))) {
+    constructor(uint256 _amount, uint256 _fee) public SovrynSwapNetwork(IContractRegistry(address(1))) {
         oldConverter = new OldConverter(_amount);
         newConverter = new NewConverter(_amount, _fee);
     }

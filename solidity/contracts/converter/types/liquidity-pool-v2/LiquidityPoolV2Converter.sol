@@ -379,7 +379,7 @@ contract LiquidityPoolV2Converter is LiquidityPoolConverter {
 
     /**
       * @dev converts a specific amount of source tokens to target tokens
-      * can only be called by the bancor network contract
+      * can only be called by the SovrynSwap network contract
       *
       * @param _sourceToken source ERC20 token
       * @param _targetToken target ERC20 token
@@ -419,7 +419,7 @@ contract LiquidityPoolV2Converter is LiquidityPoolConverter {
 
     /**
       * @dev converts a specific amount of source tokens to target tokens
-      * can only be called by the bancor network contract
+      * can only be called by the SovrynSwap network contract
       *
       * @param _sourceToken source ERC20 token
       * @param _targetToken target ERC20 token
@@ -668,7 +668,7 @@ contract LiquidityPoolV2Converter is LiquidityPoolConverter {
         uint256 targetBalance = reserveAmplifiedBalance(_targetToken);
 
         // get the target amount
-        targetAmount = IBancorFormula(addressOf(BANCOR_FORMULA)).crossReserveTargetAmount(
+        targetAmount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
             sourceBalance,
             _sourceWeight,
             targetBalance,
@@ -892,7 +892,7 @@ contract LiquidityPoolV2Converter is LiquidityPoolConverter {
         uint256 secondaryBalance = reserveAmplifiedBalance(secondaryReserveToken);
 
         // get the new weights
-        return IBancorFormula(addressOf(BANCOR_FORMULA)).balancedWeights(
+        return ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).balancedWeights(
             primaryStakedBalance.mul(AMPLIFICATION_FACTOR),
             primaryBalance,
             secondaryBalance,

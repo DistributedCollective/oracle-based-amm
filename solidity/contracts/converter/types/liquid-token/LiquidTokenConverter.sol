@@ -86,7 +86,7 @@ contract LiquidTokenConverter is ConverterBase {
 
     /**
       * @dev converts between the liquid token and its reserve
-      * can only be called by the bancor network contract
+      * can only be called by the SovrynSwap network contract
       *
       * @param _sourceToken source ERC20 token
       * @param _targetToken target ERC20 token
@@ -145,7 +145,7 @@ contract LiquidTokenConverter is ConverterBase {
             return (_amount, 0);
 
         IERC20Token reserveToken = reserveTokens[0];
-        uint256 amount = IBancorFormula(addressOf(BANCOR_FORMULA)).purchaseTargetAmount(
+        uint256 amount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).purchaseTargetAmount(
             totalSupply,
             reserveBalance(reserveToken),
             reserves[reserveToken].weight,
@@ -179,7 +179,7 @@ contract LiquidTokenConverter is ConverterBase {
         if (totalSupply == _amount)
             return (reserveBalance(reserveToken), 0);
 
-        uint256 amount = IBancorFormula(addressOf(BANCOR_FORMULA)).saleTargetAmount(
+        uint256 amount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).saleTargetAmount(
             totalSupply,
             reserveBalance(reserveToken),
             reserves[reserveToken].weight,

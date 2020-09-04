@@ -6,8 +6,8 @@ const { ETH_RESERVE_ADDRESS, registry } = require('./helpers/Constants');
 const { latest } = time;
 const { ZERO_ADDRESS } = constants;
 
-const BancorNetwork = artifacts.require('BancorNetwork');
-const BancorFormula = artifacts.require('BancorFormula');
+const SovrynSwapNetwork = artifacts.require('SovrynSwapNetwork');
+const SovrynSwapFormula = artifacts.require('SovrynSwapFormula');
 const ContractRegistry = artifacts.require('ContractRegistry');
 const ERC20Token = artifacts.require('ERC20Token');
 const TestNonStandardToken = artifacts.require('TestNonStandardToken');
@@ -144,7 +144,7 @@ contract('Converter', accounts => {
     };
 
     const convert = async (path, amount, minReturn, options) => {
-        return bancorNetwork.convertByPath.call(path, amount, minReturn, ZERO_ADDRESS, ZERO_ADDRESS, 0, options);
+        return sovrynSwapNetwork.convertByPath.call(path, amount, minReturn, ZERO_ADDRESS, ZERO_ADDRESS, 0, options);
     };
 
     const createChainlinkOracle = async (answer) => {
@@ -155,7 +155,7 @@ contract('Converter', accounts => {
         return chainlinkOracle;
     };
 
-    let bancorNetwork;
+    let sovrynSwapNetwork;
     let factory;
     let anchor;
     let anchorAddress;
@@ -178,9 +178,9 @@ contract('Converter', accounts => {
         // The following contracts are unaffected by the underlying tests, this can be shared.
         contractRegistry = await ContractRegistry.new();
 
-        const bancorFormula = await BancorFormula.new();
-        await bancorFormula.init();
-        await contractRegistry.registerAddress(registry.BANCOR_FORMULA, bancorFormula.address);
+        const sovrynSwapFormula = await SovrynSwapFormula.new();
+        await sovrynSwapFormula.init();
+        await contractRegistry.registerAddress(registry.SOVRYNSWAP_FORMULA, sovrynSwapFormula.address);
 
         factory = await ConverterFactory.new();
         await contractRegistry.registerAddress(registry.CONVERTER_FACTORY, factory.address);
@@ -203,8 +203,8 @@ contract('Converter', accounts => {
     });
 
     beforeEach(async () => {
-        bancorNetwork = await BancorNetwork.new(contractRegistry.address);
-        await contractRegistry.registerAddress(registry.BANCOR_NETWORK, bancorNetwork.address);
+        sovrynSwapNetwork = await SovrynSwapNetwork.new(contractRegistry.address);
+        await contractRegistry.registerAddress(registry.SOVRYNSWAP_NETWORK, sovrynSwapNetwork.address);
 
         upgrader = await ConverterUpgrader.new(contractRegistry.address, ZERO_ADDRESS);
         await contractRegistry.registerAddress(registry.CONVERTER_UPGRADER, upgrader.address);
@@ -686,7 +686,7 @@ contract('Converter', accounts => {
                         value = amount;
                     }
                     else {
-                        await reserveToken.approve(bancorNetwork.address, amount, { from: owner });
+                        await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: owner });
                     }
 
                     await expectRevert(convert([getReserve1Address(isETHReserve), anchorAddress, ZERO_ADDRESS], amount, MIN_RETURN, { value }),
@@ -702,7 +702,7 @@ contract('Converter', accounts => {
                         value = amount;
                     }
                     else {
-                        await reserveToken.approve(bancorNetwork.address, amount, { from: owner });
+                        await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: owner });
                     }
 
                     await expectRevert(convert([getReserve1Address(isETHReserve), anchorAddress,

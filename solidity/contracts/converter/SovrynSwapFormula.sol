@@ -1,8 +1,8 @@
 pragma solidity 0.4.26;
-import "./interfaces/IBancorFormula.sol";
+import "./interfaces/ISovrynSwapFormula.sol";
 import "../utility/SafeMath.sol";
 
-contract BancorFormula is IBancorFormula {
+contract SovrynSwapFormula is ISovrynSwapFormula {
     using SafeMath for uint256;
 
     uint16 public constant version = 8;

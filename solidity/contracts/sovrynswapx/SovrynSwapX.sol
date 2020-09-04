@@ -1,13 +1,13 @@
 pragma solidity 0.4.26;
-import "./interfaces/IBancorXUpgrader.sol";
-import "./interfaces/IBancorX.sol";
+import "./interfaces/ISovrynSwapXUpgrader.sol";
+import "./interfaces/ISovrynSwapX.sol";
 import "../utility/ContractRegistryClient.sol";
 import "../utility/SafeMath.sol";
 import "../utility/TokenHandler.sol";
 import "../utility/TokenHolder.sol";
 
 /**
-  * @dev The BancorX contract allows cross chain token transfers.
+  * @dev The SovrynSwapX contract allows cross chain token transfers.
   *
   * There are two processes that take place in the contract -
   * - Initiate a cross chain transfer to a target blockchain (locks tokens from the caller account on Ethereum)
@@ -16,7 +16,7 @@ import "../utility/TokenHolder.sol";
   * Reporting cross chain transfers works similar to standard multisig contracts, meaning that multiple
   * callers are required to report a transfer before tokens are released to the target account.
 */
-contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient {
+contract SovrynSwapX is ISovrynSwapX, TokenHandler, TokenHolder, ContractRegistryClient {
     using SafeMath for uint256;
 
     // represents a transaction on another blockchain where tokens were destroyed/locked
@@ -127,7 +127,7 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
     );
 
     /**
-      * @dev initializes a new BancorX instance
+      * @dev initializes a new SovrynSwapX instance
       *
       * @param _maxLockLimit          maximum amount of tokens that can be locked in one transaction
       * @param _maxReleaseLimit       maximum amount of tokens that can be released in one transaction
@@ -291,10 +291,10 @@ contract BancorX is IBancorX, TokenHandler, TokenHolder, ContractRegistryClient 
       * @param _reporters    new list of reporters
     */
     function upgrade(address[] _reporters) public ownerOnly {
-        IBancorXUpgrader bancorXUpgrader = IBancorXUpgrader(addressOf(BANCOR_X_UPGRADER));
+        ISovrynSwapXUpgrader sovrynSwapXUpgrader = ISovrynSwapXUpgrader(addressOf(SOVRYNSWAP_X_UPGRADER));
 
-        transferOwnership(bancorXUpgrader);
-        bancorXUpgrader.upgrade(version, _reporters);
+        transferOwnership(sovrynSwapXUpgrader);
+        sovrynSwapXUpgrader.upgrade(version, _reporters);
         acceptOwnership();
     }
 

@@ -6,8 +6,8 @@ const { ETH_RESERVE_ADDRESS, registry } = require('./helpers/Constants');
 const { latest } = time;
 const { ZERO_ADDRESS } = constants;
 
-const BancorNetwork = artifacts.require('BancorNetwork');
-const BancorFormula = artifacts.require('BancorFormula');
+const SovrynSwapNetwork = artifacts.require('SovrynSwapNetwork');
+const SovrynSwapFormula = artifacts.require('SovrynSwapFormula');
 const ContractRegistry = artifacts.require('ContractRegistry');
 const ERC20Token = artifacts.require('ERC20Token');
 const TestNonStandardToken = artifacts.require('TestNonStandardToken');
@@ -107,11 +107,11 @@ contract('LiquidityPoolConverter', accounts => {
     };
 
     const convert = async (path, amount, minReturn, options = {}) => {
-        return bancorNetwork.convertByPath(path, amount, minReturn, ZERO_ADDRESS, ZERO_ADDRESS, 0, options);
+        return sovrynSwapNetwork.convertByPath(path, amount, minReturn, ZERO_ADDRESS, ZERO_ADDRESS, 0, options);
     };
 
     const convertCall = async (path, amount, minReturn, options = {}) => {
-        return bancorNetwork.convertByPath.call(path, amount, minReturn, ZERO_ADDRESS, ZERO_ADDRESS, 0, options);
+        return sovrynSwapNetwork.convertByPath.call(path, amount, minReturn, ZERO_ADDRESS, ZERO_ADDRESS, 0, options);
     };
 
     const createChainlinkOracle = async (answer) => {
@@ -122,7 +122,7 @@ contract('LiquidityPoolConverter', accounts => {
         return chainlinkOracle;
     };
 
-    let bancorNetwork;
+    let sovrynSwapNetwork;
     let anchor;
     let anchorAddress;
     let contractRegistry;
@@ -144,11 +144,11 @@ contract('LiquidityPoolConverter', accounts => {
 
     before(async () => {
         // The following contracts are unaffected by the underlying tests, this can be shared.
-        const bancorFormula = await BancorFormula.new();
-        await bancorFormula.init();
+        const sovrynSwapFormula = await SovrynSwapFormula.new();
+        await sovrynSwapFormula.init();
         contractRegistry = await ContractRegistry.new();
 
-        await contractRegistry.registerAddress(registry.BANCOR_FORMULA, bancorFormula.address);
+        await contractRegistry.registerAddress(registry.SOVRYNSWAP_FORMULA, sovrynSwapFormula.address);
 
         const factory = await ConverterFactory.new();
         await contractRegistry.registerAddress(registry.CONVERTER_FACTORY, factory.address);
@@ -170,8 +170,8 @@ contract('LiquidityPoolConverter', accounts => {
     });
 
     beforeEach(async () => {
-        bancorNetwork = await BancorNetwork.new(contractRegistry.address);
-        await contractRegistry.registerAddress(registry.BANCOR_NETWORK, bancorNetwork.address);
+        sovrynSwapNetwork = await SovrynSwapNetwork.new(contractRegistry.address);
+        await contractRegistry.registerAddress(registry.SOVRYNSWAP_NETWORK, sovrynSwapNetwork.address);
 
         upgrader = await ConverterUpgrader.new(contractRegistry.address, ZERO_ADDRESS);
         await contractRegistry.registerAddress(registry.CONVERTER_UPGRADER, upgrader.address);
@@ -288,7 +288,7 @@ contract('LiquidityPoolConverter', accounts => {
                         value = amount;
                     }
                     else {
-                        await reserveToken.approve(bancorNetwork.address, amount, { from: sender });
+                        await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
                     }
 
                     await expectRevert(convert([getReserve1Address(isETHReserve), anchorAddress, reserveToken2.address],
@@ -304,7 +304,7 @@ contract('LiquidityPoolConverter', accounts => {
                         value = amount;
                     }
                     else {
-                        await reserveToken.approve(bancorNetwork.address, amount, { from: sender });
+                        await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
                     }
 
                     await expectRevert(convert([getReserve1Address(isETHReserve), anchorAddress, reserveToken2.address], amount, 2000,
@@ -326,7 +326,7 @@ contract('LiquidityPoolConverter', accounts => {
                     }
                     else {
                         await reserveToken.transfer(whitelisted, amount.mul(new BN(2)));
-                        await reserveToken.approve(bancorNetwork.address, amount, { from: whitelisted });
+                        await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: whitelisted });
                     }
 
                     await convert([getReserve1Address(isETHReserve), anchorAddress, reserveToken2.address], amount, MIN_RETURN,
@@ -347,7 +347,7 @@ contract('LiquidityPoolConverter', accounts => {
                     }
                     else {
                         await reserveToken.transfer(whitelisted, amount.mul(new BN(2)));
-                        await reserveToken.approve(bancorNetwork.address, amount, { from: whitelisted });
+                        await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: whitelisted });
                     }
 
                     await expectRevert(convert([getReserve1Address(isETHReserve), anchorAddress, reserveToken2.address],
@@ -367,10 +367,10 @@ contract('LiquidityPoolConverter', accounts => {
                     }
                     else {
                         await reserveToken.transfer(whitelisted, amount.mul(new BN(2)));
-                        await reserveToken.approve(bancorNetwork.address, amount, { from: whitelisted });
+                        await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: whitelisted });
                     }
 
-                    await expectRevert(bancorNetwork.convertByPath([getReserve1Address(isETHReserve), anchorAddress, reserveToken2.address],
+                    await expectRevert(sovrynSwapNetwork.convertByPath([getReserve1Address(isETHReserve), anchorAddress, reserveToken2.address],
                         amount, MIN_RETURN, beneficiary, ZERO_ADDRESS, 0, { from: whitelisted, value }), 'ERR_NOT_WHITELISTED');
                 });
 
@@ -386,7 +386,7 @@ contract('LiquidityPoolConverter', accounts => {
                         value = amount;
                     }
                     else {
-                        await reserveToken.approve(bancorNetwork.address, amount, { from: sender });
+                        await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
                     }
 
                     const returnAmount2 = await convertCall([getReserve1Address(isETHReserve), anchorAddress,

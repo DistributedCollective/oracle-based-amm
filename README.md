@@ -1,13 +1,13 @@
-﻿# Bancor Protocol Contracts v0.6 (beta)
+﻿# SovrynSwap Protocol Contracts v0.6 (beta)
 
 [![Docs](https://img.shields.io/badge/docs-%F0%9F%93%84-blue)](https://docs.bancor.network/)
 [![NPM Package](https://img.shields.io/npm/v/@bancor/contracts-solidity.svg)](https://www.npmjs.org/package/@bancor/contracts-solidity)
 
 ## Overview
 
-The solidity version of the Bancor smart contracts is composed of many different components that work together to create the Bancor Network deployment.
+The solidity version of the Sovryn Swap smart contracts is composed of many different components that work together to create the SovrynSwap Network deployment.
 
-The main contracts are the BancorNetwork contract (entry point to the system) and the different converter contracts (implementation of liquidity pools and their reserves).
+The main contracts are the SovrynSwapNetwork contract (entry point to the system) and the different converter contracts (implementation of liquidity pools and their reserves).
 
 ## Upgradeability
 
@@ -15,11 +15,11 @@ All smart contract functions are public and all upgrades are opt-in. If signific
 
 ## Language
 
-The terms “reserves” and “connectors” have the same meaning throughout Bancor’s smart contract code and documentation. “Reserve ratio” and “connector weight” are also used interchangeably. “Connector balance” refers to the token inventories held in a Smart Token’s reserve.
+The terms “reserves” and “connectors” have the same meaning throughout SovrynSwap’s smart contract code and documentation. “Reserve ratio” and “connector weight” are also used interchangeably. “Connector balance” refers to the token inventories held in a Smart Token’s reserve.
 
 ## Warning
 
-Bancor is a work in progress. Make sure you understand the risks before using it.
+Sovryn Swap is a work in progress. Make sure you understand the risks before using it.
 
 ## Testing
 
@@ -39,7 +39,7 @@ Bancor is a work in progress. Make sure you understand the risks before using it
 * Verifying all the contracts:
   * `npm test` (quick testing)
   * `npm run coverage` (full coverage)
-* [Verifying the BancorFormula contract](solidity/python/README.md)
+* [Verifying the SovrynSwapFormula contract](solidity/python/README.md)
 
 ### [Utilities](solidity/utils/README.md)
 
@@ -54,4 +54,4 @@ Bancor is a work in progress. Make sure you understand the risks before using it
 
 ## License
 
-Bancor Protocol is open source and distributed under the Apache License v2.0
+SovrynSwap Protocol is open source and distributed under the Apache License v2.0

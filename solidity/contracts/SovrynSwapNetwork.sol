@@ -1,16 +1,16 @@
 pragma solidity 0.4.26;
-import "./IBancorNetwork.sol";
+import "./ISovrynSwapNetwork.sol";
 import "./IConversionPathFinder.sol";
 import "./converter/interfaces/IConverter.sol";
 import "./converter/interfaces/IConverterAnchor.sol";
-import "./converter/interfaces/IBancorFormula.sol";
+import "./converter/interfaces/ISovrynSwapFormula.sol";
 import "./utility/ContractRegistryClient.sol";
 import "./utility/ReentrancyGuard.sol";
 import "./utility/TokenHolder.sol";
 import "./utility/SafeMath.sol";
 import "./token/interfaces/IEtherToken.sol";
 import "./token/interfaces/ISmartToken.sol";
-import "./bancorx/interfaces/IBancorX.sol";
+import "./sovrynswapx/interfaces/ISovrynSwapX.sol";
 
 // interface of older converters for backward compatibility
 contract ILegacyConverter {
@@ -18,12 +18,12 @@ contract ILegacyConverter {
 }
 
 /**
-  * @dev The BancorNetwork contract is the main entry point for Bancor token conversions.
-  * It also allows for the conversion of any token in the Bancor Network to any other token in a single
+  * @dev The SovrynSwapNetwork contract is the main entry point for SovrynSwap token conversions.
+  * It also allows for the conversion of any token in the SovrynSwap Network to any other token in a single
   * transaction by providing a conversion path.
   *
   * A note on Conversion Path: Conversion path is a data structure that is used when converting a token
-  * to another token in the Bancor Network, when the conversion cannot necessarily be done by a single
+  * to another token in the SovrynSwap Network, when the conversion cannot necessarily be done by a single
   * converter and might require multiple 'hops'.
   * The path defines which converters should be used and what kind of conversion should be done in each step.
   *
@@ -36,7 +36,7 @@ contract ILegacyConverter {
   * Format:
   * [source token, converter anchor, target token, converter anchor, target token...]
 */
-contract BancorNetwork is IBancorNetwork, TokenHolder, ContractRegistryClient, ReentrancyGuard {
+contract SovrynSwapNetwork is ISovrynSwapNetwork, TokenHolder, ContractRegistryClient, ReentrancyGuard {
     using SafeMath for uint256;
 
     uint256 private constant CONVERSION_FEE_RESOLUTION = 1000000;
@@ -77,7 +77,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractRegistryClient, R
     );
 
     /**
-      * @dev initializes a new BancorNetwork instance
+      * @dev initializes a new SovrynSwapNetwork instance
       *
       * @param _registry    address of a contract registry contract
     */
@@ -143,7 +143,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractRegistryClient, R
         uint256 balance;
         uint32 weight;
         IConverter converter;
-        IBancorFormula formula = IBancorFormula(addressOf(BANCOR_FORMULA));
+        ISovrynSwapFormula formula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA));
 
         amount = _amount;
 
@@ -201,7 +201,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractRegistryClient, R
     }
 
     /**
-      * @dev converts the token to any other token in the bancor network by following
+      * @dev converts the token to any other token in the sovrynSwap network by following
       * a predefined conversion path and transfers the result tokens to a target account
       * affiliate account/fee can also be passed in to receive a conversion fee (on top of the liquidity provider fees)
       * note that the network should already have been given allowance of the source token (if not ETH)
@@ -254,7 +254,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractRegistryClient, R
     }
 
     /**
-      * @dev converts any other token to BNT in the bancor network by following
+      * @dev converts any other token to BNT in the sovrynSwap network by following
       a predefined conversion path and transfers the result to an account on a different blockchain
       * note that the network should already have been given allowance of the source token (if not ETH)
       *
@@ -283,7 +283,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractRegistryClient, R
     }
 
     /**
-      * @dev converts any other token to BNT in the bancor network by following
+      * @dev converts any other token to BNT in the sovrynSwap network by following
       a predefined conversion path and transfers the result to an account on a different blockchain
       * note that the network should already have been given allowance of the source token (if not ETH)
       *
@@ -314,7 +314,7 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractRegistryClient, R
         returns (uint256)
     {
         IERC20Token targetToken = _path[_path.length - 1];
-        IBancorX bancorX = IBancorX(addressOf(BANCOR_X));
+        ISovrynSwapX sovrynSwapX = ISovrynSwapX(addressOf(SOVRYNSWAP_X));
 
         // verify that the destination token is BNT
         require(targetToken == addressOf(BNT_TOKEN), "ERR_INVALID_TARGET_TOKEN");
@@ -322,38 +322,38 @@ contract BancorNetwork is IBancorNetwork, TokenHolder, ContractRegistryClient, R
         // convert and get the resulting amount
         uint256 amount = convertByPath(_path, _amount, _minReturn, this, _affiliateAccount, _affiliateFee);
 
-        // grant BancorX allowance
-        ensureAllowance(targetToken, bancorX, amount);
+        // grant SovrynSwapX allowance
+        ensureAllowance(targetToken, sovrynSwapX, amount);
 
-        // transfer the resulting amount to BancorX
-        bancorX.xTransfer(_targetBlockchain, _targetAccount, amount, _conversionId);
+        // transfer the resulting amount to SovrynSwapX
+        sovrynSwapX.xTransfer(_targetBlockchain, _targetAccount, amount, _conversionId);
 
         return amount;
     }
 
     /**
       * @dev allows a user to convert a token that was sent from another blockchain into any other
-      * token on the BancorNetwork
+      * token on the SovrynSwapNetwork
       * ideally this transaction is created before the previous conversion is even complete, so
       * so the input amount isn't known at that point - the amount is actually take from the
-      * BancorX contract directly by specifying the conversion id
+      * SovrynSwapX contract directly by specifying the conversion id
       *
       * @param _path            conversion path
-      * @param _bancorX         address of the BancorX contract for the source token
+      * @param _sovrynSwapX         address of the SovrynSwapX contract for the source token
       * @param _conversionId    pre-determined unique (if non zero) id which refers to this conversion
       * @param _minReturn       if the conversion results in an amount smaller than the minimum return - it is cancelled, must be nonzero
       * @param _beneficiary     wallet to receive the conversion result
       *
       * @return amount of tokens received from the conversion
     */
-    function completeXConversion(IERC20Token[] _path, IBancorX _bancorX, uint256 _conversionId, uint256 _minReturn, address _beneficiary)
+    function completeXConversion(IERC20Token[] _path, ISovrynSwapX _sovrynSwapX, uint256 _conversionId, uint256 _minReturn, address _beneficiary)
         public returns (uint256)
     {
-        // verify that the source token is the BancorX token
-        require(_path[0] == _bancorX.token(), "ERR_INVALID_SOURCE_TOKEN");
+        // verify that the source token is the SovrynSwapX token
+        require(_path[0] == _sovrynSwapX.token(), "ERR_INVALID_SOURCE_TOKEN");
 
-        // get conversion amount from BancorX contract
-        uint256 amount = _bancorX.getXTransferAmount(_conversionId, msg.sender);
+        // get conversion amount from SovrynSwapX contract
+        uint256 amount = _sovrynSwapX.getXTransferAmount(_conversionId, msg.sender);
 
         // perform the conversion
         return convertByPath(_path, amount, _minReturn, _beneficiary, address(0), 0);
