@@ -43,15 +43,6 @@ Sovryn Swap is a work in progress. Make sure you understand the risks before usi
 
 ### [Utilities](solidity/utils/README.md)
 
-## Collaborators
-
-* **[Yudi Levi](https://github.com/yudilevi)**
-* **[Barak Manos](https://github.com/barakman)**
-* **[Ilana Pinhas](https://github.com/ilanapi)**
-* **[David Benchimol](https://github.com/davidbancor)**
-* **[Or Dadosh](https://github.com/ordd)**
-* **[Martin Holst Swende](https://github.com/holiman)**
-
 ## License
 
 SovrynSwap Protocol is open source and distributed under the Apache License v2.0
