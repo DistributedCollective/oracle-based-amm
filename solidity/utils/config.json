@@ -119,13 +119,13 @@
         "addr": "0xd4B2213237A19458a1f5B1A50f0bea1E82f9Ff38",
         "args": ""
     },
-    "bancorFormula": {
-        "name": "BancorFormula",
+    "sovrynSwapFormula": {
+        "name": "SovrynSwapFormula",
         "addr": "0x4B703d7612539F5D841F9Ce7659Bd3a41DDAD026",
         "args": ""
     },
-    "bancorNetwork": {
-        "name": "BancorNetwork",
+    "sovrynSwapNetwork": {
+        "name": "SovrynSwapNetwork",
         "addr": "0x1BDF90374B20ed4690c577656EC00F09f25EFe79",
         "args": "00000000000000000000000093c38f72b97870f1c59715649c26034f96479f83"
     },

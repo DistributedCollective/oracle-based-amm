@@ -2,15 +2,15 @@ pragma solidity 0.4.26;
 import "./interfaces/IConverter.sol";
 import "./interfaces/IConverterAnchor.sol";
 import "./interfaces/IConverterUpgrader.sol";
-import "./interfaces/IBancorFormula.sol";
-import "../IBancorNetwork.sol";
+import "./interfaces/ISovrynSwapFormula.sol";
+import "../ISovrynSwapNetwork.sol";
 import "../utility/ContractRegistryClient.sol";
 import "../utility/ReentrancyGuard.sol";
 import "../utility/SafeMath.sol";
 import "../utility/TokenHandler.sol";
 import "../utility/TokenHolder.sol";
 import "../token/interfaces/IEtherToken.sol";
-import "../bancorx/interfaces/IBancorX.sol";
+import "../sovrynswapx/interfaces/ISovrynSwapX.sol";
 
 /**
   * @dev ConverterBase
@@ -244,7 +244,7 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
     /**
       * @dev allows the owner to update & enable the conversion whitelist contract address
       * when set, only addresses that are whitelisted are actually allowed to use the converter
-      * note that the whitelist check is actually done by the BancorNetwork contract
+      * note that the whitelist check is actually done by the SovrynSwapNetwork contract
       *
       * @param _whitelist    address of a whitelist contract
     */
@@ -440,7 +440,7 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 
     /**
       * @dev converts a specific amount of source tokens to target tokens
-      * can only be called by the bancor network contract
+      * can only be called by the SovrynSwap network contract
       *
       * @param _sourceToken source ERC20 token
       * @param _targetToken target ERC20 token
@@ -454,7 +454,7 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
         public
         payable
         protected
-        only(BANCOR_NETWORK)
+        only(SOVRYNSWAP_NETWORK)
         returns (uint256)
     {
         // validate input

@@ -6,7 +6,7 @@ import "../../../token/interfaces/ISmartToken.sol";
   * @dev Liquidity Pool v1 Converter
   *
   * The liquidity pool v1 converter is a specialized version of a converter that manages
-  * a classic bancor liquidity pool.
+  * a classic SovrynSwap liquidity pool.
   *
   * Even though classic pools can have many reserves, the most common configuration of
   * the pool has 2 reserves with 50%/50% weights.
@@ -89,7 +89,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         // validate input
         require(_sourceToken != _targetToken, "ERR_SAME_SOURCE_TARGET");
 
-        uint256 amount = IBancorFormula(addressOf(BANCOR_FORMULA)).crossReserveTargetAmount(
+        uint256 amount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
             reserveBalance(_sourceToken),
             reserves[_sourceToken].weight,
             reserveBalance(_targetToken),
@@ -104,7 +104,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
     /**
       * @dev converts a specific amount of source tokens to target tokens
-      * can only be called by the bancor network contract
+      * can only be called by the SovrynSwap network contract
       *
       * @param _sourceToken source ERC20 token
       * @param _targetToken target ERC20 token
@@ -231,7 +231,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         reserves[ETH_RESERVE_ADDRESS].balance = reserves[ETH_RESERVE_ADDRESS].balance.sub(msg.value);
 
         uint256 supply = ISmartToken(anchor).totalSupply();
-        IBancorFormula formula = IBancorFormula(addressOf(BANCOR_FORMULA));
+        ISovrynSwapFormula formula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA));
 
         // iterate through the reserve tokens and transfer a percentage equal to the weight between
         // _amount and the total supply in each reserve from the caller to the converter
@@ -388,7 +388,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         syncReserveBalances();
         reserves[ETH_RESERVE_ADDRESS].balance = reserves[ETH_RESERVE_ADDRESS].balance.sub(msg.value);
 
-        IBancorFormula formula = IBancorFormula(addressOf(BANCOR_FORMULA));
+        ISovrynSwapFormula formula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA));
         uint256 amount = getMinShare(formula, _totalSupply, _reserveTokens, _reserveAmounts);
         uint256 newPoolTokenSupply = _totalSupply.add(amount);
 
@@ -431,7 +431,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     {
         syncReserveBalances();
 
-        IBancorFormula formula = IBancorFormula(addressOf(BANCOR_FORMULA));
+        ISovrynSwapFormula formula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA));
         uint256 newPoolTokenSupply = _totalSupply.sub(_amount);
 
         for (uint256 i = 0; i < _reserveTokens.length; i++) {
@@ -457,7 +457,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         }
     }
 
-    function getMinShare(IBancorFormula formula, uint256 _totalSupply, IERC20Token[] memory _reserveTokens, uint256[] memory _reserveAmounts) private view returns (uint256) {
+    function getMinShare(ISovrynSwapFormula formula, uint256 _totalSupply, IERC20Token[] memory _reserveTokens, uint256[] memory _reserveAmounts) private view returns (uint256) {
         uint256 minIndex = 0;
         for (uint256 i = 1; i < _reserveTokens.length; i++) {
             if (_reserveAmounts[i].mul(reserves[_reserveTokens[minIndex]].balance) < _reserveAmounts[minIndex].mul(reserves[_reserveTokens[i]].balance))

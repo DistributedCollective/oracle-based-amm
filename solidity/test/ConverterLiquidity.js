@@ -7,7 +7,7 @@ const { ETH_RESERVE_ADDRESS, registry } = require('./helpers/Constants');
 const LiquidityPoolV1Converter = artifacts.require('LiquidityPoolV1Converter');
 const SmartToken = artifacts.require('SmartToken');
 const ERC20Token = artifacts.require('ERC20Token');
-const BancorFormula = artifacts.require('BancorFormula');
+const SovrynSwapFormula = artifacts.require('SovrynSwapFormula');
 const ContractRegistry = artifacts.require('ContractRegistry');
 
 contract('ConverterLiquidity', accounts => {
@@ -40,9 +40,9 @@ contract('ConverterLiquidity', accounts => {
         // The following contracts are unaffected by the underlying tests, this can be shared.
         contractRegistry = await ContractRegistry.new();
 
-        const bancorFormula = await BancorFormula.new();
-        await bancorFormula.init();
-        await contractRegistry.registerAddress(registry.BANCOR_FORMULA, bancorFormula.address);
+        const sovrynSwapFormula = await SovrynSwapFormula.new();
+        await sovrynSwapFormula.init();
+        await contractRegistry.registerAddress(registry.SOVRYNSWAP_FORMULA, sovrynSwapFormula.address);
     });
 
     beforeEach(async () => {

@@ -142,8 +142,8 @@ const run = async () => {
     // main contracts
     const contractRegistry = await web3Func(deploy, 'contractRegistry', 'ContractRegistry', []);
     const converterFactory = await web3Func(deploy, 'converterFactory', 'ConverterFactory', []);
-    const bancorFormula = await web3Func(deploy, 'bancorFormula', 'BancorFormula', []);
-    const bancorNetwork = await web3Func(deploy, 'bancorNetwork', 'BancorNetwork', [contractRegistry._address]);
+    const sovrynSwapFormula = await web3Func(deploy, 'sovrynSwapFormula', 'SovrynSwapFormula', []);
+    const sovrynSwapNetwork = await web3Func(deploy, 'sovrynSwapNetwork', 'SovrynSwapNetwork', [contractRegistry._address]);
     const conversionPathFinder = await web3Func(deploy, 'conversionPathFinder', 'ConversionPathFinder', [contractRegistry._address]);
     const converterUpgrader = await web3Func(deploy, 'converterUpgrader', 'ConverterUpgrader', [contractRegistry._address, addresses.ETH]);
     const converterRegistry = await web3Func(deploy, 'converterRegistry', 'ConverterRegistry', [contractRegistry._address]);
@@ -156,12 +156,14 @@ const run = async () => {
     const oracleWhitelist = await web3Func(deploy, 'oracleWhitelist', 'Whitelist', []);
 
     // contract deployment for etherscan verification only
-    const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "TKN1", 18]);
-    const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "TKN2", 18]);
+    const tokens = getConfig().reserves;
+
+    const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "RBTC", 18]);
+    const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "SUSD", 18]);
     const poolTokensContainer = await web3Func(deploy, 'poolTokensContainer', 'PoolTokensContainer', ["Pool", "POOL", 18]);
-    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkBTCToUSDOracle', []);
+    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkUSDToBTCOracle', []);
     const chainlinkOracle2 = await web3Func(deploy, 'chainlinkOracle2', 'ChainlinkBTCToUSDOracle', []);
-    await web3Func(deploy, 'priceOracle', 'PriceOracle', [smartToken._address, smartToken2._address, chainlinkOracle1._address, chainlinkOracle2._address]);
+    await web3Func(deploy, 'priceOracle', 'PriceOracle', [tokens[0].address, tokens[1].address, chainlinkOracle1._address, chainlinkOracle2._address]);
     await web3Func(deploy, 'liquidTokenConverter', 'LiquidTokenConverter', [smartToken._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV1Converter', 'LiquidityPoolV1Converter', [smartToken2._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV2Converter', 'LiquidityPoolV2Converter', [poolTokensContainer._address, contractRegistry._address, 1000]);
@@ -169,12 +171,12 @@ const run = async () => {
     // initialize contract registry
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('ContractRegistry'), contractRegistry._address));
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('ConverterFactory'), converterFactory._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorFormula'), bancorFormula._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorNetwork'), bancorNetwork._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapFormula'), sovrynSwapFormula._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapNetwork'), sovrynSwapNetwork._address));
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('ConversionPathFinder'), conversionPathFinder._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorConverterUpgrader'), converterUpgrader._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorConverterRegistry'), converterRegistry._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorConverterRegistryData'), converterRegistryData._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapConverterUpgrader'), converterUpgrader._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapConverterRegistry'), converterRegistry._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapConverterRegistryData'), converterRegistryData._address));
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('ChainlinkOracleWhitelist'), oracleWhitelist._address));
 
     // initialize converter factory
@@ -233,11 +235,9 @@ const run = async () => {
 
                 if (type == 2) {
                     if (!reserve.oracle) {
-                        // can be used to deploy test (static) oracles
-
-                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, 'ChainlinkBTCToUSDOracle', []);
+                        const oracleName = reserve.symbol === 'RBTC' ? 'ChainlinkUSDToBTCOracle' : 'ChainlinkUSDToBTCOracle';
+                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, oracleName, []);
                         reserve.oracle = chainlinkPriceOracle._address;
-
                     }
                     await execute(oracleWhitelist.methods.addAddress(reserve.oracle));
                 }
@@ -262,7 +262,7 @@ const run = async () => {
 
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('RBTCToken'), addresses.RBTC));
     await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
-    await execute(bancorFormula.methods.init());
+    await execute(sovrynSwapFormula.methods.init());
     console.log('All done');
 
     if (web3.currentProvider.constructor.name === 'WebsocketProvider') {

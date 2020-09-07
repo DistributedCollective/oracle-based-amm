@@ -26,7 +26,7 @@ def Main():
     testNum = 0
     numOfTests = len(rangeBalance1) * len(rangeWeight1) * len(rangeBalance2) * len(rangeWeight2) * len(rangeAmount)
 
-    FormulaContract = Web3Wrapper.Contract('BancorFormula')
+    FormulaContract = Web3Wrapper.Contract('SovrynSwapFormula')
     FormulaContract.setter().init()
     FormulaContractAddr = FormulaContract.getter()
 

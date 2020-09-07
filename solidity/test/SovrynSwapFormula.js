@@ -9,12 +9,12 @@ const Decimal = require('decimal.js');
 const { MIN_PRECISION, MAX_PRECISION, MAX_WEIGHT, maxExpArray, maxValArray } = require('./helpers/FormulaConstants');
 const { normalizedWeights, balancedWeights } = require('./helpers/FormulaFunctions');
 
-const TestBancorFormula = artifacts.require('TestBancorFormula');
+const TestSovrynSwapFormula = artifacts.require('TestSovrynSwapFormula');
 
-contract('BancorFormula', () => {
+contract('SovrynSwapFormula', () => {
     let formula;
     before(async () => {
-        formula = await TestBancorFormula.new();
+        formula = await TestSovrynSwapFormula.new();
         await formula.init();
     });
 

@@ -7,7 +7,7 @@ import "./interfaces/IConverterRegistry.sol";
 import "./interfaces/IConverterRegistryData.sol";
 
 /**
-  * @dev The ConverterRegistry maintains a list of all active converters in the Bancor Network.
+  * @dev The ConverterRegistry maintains a list of all active converters in the SovrynSwap Network.
   *
   * Since converters can be upgraded and thus their address can change, the registry actually keeps
   * converter anchors internally and not the converters themselves.

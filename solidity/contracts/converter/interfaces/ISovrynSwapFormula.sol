@@ -1,9 +1,9 @@
 pragma solidity 0.4.26;
 
 /*
-    Bancor Formula interface
+    SovrynSwap Formula interface
 */
-contract IBancorFormula {
+contract ISovrynSwapFormula {
     function purchaseTargetAmount(uint256 _supply,
                                   uint256 _reserveBalance,
                                   uint32 _reserveWeight,

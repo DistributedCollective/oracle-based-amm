@@ -6,10 +6,10 @@ import "./converter/interfaces/IConverterAnchor.sol";
 import "./converter/interfaces/IConverterRegistry.sol";
 
 /**
-  * @dev The ConversionPathFinder contract allows generating a conversion path between any token pair in the Bancor Network.
-  * The path can then be used in various functions in the BancorNetwork contract.
+  * @dev The ConversionPathFinder contract allows generating a conversion path between any token pair in the SovrynSwap Network.
+  * The path can then be used in various functions in the SovrynSwapNetwork contract.
   *
-  * See the BancorNetwork contract for conversion path format.
+  * See the SovrynSwapNetwork contract for conversion path format.
 */
 contract ConversionPathFinder is IConversionPathFinder, ContractRegistryClient {
     address public anchorToken;
@@ -32,7 +32,7 @@ contract ConversionPathFinder is IConversionPathFinder, ContractRegistryClient {
     }
 
     /**
-      * @dev generates a conversion path between a given pair of tokens in the Bancor Network
+      * @dev generates a conversion path between a given pair of tokens in the SovrynSwap Network
       *
       * @param _sourceToken address of the source token
       * @param _targetToken address of the target token

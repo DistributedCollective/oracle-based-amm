@@ -151,8 +151,8 @@ const run = async () => {
     // main contracts
     const contractRegistry = await web3Func(deploy, 'contractRegistry', 'ContractRegistry', []);
     const converterFactory = await web3Func(deploy, 'converterFactory', 'ConverterFactory', []);
-    const bancorFormula = await web3Func(deploy, 'bancorFormula', 'BancorFormula', []);
-    const bancorNetwork = await web3Func(deploy, 'bancorNetwork', 'BancorNetwork', [contractRegistry._address]);
+    const sovrynSwapFormula = await web3Func(deploy, 'sovrynSwapFormula', 'SovrynSwapFormula', []);
+    const sovrynSwapNetwork = await web3Func(deploy, 'sovrynSwapNetwork', 'SovrynSwapNetwork', [contractRegistry._address]);
     const conversionPathFinder = await web3Func(deploy, 'conversionPathFinder', 'ConversionPathFinder', [contractRegistry._address]);
     const converterUpgrader = await web3Func(deploy, 'converterUpgrader', 'ConverterUpgrader', [contractRegistry._address, addresses.ETH]);
     const converterRegistry = await web3Func(deploy, 'converterRegistry', 'ConverterRegistry', [contractRegistry._address]);
@@ -178,12 +178,12 @@ const run = async () => {
     // initialize contract registry
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('ContractRegistry'), contractRegistry._address));
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('ConverterFactory'), converterFactory._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorFormula'), bancorFormula._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorNetwork'), bancorNetwork._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapFormula'), sovrynSwapFormula._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapNetwork'), sovrynSwapNetwork._address));
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('ConversionPathFinder'), conversionPathFinder._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorConverterUpgrader'), converterUpgrader._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorConverterRegistry'), converterRegistry._address));
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BancorConverterRegistryData'), converterRegistryData._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapConverterUpgrader'), converterUpgrader._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapConverterRegistry'), converterRegistry._address));
+    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('SovrynSwapConverterRegistryData'), converterRegistryData._address));
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('ChainlinkOracleWhitelist'), oracleWhitelist._address));
 
     // initialize converter factory
@@ -273,7 +273,7 @@ const run = async () => {
 
     await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('BNTToken'), addresses.RBTC));
     await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
-    await execute(bancorFormula.methods.init());
+    await execute(sovrynSwapFormula.methods.init());
 
     if (web3.currentProvider.constructor.name === 'WebsocketProvider') {
         web3.currentProvider.connection.close();

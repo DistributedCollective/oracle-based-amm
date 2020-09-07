@@ -1,4 +1,4 @@
-## BancorFormula Contract Verification
+## SovrynSwapFormula Contract Verification
 
 ### [Prerequisites](../../README.md#prerequisites)
 
