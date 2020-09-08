@@ -1,11 +1,11 @@
 pragma solidity 0.4.26;
 
-import "./interfaces/IChainlinkPriceOracle.sol";
+import "./interfaces/IConsumerPriceOracle.sol";
 
 /**
   * @dev Provides the USD/BTC rate
 */
-contract ChainlinkUSDToBTCOracle is IChainlinkPriceOracle {
+contract ChainlinkUSDToBTCOracle is IConsumerPriceOracle {
     int256 private constant USD_RATE = 10000;
 
     /**

@@ -258,8 +258,8 @@ contract ConverterUpgrader is IConverterUpgrader, ContractRegistryClient {
 
             // get the chainlink price oracles
             IPriceOracle priceOracle = ILiquidityPoolV2Converter(_oldConverter).priceOracle();
-            IChainlinkPriceOracle oracleA = priceOracle.tokenAOracle();
-            IChainlinkPriceOracle oracleB = priceOracle.tokenBOracle();
+            IConsumerPriceOracle oracleA = priceOracle.tokenAOracle();
+            IConsumerPriceOracle oracleB = priceOracle.tokenBOracle();
 
             // activate the new converter
             ILiquidityPoolV2Converter(_newConverter).activate(primaryReserveToken, oracleA, oracleB);

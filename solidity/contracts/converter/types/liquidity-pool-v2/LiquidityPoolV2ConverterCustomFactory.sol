@@ -27,8 +27,8 @@ contract LiquidityPoolV2ConverterCustomFactory is ITypedConverterCustomFactory {
     function createPriceOracle(
         IERC20Token _primaryReserveToken,
         IERC20Token _secondaryReserveToken,
-        IChainlinkPriceOracle _primaryReserveOracle,
-        IChainlinkPriceOracle _secondaryReserveOracle)
+        IConsumerPriceOracle _primaryReserveOracle,
+        IConsumerPriceOracle _secondaryReserveOracle)
         public
         returns (IPriceOracle)
     {

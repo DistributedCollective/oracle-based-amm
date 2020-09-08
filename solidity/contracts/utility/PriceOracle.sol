@@ -2,7 +2,7 @@ pragma solidity 0.4.26;
 import "./Utils.sol";
 import "./SafeMath.sol";
 import "./interfaces/IPriceOracle.sol";
-import "./interfaces/IChainlinkPriceOracle.sol";
+import "./interfaces/IConsumerPriceOracle.sol";
 
 /**
   * @dev Provides the off-chain rate between two tokens
@@ -21,9 +21,9 @@ contract PriceOracle is IPriceOracle, Utils {
     IERC20Token public tokenB;                  // token B the oracle supports
     mapping (address => uint8) public tokenDecimals; // token -> token decimals
 
-    IChainlinkPriceOracle public tokenAOracle;  // token A chainlink price oracle
-    IChainlinkPriceOracle public tokenBOracle;  // token B chainlink price oracle
-    mapping (address => IChainlinkPriceOracle) public tokensToOracles;  // token -> price oracle for easier access
+    IConsumerPriceOracle public tokenAOracle;  // token A chainlink price oracle
+    IConsumerPriceOracle public tokenBOracle;  // token B chainlink price oracle
+    mapping (address => IConsumerPriceOracle) public tokensToOracles;  // token -> price oracle for easier access
 
     /**
       * @dev initializes a new PriceOracle instance
@@ -34,7 +34,7 @@ contract PriceOracle is IPriceOracle, Utils {
       * @param  _tokenAOracle   first token price oracle
       * @param  _tokenBOracle   second token price oracle
     */
-    constructor(IERC20Token _tokenA, IERC20Token _tokenB, IChainlinkPriceOracle _tokenAOracle, IChainlinkPriceOracle _tokenBOracle)
+    constructor(IERC20Token _tokenA, IERC20Token _tokenB, IConsumerPriceOracle _tokenAOracle, IConsumerPriceOracle _tokenBOracle)
         public
         validUniqueAddresses(_tokenA, _tokenB)
         validUniqueAddresses(_tokenAOracle, _tokenBOracle)
