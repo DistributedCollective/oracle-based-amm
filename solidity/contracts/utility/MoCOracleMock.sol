@@ -18,5 +18,4 @@ contract MoCOracleMock is Medianizer{
     function setHas(bool _has) public {
         has = _has;
     }
-
 }
