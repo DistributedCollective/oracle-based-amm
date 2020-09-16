@@ -112,7 +112,7 @@ contract LiquidityPoolV2Converter is LiquidityPoolConverter {
       * @param _primaryReserveOracle    address of a chainlink price oracle for the primary reserve token
       * @param _secondaryReserveOracle  address of a chainlink price oracle for the secondary reserve token
     */
-    function activate(IERC20Token _primaryReserveToken, IChainlinkPriceOracle _primaryReserveOracle, IChainlinkPriceOracle _secondaryReserveOracle)
+    function activate(IERC20Token _primaryReserveToken, IConsumerPriceOracle _primaryReserveOracle, IConsumerPriceOracle _secondaryReserveOracle)
         public
         inactive
         ownerOnly

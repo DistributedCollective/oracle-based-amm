@@ -1,10 +1,10 @@
 pragma solidity 0.4.26;
-import "../utility/interfaces/IChainlinkPriceOracle.sol";
+import "../utility/interfaces/IConsumerPriceOracle.sol";
 
 /*
     Chainlink price oracle mock
 */
-contract TestChainlinkPriceOracle is IChainlinkPriceOracle {
+contract TestChainlinkPriceOracle is IConsumerPriceOracle {
     int256 private answer;
     uint256 private timestamp;
 

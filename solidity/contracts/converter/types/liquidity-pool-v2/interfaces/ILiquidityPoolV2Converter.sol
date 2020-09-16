@@ -13,5 +13,5 @@ contract ILiquidityPoolV2Converter {
 
     function priceOracle() public view returns (IPriceOracle);
 
-    function activate(IERC20Token _primaryReserveToken, IChainlinkPriceOracle _primaryReserveOracle, IChainlinkPriceOracle _secondaryReserveOracle) public;
+    function activate(IERC20Token _primaryReserveToken, IConsumerPriceOracle _primaryReserveOracle, IConsumerPriceOracle _secondaryReserveOracle) public;
 }

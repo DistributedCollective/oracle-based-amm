@@ -1,11 +1,11 @@
 pragma solidity 0.4.26;
 
-import "./interfaces/IChainlinkPriceOracle.sol";
+import "./interfaces/IConsumerPriceOracle.sol";
 
 /**
   * @dev Provides the trivial ETH/ETH rate to be used with other TKN/ETH rates
 */
-contract ChainlinkETHToETHOracle is IChainlinkPriceOracle {
+contract ChainlinkETHToETHOracle is IConsumerPriceOracle {
     int256 private constant ETH_RATE = 1;
 
     /**
