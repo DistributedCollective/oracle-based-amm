@@ -159,9 +159,12 @@ const run = async () => {
     const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "TKN1", 18]);
     const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "TKN2", 18]);
     const poolTokensContainer = await web3Func(deploy, 'poolTokensContainer', 'PoolTokensContainer', ["Pool", "POOL", 18]);
-    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkETHToETHOracle', []);
-    const chainlinkOracle2 = await web3Func(deploy, 'chainlinkOracle2', 'ChainlinkETHToETHOracle', []);
-    await web3Func(deploy, 'priceOracle', 'PriceOracle', [smartToken._address, smartToken2._address, chainlinkOracle1._address, chainlinkOracle2._address]);
+    const mocOracleMock = await web3Func(deploy, 'mocOracleMock', 'MoCOracleMock', []);
+    const mocOracle1 = await web3Func(deploy, 'mocOracle1', 'MocBTCToBTCOracle', []);
+    const mocOracle2 = await web3Func(deploy, 'mocOracle2', 'MocBTCToBTCOracle', []);
+    
+    await web3Func(deploy, 'priceOracle', 'PriceOracle', [smartToken._address, smartToken2._address, mocOracle1._address, mocOracle2._address]);
+    
     await web3Func(deploy, 'liquidTokenConverter', 'LiquidTokenConverter', [smartToken._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV1Converter', 'LiquidityPoolV1Converter', [smartToken2._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV2Converter', 'LiquidityPoolV2Converter', [poolTokensContainer._address, contractRegistry._address, 1000]);
@@ -183,6 +186,10 @@ const run = async () => {
     await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address));
     await execute(converterFactory.methods.registerTypedConverterAnchorFactory(liquidityPoolV2ConverterAnchorFactory._address));
     await execute(converterFactory.methods.registerTypedConverterCustomFactory(liquidityPoolV2ConverterCustomFactory._address));
+
+    //intialize mock MoC Oracle
+    await execute(mocOracleMock.methods.setValue(1));
+    await execute(mocOracleMock.methods.setHas(true));
 
     for (const reserve of getConfig().reserves) {
         if (reserve.address) {
@@ -214,7 +221,7 @@ const run = async () => {
         console.log("deploying converter for ", type, " - ", name, " with value ", value);
 
         const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights).call();
-        console.log("newConverter is  ", newConverter);
+        console.log('New Converter is  ', newConverter);
 
         await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights));
         console.log("completed newConverter  ");
@@ -243,9 +250,9 @@ const run = async () => {
                 if (type == 2) {
                     if (!reserve.oracle) {
                         // can be used to deploy test (static) oracles
+                        const mocPriceOracle = await web3Func(deploy, 'mocPriceOracle' + converter.symbol + reserve.symbol, 'MocBTCToBTCOracle', []);
+                        reserve.oracle = mocPriceOracle._address;
 
-                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, 'ChainlinkETHToETHOracle', []);
-                        reserve.oracle = chainlinkPriceOracle._address;
 
                     }
                     await execute(oracleWhitelist.methods.addAddress(reserve.oracle));
