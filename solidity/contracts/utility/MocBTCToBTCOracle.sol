@@ -6,7 +6,7 @@ import "./interfaces/IConsumerPriceOracle.sol";
   * @dev Provides the trivial ETH/ETH rate to be used with other TKN/ETH rates
 */
 contract MocBTCToBTCOracle is IConsumerPriceOracle {
-    int256 private constant ETH_RATE = 1;
+    int256 private constant BTC_RATE = 1;
 
     /**
       * @dev returns the trivial ETH/ETH rate.
@@ -14,7 +14,7 @@ contract MocBTCToBTCOracle is IConsumerPriceOracle {
       * @return always returns the trivial rate of 1
     */
     function latestAnswer() external view returns (int256) {
-        return ETH_RATE;
+        return BTC_RATE;
     }
 
     /**
