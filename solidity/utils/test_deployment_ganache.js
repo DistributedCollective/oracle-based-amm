@@ -168,9 +168,12 @@ const run = async () => {
     const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "TKN1", 18]);
     const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "TKN2", 18]);
     const poolTokensContainer = await web3Func(deploy, 'poolTokensContainer', 'PoolTokensContainer', ["Pool", "POOL", 18]);
-    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkETHToETHOracle', []);
-    const chainlinkOracle2 = await web3Func(deploy, 'chainlinkOracle2', 'ChainlinkETHToETHOracle', []);
-    await web3Func(deploy, 'priceOracle', 'PriceOracle', [smartToken._address, smartToken2._address, chainlinkOracle1._address, chainlinkOracle2._address]);
+    const mocOracleMock = await web3Func(deploy, 'mocOracleMock', 'MoCOracleMock', []);
+    const mocOracle1 = await web3Func(deploy, 'mocOracle1', 'MocBTCToBTCOracle', []);
+    const mocOracle2 = await web3Func(deploy, 'mocOracle2', 'MocBTCToBTCOracle', []);
+    
+    await web3Func(deploy, 'priceOracle', 'PriceOracle', [smartToken._address, smartToken2._address, mocOracle1._address, mocOracle2._address]);
+    
     await web3Func(deploy, 'liquidTokenConverter', 'LiquidTokenConverter', [smartToken._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV1Converter', 'LiquidityPoolV1Converter', [smartToken2._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV2Converter', 'LiquidityPoolV2Converter', [poolTokensContainer._address, contractRegistry._address, 1000]);
@@ -192,6 +195,10 @@ const run = async () => {
     await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address));
     await execute(converterFactory.methods.registerTypedConverterAnchorFactory(liquidityPoolV2ConverterAnchorFactory._address));
     await execute(converterFactory.methods.registerTypedConverterCustomFactory(liquidityPoolV2ConverterCustomFactory._address));
+
+    //intialize mock MoC Oracle
+    await execute(mocOracleMock.methods.setValue(1));
+    await execute(mocOracleMock.methods.setHas(true));
 
     for (const reserve of getConfig().reserves) {
         if (reserve.address) {
@@ -219,12 +226,15 @@ const run = async () => {
         const weights = converter.reserves.map(reserve => percentageToPPM(reserve.weight));
         const amounts = converter.reserves.map(reserve => decimalToInteger(reserve.balance, tokenDecimals[reserve.symbol]));
         const value = amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'ETH')];
-
+        
         const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights).call();
+        console.log('New Converter is  ', newConverter);
+
         await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights));
         await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
 
         console.log("done. doing the settings now");
+
         const anchor = deployed(web3, 'IConverterAnchor', (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
         const converterBase = deployed(web3, 'ConverterBase', await anchor.methods.owner().call());
         await execute(converterBase.methods.acceptOwnership());
@@ -244,8 +254,8 @@ const run = async () => {
                         console.log("no oracle existing, yet.");
                         // can be used to deploy test (static) oracles
                         //else coment out
-                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, 'ChainlinkETHToETHOracle', []);
-                        reserve.oracle = chainlinkPriceOracle._address;
+                        const mocPriceOracle = await web3Func(deploy, 'mocPriceOracle' + converter.symbol + reserve.symbol, 'MocBTCToBTCOracle', []);
+                        reserve.oracle = mocPriceOracle._address;
 
                     }
                     console.log("adding the oracle to the whitelist "+reserve.oracle);

@@ -31,6 +31,7 @@
             ]
         }
     ],
+    "mocMedianizer": "0x667bd3d048FaEBb85bAa0E9f9D87cF4c8CDFE849",
     "phase": 28,
     "contractRegistry": {
         "name": "ContractRegistry",

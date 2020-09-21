@@ -127,6 +127,10 @@ const run = async () => {
     const addresses = { ETH: Web3.utils.toChecksumAddress('0x'.padEnd(42, 'e')) };
     const tokenDecimals = { ETH: 18 };
 
+    if (!getConfig().mocMedianizer) {
+        throw new Error("MoC Medinizer contract address is undefined");
+    }
+
     let phase = 0;
     if (getConfig().phase === undefined) {
         setConfig({ phase });
@@ -161,9 +165,19 @@ const run = async () => {
     const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "RBTC", 18]);
     const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "SUSD", 18]);
     const poolTokensContainer = await web3Func(deploy, 'poolTokensContainer', 'PoolTokensContainer', ["Pool", "POOL", 18]);
-    const chainlinkOracle1 = await web3Func(deploy, 'chainlinkOracle1', 'ChainlinkUSDToBTCOracle', []);
-    const chainlinkOracle2 = await web3Func(deploy, 'chainlinkOracle2', 'ChainlinkBTCToUSDOracle', []);
-    await web3Func(deploy, 'priceOracle', 'PriceOracle', [tokens[0].address, tokens[1].address, chainlinkOracle1._address, chainlinkOracle2._address]);
+    const mocOracleMock = await web3Func(deploy, 'mocOracleMock', 'MoCOracleMock', []);
+    const mocOracleMock2 = await web3Func(deploy, 'mocOracleMock', 'MoCOracleMock', []);
+
+    //intialize mock MoC Oracle
+    await execute(mocOracleMock.methods.setValue(1));
+    await execute(mocOracleMock.methods.setHas(true));
+    await execute(mocOracleMock2.methods.setValue(10000));
+    await execute(mocOracleMock2.methods.setHas(true));
+
+    const mocOracle1 = await web3Func(deploy, 'mocOracle1', 'MocBTCToUSDOracle', [mocOracleMock2._address]);
+    const mocOracle2 = await web3Func(deploy, 'mocOracle2', 'MocBTCToUSDOracle', [mocOracleMock._address]);
+
+    await web3Func(deploy, 'priceOracle', 'PriceOracle', [tokens[0].address, tokens[1].address, mocOracle1._address, mocOracle2._address]);
     await web3Func(deploy, 'liquidTokenConverter', 'LiquidTokenConverter', [smartToken._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV1Converter', 'LiquidityPoolV1Converter', [smartToken2._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV2Converter', 'LiquidityPoolV2Converter', [poolTokensContainer._address, contractRegistry._address, 1000]);
@@ -208,6 +222,7 @@ const run = async () => {
         console.log('Deploying converter for ', type, ' - ', name, ' with value ', value);
 
         const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights).call();
+
         await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights));
         await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
         console.log('New Converter is  ', newConverter);
@@ -235,9 +250,9 @@ const run = async () => {
 
                 if (type == 2) {
                     if (!reserve.oracle) {
-                        const oracleName = reserve.symbol === 'RBTC' ? 'ChainlinkUSDToBTCOracle' : 'ChainlinkUSDToBTCOracle';
-                        const chainlinkPriceOracle = await web3Func(deploy, 'chainlinkPriceOracle' + converter.symbol + reserve.symbol, oracleName, []);
-                        reserve.oracle = chainlinkPriceOracle._address;
+                        const oracleName = reserve.symbol === 'RBTC' ? 'MocUSDToBTCOracle' : 'MocUSDToBTCOracle';
+                        const mocPriceOracle = await web3Func(deploy, 'mocPriceOracle' + converter.symbol + reserve.symbol, oracleName, [mocOracleMock2._address]);
+                        reserve.oracle = mocPriceOracle._address;
                     }
                     await execute(oracleWhitelist.methods.addAddress(reserve.oracle));
                 }
