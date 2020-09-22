@@ -3,12 +3,12 @@
         {
             "symbol": "RBTC",
             "decimals": 18,
-            "address": "0xE53e4543D3aE879655E4A150CAD4D4e1b3aa87eB"
+            "address": "0xD10d83a6224aF8CcF9675B5EcB765Fec97a1027B"
         },
         {
             "symbol": "SUSD",
             "decimals": 18,
-            "address": "0x892032788337275bAb0F0EB2f184492e0Fb56264"
+            "address": "0xFf8a837ddbdBD5Aa25E27Efb7A3d3499E243eeb1"
         }
     ],
     "converters": [
@@ -21,141 +21,146 @@
                 {
                     "symbol": "RBTC",
                     "weight": "50%",
-                    "balance": "1000000"
+                    "balance": "1"
                 },
                 {
                     "symbol": "SUSD",
                     "weight": "50%",
-                    "balance": "10000000000"
+                    "balance": "10000"
                 }
             ]
         }
     ],
     "mocMedianizer": "0x667bd3d048FaEBb85bAa0E9f9D87cF4c8CDFE849",
-    "phase": 28,
+    "phase": 32,
     "contractRegistry": {
         "name": "ContractRegistry",
-        "addr": "0x270e07B2d3c2B29ba904CC37e80a20F96e117d29",
+        "addr": "0xC6aCB96ce37B1F1850F60890533D2799EF24C90B",
         "args": ""
     },
     "converterFactory": {
         "name": "ConverterFactory",
-        "addr": "0xbf5f88d416ffa4d1266618522857fEe755CC8218",
+        "addr": "0x86647587aBe1C96AC99a0d9263939814aDB70aAA",
         "args": ""
     },
     "sovrynSwapFormula": {
         "name": "SovrynSwapFormula",
-        "addr": "0x077D276B520331Ef8E7E2C24A9D78b43c1AEAaa3",
+        "addr": "0x2bE86f354680795Bb0489cE24F9629AC5bB30E22",
         "args": ""
     },
     "sovrynSwapNetwork": {
         "name": "SovrynSwapNetwork",
-        "addr": "0x76130d7aa0C75b4A9923eBD2740adf36AA52b06f",
-        "args": "000000000000000000000000270e07b2d3c2b29ba904cc37e80a20f96e117d29"
+        "addr": "0xfa81590E98108481Ccb0dA4dE7BdeCe350F53a13",
+        "args": "000000000000000000000000c6acb96ce37b1f1850f60890533d2799ef24c90b"
     },
     "conversionPathFinder": {
         "name": "ConversionPathFinder",
-        "addr": "0x2532806d266c6C76A108fde9b51A6E7c856741a4",
-        "args": "000000000000000000000000270e07b2d3c2b29ba904cc37e80a20f96e117d29"
+        "addr": "0xF3ad37b5286A2044A7Da85874F9AB0d078dF19A2",
+        "args": "000000000000000000000000c6acb96ce37b1f1850f60890533d2799ef24c90b"
     },
     "converterUpgrader": {
         "name": "ConverterUpgrader",
-        "addr": "0x9d6f13A58757021CDfDb1cB01280dfCaE14E9522",
-        "args": "000000000000000000000000270e07b2d3c2b29ba904cc37e80a20f96e117d29000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        "addr": "0x297e7c354E5410dB827C72042D4c6Fd02A9742e0",
+        "args": "000000000000000000000000c6acb96ce37b1f1850f60890533d2799ef24c90b000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
     },
     "converterRegistry": {
         "name": "ConverterRegistry",
-        "addr": "0x0c8391cC66B520F3D34e80769E44bfeC028077Fd",
-        "args": "000000000000000000000000270e07b2d3c2b29ba904cc37e80a20f96e117d29"
+        "addr": "0x20997C627D10d36EC2c7c8fC6cf0b0302F1a0ba2",
+        "args": "000000000000000000000000c6acb96ce37b1f1850f60890533d2799ef24c90b"
     },
     "converterRegistryData": {
         "name": "ConverterRegistryData",
-        "addr": "0x72D349f1235a5F3822B4B9405861dB2DDA313665",
-        "args": "000000000000000000000000270e07b2d3c2b29ba904cc37e80a20f96e117d29"
+        "addr": "0xA1744fd373A3E26452c23FC49d26f1Ce34E5ca36",
+        "args": "000000000000000000000000c6acb96ce37b1f1850f60890533d2799ef24c90b"
     },
     "liquidTokenConverterFactory": {
         "name": "LiquidTokenConverterFactory",
-        "addr": "0xEb7F511cc77112ec7c59E5f5f9C2d97AA72CF04b",
+        "addr": "0x68598e0F4fC17Eb93902cD5Be8F24daeC7A24Bf3",
         "args": ""
     },
     "liquidityPoolV1ConverterFactory": {
         "name": "LiquidityPoolV1ConverterFactory",
-        "addr": "0x32928Bfd934fB6b725497b320c20DE8DB2550B2b",
+        "addr": "0xe679183D3A5370fe123eF8f49dd051c6664Eef3c",
         "args": ""
     },
     "liquidityPoolV2ConverterFactory": {
         "name": "LiquidityPoolV2ConverterFactory",
-        "addr": "0x978b6dFd3ce599f22aAC310550379122fb5df0F2",
+        "addr": "0xE79D01684036524935830F63A4AB6Fbc754fc1D7",
         "args": ""
     },
     "liquidityPoolV2ConverterAnchorFactory": {
         "name": "LiquidityPoolV2ConverterAnchorFactory",
-        "addr": "0x5DAdED067cf2A0186F04395144cc422630fc5b39",
+        "addr": "0xe3ADFAbef86251BDe34f5D8Aa9a90a55C39969C7",
         "args": ""
     },
     "liquidityPoolV2ConverterCustomFactory": {
         "name": "LiquidityPoolV2ConverterCustomFactory",
-        "addr": "0x9EB2D3801402D8630e7e6976E7f51E9a3bEa7bf5",
+        "addr": "0xA08949c87b6B77bEB2b737D4C0aEd6E9310D9dBe",
         "args": ""
     },
     "oracleWhitelist": {
         "name": "Whitelist",
-        "addr": "0x4b9B14c4358Fed7446c73AE5D934900A59c4C1D3",
+        "addr": "0xfAA6F9fd24c4A910ad38c01594398A2938542952",
         "args": ""
     },
     "smartToken": {
         "name": "SmartToken",
-        "addr": "0x1feA2981Df6A5eE46464C9dAB7AAc3f4C11f3E1b",
+        "addr": "0x89851fd91C412ad7e0FB6Fa8d45A854f10D6E9aC",
         "args": "000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000006546f6b656e31000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000045242544300000000000000000000000000000000000000000000000000000000"
     },
     "smartToken2": {
         "name": "SmartToken",
-        "addr": "0x2BeC01BFEb2f67429c80A23A23DAdBa973Cb3B26",
+        "addr": "0x28B3671EAf3eb857E17D26D3505126A95545F19a",
         "args": "000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000006546f6b656e32000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000045355534400000000000000000000000000000000000000000000000000000000"
     },
     "poolTokensContainer": {
         "name": "PoolTokensContainer",
-        "addr": "0x1e375b20A54D7Ac3CbDb3a47302f6F21164068c9",
+        "addr": "0xaCC24B72EDa073ee589F4630679b57BEad28a0Ef",
         "args": "000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000004506f6f6c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004504f4f4c00000000000000000000000000000000000000000000000000000000"
     },
-    "chainlinkOracle1": {
-        "name": "ChainlinkUSDToBTCOracle",
-        "addr": "0xcEe0ce78b078015615218f0cc5fF6811ecdCe31A",
+    "mocOracleMock": {
+        "name": "MoCOracleMock",
+        "addr": "0x455e1E66fA6FE0AA6F555f9e604BD137f6D44171",
         "args": ""
     },
-    "chainlinkOracle2": {
-        "name": "ChainlinkBTCToUSDOracle",
-        "addr": "0x69044D616FD32C3c34320F6C9c64a3e3141aBd96",
-        "args": ""
+    "mocOracle1": {
+        "name": "MocBTCToUSDOracle",
+        "addr": "0x2f4aaBe789Ad00C365dEf6c6cb6C903523a02FE0",
+        "args": "000000000000000000000000455e1e66fa6fe0aa6f555f9e604bd137f6d44171"
+    },
+    "mocOracle2": {
+        "name": "MocBTCToUSDOracle",
+        "addr": "0x7EB89ce97a400f01D2A040af43daAb3785eF5C29",
+        "args": "000000000000000000000000455e1e66fa6fe0aa6f555f9e604bd137f6d44171"
     },
     "priceOracle": {
         "name": "PriceOracle",
-        "addr": "0xcC8601ec172f87ccc282476Ea21f1226868860d0",
-        "args": "000000000000000000000000e53e4543d3ae879655e4a150cad4d4e1b3aa87eb000000000000000000000000892032788337275bab0f0eb2f184492e0fb56264000000000000000000000000cee0ce78b078015615218f0cc5ff6811ecdce31a00000000000000000000000069044d616fd32c3c34320f6c9c64a3e3141abd96"
+        "addr": "0x98286Fb05ED86F143290cA3546cc2278135B8167",
+        "args": "000000000000000000000000d10d83a6224af8ccf9675b5ecb765fec97a1027b000000000000000000000000ff8a837ddbdbd5aa25e27efb7a3d3499e243eeb10000000000000000000000002f4aabe789ad00c365def6c6cb6c903523a02fe00000000000000000000000007eb89ce97a400f01d2a040af43daab3785ef5c29"
     },
     "liquidTokenConverter": {
         "name": "LiquidTokenConverter",
-        "addr": "0x1230006901f90e7cB90bf2B315DD5705a9784eb8",
-        "args": "0000000000000000000000001fea2981df6a5ee46464c9dab7aac3f4c11f3e1b000000000000000000000000270e07b2d3c2b29ba904cc37e80a20f96e117d2900000000000000000000000000000000000000000000000000000000000003e8"
+        "addr": "0xD5Aee6Ee6E2407ebACCB5372878E2DEA734d7Fd0",
+        "args": "00000000000000000000000089851fd91c412ad7e0fb6fa8d45a854f10d6e9ac000000000000000000000000c6acb96ce37b1f1850f60890533d2799ef24c90b00000000000000000000000000000000000000000000000000000000000003e8"
     },
     "liquidityPoolV1Converter": {
         "name": "LiquidityPoolV1Converter",
-        "addr": "0x086FdC900df63e670572433be07BF4d45B65d034",
-        "args": "0000000000000000000000002bec01bfeb2f67429c80a23a23dadba973cb3b26000000000000000000000000270e07b2d3c2b29ba904cc37e80a20f96e117d2900000000000000000000000000000000000000000000000000000000000003e8"
+        "addr": "0x49F86856311FA5F18932f54624225d1B5B3675eE",
+        "args": "00000000000000000000000028b3671eaf3eb857e17d26d3505126a95545f19a000000000000000000000000c6acb96ce37b1f1850f60890533d2799ef24c90b00000000000000000000000000000000000000000000000000000000000003e8"
     },
     "liquidityPoolV2Converter": {
         "name": "LiquidityPoolV2Converter",
-        "addr": "0x887799a74dC533cd2c916de2d0501C7e62A7b222",
-        "args": "0000000000000000000000001e375b20a54d7ac3cbdb3a47302f6f21164068c9000000000000000000000000270e07b2d3c2b29ba904cc37e80a20f96e117d2900000000000000000000000000000000000000000000000000000000000003e8"
+        "addr": "0xE51f9C7a3Da047936E2a4b776Da673d39FFf953f",
+        "args": "000000000000000000000000acc24b72eda073ee589f4630679b57bead28a0ef000000000000000000000000c6acb96ce37b1f1850f60890533d2799ef24c90b00000000000000000000000000000000000000000000000000000000000003e8"
     },
-    "chainlinkPriceOraclesUSDrBTCRBTC": {
-        "name": "ChainlinkUSDToBTCOracle",
-        "addr": "0xBc12B4D240a34d2333f5d03f66067c766F554cc5",
-        "args": ""
+    "mocPriceOraclesUSDrBTCRBTC": {
+        "name": "MocUSDToBTCOracle",
+        "addr": "0x3d7f11e7D6BB406FB07561970b8AdA2326D302cD",
+        "args": "000000000000000000000000455e1e66fa6fe0aa6f555f9e604bd137f6d44171"
     },
-    "chainlinkPriceOraclesUSDrBTCSUSD": {
-        "name": "ChainlinkUSDToBTCOracle",
-        "addr": "0xae810095C9c4107242bb0a88eF99806D53b4fFDA",
-        "args": ""
+    "mocPriceOraclesUSDrBTCSUSD": {
+        "name": "MocUSDToBTCOracle",
+        "addr": "0x78Cbfb901f9915e4fF7aFc02acfF35d4B40fa33C",
+        "args": "000000000000000000000000455e1e66fa6fe0aa6f555f9e604bd137f6d44171"
     }
 }

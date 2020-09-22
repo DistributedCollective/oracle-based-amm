@@ -244,8 +244,11 @@ const run = async () => {
             for (let i = 0; i < converter.reserves.length; i++) {
                 const reserve = converter.reserves[i];
                 if (reserve.symbol !== 'ETH') {
-                    console.log('Approving amount for ERC20Token')
+                    console.log('Approving amount for ERC20Token: '+amounts[i])
                     await execute(deployed(web3, 'ERC20Token', tokens[i]).methods.approve(converterBase._address, amounts[i]));
+                    let availableBalance = await deployed(web3, 'ERC20Token', tokens[i]).methods.balanceOf(account.address).call();
+                    console.log("available balance: ")
+                    console.log(availableBalance)
                 }
 
                 if (type == 2) {
