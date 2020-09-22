@@ -27,4 +27,4 @@ solidity/build/Test*
 .history
 *.iml
 .idea
-build/
+
