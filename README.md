@@ -43,6 +43,19 @@ Sovryn Swap is a work in progress. Make sure you understand the risks before usi
 
 ### [Utilities](solidity/utils/README.md)
 
+## MoC Integraton
+
+There are three MoC SCs files:
+1. MocBTCToBTCOracle: it is used only for tests purposes. It has a hardcoded rate of 1.
+2. MocBTCToUSDOracle: it is the original MoC contract to get BTC/USD pair price.
+3. MocUSDToBTCOracle: it returns USD/BTC price doing `1/(BTC/USD price)`.
+
+To do the integration:
+1. Get MoC medianizer SC address (BTC to USD)
+  - Testnet: 0x667bd3d048FaEBb85bAa0E9f9D87cF4c8CDFE849
+  - Mainnet: See [MoC Contracts verification.md](https://github.com/money-on-chain/main-RBTC-contract/blob/master/Contracts%20verification.md)
+2. Deploy the neccesary oracles passing the medianizer address as constructor argument.
+
 ## License
 
 SovrynSwap Protocol is open source and distributed under the Apache License v2.0
