@@ -3,7 +3,7 @@ import "./MocBTCToUSDOracle.sol";
 
 // This contract is only for test purposes
 // https://github.com/money-on-chain/Amphiraos-Oracle/blob/master/contracts/medianizer/medianizer.sol
-contract MoCOracleMock is Medianizer{
+contract MoCMedianizerMock is Medianizer{
     uint256 public value;
     bool public has;
 

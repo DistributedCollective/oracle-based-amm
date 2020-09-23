@@ -4,6 +4,10 @@
 
 ### [Installation](../../README.md#installation)
 
+### Compile contracts
+1. Change contract folder in script Compile contracts `../../scripts/compile.sh`
+2. Run from root dir `./scripts/compile.sh`
+
 ### Test Deployment
 
 Deploys a set of contracts for testing purpose; can be used on both private and public networks:
