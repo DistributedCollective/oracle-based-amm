@@ -25,7 +25,7 @@ contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
     /**
       * @dev returns the USD/BTC rate.
       *
-      * @return always returns the rate of 10000
+      * @return MoC medianizer rate
     */
     function latestAnswer() external view returns (int256) {
         (bytes32 value, bool hasValue) = Medianizer(mocOracleAddress).peek();

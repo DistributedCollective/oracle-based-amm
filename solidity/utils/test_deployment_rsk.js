@@ -165,19 +165,16 @@ const run = async () => {
     const smartToken = await web3Func(deploy, 'smartToken', 'SmartToken', ["Token1", "RBTC", 18]);
     const smartToken2 = await web3Func(deploy, 'smartToken2', 'SmartToken', ["Token2", "SUSD", 18]);
     const poolTokensContainer = await web3Func(deploy, 'poolTokensContainer', 'PoolTokensContainer', ["Pool", "POOL", 18]);
-    const mocOracleMock = await web3Func(deploy, 'mocOracleMock', 'MoCOracleMock', []);
-    const mocOracleMock2 = await web3Func(deploy, 'mocOracleMock', 'MoCOracleMock', []);
+    const mocMedianizerMockUSDtoBTC = await web3Func(deploy, 'mocMedianizerMockUSDtoBTC', 'MoCMedianizerMock', []);
 
     //intialize mock MoC Oracle
-    await execute(mocOracleMock.methods.setValue(1));
-    await execute(mocOracleMock.methods.setHas(true));
-    await execute(mocOracleMock2.methods.setValue(10000));
-    await execute(mocOracleMock2.methods.setHas(true));
+    await execute(mocMedianizerMockUSDtoBTC.methods.setValue(10000));
+    await execute(mocMedianizerMockUSDtoBTC.methods.setHas(true));
 
-    const mocOracle1 = await web3Func(deploy, 'mocOracle1', 'MocBTCToUSDOracle', [mocOracleMock2._address]);
-    const mocOracle2 = await web3Func(deploy, 'mocOracle2', 'MocBTCToUSDOracle', [mocOracleMock._address]);
+    const rbtcToBTC = await web3Func(deploy, 'rbtcToBTC', 'MocBTCToBTCOracle', []);
+    const rbtcToUSD = await web3Func(deploy, 'rbtcToUSD', 'MocBTCToUSDOracle', [mocMedianizerMockUSDtoBTC._address]);
 
-    await web3Func(deploy, 'priceOracle', 'PriceOracle', [tokens[0].address, tokens[1].address, mocOracle1._address, mocOracle2._address]);
+    await web3Func(deploy, 'priceOracle', 'PriceOracle', [tokens[0].address, tokens[1].address, rbtcToUSD._address, rbtcToBTC._address]);
     await web3Func(deploy, 'liquidTokenConverter', 'LiquidTokenConverter', [smartToken._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV1Converter', 'LiquidityPoolV1Converter', [smartToken2._address, contractRegistry._address, 1000]);
     await web3Func(deploy, 'liquidityPoolV2Converter', 'LiquidityPoolV2Converter', [poolTokensContainer._address, contractRegistry._address, 1000]);
@@ -253,10 +250,12 @@ const run = async () => {
 
                 if (type == 2) {
                     if (!reserve.oracle) {
-                        const oracleName = reserve.symbol === 'RBTC' ? 'MocUSDToBTCOracle' : 'MocUSDToBTCOracle';
-                        const mocPriceOracle = await web3Func(deploy, 'mocPriceOracle' + converter.symbol + reserve.symbol, oracleName, [mocOracleMock2._address]);
+                        const oracleName = reserve.symbol === 'RBTC' ? 'MocBTCToUSDOracle' : 'MocBTCToBTCOracle'; // Uses MocBTCToUSDOracle with an mocked Oracle that return 1000. See mocMedianizerMockUSDtoBTC
+                        const mocOracleArgs = oracleName === 'MocBTCToUSDOracle' ? [mocMedianizerMockUSDtoBTC._address] : [];
+                        const mocPriceOracle = await web3Func(deploy, 'mocPriceOracle' + converter.symbol + reserve.symbol, oracleName, mocOracleArgs);
                         reserve.oracle = mocPriceOracle._address;
                     }
+                    console.log('reserve.oracle', reserve.oracle);
                     await execute(oracleWhitelist.methods.addAddress(reserve.oracle));
                 }
             }
