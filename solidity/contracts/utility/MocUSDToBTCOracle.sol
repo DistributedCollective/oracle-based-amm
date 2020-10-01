@@ -3,10 +3,7 @@ pragma solidity 0.4.26;
 import "./interfaces/IConsumerPriceOracle.sol";
 import "./Owned.sol";
 import "./SafeMath.sol";
-
-interface Medianizer {
-    function peek() external view returns (bytes32, bool);
-}
+import "./interfaces/IMedianizer.sol";
 
 contract MocUSDToBTCOracle is IConsumerPriceOracle, Owned {
     using SafeMath for uint256;
@@ -32,7 +29,7 @@ contract MocUSDToBTCOracle is IConsumerPriceOracle, Owned {
       * @return always returns the rate of 10000
     */
     function latestAnswer() external view returns (int256) {
-        (bytes32 value, bool hasValue) = Medianizer(mocOracleAddress).peek();
+        (bytes32 value, bool hasValue) = IMedianizer(mocOracleAddress).peek();
         require(hasValue, "Doesn't has value");
         
         return int256(DECIMALS.div(uint256(value)).mul(DECIMALS));

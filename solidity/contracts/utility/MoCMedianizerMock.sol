@@ -1,9 +1,10 @@
 pragma solidity 0.4.26;
 import "./MocBTCToUSDOracle.sol";
+import "./interfaces/IMedianizer.sol";
 
 // This contract is only for test purposes
 // https://github.com/money-on-chain/Amphiraos-Oracle/blob/master/contracts/medianizer/medianizer.sol
-contract MoCMedianizerMock is Medianizer{
+contract MoCMedianizerMock is IMedianizer {
     uint256 public value;
     bool public has;
 

@@ -2,10 +2,7 @@ pragma solidity 0.4.26;
 
 import "./interfaces/IConsumerPriceOracle.sol";
 import "./Owned.sol";
-
-interface Medianizer {
-    function peek() external view returns (bytes32, bool);
-}
+import "./interfaces/IMedianizer.sol";
 
 contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
 
@@ -28,7 +25,7 @@ contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
       * @return MoC medianizer rate
     */
     function latestAnswer() external view returns (int256) {
-        (bytes32 value, bool hasValue) = Medianizer(mocOracleAddress).peek();
+        (bytes32 value, bool hasValue) = IMedianizer(mocOracleAddress).peek();
         require(hasValue, "Doesn't has value");
         return int256(value);
     }
