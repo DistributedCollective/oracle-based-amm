@@ -26,6 +26,7 @@ import "./interfaces/IConverterRegistryData.sol";
 */
 contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenHandler {
     address private constant ETH_RESERVE_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
+    mapping(address => address) private deployer;
 
     /**
       * @dev triggered when a converter anchor is added to the registry
@@ -120,6 +121,10 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
         IConverterFactory factory = IConverterFactory(addressOf(CONVERTER_FACTORY));
         IConverterAnchor anchor = IConverterAnchor(factory.createAnchor(_type, _name, _symbol, _decimals));
         IConverter converter = IConverter(factory.createConverter(_type, anchor, registry, _maxConversionFee));
+        
+        //remember the deployer to make sure only the deployer may finish the setup of the converter
+        deployer[converter] = msg.sender;
+        
         return converter;
     }
 
@@ -141,6 +146,8 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
     )
     public returns (IConverter)
     {
+        require(deployer[_converter] == msg.sender, "only the deployer may finish the converter setup");
+        
         uint256 length = _reserveTokens.length;
         require(length == _reserveWeights.length, "ERR_INVALID_RESERVES");
         require(getLiquidityPoolByConfig(_type, _reserveTokens, _reserveWeights) == IConverterAnchor(0), "ERR_ALREADY_EXISTS");

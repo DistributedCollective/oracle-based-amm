@@ -21,7 +21,7 @@ const LiquidityPoolV2ConverterCustomFactory = artifacts.require('LiquidityPoolV2
 const ConverterRegistryData = artifacts.require('ConverterRegistryData');
 const TestConverterRegistry = artifacts.require('TestConverterRegistry');
 
-contract('ConverterRegistry', () => {
+contract('ConverterRegistry', accounts => {
     let contractRegistry;
     let converterFactory;
     let converterRegistry;
@@ -365,6 +365,13 @@ contract('ConverterRegistry', () => {
         it('should create converters', async () => {
             await createConverters();
         });
+        
+        it('should fail to create and setup converter from different addresses', async() => {
+            await converterRegistry.newConverter(2, 'Pool6', 'ST9', 18, 0, [erc20Token2.address, ETH_RESERVE_ADDRESS], [0x6200, 0x6000]);
+            const converter = await ConverterBase.at(await converterRegistry.createdConverter.call());
+            await expectRevert(converterRegistry.setupConverter(2, [erc20Token2.address, ETH_RESERVE_ADDRESS], [0x6200, 0x6000], 
+                converter.address, {from:accounts[1]}), 'only the deployer may finish the converter setup');
+        } );
 
         context('with created converters', async () => {
             const removeConverters = async () => {
