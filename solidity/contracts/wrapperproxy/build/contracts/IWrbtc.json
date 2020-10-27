@@ -1,0 +1,299 @@
+{
+  "contractName": "IWrbtc",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "deposit",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "wad",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"deposit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol\":\"IWrbtc\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol\":{\"keccak256\":\"0x3d906465799610f43ed56d75db2d380841b7ab60369d35cd699de077ffbc317d\",\"urls\":[\"bzz-raw://0eaeb9a19c738e81c9a4cb13a3d59d95b46eb34c2025ecaf6a90018743786d1b\",\"dweb:/ipfs/QmZmSHCh9oJTHuhmt2iuMHVBWqcrQ3xCf3NWpM9bBqHJAt\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "/**\n * Copyright 2017-2020, bZeroX, LLC. All Rights Reserved.\n * Licensed under the Apache License, Version 2.0.\n */\n\npragma solidity >=0.5.0 <0.6.0;\n\n\ninterface IWrbtc {\n    function deposit() external payable;\n    function withdraw(uint256 wad) external;\n}\n",
+  "sourcePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol",
+  "ast": {
+    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol",
+    "exportedSymbols": {
+      "IWrbtc": [
+        943
+      ]
+    },
+    "id": 944,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 934,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "118:31:11"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 943,
+        "linearizedBaseContracts": [
+          943
+        ],
+        "name": "IWrbtc",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 937,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "deposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 935,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "191:2:11"
+            },
+            "returnParameters": {
+              "id": 936,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "210:0:11"
+            },
+            "scope": 943,
+            "src": "175:36:11",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 942,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "withdraw",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 940,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 939,
+                  "name": "wad",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 942,
+                  "src": "234:11:11",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 938,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "234:7:11",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "233:13:11"
+            },
+            "returnParameters": {
+              "id": 941,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "255:0:11"
+            },
+            "scope": 943,
+            "src": "216:40:11",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 944,
+        "src": "152:106:11"
+      }
+    ],
+    "src": "118:141:11"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol",
+    "exportedSymbols": {
+      "IWrbtc": [
+        943
+      ]
+    },
+    "id": 944,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 934,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "118:31:11"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 943,
+        "linearizedBaseContracts": [
+          943
+        ],
+        "name": "IWrbtc",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 937,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "deposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 935,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "191:2:11"
+            },
+            "returnParameters": {
+              "id": 936,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "210:0:11"
+            },
+            "scope": 943,
+            "src": "175:36:11",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 942,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "withdraw",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 940,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 939,
+                  "name": "wad",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 942,
+                  "src": "234:11:11",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 938,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "234:7:11",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "233:13:11"
+            },
+            "returnParameters": {
+              "id": 941,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "255:0:11"
+            },
+            "scope": 943,
+            "src": "216:40:11",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 944,
+        "src": "152:106:11"
+      }
+    ],
+    "src": "118:141:11"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2020-10-21T11:26:14.006Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

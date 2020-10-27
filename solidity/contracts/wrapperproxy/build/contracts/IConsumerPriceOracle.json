@@ -1,0 +1,359 @@
+{
+  "contractName": "IConsumerPriceOracle",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "latestAnswer",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "latestTimestamp",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"latestAnswer\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"latestTimestamp\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol\":\"IConsumerPriceOracle\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol\":{\"keccak256\":\"0xc962a71800b13de51f441dd6bd57cff6dd84506a89f57673d15b65284265c8c2\",\"urls\":[\"bzz-raw://0481e53e7b3fe4b246793478e4e1c69195d050ae6165f51ff5a90e1685f72861\",\"dweb:/ipfs/QmRPyeAufBGSP2ChNgdjteM58RuLsBjCfSR7gsRWsAaeGk\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\n/*\n    Chainlink Price Oracle interface\n*/\ninterface IConsumerPriceOracle {\n    function latestAnswer() external view returns (int256);\n    function latestTimestamp() external view returns (uint256);\n}\n",
+  "sourcePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
+  "ast": {
+    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
+    "exportedSymbols": {
+      "IConsumerPriceOracle": [
+        539
+      ]
+    },
+    "id": 540,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 528,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 539,
+        "linearizedBaseContracts": [
+          539
+        ],
+        "name": "IConsumerPriceOracle",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 533,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "latestAnswer",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 529,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "134:2:3"
+            },
+            "returnParameters": {
+              "id": 532,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 531,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 533,
+                  "src": "160:6:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 530,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "160:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "159:8:3"
+            },
+            "scope": 539,
+            "src": "113:55:3",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 538,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "latestTimestamp",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 534,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "197:2:3"
+            },
+            "returnParameters": {
+              "id": 537,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 536,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "223:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 535,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "223:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "222:9:3"
+            },
+            "scope": 539,
+            "src": "173:59:3",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 540,
+        "src": "76:158:3"
+      }
+    ],
+    "src": "0:235:3"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
+    "exportedSymbols": {
+      "IConsumerPriceOracle": [
+        539
+      ]
+    },
+    "id": 540,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 528,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 539,
+        "linearizedBaseContracts": [
+          539
+        ],
+        "name": "IConsumerPriceOracle",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 533,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "latestAnswer",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 529,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "134:2:3"
+            },
+            "returnParameters": {
+              "id": 532,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 531,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 533,
+                  "src": "160:6:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 530,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "160:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "159:8:3"
+            },
+            "scope": 539,
+            "src": "113:55:3",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 538,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "latestTimestamp",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 534,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "197:2:3"
+            },
+            "returnParameters": {
+              "id": 537,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 536,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 538,
+                  "src": "223:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 535,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "223:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "222:9:3"
+            },
+            "scope": 539,
+            "src": "173:59:3",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 540,
+        "src": "76:158:3"
+      }
+    ],
+    "src": "0:235:3"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2020-10-21T11:26:13.995Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
