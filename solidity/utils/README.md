@@ -22,7 +22,7 @@ To test on ganache, also use ```test_deployment_rsk.js```
 
 You can take the commands from commands.txt.
 
-The configuration file is updated during the process, in order to allow resuming a prematurely-terminated execution.
+The configuration file is updated during the process, in order to allow resuming a prematurely-terminated execution. This means, if you want to start a fresh deployment, you need to delete the phase and all of the deployed contract addresses from the config file.
 
 Here is an example of the initial configuration file which should be provided to the process:
 ```json
@@ -64,4 +64,8 @@ Here is an example of the initial configuration file which should be provided to
 ```
 
 If deploying on testnet or mainnet, the medianizer address needs to be set in the config as well.
+
+```
+"mocMedianizer": "0x667bd3d048FaEBb85bAa0E9f9D87cF4c8CDFE849"
+```
 If no medianizer address is specified, a medianizer mockup is deployed.
