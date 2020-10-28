@@ -1,12 +1,12 @@
 #!/bin/bash
-solc="docker run -v $HOME/Projects/oracle-based-amm/solidity:/solidity ethereum/solc:0.4.26"
+solc="docker run -v $HOME/remake/bancor/solidity:/solidity ethereum/solc:0.4.26"
 CONTRACTS_PATH=../solidity/contracts
 OUTPUT_PATH=../solidity/build
 $solc --optimize --optimize-runs 200 --abi --bin --allow-paths $CONTRACTS_PATH, -o $OUTPUT_PATH --overwrite $CONTRACTS_PATH/SovrynSwapNetwork.sol
 $solc --optimize --optimize-runs 200 --abi --bin --allow-paths $CONTRACTS_PATH, -o $OUTPUT_PATH --overwrite $CONTRACTS_PATH/ConversionPathFinder.sol
 
-$solc --optimize --optimize-runs 200 --abi --bin --allow-paths $CONTRACTS_PATH, -o $OUTPUT_PATH --overwrite $CONTRACTS_PATH/sovrynSwapx/SovrynSwapX.sol
-$solc --optimize --optimize-runs 200 --abi --bin --allow-paths $CONTRACTS_PATH, -o $OUTPUT_PATH --overwrite $CONTRACTS_PATH/sovrynSwapx/XTransferRerouter.sol
+$solc --optimize --optimize-runs 200 --abi --bin --allow-paths $CONTRACTS_PATH, -o $OUTPUT_PATH --overwrite $CONTRACTS_PATH/sovrynswapx/SovrynSwapX.sol
+$solc --optimize --optimize-runs 200 --abi --bin --allow-paths $CONTRACTS_PATH, -o $OUTPUT_PATH --overwrite $CONTRACTS_PATH/sovrynswapx/XTransferRerouter.sol
 
 $solc --optimize --optimize-runs 20000 --abi --bin --allow-paths $CONTRACTS_PATH, -o $OUTPUT_PATH --overwrite $CONTRACTS_PATH/converter/SovrynSwapFormula.sol
 $solc --optimize --optimize-runs 200 --abi --bin --allow-paths $CONTRACTS_PATH, -o $OUTPUT_PATH --overwrite $CONTRACTS_PATH/converter/ConverterFactory.sol
