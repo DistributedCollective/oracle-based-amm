@@ -12,13 +12,13 @@
 
 Deploys a set of contracts for testing purpose; can be used on both private and public networks:
 ```bash
-node test_deployment.js
+node test_deployment_rsk.js
     Configuration file name
     Ethereum node address
     Account private key
 ```
 
-To test on ganache use ```test_deployment_ganache.js``` 
+To test on ganache, also use ```test_deployment_rsk.js``` 
 
 You can take the commands from commands.txt.
 
@@ -29,111 +29,32 @@ Here is an example of the initial configuration file which should be provided to
 {
     "reserves": [
         {
-            "symbol": "XXX",
+            "symbol": "RBTC",
             "decimals": 18,
-            "supply": "1829101"
+            "address": "0xDfB1074C1F0e626de1ECB2C74Bbea3b3935bC883"
         },
         {
-            "symbol": "YYY",
+            "symbol": "SUSD",
             "decimals": 18,
-            "supply": "3603801"
-        },
-        {
-            "symbol": "XYZ",
-            "decimals": 18,
-            "supply": "3782823"
-        },
-        {
-            "symbol": "BNT",
-            "decimals": 18,
-            "supply": "6914855"
+            "address": "0x73Bc0184c3385c373E76375A2F53Dd3A1696eb42"
         }
     ],
     "converters": [
         {
-            "type": 1,
-            "symbol": "ETHBNT",
-            "decimals": 18,
-            "fee": "0.1%",
-            "reserves": [
-                {
-                    "symbol": "ETH",
-                    "weight": "50%",
-                    "balance": "21"
-                },
-                {
-                    "symbol": "BNT",
-                    "weight": "50%",
-                    "balance": "3092"
-                }
-            ]
-        },
-        {
-            "type": 1,
-            "symbol": "XXXBNT",
-            "decimals": 18,
-            "fee": "0.1%",
-            "reserves": [
-                {
-                    "symbol": "XXX",
-                    "weight": "50%",
-                    "balance": "582"
-                },
-                {
-                    "symbol": "BNT",
-                    "weight": "50%",
-                    "balance": "2817"
-                }
-            ]
-        },
-        {
-            "type": 1,
-            "symbol": "YYYBNT",
-            "decimals": 18,
-            "fee": "0.2%",
-            "reserves": [
-                {
-                    "symbol": "YYY",
-                    "weight": "50%",
-                    "balance": "312"
-                },
-                {
-                    "symbol": "BNT",
-                    "weight": "50%",
-                    "balance": "270"
-                }
-            ]
-        },
-        {
             "type": 2,
-            "symbol": "XYZBNT",
+            "symbol": "sUSDrBTC",
             "decimals": 18,
-            "fee": "0.2%",
+            "fee": "0.1%",
             "reserves": [
                 {
-                    "symbol": "YYY",
+                    "symbol": "RBTC",
                     "weight": "50%",
-                    "balance": "920",
-                    "oracle": "0xaaa...."
+                    "balance": "0.1"
                 },
                 {
-                    "symbol": "BNT",
+                    "symbol": "SUSD",
                     "weight": "50%",
-                    "balance": "6552",
-                    "oracle": "0xbbb...."
-                }
-            ]
-        },
-        {
-            "type": 0,
-            "symbol": "ZZZ",
-            "decimals": 18,
-            "fee": "0.3%",
-            "reserves": [
-                {
-                    "symbol": "BNT",
-                    "weight": "10%",
-                    "balance": "920"
+                    "balance": "1000"
                 }
             ]
         }
@@ -141,3 +62,6 @@ Here is an example of the initial configuration file which should be provided to
 }
 
 ```
+
+If deploying on testnet or mainnet, the medianizer address needs to be set in the config as well.
+If no medianizer address is specified, a medianizer mockup is deployed.
