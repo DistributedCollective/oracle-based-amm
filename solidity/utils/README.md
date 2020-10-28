@@ -69,3 +69,5 @@ If deploying on testnet or mainnet, the medianizer address needs to be set in th
 "mocMedianizer": "0x667bd3d048FaEBb85bAa0E9f9D87cF4c8CDFE849"
 ```
 If no medianizer address is specified, a medianizer mockup is deployed.
+
+Note: Before running the deployment (even on ganache), the token addresses must already exist! Run the deployment of the Sovryn Trading Protocol first! (repository Sovryn-smart-contracts)
