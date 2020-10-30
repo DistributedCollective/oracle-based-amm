@@ -19,7 +19,6 @@ contract RBTCWrapperProxy{
     
     address public wrbtcTokenAddress;
     address public liquidityPoolConverterAddress;
-    address public poolTokenAddress;
     address public sovrynSwapNetworkAddress;
     
     /**
@@ -89,7 +88,6 @@ contract RBTCWrapperProxy{
      * 4.Transfers pool tokens to user
      * 
      * @param _liquidityPoolConverterAddress    address of LiquidityPoolConverter contract
-     * @param _poolTokenAddress                 address of pool token
      * @param _amount                           amount of liquidity to add
      * @param _minReturn                        minimum return-amount of reserve tokens
      *
@@ -97,22 +95,19 @@ contract RBTCWrapperProxy{
      */
     function addLiquidity(
         address _liquidityPoolConverterAddress, 
-        address _poolTokenAddress, 
         uint256 _amount, 
         uint256 _minReturn
     )  
         public
         payable
         checkAddress(_liquidityPoolConverterAddress)
-        checkAddress(_poolTokenAddress) 
         returns(uint256) 
     {
         require(_amount == msg.value, "The provided amount should be identical to msg.value");
 
         liquidityPoolConverterAddress = _liquidityPoolConverterAddress;
-        poolTokenAddress = _poolTokenAddress;
         liquidityPoolConverter = ILiquidityPoolV2Converter(liquidityPoolConverterAddress);
-        poolToken = ISmartToken(poolTokenAddress);
+        poolToken = liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
 
         (bool successOfDeposit, ) = wrbtcTokenAddress.call.value(_amount)(abi.encodeWithSignature("deposit()"));
         require(successOfDeposit);
@@ -142,7 +137,6 @@ contract RBTCWrapperProxy{
      * 4.Sneds RBTC to user
      * 
      * @param _liquidityPoolConverterAddress    address of LiquidityPoolConverter contract
-     * @param _poolTokenAddress                 address of pool token
      * @param _amount                           amount of pool tokens to burn
      * @param _minReturn                        minimum return-amount of reserve tokens
      * 
@@ -150,19 +144,16 @@ contract RBTCWrapperProxy{
      */
     function removeLiquidity(
         address _liquidityPoolConverterAddress, 
-        address _poolTokenAddress, 
         uint256 _amount, 
         uint256 _minReturn
     )   
         public 
         checkAddress(_liquidityPoolConverterAddress)
-        checkAddress(_poolTokenAddress) 
         returns(uint256) 
     {
         liquidityPoolConverterAddress = _liquidityPoolConverterAddress;
-        poolTokenAddress = _poolTokenAddress;
         liquidityPoolConverter = ILiquidityPoolV2Converter(liquidityPoolConverterAddress);
-        poolToken = ISmartToken(poolTokenAddress);
+        poolToken = liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
 
         bool successOfTransferFrom = poolToken.transferFrom(msg.sender, address(this), _amount);
         require(successOfTransferFrom);

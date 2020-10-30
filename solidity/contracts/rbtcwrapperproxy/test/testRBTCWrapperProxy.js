@@ -25,12 +25,12 @@ const wrbtcAddress = '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab';
 */
 
 // Update following addresses to test locally
-/*
+
 const liquidityPoolV2ConverterAddress = '0xaad5B2802FDBB33200F62A30CfD3Fce4FC5dDfBA';
 const docTokenAddress = '0x3194cBDC3dbcd3E11a07892e7bA5c3394048Cc87';
 const sovrynSwapNetworkAddress = '0x64B334435888bb5E44D890a7B319981c4Bb4B47d';
 const wrbtcAddress = '0x602C71e4DAC47a042Ee7f46E0aee17F94A3bA0B6';
-*/
+
 
 contract('RBTCWrapperProxy', async (accounts) => {
 
@@ -57,7 +57,7 @@ contract('RBTCWrapperProxy', async (accounts) => {
         console.log('The amount of RBTC of the account:', rbtcAmountBefore);
         console.log('The amount of pool token of the account:', poolTokenAmountBefore);
 
-        var result = await rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, poolToken.address, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address, value:1e16});
+        var result = await rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address, value:1e16});
         console.log('The amount of RBTC of the account after sending 0.01 RBTC:', web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
         console.log('The amount of pool token of the account after sending 0.01 RBTC:', web3.utils.fromWei(await poolToken.balanceOf(accounts[0])));
 
@@ -78,7 +78,7 @@ contract('RBTCWrapperProxy', async (accounts) => {
         var rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
         var poolTokenAmountBefore = web3.utils.fromWei(await poolToken.balanceOf(accounts[0]));
         
-        var result = await rbtcWrapperProxy.removeLiquidity(liquidityPoolV2ConverterAddress, poolToken.address, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address});
+        var result = await rbtcWrapperProxy.removeLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address});
         console.log('The amount of RBTC of the account after burning 0.01 pool token:', web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
         console.log('The amount of pool token of the account after burning 0.01 pool token:', web3.utils.fromWei(await poolToken.balanceOf(accounts[0])));
 
@@ -132,11 +132,11 @@ contract('RBTCWrapperProxy', async (accounts) => {
     });
 
     it('should revert when calling the addLIquidity() without sending RBTC', async () => {
-        await expectRevert.unspecified(rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, poolToken.address, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address}), "No RBTC");
+        await expectRevert.unspecified(rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address}), "No RBTC");
     });
 
     it('should revert when amount param not identical to msg.value to call addLiquidity()', async () => {
-        await expectRevert.unspecified(rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, poolToken.address, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address, value:1e8}), "The provided amount not identical to msg.value");
+        await expectRevert.unspecified(rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address, value:1e8}), "The provided amount not identical to msg.value");
     });
     
     it('should revert when passing wrong path param to convertByPath()', async () => {
