@@ -18,7 +18,6 @@ contract RBTCWrapperProxy{
     IERC20Token token;
     
     address public wrbtcTokenAddress;
-    address public liquidityPoolConverterAddress;
     address public sovrynSwapNetworkAddress;
     
     /**
@@ -105,14 +104,13 @@ contract RBTCWrapperProxy{
     {
         require(_amount == msg.value, "The provided amount should be identical to msg.value");
 
-        liquidityPoolConverterAddress = _liquidityPoolConverterAddress;
-        liquidityPoolConverter = ILiquidityPoolV2Converter(liquidityPoolConverterAddress);
+        liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
         poolToken = liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
 
         (bool successOfDeposit, ) = wrbtcTokenAddress.call.value(_amount)(abi.encodeWithSignature("deposit()"));
         require(successOfDeposit);
 
-        bool successOfApprove = wrbtc.approve(liquidityPoolConverterAddress, _amount);
+        bool successOfApprove = wrbtc.approve(_liquidityPoolConverterAddress, _amount);
         require(successOfApprove);
 
         uint256 poolTokenAmount = liquidityPoolConverter.addLiquidity(IERC20Token(wrbtcTokenAddress), _amount, _minReturn);
@@ -151,8 +149,7 @@ contract RBTCWrapperProxy{
         checkAddress(_liquidityPoolConverterAddress)
         returns(uint256) 
     {
-        liquidityPoolConverterAddress = _liquidityPoolConverterAddress;
-        liquidityPoolConverter = ILiquidityPoolV2Converter(liquidityPoolConverterAddress);
+        liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
         poolToken = liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
 
         bool successOfTransferFrom = poolToken.transferFrom(msg.sender, address(this), _amount);
