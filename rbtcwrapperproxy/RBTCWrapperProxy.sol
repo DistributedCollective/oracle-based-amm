@@ -43,17 +43,15 @@ contract RBTCWrapperProxy{
     /**
      * @dev triggered after liquidity is removed
      *
-     * @param _beneficiary                 account that will receive the conversion result or 0x0 to send the result to the sender account
-     * @param _sourceTokenAmount           amount to convert from, in the source token
-     * @param _targetTokenAmount           amount of tokens received from the conversion, in the target token
-     * @param _sovrynSwapNetworkAddress    address of SovrynSwapNetwork contract
-     * @param _path                        conversion path between two tokens in the network
+     * @param _beneficiary          account that will receive the conversion result or 0x0 to send the result to the sender account
+     * @param _sourceTokenAmount    amount to convert from, in the source token
+     * @param _targetTokenAmount    amount of tokens received from the conversion, in the target token
+     * @param _path                 conversion path between two tokens in the network
      */
     event TokenConverted(
         address indexed _beneficiary,
         uint256 indexed _sourceTokenAmount,
         uint256 indexed _targetTokenAmount,
-        address _sovrynSwapNetworkAddress,
         IERC20Token[] _path
     );
 
@@ -65,8 +63,16 @@ contract RBTCWrapperProxy{
         _;
     }
     
-    constructor(address _wrbtcTokenAddress) public checkAddress(_wrbtcTokenAddress) {
+    constructor(
+        address _wrbtcTokenAddress, 
+        address _sovrynSwapNetworkAddress
+    ) 
+        public 
+        checkAddress(_wrbtcTokenAddress) 
+        checkAddress(_sovrynSwapNetworkAddress) 
+    {
         wrbtcTokenAddress = _wrbtcTokenAddress;
+        sovrynSwapNetworkAddress = _sovrynSwapNetworkAddress;
     }
 
     function() external payable { }
@@ -163,25 +169,21 @@ contract RBTCWrapperProxy{
      * @notice
      * Before calling this function to swap token to RBTC, users need approve this contract to be able to spend or transfer their tokens
      *
-     * @param _path                        conversion path between two tokens in the network
-     * @param _sovrynSwapNetworkAddress    address of SovrynSwapNetwork contract
-     * @param _amount                      amount to convert from, in the source token
-     * @param _minReturn                   if the conversion results in an amount smaller than the minimum return - it is cancelled, must be greater than zero
+     * @param _path         conversion path between two tokens in the network
+     * @param _amount       amount to convert from, in the source token
+     * @param _minReturn    if the conversion results in an amount smaller than the minimum return - it is cancelled, must be greater than zero
      * 
      * @return amount of tokens received from the conversion
      */
     function convertByPath(
         IERC20Token[] memory _path,
-        address _sovrynSwapNetworkAddress,
         uint256 _amount, 
         uint256 _minReturn
     ) 
         public 
         payable
-        checkAddress(_sovrynSwapNetworkAddress)
         returns(uint256) 
     {    
-        sovrynSwapNetworkAddress = _sovrynSwapNetworkAddress;
         ISovrynSwapNetwork _sovrynSwapNetwork =  ISovrynSwapNetwork(sovrynSwapNetworkAddress);
   
         if (msg.value != 0) {
@@ -196,7 +198,7 @@ contract RBTCWrapperProxy{
 
             uint256 _targetTokenAmount = _sovrynSwapNetwork.convertByPath(_path, _amount, _minReturn, msg.sender, address(0), 0);
 
-            emit TokenConverted(msg.sender, _amount, _targetTokenAmount, sovrynSwapNetworkAddress, _path);
+            emit TokenConverted(msg.sender, _amount, _targetTokenAmount, _path);
 
             return _targetTokenAmount;
         }
@@ -217,7 +219,7 @@ contract RBTCWrapperProxy{
 
             msg.sender.transfer(_targetTokenAmount);
 
-            emit TokenConverted(msg.sender, _amount, _targetTokenAmount, sovrynSwapNetworkAddress, _path);
+            emit TokenConverted(msg.sender, _amount, _targetTokenAmount, _path);
 
             return _targetTokenAmount;
         }        

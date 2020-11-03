@@ -97,7 +97,7 @@ contract('RBTCWrapperProxy', async (accounts) => {
         console.log('The amount of DoC of the account:', docTokenAmountBefore);
 
         var pathWRBTCToDoC = await sovrynSwapNetwork.conversionPath(wrbtcAddress, docTokenAddress);
-        var result = await rbtcWrapperProxy.convertByPath(pathWRBTCToDoC, sovrynSwapNetworkAddress, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address, value:1e16});
+        var result = await rbtcWrapperProxy.convertByPath(pathWRBTCToDoC, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address, value:1e16});
         console.log('The amount of RBTC of the account after sending 0.01 RBTC:', web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
         console.log('The amount of DoC of the account after sending 0.01 RBTC:', web3.utils.fromWei((await docToken.balanceOf(accounts[0]))));
         
@@ -105,7 +105,7 @@ contract('RBTCWrapperProxy', async (accounts) => {
         var addedDoCTokenAmount = web3.utils.BN(result.logs[0].args._targetTokenAmount).toString();
         assert.equal(await web3.eth.getBalance(accounts[0]), parseInt(web3.utils.toWei(rbtcAmountBefore)) - gasCost - 1e16, "Wrong RBTC balance");
         assert.equal(web3.utils.BN(await docToken.balanceOf(accounts[0])).toString(), parseInt(web3.utils.toWei(docTokenAmountBefore)) + parseInt(addedDoCTokenAmount), "Wrong DoC token balance");
-        await expectEvent(result.receipt, "TokenConverted", {_beneficiary:accounts[0], _sourceTokenAmount:web3.utils.toBN(1e16), _targetTokenAmount:addedDoCTokenAmount, _sovrynSwapNetworkAddress:sovrynSwapNetworkAddress, _path:pathWRBTCToDoC});
+        await expectEvent(result.receipt, "TokenConverted", {_beneficiary:accounts[0], _sourceTokenAmount:web3.utils.toBN(1e16), _targetTokenAmount:addedDoCTokenAmount, _path:pathWRBTCToDoC});
     });
 
     it('verifies that users could send DoC and then swap it to RBTC', async () => {
@@ -120,7 +120,7 @@ contract('RBTCWrapperProxy', async (accounts) => {
         
         var pathDoCToWRBTC = await sovrynSwapNetwork.conversionPath(docTokenAddress, wrbtcAddress);
         var rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
-        var result = await rbtcWrapperProxy.convertByPath(pathDoCToWRBTC, sovrynSwapNetworkAddress, web3.utils.toBN(1e20), 1, {from:accounts[0], to:RBTCWrapperProxy.address});
+        var result = await rbtcWrapperProxy.convertByPath(pathDoCToWRBTC, web3.utils.toBN(1e20), 1, {from:accounts[0], to:RBTCWrapperProxy.address});
         console.log('The amount of RBTC of the account after sending 100 DoC:', web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
         console.log('The amount of DoC of the account after sending 100 DoC:', web3.utils.fromWei((await docToken.balanceOf(accounts[0]))));
 
@@ -128,7 +128,7 @@ contract('RBTCWrapperProxy', async (accounts) => {
         var addedRBTCAmount = web3.utils.BN(result.logs[0].args._targetTokenAmount).toString();
         assert.equal(await web3.eth.getBalance(accounts[0]), parseInt(web3.utils.toWei(rbtcAmountBefore)) + parseInt(addedRBTCAmount) - gasCost, "Wrong RBTC balance");
         assert.equal(web3.utils.BN(await docToken.balanceOf(accounts[0])).toString(), parseInt(web3.utils.toWei(docTokenAmountBefore)) - 1e20, "Wrong DoC token balance");
-        await expectEvent(result.receipt, "TokenConverted", {_beneficiary:accounts[0], _sourceTokenAmount:web3.utils.toBN(1e20), _targetTokenAmount:addedRBTCAmount, _sovrynSwapNetworkAddress:sovrynSwapNetworkAddress, _path:pathDoCToWRBTC});
+        await expectEvent(result.receipt, "TokenConverted", {_beneficiary:accounts[0], _sourceTokenAmount:web3.utils.toBN(1e20), _targetTokenAmount:addedRBTCAmount, _path:pathDoCToWRBTC});
     });
 
     it('should revert when calling the addLIquidity() without sending RBTC', async () => {
@@ -142,8 +142,8 @@ contract('RBTCWrapperProxy', async (accounts) => {
     it('should revert when passing wrong path param to convertByPath()', async () => {
         var pathWRBTCToDoC = await sovrynSwapNetwork.conversionPath(wrbtcAddress, docTokenAddress);
         var pathDoCToWRBTC = await sovrynSwapNetwork.conversionPath(docTokenAddress, wrbtcAddress);
-        await expectRevert.unspecified(rbtcWrapperProxy.convertByPath(pathDoCToWRBTC, sovrynSwapNetworkAddress, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address, value:1e16}), "Wrong path param");
-        await expectRevert.unspecified(rbtcWrapperProxy.convertByPath(pathWRBTCToDoC, sovrynSwapNetworkAddress, web3.utils.toBN(1e20), 1, {from:accounts[0], to:RBTCWrapperProxy.address}), "Wrong path param");
+        await expectRevert.unspecified(rbtcWrapperProxy.convertByPath(pathDoCToWRBTC, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address, value:1e16}), "Wrong path param");
+        await expectRevert.unspecified(rbtcWrapperProxy.convertByPath(pathWRBTCToDoC, web3.utils.toBN(1e20), 1, {from:accounts[0], to:RBTCWrapperProxy.address}), "Wrong path param");
     });
 
 });
