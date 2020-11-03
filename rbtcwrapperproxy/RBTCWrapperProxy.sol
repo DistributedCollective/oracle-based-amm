@@ -10,12 +10,6 @@ import "./interfaces/IERC20Token.sol";
 contract RBTCWrapperProxy{
     
     using Address for address;
-
-    IWrbtcERC20 wrbtc;
-    ILiquidityPoolV2Converter liquidityPoolConverter;
-    ISmartToken poolToken;
-    ISovrynSwapNetwork sovrynSwapNetwork;
-    IERC20Token token;
     
     address public wrbtcTokenAddress;
     address public sovrynSwapNetworkAddress;
@@ -73,7 +67,6 @@ contract RBTCWrapperProxy{
     
     constructor(address _wrbtcTokenAddress) public checkAddress(_wrbtcTokenAddress) {
         wrbtcTokenAddress = _wrbtcTokenAddress;
-        wrbtc = IWrbtcERC20(wrbtcTokenAddress);        
     }
 
     function() external payable { }
@@ -104,18 +97,18 @@ contract RBTCWrapperProxy{
     {
         require(_amount == msg.value, "The provided amount should be identical to msg.value");
 
-        liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
-        poolToken = liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
+        ILiquidityPoolV2Converter _liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
+        ISmartToken _poolToken = _liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
 
         (bool successOfDeposit, ) = wrbtcTokenAddress.call.value(_amount)(abi.encodeWithSignature("deposit()"));
         require(successOfDeposit);
 
-        bool successOfApprove = wrbtc.approve(_liquidityPoolConverterAddress, _amount);
+        bool successOfApprove = IWrbtcERC20(wrbtcTokenAddress).approve(_liquidityPoolConverterAddress, _amount);
         require(successOfApprove);
 
-        uint256 poolTokenAmount = liquidityPoolConverter.addLiquidity(IERC20Token(wrbtcTokenAddress), _amount, _minReturn);
+        uint256 poolTokenAmount = _liquidityPoolConverter.addLiquidity(IERC20Token(wrbtcTokenAddress), _amount, _minReturn);
         
-        bool successOfTransfer = poolToken.transfer(msg.sender, poolTokenAmount);
+        bool successOfTransfer = _poolToken.transfer(msg.sender, poolTokenAmount);
         require(successOfTransfer);
 
         emit LiquidityAdded(msg.sender, _amount, poolTokenAmount);
@@ -149,15 +142,15 @@ contract RBTCWrapperProxy{
         checkAddress(_liquidityPoolConverterAddress)
         returns(uint256) 
     {
-        liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
-        poolToken = liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
+        ILiquidityPoolV2Converter _liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
+        ISmartToken _poolToken = _liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
 
-        bool successOfTransferFrom = poolToken.transferFrom(msg.sender, address(this), _amount);
+        bool successOfTransferFrom = _poolToken.transferFrom(msg.sender, address(this), _amount);
         require(successOfTransferFrom);
 
-        uint256 reserveAmount = liquidityPoolConverter.removeLiquidity(poolToken, _amount, _minReturn);
+        uint256 reserveAmount = _liquidityPoolConverter.removeLiquidity(_poolToken, _amount, _minReturn);
         
-        wrbtc.withdraw(reserveAmount);
+        IWrbtcERC20(wrbtcTokenAddress).withdraw(reserveAmount);
         
         msg.sender.transfer(reserveAmount);
 
@@ -170,16 +163,16 @@ contract RBTCWrapperProxy{
      * @notice
      * Before calling this function to swap token to RBTC, users need approve this contract to be able to spend or transfer their tokens
      *
-     * @param _sovrynSwapNetworkAddress    address of SovrynSwapNetwork contract
      * @param _path                        conversion path between two tokens in the network
+     * @param _sovrynSwapNetworkAddress    address of SovrynSwapNetwork contract
      * @param _amount                      amount to convert from, in the source token
      * @param _minReturn                   if the conversion results in an amount smaller than the minimum return - it is cancelled, must be greater than zero
      * 
      * @return amount of tokens received from the conversion
      */
     function convertByPath(
+        IERC20Token[] memory _path,
         address _sovrynSwapNetworkAddress,
-        IERC20Token[] memory _path, 
         uint256 _amount, 
         uint256 _minReturn
     ) 
@@ -189,7 +182,7 @@ contract RBTCWrapperProxy{
         returns(uint256) 
     {    
         sovrynSwapNetworkAddress = _sovrynSwapNetworkAddress;
-        sovrynSwapNetwork = ISovrynSwapNetwork(sovrynSwapNetworkAddress);
+        ISovrynSwapNetwork _sovrynSwapNetwork =  ISovrynSwapNetwork(sovrynSwapNetworkAddress);
   
         if (msg.value != 0) {
             require(_path[0] == IERC20Token(wrbtcTokenAddress), "value may only be sent for WRBTC transfers");
@@ -198,10 +191,10 @@ contract RBTCWrapperProxy{
             (bool successOfDeposit, ) = wrbtcTokenAddress.call.value(_amount)(abi.encodeWithSignature("deposit()"));
             require(successOfDeposit);
 
-            bool successOfApprove = wrbtc.approve(sovrynSwapNetworkAddress, _amount);
+            bool successOfApprove = IWrbtcERC20(wrbtcTokenAddress).approve(sovrynSwapNetworkAddress, _amount);
             require(successOfApprove);
 
-            uint256 _targetTokenAmount = sovrynSwapNetwork.convertByPath(_path, _amount, _minReturn, msg.sender, address(0), 0);
+            uint256 _targetTokenAmount = _sovrynSwapNetwork.convertByPath(_path, _amount, _minReturn, msg.sender, address(0), 0);
 
             emit TokenConverted(msg.sender, _amount, _targetTokenAmount, sovrynSwapNetworkAddress, _path);
 
@@ -210,17 +203,17 @@ contract RBTCWrapperProxy{
         else {
             require(_path[_path.length-1] == IERC20Token(wrbtcTokenAddress), "It only could be swapped to WRBTC");
             
-            token = IERC20Token(_path[0]);
+            IERC20Token _token = IERC20Token(_path[0]);
 
-            bool successOfTransferFrom = token.transferFrom(msg.sender, address(this), _amount);
+            bool successOfTransferFrom = _token.transferFrom(msg.sender, address(this), _amount);
             require(successOfTransferFrom);
 
-            bool successOfApprove = token.approve(sovrynSwapNetworkAddress, _amount);
+            bool successOfApprove = _token.approve(sovrynSwapNetworkAddress, _amount);
             require(successOfApprove);
                  
-            uint256 _targetTokenAmount = sovrynSwapNetwork.convertByPath(_path, _amount, _minReturn, address(this), address(0), 0);
+            uint256 _targetTokenAmount = _sovrynSwapNetwork.convertByPath(_path, _amount, _minReturn, address(this), address(0), 0);
 
-            wrbtc.withdraw(_targetTokenAmount);
+            IWrbtcERC20(wrbtcTokenAddress).withdraw(_targetTokenAmount);
 
             msg.sender.transfer(_targetTokenAmount);
 
