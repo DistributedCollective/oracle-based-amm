@@ -75,7 +75,9 @@ contract RBTCWrapperProxy{
         sovrynSwapNetworkAddress = _sovrynSwapNetworkAddress;
     }
 
-    function() external payable { }
+    function() external payable {
+        require(wrbtcTokenAddress == msg.sender, "Only can receive rBTC from WRBTC contract");
+    }
 
     /**
      * @dev  
@@ -187,7 +189,7 @@ contract RBTCWrapperProxy{
         ISovrynSwapNetwork _sovrynSwapNetwork =  ISovrynSwapNetwork(sovrynSwapNetworkAddress);
   
         if (msg.value != 0) {
-            require(_path[0] == IERC20Token(wrbtcTokenAddress), "value may only be sent for WRBTC transfers");
+            require(_path[0] == IERC20Token(wrbtcTokenAddress), "Value may only be sent for WRBTC transfers");
             require(_amount == msg.value, "The provided amount should be identical to msg.value");
 
             (bool successOfDeposit, ) = wrbtcTokenAddress.call.value(_amount)(abi.encodeWithSignature("deposit()"));

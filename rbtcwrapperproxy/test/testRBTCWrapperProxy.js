@@ -131,6 +131,10 @@ contract('RBTCWrapperProxy', async (accounts) => {
         await expectEvent(result.receipt, "TokenConverted", {_beneficiary:accounts[0], _sourceTokenAmount:web3.utils.toBN(1e20), _targetTokenAmount:addedRBTCAmount, _path:pathDoCToWRBTC});
     });
 
+    it('should revert when sending rBTC to this smart contract from user directly', async () => {
+        await expectRevert.unspecified(rbtcWrapperProxy.send(web3.utils.toBN(1e16)));
+    });
+
     it('should revert when calling the addLIquidity() without sending RBTC', async () => {
         await expectRevert.unspecified(rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {from:accounts[0], to:RBTCWrapperProxy.address}), "No RBTC");
     });
