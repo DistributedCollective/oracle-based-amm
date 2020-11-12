@@ -1,14 +1,10 @@
-pragma solidity >=0.5.0 <0.6.0;
+pragma solidity 0.4.26;
 
 import "./interfaces/IMoCState.sol";
-import "./Ownable.sol";
-import "./Address.sol";
+import "./interfaces/IConsumerPriceOracle.sol";
+import "./Owned.sol";
 
-interface IPriceFeedsExt {
-  function latestAnswer() external view returns (uint256);
-}
-
-contract BProPriceFeed is IPriceFeedsExt, Ownable {
+contract BProOracle is IConsumerPriceOracle, Owned {
     address public mocStateAddress;
 
     event SetMoCStateAddress(address indexed mocStateAddress, address changerAddress);
@@ -26,13 +22,13 @@ contract BProPriceFeed is IPriceFeedsExt, Ownable {
      * @dev BPro USD PRICE
      * @return the BPro USD Price [using mocPrecision]
      */
-    function latestAnswer() external view returns (uint256) {
+    function latestAnswer() external view returns (int256) {
         IMoCState _mocState = IMoCState(mocStateAddress);
-        return _mocState.bproUsdPrice();        
+        return int256(_mocState.bproUsdPrice());        
     }
 
     /**
-     * @dev returns the USD/BTC update time.
+     * @dev returns the update time.
      *
      * @return always returns current block's timestamp
      */
@@ -45,12 +41,8 @@ contract BProPriceFeed is IPriceFeedsExt, Ownable {
      *
      * @param _mocStateAddress MoC state address
      */
-    function setMoCStateAddress(
-        address _mocStateAddress)
-        public
-        onlyOwner
-    {
-        require(Address.isContract(_mocStateAddress), "_mocStateAddress not a contract");
+    function setMoCStateAddress(address _mocStateAddress) public ownerOnly {
+        require(_mocStateAddress != address(0), "_mocStateAddress shall not be zero address");
         mocStateAddress = _mocStateAddress;
         emit SetMoCStateAddress(mocStateAddress, msg.sender);
     }
