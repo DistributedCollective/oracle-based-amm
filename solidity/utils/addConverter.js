@@ -251,9 +251,6 @@ const run = async () => {
         addresses[converter.symbol] = anchor._address;
     }
 
-    await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex('RBTCToken'), addresses.RBTC));
-    await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
-    await execute(sovrynSwapFormula.methods.init());
     console.log('All done');
 
     if (web3.currentProvider.constructor.name === 'WebsocketProvider') {
