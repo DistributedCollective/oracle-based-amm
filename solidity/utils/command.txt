@@ -1,18 +1,3 @@
-ganache:
-
-node test_deployment_ganache.js config_ganache.json http://127.0.0.1:8545 0xfb366450164dd746188e93380c1bc8a203ed7323b2e31fe349c8db80c72f5abf
-
-
-Ethereum testnet
-
-node test_deployment.js config.json https://ropsten.infura.io/v3/b21d77be50554d4ba54bc3ac4d785791 [PRIVATE KEY]
-
-
-RSK testnet
-
-node test_deployment.js config.json https://public-node.testnet.rsk.co  [PRIVATE KEY]
-
-
 RSK testnet with custom tokens
 
 node test_deployment_rsk.js config_rsk.json https://public-node.testnet.rsk.co [PRIVATE KEY]
