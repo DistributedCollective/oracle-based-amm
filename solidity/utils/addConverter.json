@@ -21,12 +21,12 @@
                 {
                     "symbol": "RBTC",
                     "weight": "50%",
-                    "balance": "0.1"
+                    "balance": "1"
                 },
                 {
                     "symbol": "BPro",
                     "weight": "50%",
-                    "balance": "1000"
+                    "balance": "0.5"
                 }
             ]
         }

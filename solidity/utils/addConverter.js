@@ -3,8 +3,9 @@ const path = require('path');
 const Web3 = require('web3');
 
 const CFG_FILE_NAME = process.argv[2];
-const NODE_ADDRESS = process.argv[3];
-const PRIVATE_KEY = process.argv[4];
+const CONFIG_RSK = process.argv[3]
+const NODE_ADDRESS = process.argv[4];
+const PRIVATE_KEY = process.argv[5];
 
 const ARTIFACTS_DIR = path.resolve(__dirname, '../build');
 
@@ -12,6 +13,10 @@ const MIN_GAS_LIMIT = 100000;
 
 const getConfig = () => {
     return JSON.parse(fs.readFileSync(CFG_FILE_NAME, { encoding: 'utf8' }));
+};
+
+const getData = () => {
+    return JSON.parse(fs.readFileSync(CONFIG_RSK, { encoding: 'utf8' }));
 };
 
 const setConfig = (record) => {
@@ -145,23 +150,8 @@ const run = async () => {
         }
     };
 
-    const converterRegistry = await deployed(web3, 'ConverterRegistry', '0x81FE7F7090F4a980d573b54212a00E73325690CD');
-    const oracleWhitelist = await deployed(web3, 'Whitelist', '0xEB1328Ed724C42DEf069fF802175052B0606953b');
-    const contractRegistry = await deployed(web3,'ContractRegistry', '0x20f8d5B7A79e1009507965a33371B8Cb0971495d');
-    const conversionPathFinder = await deployed(web3, 'ConversionPathFinder', '0xD3b1e3C7e5f451682e3c75ca9E84F294A52Aa056');
-    const sovrynSwapFormula = await deployed(web3, 'SovrynSwapFormula', '0x6c61c29A2E75B996e533428Ec7D8b4fa19dD0aA1');
-
-
-    let medianizer = getConfig().mocMedianizer;
-    if (!medianizer){
-        //intialize mock MoC Oracle
-        const mocMedianizerMockUSDtoBTC = await deployed(web3, 'MoCMedianizerMock', '0x7ae6CfF8BE68B01c83ff853cd8334177ebf4DC4b');
-        await execute(mocMedianizerMockUSDtoBTC.methods.setValue("10000000000000000000000"));
-        await execute(mocMedianizerMockUSDtoBTC.methods.setHas(true));
-        medianizer = mocMedianizerMockUSDtoBTC._address;
-        //const rbtcToBTC = await web3Func(deploy, 'rbtcToBTC', 'MocBTCToBTCOracle', []);
-        //const rbtcToUSD = await web3Func(deploy, 'rbtcToUSD', 'MocBTCToUSDOracle', [mocMedianizerMockUSDtoBTC._address]);
-    }
+    const converterRegistry = await deployed(web3, 'ConverterRegistry', getData().converterRegistry.addr);
+    const oracleWhitelist = await deployed(web3, 'Whitelist', getData().oracleWhitelist.addr);
     
     let mocStateMockBProToUSDAddress = getConfig().MoCStateMock;
     if (!mocStateMockBProToUSDAddress){
@@ -224,8 +214,8 @@ const run = async () => {
 
                 if (type == 2) {
                     if (!reserve.oracle) {
-                        const oracleName = reserve.symbol === 'BPro' ? 'BProOracle' : 'MocBTCToUSDOracle'; 
-                        const mocOracleArgs = oracleName === 'BProOracle' ? [mocStateMockBProToUSDAddress] : [medianizer];
+                        const oracleName = reserve.symbol === 'RBTC' ? 'MocBTCToUSDOracle' : 'BProOracle'; 
+                        const mocOracleArgs = oracleName === 'MocBTCToUSDOracle' ? [getData().mocMedianizerMockUSDtoBTC.addr] : [mocStateMockBProToUSDAddress];
                         const mocPriceOracle = await web3Func(deploy, 'mocPriceOracle' + converter.symbol + reserve.symbol, oracleName, mocOracleArgs);
                         reserve.oracle = mocPriceOracle._address;
                     }

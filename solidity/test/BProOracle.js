@@ -20,7 +20,12 @@ contract('BProOracle', () => {
     });
 
     it('should always return BPro USD Price for latestAnswer', async () => {
-        console.log('The BPro USD Price is:', await bproOracle.latestAnswer.call());
+        const bproUSDPrice = await bproOracle.latestAnswer.call();
+
+        expect(bproUSDPrice).to.be.above(0, 'The Bpro USD Price must be larger than 0');
+        
+        if (bproUSDPrice > 0) {
+            console.log('The BPro USD Price is:', bproUSDPrice);}
     });
 
     it('should always return the current time for latestTimestamp', async () => {
