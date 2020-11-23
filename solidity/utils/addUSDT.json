@@ -30,16 +30,5 @@
                 }
             ]
         }
-    ],
-    "phase": 11,
-    "mocPriceOracleUSDTRBTCRBTC": {
-        "name": "MocBTCToUSDOracle",
-        "addr": "0xC3B56a95966bC3c05aA9fA0ee4Bf8a899afd8851",
-        "args": "000000000000000000000000e67cf20a24c85f0417070668123102247a6cfcc1"
-    },
-    "mocPriceOracleUSDTRBTCUSDT": {
-        "name": "MocBTCToBTCOracle",
-        "addr": "0x2347C310257cCD8BdE9e16CC108cb73F21336C60",
-        "args": ""
-    }
+    ]
 }
