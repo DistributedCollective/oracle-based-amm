@@ -1,0 +1,45 @@
+{
+    "reserves": [
+        {
+            "symbol": "RBTC",
+            "decimals": 18,
+            "address": "0x602C71e4DAC47a042Ee7f46E0aee17F94A3bA0B6"
+        },
+        {
+            "symbol": "USDT",
+            "decimals": 18,
+            "address": "0xA83Fad7514B39b12C0bAcA71e0A7cc63D2Ff1941"
+        }
+    ],
+    "converters": [
+        {
+            "type": 2,
+            "symbol": "USDTRBTC",
+            "decimals": 18,
+            "fee": "0.1%",
+            "reserves": [
+                {
+                    "symbol": "RBTC",
+                    "weight": "50%",
+                    "balance": "0.1"
+                },
+                {
+                    "symbol": "USDT",
+                    "weight": "50%",
+                    "balance": "1000"
+                }
+            ]
+        }
+    ],
+    "phase": 11,
+    "mocPriceOracleUSDTRBTCRBTC": {
+        "name": "MocBTCToUSDOracle",
+        "addr": "0xC3B56a95966bC3c05aA9fA0ee4Bf8a899afd8851",
+        "args": "000000000000000000000000e67cf20a24c85f0417070668123102247a6cfcc1"
+    },
+    "mocPriceOracleUSDTRBTCUSDT": {
+        "name": "MocBTCToBTCOracle",
+        "addr": "0x2347C310257cCD8BdE9e16CC108cb73F21336C60",
+        "args": ""
+    }
+}
