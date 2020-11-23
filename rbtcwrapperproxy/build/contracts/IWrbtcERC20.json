@@ -277,14 +277,14 @@
     "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtcERC20.sol",
     "exportedSymbols": {
       "IWrbtcERC20": [
-        952
+        1204
       ]
     },
-    "id": 953,
+    "id": 1205,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 945,
+        "id": 1197,
         "literals": [
           "solidity",
           ">=",
@@ -295,27 +295,27 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "118:31:12"
+        "src": "118:31:13"
       },
       {
         "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol",
         "file": "./IWrbtc.sol",
-        "id": 946,
+        "id": 1198,
         "nodeType": "ImportDirective",
-        "scope": 953,
-        "sourceUnit": 944,
-        "src": "151:22:12",
+        "scope": 1205,
+        "sourceUnit": 1196,
+        "src": "151:22:13",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IERC20.sol",
         "file": "./IERC20.sol",
-        "id": 947,
+        "id": 1199,
         "nodeType": "ImportDirective",
-        "scope": 953,
-        "sourceUnit": 624,
-        "src": "174:22:12",
+        "scope": 1205,
+        "sourceUnit": 560,
+        "src": "174:22:13",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -325,73 +325,73 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 948,
+              "id": 1200,
               "name": "IWrbtc",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 943,
-              "src": "223:6:12",
+              "referencedDeclaration": 1195,
+              "src": "223:6:13",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IWrbtc_$943",
+                "typeIdentifier": "t_contract$_IWrbtc_$1195",
                 "typeString": "contract IWrbtc"
               }
             },
-            "id": 949,
+            "id": 1201,
             "nodeType": "InheritanceSpecifier",
-            "src": "223:6:12"
+            "src": "223:6:13"
           },
           {
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 950,
+              "id": 1202,
               "name": "IERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 623,
-              "src": "231:6:12",
+              "referencedDeclaration": 559,
+              "src": "231:6:13",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC20_$623",
+                "typeIdentifier": "t_contract$_IERC20_$559",
                 "typeString": "contract IERC20"
               }
             },
-            "id": 951,
+            "id": 1203,
             "nodeType": "InheritanceSpecifier",
-            "src": "231:6:12"
+            "src": "231:6:13"
           }
         ],
         "contractDependencies": [
-          623,
-          943
+          559,
+          1195
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 952,
+        "id": 1204,
         "linearizedBaseContracts": [
-          952,
-          623,
-          943
+          1204,
+          559,
+          1195
         ],
         "name": "IWrbtcERC20",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 953,
-        "src": "199:41:12"
+        "scope": 1205,
+        "src": "199:41:13"
       }
     ],
-    "src": "118:123:12"
+    "src": "118:123:13"
   },
   "legacyAST": {
     "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtcERC20.sol",
     "exportedSymbols": {
       "IWrbtcERC20": [
-        952
+        1204
       ]
     },
-    "id": 953,
+    "id": 1205,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 945,
+        "id": 1197,
         "literals": [
           "solidity",
           ">=",
@@ -402,27 +402,27 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "118:31:12"
+        "src": "118:31:13"
       },
       {
         "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol",
         "file": "./IWrbtc.sol",
-        "id": 946,
+        "id": 1198,
         "nodeType": "ImportDirective",
-        "scope": 953,
-        "sourceUnit": 944,
-        "src": "151:22:12",
+        "scope": 1205,
+        "sourceUnit": 1196,
+        "src": "151:22:13",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IERC20.sol",
         "file": "./IERC20.sol",
-        "id": 947,
+        "id": 1199,
         "nodeType": "ImportDirective",
-        "scope": 953,
-        "sourceUnit": 624,
-        "src": "174:22:12",
+        "scope": 1205,
+        "sourceUnit": 560,
+        "src": "174:22:13",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -432,60 +432,60 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 948,
+              "id": 1200,
               "name": "IWrbtc",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 943,
-              "src": "223:6:12",
+              "referencedDeclaration": 1195,
+              "src": "223:6:13",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IWrbtc_$943",
+                "typeIdentifier": "t_contract$_IWrbtc_$1195",
                 "typeString": "contract IWrbtc"
               }
             },
-            "id": 949,
+            "id": 1201,
             "nodeType": "InheritanceSpecifier",
-            "src": "223:6:12"
+            "src": "223:6:13"
           },
           {
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 950,
+              "id": 1202,
               "name": "IERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 623,
-              "src": "231:6:12",
+              "referencedDeclaration": 559,
+              "src": "231:6:13",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IERC20_$623",
+                "typeIdentifier": "t_contract$_IERC20_$559",
                 "typeString": "contract IERC20"
               }
             },
-            "id": 951,
+            "id": 1203,
             "nodeType": "InheritanceSpecifier",
-            "src": "231:6:12"
+            "src": "231:6:13"
           }
         ],
         "contractDependencies": [
-          623,
-          943
+          559,
+          1195
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 952,
+        "id": 1204,
         "linearizedBaseContracts": [
-          952,
-          623,
-          943
+          1204,
+          559,
+          1195
         ],
         "name": "IWrbtcERC20",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 953,
-        "src": "199:41:12"
+        "scope": 1205,
+        "src": "199:41:13"
       }
     ],
-    "src": "118:123:12"
+    "src": "118:123:13"
   },
   "compiler": {
     "name": "solc",
@@ -493,7 +493,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.2",
-  "updatedAt": "2020-10-21T11:26:14.008Z",
+  "updatedAt": "2020-11-23T12:14:24.300Z",
   "devdoc": {
     "methods": {}
   },

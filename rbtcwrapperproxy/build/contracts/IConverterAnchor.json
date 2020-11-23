@@ -77,14 +77,14 @@
     "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol",
     "exportedSymbols": {
       "IConverterAnchor": [
-        548
+        484
       ]
     },
-    "id": 549,
+    "id": 485,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 541,
+        "id": 477,
         "literals": [
           "solidity",
           ">=",
@@ -95,27 +95,27 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:4"
+        "src": "0:31:2"
       },
       {
         "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IOwned.sol",
         "file": "./IOwned.sol",
-        "id": 542,
+        "id": 478,
         "nodeType": "ImportDirective",
-        "scope": 549,
-        "sourceUnit": 888,
-        "src": "33:22:4",
+        "scope": 485,
+        "sourceUnit": 850,
+        "src": "33:22:2",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
         "file": "./ITokenHolder.sol",
-        "id": 543,
+        "id": 479,
         "nodeType": "ImportDirective",
-        "scope": 549,
-        "sourceUnit": 933,
-        "src": "56:28:4",
+        "scope": 485,
+        "sourceUnit": 1185,
+        "src": "56:28:2",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -125,73 +125,73 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 544,
+              "id": 480,
               "name": "IOwned",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 887,
-              "src": "152:6:4",
+              "referencedDeclaration": 849,
+              "src": "152:6:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IOwned_$887",
+                "typeIdentifier": "t_contract$_IOwned_$849",
                 "typeString": "contract IOwned"
               }
             },
-            "id": 545,
+            "id": 481,
             "nodeType": "InheritanceSpecifier",
-            "src": "152:6:4"
+            "src": "152:6:2"
           },
           {
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 546,
+              "id": 482,
               "name": "ITokenHolder",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 932,
-              "src": "160:12:4",
+              "referencedDeclaration": 1184,
+              "src": "160:12:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ITokenHolder_$932",
+                "typeIdentifier": "t_contract$_ITokenHolder_$1184",
                 "typeString": "contract ITokenHolder"
               }
             },
-            "id": 547,
+            "id": 483,
             "nodeType": "InheritanceSpecifier",
-            "src": "160:12:4"
+            "src": "160:12:2"
           }
         ],
         "contractDependencies": [
-          887,
-          932
+          849,
+          1184
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 548,
+        "id": 484,
         "linearizedBaseContracts": [
-          548,
-          932,
-          887
+          484,
+          1184,
+          849
         ],
         "name": "IConverterAnchor",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 549,
-        "src": "123:53:4"
+        "scope": 485,
+        "src": "123:53:2"
       }
     ],
-    "src": "0:177:4"
+    "src": "0:177:2"
   },
   "legacyAST": {
     "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol",
     "exportedSymbols": {
       "IConverterAnchor": [
-        548
+        484
       ]
     },
-    "id": 549,
+    "id": 485,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 541,
+        "id": 477,
         "literals": [
           "solidity",
           ">=",
@@ -202,27 +202,27 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:4"
+        "src": "0:31:2"
       },
       {
         "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IOwned.sol",
         "file": "./IOwned.sol",
-        "id": 542,
+        "id": 478,
         "nodeType": "ImportDirective",
-        "scope": 549,
-        "sourceUnit": 888,
-        "src": "33:22:4",
+        "scope": 485,
+        "sourceUnit": 850,
+        "src": "33:22:2",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
         "file": "./ITokenHolder.sol",
-        "id": 543,
+        "id": 479,
         "nodeType": "ImportDirective",
-        "scope": 549,
-        "sourceUnit": 933,
-        "src": "56:28:4",
+        "scope": 485,
+        "sourceUnit": 1185,
+        "src": "56:28:2",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -232,60 +232,60 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 544,
+              "id": 480,
               "name": "IOwned",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 887,
-              "src": "152:6:4",
+              "referencedDeclaration": 849,
+              "src": "152:6:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IOwned_$887",
+                "typeIdentifier": "t_contract$_IOwned_$849",
                 "typeString": "contract IOwned"
               }
             },
-            "id": 545,
+            "id": 481,
             "nodeType": "InheritanceSpecifier",
-            "src": "152:6:4"
+            "src": "152:6:2"
           },
           {
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 546,
+              "id": 482,
               "name": "ITokenHolder",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 932,
-              "src": "160:12:4",
+              "referencedDeclaration": 1184,
+              "src": "160:12:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ITokenHolder_$932",
+                "typeIdentifier": "t_contract$_ITokenHolder_$1184",
                 "typeString": "contract ITokenHolder"
               }
             },
-            "id": 547,
+            "id": 483,
             "nodeType": "InheritanceSpecifier",
-            "src": "160:12:4"
+            "src": "160:12:2"
           }
         ],
         "contractDependencies": [
-          887,
-          932
+          849,
+          1184
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 548,
+        "id": 484,
         "linearizedBaseContracts": [
-          548,
-          932,
-          887
+          484,
+          1184,
+          849
         ],
         "name": "IConverterAnchor",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 549,
-        "src": "123:53:4"
+        "scope": 485,
+        "src": "123:53:2"
       }
     ],
-    "src": "0:177:4"
+    "src": "0:177:2"
   },
   "compiler": {
     "name": "solc",
@@ -293,7 +293,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.2",
-  "updatedAt": "2020-10-21T11:26:13.996Z",
+  "updatedAt": "2020-11-23T12:14:24.289Z",
   "devdoc": {
     "methods": {}
   },
