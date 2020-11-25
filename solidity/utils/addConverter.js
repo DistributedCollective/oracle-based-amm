@@ -2,25 +2,47 @@ const fs = require('fs');
 const path = require('path');
 const Web3 = require('web3');
 
-const CFG_FILE_NAME = process.argv[2];
-const CONFIG_RSK = process.argv[3]
-const NODE_ADDRESS = process.argv[4];
-const PRIVATE_KEY = process.argv[5];
+const TOKEN_NAME = process.argv[2];
+const NODE_ADDRESS = process.argv[3];
+const PRIVATE_KEY = process.argv[4];
 
 const ARTIFACTS_DIR = path.resolve(__dirname, '../build');
 
 const MIN_GAS_LIMIT = 100000;
 
+String.prototype.replaceAll = function (exp, newStr) {
+	return this.replace(new RegExp(exp, "gm"), newStr);
+};
+
+String.prototype.format = function(args) {
+	var result = this;
+	if (arguments.length < 1) {
+		return result;
+	}
+
+	var data = arguments;
+	if (arguments.length == 1 && typeof (args) == "object") {
+		data = args;
+	}
+	for ( var key in data) {
+		var value = data[key];
+		if (undefined != value) {
+			result = result.replaceAll("\\{" + key + "\\}", value);
+		}
+	}
+	return result;
+};
+
 const getConfig = () => {
-    return JSON.parse(fs.readFileSync(CFG_FILE_NAME, { encoding: 'utf8' }));
+    return JSON.parse(fs.readFileSync(path.join(__dirname, 'add{token}.json'.format({token:TOKEN_NAME})), { encoding: 'utf8' }));
 };
 
 const getData = () => {
-    return JSON.parse(fs.readFileSync(CONFIG_RSK, { encoding: 'utf8' }));
+    return JSON.parse(fs.readFileSync('./config_rsk.json', { encoding: 'utf8' }));
 };
 
 const setConfig = (record) => {
-    fs.writeFileSync(CFG_FILE_NAME, JSON.stringify({ ...getConfig(), ...record }, null, 4));
+    fs.writeFileSync(path.join(__dirname, 'add{token}.json'.format({token:TOKEN_NAME})), JSON.stringify({ ...getConfig(), ...record }, null, 4));
 };
 
 const scan = async (message) => {
@@ -122,7 +144,7 @@ const percentageToPPM = (value) => {
     return decimalToInteger(value.replace('%', ''), 4);
 };
 
-const run = async () => {
+const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, oracleMockHas) => {
     const web3 = new Web3(NODE_ADDRESS);
 
     const gasPrice = await getGasPrice(web3);
@@ -153,12 +175,17 @@ const run = async () => {
     const converterRegistry = await deployed(web3, 'ConverterRegistry', getData().converterRegistry.addr);
     const oracleWhitelist = await deployed(web3, 'Whitelist', getData().oracleWhitelist.addr);
     
-    let mocStateMockBProToUSDAddress = getConfig().MoCStateMock;
-    if (!mocStateMockBProToUSDAddress){
-        const mocStateMockBProToUSD = await web3Func(deploy, 'mocStateMockBProToUSD', 'MoCStateMock', []);
-        await execute(mocStateMockBProToUSD.methods.setValue("20000000000000000000000"));
-        mocStateMockBProToUSDAddress = mocStateMockBProToUSD._address;
-        const bproOracle = await web3Func(deploy, 'BProOracle', 'BProOracle', [mocStateMockBProToUSDAddress]);
+    const oracleMockAddress = [];
+    if (oracleMockName != undefined) {
+        const oracleMock = await web3Func(deploy, oracleMockName, oracleMockName, []);
+        oracleMockAddress = oracleMock._address;
+        if (oracleMockName != undefined) {
+            await execute(oracleMock.methods.setValue(oracleMockValue));
+        }
+        if (oracleMockHas != undefined) {
+            await execute(oracleMock.methods.setHas(oracleMockHas));
+        }
+        const tokenOracle = await web3Func(deploy, tokenOracleName, tokenOracleName, [oracleMockAddress]);
     }
 
     for (const reserve of getConfig().reserves) {
@@ -214,8 +241,8 @@ const run = async () => {
 
                 if (type == 2) {
                     if (!reserve.oracle) {
-                        const oracleName = reserve.symbol === 'RBTC' ? 'MocBTCToUSDOracle' : 'BProOracle'; 
-                        const mocOracleArgs = oracleName === 'MocBTCToUSDOracle' ? [getData().mocMedianizerMockUSDtoBTC.addr] : [mocStateMockBProToUSDAddress];
+                        const oracleName = reserve.symbol === 'RBTC' ? 'MocBTCToUSDOracle' : tokenOracleName; 
+                        const mocOracleArgs = oracleName === 'MocBTCToUSDOracle' ? [getData().mocMedianizerMockUSDtoBTC.addr] : [oracleMockAddress];
                         const mocPriceOracle = await web3Func(deploy, 'mocPriceOracle' + converter.symbol + reserve.symbol, oracleName, mocOracleArgs);
                         reserve.oracle = mocPriceOracle._address;
                     }
@@ -248,4 +275,10 @@ const run = async () => {
     }
 };
 
-run();
+if (TOKEN_NAME === 'BPro') {
+    addConverter('BProOracle', 'MoCStateMock', '20000000000000000000000');
+}
+
+if (TOKEN_NAME === 'USDT') {
+    addConverter('MocBTCToBTCOracle');
+}
