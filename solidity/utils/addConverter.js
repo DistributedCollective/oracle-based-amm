@@ -175,7 +175,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
     const converterRegistry = await deployed(web3, 'ConverterRegistry', getData().converterRegistry.addr);
     const oracleWhitelist = await deployed(web3, 'Whitelist', getData().oracleWhitelist.addr);
     
-    const oracleMockAddress = [];
+    let oracleMockAddress = [];
     if (oracleMockName != undefined) {
         const oracleMock = await web3Func(deploy, oracleMockName, oracleMockName, []);
         oracleMockAddress = oracleMock._address;
