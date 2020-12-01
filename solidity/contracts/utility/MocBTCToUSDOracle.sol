@@ -5,6 +5,7 @@ import "./Owned.sol";
 
 interface Medianizer {
     function peek() external view returns (bytes32, bool);
+    function getLastPublicationBlock() external view returns (uint256);
 }
 
 contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
@@ -36,10 +37,12 @@ contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
     /**
       * @dev returns the USD/BTC update time.
       *
-      * @return always returns current block's timestamp
+      * @return returns the latest block's timestamp
     */
     function latestTimestamp() external view returns (uint256) {
-        return now; // MoC oracle doesn't return update timestamp
+        require(block.number >= Medianizer(mocOracleAddress).getLastPublicationBlock(), "latest block number larger than current block numer");
+        uint256 latestTimestamp_ = block.timestamp - ( block.number - Medianizer(mocOracleAddress).getLastPublicationBlock() ) * 30;
+        return latestTimestamp_; 
     }
 
     /**

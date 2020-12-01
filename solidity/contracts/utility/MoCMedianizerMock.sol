@@ -11,6 +11,10 @@ contract MoCMedianizerMock is Medianizer{
         return (bytes32(value), has);
     }
 
+    function getLastPublicationBlock() external view returns (uint256) {
+        return block.timestamp;
+    }
+
     function setValue(uint256 _value) public {
         value = _value;
     }
