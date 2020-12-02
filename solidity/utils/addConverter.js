@@ -154,10 +154,6 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
     const addresses = { ETH: Web3.utils.toChecksumAddress('0x'.padEnd(42, 'e')) };
     const tokenDecimals = { ETH: 18 };
     
-    /*
-    if (!getConfig().mocMedianizer) {
-        throw new Error("MoC Medinizer contract address is undefined");
-    }*/
     
     let phase = 0;
     if (getConfig().phase === undefined) {
@@ -175,17 +171,25 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
     const converterRegistry = await deployed(web3, 'ConverterRegistry', getData().converterRegistry.addr);
     const oracleWhitelist = await deployed(web3, 'Whitelist', getData().oracleWhitelist.addr);
     
-    let oracleMockAddress = [];
+    let underlyingOracleAddress = [];
     if (oracleMockName != undefined) {
-        const oracleMock = await web3Func(deploy, oracleMockName, oracleMockName, []);
-        oracleMockAddress = oracleMock._address;
-        if (oracleMockName != undefined) {
-            await execute(oracleMock.methods.setValue(oracleMockValue));
+        //if underlying address is defined, use it
+        if (getConfig().underlyingOracleAddress !== undefined){
+            underlyingOracleAddress = getConfig().underlyingOracleAddress;
         }
-        if (oracleMockHas != undefined) {
-            await execute(oracleMock.methods.setHas(oracleMockHas));
+        //else deploy a mockup
+        else{
+            console.log("deploying a mockup");
+            const oracleMock = await web3Func(deploy, oracleMockName, oracleMockName, []);
+            underlyingOracleAddress = oracleMock._address;
+            if (oracleMockName != undefined) {
+                await execute(oracleMock.methods.setValue(oracleMockValue));
+            }
+            if (oracleMockHas != undefined) {
+                await execute(oracleMock.methods.setHas(oracleMockHas));
+            }
+            const tokenOracle = await web3Func(deploy, tokenOracleName, tokenOracleName, [underlyingOracleAddress]);
         }
-        const tokenOracle = await web3Func(deploy, tokenOracleName, tokenOracleName, [oracleMockAddress]);
     }
 
     for (const reserve of getConfig().reserves) {
@@ -208,9 +212,11 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
         const value = 0; // amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'RBTC')];
 
         console.log('Deploying converter for ', type, ' - ', name, ' with value ', value);
-
+        
+        //if the script breaks during execution and you need to resume it, comment out this line + set the newConverter to the actual converter
         const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights).call();
-
+        //const newConverter = '0xe4E467D8B5f61b5C83048d857210678eB86730A4';
+        
         await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, '1000000', tokens, weights));
         await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
         console.log('New Converter is  ', newConverter);
@@ -242,7 +248,8 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
                 if (type == 2) {
                     if (!reserve.oracle) {
                         const oracleName = reserve.symbol === 'RBTC' ? 'MocBTCToUSDOracle' : tokenOracleName; 
-                        const mocOracleArgs = oracleName === 'MocBTCToUSDOracle' ? [getData().mocMedianizerMockUSDtoBTC.addr] : [oracleMockAddress];
+                        //mocMedianizerMockUSDtoBTC is actually returning BTCtoUSD
+                        const mocOracleArgs = oracleName === 'MocBTCToUSDOracle' ? [getData().mocMedianizerMockUSDtoBTC.addr] : [underlyingOracleAddress];
                         const mocPriceOracle = await web3Func(deploy, 'mocPriceOracle' + converter.symbol + reserve.symbol, oracleName, mocOracleArgs);
                         reserve.oracle = mocPriceOracle._address;
                     }
