@@ -1,0 +1,503 @@
+{
+  "contractName": "IWrbtcERC20",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_who",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "deposit",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "wad",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_who\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"deposit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtcERC20.sol\":\"IWrbtcERC20\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IERC20.sol\":{\"keccak256\":\"0xa0d44f631e4dc66692e327bd21cc08487c1c71864eafe907a9b5860cb4067515\",\"urls\":[\"bzz-raw://e802ceec3840d7dd1dd96c447c17041d266e5ba087f7aca8500d021db12840f9\",\"dweb:/ipfs/QmchGs5wPd6aQ5NEr9npo65gXECygwodRV3Xjxu3ogRp5H\"]},\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol\":{\"keccak256\":\"0x3d906465799610f43ed56d75db2d380841b7ab60369d35cd699de077ffbc317d\",\"urls\":[\"bzz-raw://0eaeb9a19c738e81c9a4cb13a3d59d95b46eb34c2025ecaf6a90018743786d1b\",\"dweb:/ipfs/QmZmSHCh9oJTHuhmt2iuMHVBWqcrQ3xCf3NWpM9bBqHJAt\"]},\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtcERC20.sol\":{\"keccak256\":\"0x93dd73939b97ed48ea0df0b17bfd9959a673c319090aee802c19ad566c49c18a\",\"urls\":[\"bzz-raw://6dac2fabd164c1221914ea2089fbe6a958e01b1d5c0c32cd1500c8e0e013e2c6\",\"dweb:/ipfs/QmRu9L3LjfuhpGXxDqFQytoTYo7SUBRhMP8rvnumgtAgV2\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "/**\n * Copyright 2017-2020, bZeroX, LLC. All Rights Reserved.\n * Licensed under the Apache License, Version 2.0.\n */\n\npragma solidity >=0.5.0 <0.6.0;\n\nimport \"./IWrbtc.sol\";\nimport \"./IERC20.sol\";\n\n\ncontract IWrbtcERC20 is IWrbtc, IERC20 {}\n",
+  "sourcePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtcERC20.sol",
+  "ast": {
+    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtcERC20.sol",
+    "exportedSymbols": {
+      "IWrbtcERC20": [
+        1204
+      ]
+    },
+    "id": 1205,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1197,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "118:31:13"
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol",
+        "file": "./IWrbtc.sol",
+        "id": 1198,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 1196,
+        "src": "151:22:13",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IERC20.sol",
+        "file": "./IERC20.sol",
+        "id": 1199,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 560,
+        "src": "174:22:13",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1200,
+              "name": "IWrbtc",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1195,
+              "src": "223:6:13",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IWrbtc_$1195",
+                "typeString": "contract IWrbtc"
+              }
+            },
+            "id": 1201,
+            "nodeType": "InheritanceSpecifier",
+            "src": "223:6:13"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1202,
+              "name": "IERC20",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 559,
+              "src": "231:6:13",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IERC20_$559",
+                "typeString": "contract IERC20"
+              }
+            },
+            "id": 1203,
+            "nodeType": "InheritanceSpecifier",
+            "src": "231:6:13"
+          }
+        ],
+        "contractDependencies": [
+          559,
+          1195
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 1204,
+        "linearizedBaseContracts": [
+          1204,
+          559,
+          1195
+        ],
+        "name": "IWrbtcERC20",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 1205,
+        "src": "199:41:13"
+      }
+    ],
+    "src": "118:123:13"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtcERC20.sol",
+    "exportedSymbols": {
+      "IWrbtcERC20": [
+        1204
+      ]
+    },
+    "id": 1205,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1197,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "118:31:13"
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IWrbtc.sol",
+        "file": "./IWrbtc.sol",
+        "id": 1198,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 1196,
+        "src": "151:22:13",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IERC20.sol",
+        "file": "./IERC20.sol",
+        "id": 1199,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 560,
+        "src": "174:22:13",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1200,
+              "name": "IWrbtc",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1195,
+              "src": "223:6:13",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IWrbtc_$1195",
+                "typeString": "contract IWrbtc"
+              }
+            },
+            "id": 1201,
+            "nodeType": "InheritanceSpecifier",
+            "src": "223:6:13"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1202,
+              "name": "IERC20",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 559,
+              "src": "231:6:13",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IERC20_$559",
+                "typeString": "contract IERC20"
+              }
+            },
+            "id": 1203,
+            "nodeType": "InheritanceSpecifier",
+            "src": "231:6:13"
+          }
+        ],
+        "contractDependencies": [
+          559,
+          1195
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 1204,
+        "linearizedBaseContracts": [
+          1204,
+          559,
+          1195
+        ],
+        "name": "IWrbtcERC20",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 1205,
+        "src": "199:41:13"
+      }
+    ],
+    "src": "118:123:13"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2020-11-23T12:14:24.300Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
