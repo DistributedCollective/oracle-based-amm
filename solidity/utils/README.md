@@ -1,3 +1,4 @@
+
 ## Utilities
 
 ### [Prerequisites](../../README.md#prerequisites)
@@ -71,3 +72,19 @@ If deploying on testnet or mainnet, the medianizer address needs to be set in th
 If no medianizer address is specified, a medianizer mockup is deployed.
 
 Note: Before running the deployment (even on ganache), the token addresses must already exist! Run the deployment of the Sovryn Trading Protocol first! (repository Sovryn-smart-contracts)
+
+### Adding converters
+
+To add converters to an existing swap network, use ```addConverter.js```.
+
+For USDT it is: ```node addConverter.js USDT <ethereum node address> <private key>```
+
+For BPro it is: ```node addConverter.js BPro <ethereum node address> <private key>```
+
+The config will be read from ```add_bpro.sjon``` or ```add_usdt.json```.
+
+If an oracle for a token was already deployed, set the address in the reserve object within the converter object in the config. Remember that the wallet needs to posses WRBTC if WRBTC is used as second currency.
+
+In case of BPro, add the MoC State address as  ```underlyingOracleAddress``` to the config file.
+
+If the script breaks somewhere in the process and needs to be resumed, don't forget to comment out the line deploying the new converter. (someone should prettify this)

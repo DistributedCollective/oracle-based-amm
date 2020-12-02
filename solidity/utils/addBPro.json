@@ -1,0 +1,42 @@
+{
+    "reserves": [
+        {
+            "symbol": "RBTC",
+            "decimals": 18,
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+        },
+        {
+            "symbol": "BPro",
+            "decimals": 18,
+            "address": "0x4da7997a819bb46b6758b9102234c289dd2ad3bf"
+        }
+    ],
+    "converters": [
+        {
+            "type": 2,
+            "symbol": "BProRBTC",
+            "decimals": 18,
+            "fee": "0.1%",
+            "reserves": [
+                {
+                    "symbol": "RBTC",
+                    "weight": "50%",
+                    "balance": "1",
+                    "oracle": "0x0a6858f2E0f2b42dbDD21D248da589478c507cDD"
+                },
+                {
+                    "symbol": "BPro",
+                    "weight": "50%",
+                    "balance": "0.5"
+                }
+            ]
+        }
+    ],
+    "underlyingOracleAddress": "0x0adb40132cb0ffcef6ed81c26a1881e214100555",
+    "phase": 11,
+    "mocPriceOracleBProRBTCBPro": {
+        "name": "BProOracle",
+        "addr": "0xB7b9B10E04c36C3bB8Df34163331BBB0194d1DB4",
+        "args": "0000000000000000000000000adb40132cb0ffcef6ed81c26a1881e214100555"
+    }
+}

@@ -3,12 +3,12 @@
         {
             "symbol": "RBTC",
             "decimals": 18,
-            "address": "0xD10d83a6224aF8CcF9675B5EcB765Fec97a1027B"
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
         },
         {
             "symbol": "DoC",
             "decimals": 18,
-            "address": "0xFf8a837ddbdBD5Aa25E27Efb7A3d3499E243eeb1"
+            "address": "0xCB46c0ddc60D18eFEB0E586C17Af6ea36452Dae0"
         }
     ],
     "converters": [
@@ -30,5 +30,6 @@
                 }
             ]
         }
+
     ]
 }
