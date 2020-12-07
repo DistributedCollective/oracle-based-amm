@@ -9,6 +9,7 @@ interface Medianizer {
 }
 
 contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
+    uint256 public blockTime = 30;
 
     address public mocOracleAddress;
 
@@ -37,11 +38,12 @@ contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
     /**
       * @dev returns the USD/BTC update time.
       *
-      * @return returns the latest block's timestamp
+      * @return returns the approximate timestamp of the latest publication block
     */
     function latestTimestamp() external view returns (uint256) {
-        require(block.number >= Medianizer(mocOracleAddress).getLastPublicationBlock(), "latest block number larger than current block numer");
-        uint256 latestTimestamp_ = block.timestamp - ( block.number - Medianizer(mocOracleAddress).getLastPublicationBlock() ) * 30;
+        uint256 latestPublicationBlockNumber = Medianizer(mocOracleAddress).getLastPublicationBlock();
+        require(block.number >= latestPublicationBlockNumber, "latest block number larger than current block number");
+        uint256 latestTimestamp_ = block.timestamp - ( block.number - latestPublicationBlockNumber ) * blockTime;
         return latestTimestamp_; 
     }
 
@@ -54,5 +56,9 @@ contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
         require(_mocOracleAddress != address(0), "_mocOracleAddress shall not be zero address");
         mocOracleAddress = _mocOracleAddress;
         emit SetMoCOracleAddress(mocOracleAddress, msg.sender);
+    }
+
+    function setBlockTime(uint256 _blockTime) public ownerOnly {
+        blockTime = _blockTime;
     }
 }
