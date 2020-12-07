@@ -2,6 +2,7 @@ pragma solidity 0.4.26;
 
 import "./interfaces/IConsumerPriceOracle.sol";
 import "./Owned.sol";
+import "./SafeMath.sol";
 
 interface Medianizer {
     function peek() external view returns (bytes32, bool);
@@ -9,6 +10,8 @@ interface Medianizer {
 }
 
 contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
+    using SafeMath for uint256;
+
     uint256 public blockTime = 30;
 
     address public mocOracleAddress;
@@ -43,7 +46,8 @@ contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
     function latestTimestamp() external view returns (uint256) {
         uint256 latestPublicationBlockNumber = Medianizer(mocOracleAddress).getLastPublicationBlock();
         require(block.number >= latestPublicationBlockNumber, "latest block number larger than current block number");
-        uint256 latestTimestamp_ = block.timestamp - ( block.number - latestPublicationBlockNumber ) * blockTime;
+        // uint256 latestTimestamp_ = block.timestamp - ( block.number - latestPublicationBlockNumber ) * blockTime;
+        uint256 latestTimestamp_ = block.timestamp.sub(block.number.sub(latestPublicationBlockNumber).mul(blockTime));
         return latestTimestamp_; 
     }
 

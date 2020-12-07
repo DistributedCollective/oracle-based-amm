@@ -49,7 +49,8 @@ contract MocUSDToBTCOracle is IConsumerPriceOracle, Owned {
     function latestTimestamp() external view returns (uint256) {
         uint256 latestPublicationBlockNumber = Medianizer(mocOracleAddress).getLastPublicationBlock();
         require(block.number >= latestPublicationBlockNumber, "latest block number larger than current block number");
-        uint256 latestTimestamp_ = block.timestamp - ( block.number - latestPublicationBlockNumber ) * blockTime;
+        // uint256 latestTimestamp_ = block.timestamp - ( block.number - latestPublicationBlockNumber ) * blockTime;
+        uint256 latestTimestamp_ = block.timestamp.sub(block.number.sub(latestPublicationBlockNumber).mul(blockTime));
         return latestTimestamp_; 
     }
 
