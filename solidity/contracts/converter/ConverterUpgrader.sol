@@ -113,6 +113,52 @@ contract ConverterUpgrader is IConverterUpgrader, ContractRegistryClient {
         emit ConverterUpgrade(address(converter), address(newConverter));
     }
 
+    function upgradeWithNewOracles(IConverter _converter, IConsumerPriceOracle _primaryReserveOracle, IConsumerPriceOracle _secondaryReserveOracle, bytes32 _version) public {
+        _version;
+        IConverter converter = IConverter(_converter);
+        address prevOwner = converter.owner();
+        acceptConverterOwnership(converter);
+        IConverter newConverter = createConverter(converter);
+        copyReserves(converter, newConverter);
+        copyConversionFee(converter, newConverter);
+        transferReserveBalances(converter, newConverter);
+        IConverterAnchor anchor = converter.token();
+
+        // get the activation status before it's being invalidated
+        bool activate = isV28OrHigherConverter(converter) && converter.isActive();
+
+        if (anchor.owner() == address(converter)) {
+            converter.transferTokenOwnership(newConverter);
+            newConverter.acceptAnchorOwnership();
+        }
+
+        if (!isV28OrHigherConverter(converter))
+            return;
+
+        uint16 converterType = converter.converterType();
+        if (converterType == 2) {
+            uint16 reserveTokenCount = converter.connectorTokenCount();
+            for (uint16 i = 0; i < reserveTokenCount; i++) {
+                // copy reserve staked balance
+                IERC20Token reserveTokenAddress = converter.connectorTokens(i);
+                uint256 balance = ILiquidityPoolV2Converter(converter).reserveStakedBalance(reserveTokenAddress);
+                ILiquidityPoolV2Converter(newConverter).setReserveStakedBalance(reserveTokenAddress, balance);
+            }
+
+            if (!activate) {
+                return;
+            }
+
+            // activate the new converter
+            ILiquidityPoolV2Converter(newConverter).activate(ILiquidityPoolV2Converter(converter).primaryReserveToken(), _primaryReserveOracle, _secondaryReserveOracle);
+        }
+
+        converter.transferOwnership(prevOwner);
+        newConverter.transferOwnership(prevOwner);
+
+        emit ConverterUpgrade(address(converter), address(newConverter));
+    }
+
     /**
       * @dev the first step when upgrading a converter is to transfer the ownership to the local contract.
       * the upgrader contract then needs to accept the ownership transfer before initiating
