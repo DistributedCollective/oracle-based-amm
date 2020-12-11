@@ -24,6 +24,7 @@ const PoolTokensContainer = artifacts.require('PoolTokensContainer');
 const SmartToken = artifacts.require('SmartToken');
 const ChainlinkPriceOracle = artifacts.require('TestChainlinkPriceOracle');
 const Whitelist = artifacts.require('Whitelist');
+const PriceOracle = artifacts.require('PriceOracle');
 
 contract('LiquidityPoolV2Converter', accounts => {
     [
@@ -471,6 +472,42 @@ contract('LiquidityPoolV2Converter', accounts => {
 
                 await expectRevert(converter.activate(getReserve1Address(isETHReserve), chainlinkPriceOracleA.address, chainlinkPriceOracleB.address),
                     'ERR_INVALID_ORACLE');
+            });
+
+            it('verifies that the updatePriceOracle could work as expected', async () => {
+                const converter = await initConverter(true, true);
+
+                const oldPriceOracleAddress = await converter.priceOracle.call();
+                const oldPriceOracle = await PriceOracle.at(oldPriceOracleAddress);
+
+                const reserveToken1Address = isETHReserve === true ? ETH_RESERVE_ADDRESS : reserveToken.address;
+
+                expect(await oldPriceOracle.tokenA.call()).to.be.eql(reserveToken1Address);
+                expect(await oldPriceOracle.tokenB.call()).to.be.eql(reserveToken2.address);
+                expect(await oldPriceOracle.tokenAOracle.call()).to.be.eql(chainlinkPriceOracleA.address);
+                expect(await oldPriceOracle.tokenBOracle.call()).to.be.eql(chainlinkPriceOracleB.address);
+
+                const newPriceOracleA = await createChainlinkOracle(INITIAL_ORACLE_A_PRICE * 2);
+                const newPriceOracleB = await createChainlinkOracle(INITIAL_ORACLE_B_PRICE * 2);
+
+                await oracleWhitelist.addAddress(newPriceOracleA.address);
+                await oracleWhitelist.addAddress(newPriceOracleB.address);
+
+                const res = await converter.updatePriceOracle(newPriceOracleA.address, newPriceOracleB.address);
+
+                const newPriceOracleAddress = await converter.priceOracle.call();    
+                const newPriceOracle = await PriceOracle.at(newPriceOracleAddress);
+
+                expect(await newPriceOracle.tokenA.call()).to.be.eql(await oldPriceOracle.tokenA.call());
+                expect(await newPriceOracle.tokenB.call()).to.be.eql(await oldPriceOracle.tokenB.call());
+                expect(await newPriceOracle.tokenAOracle.call()).to.be.eql(newPriceOracleA.address);
+                expect(await newPriceOracle.tokenBOracle.call()).to.be.eql(newPriceOracleB.address);
+
+                expectEvent(res, 'PriceOracleUpdate', {
+                    _priceOracle: newPriceOracleAddress,
+                    _tokenAOracle: newPriceOracleA.address,
+                    _tokenBOracle: newPriceOracleB.address,
+                });
             });
 
             it('verifies the owner can update the dynamic-fee factor', async () => {
