@@ -53,6 +53,15 @@ contract LiquidityPoolV2Converter is LiquidityPoolConverter {
     event DynamicFeeFactorUpdate(uint256 _prevFactor, uint256 _newFactor);
 
     /**
+     * @dev triggered when price oracle is updated
+     *
+     * @param  _priceOracle     new price oracle
+     * @param  _tokenAOracle    new primary reserve oracle
+     * @param  _tokenBOracle    new secondary reserve oracle
+     */
+    event PriceOracleUpdate(IPriceOracle indexed _priceOracle, IConsumerPriceOracle indexed _tokenAOracle, IConsumerPriceOracle indexed _tokenBOracle);
+
+    /**
       * @dev initializes a new LiquidityPoolV2Converter instance
       *
       * @param  _poolTokensContainer    pool tokens container governed by the converter
@@ -165,6 +174,36 @@ contract LiquidityPoolV2Converter is LiquidityPoolConverter {
         }
 
         emit Activation(converterType(), anchor, true);
+    }
+
+    /**
+     * @dev creates a new price oracle for the converter
+     *
+     * @param _primaryReserveOracle      primary reserve oracle address
+     * @param _secondaryReserveOracle    secondary reserve oracle address
+     *
+     * @return new price oracle
+     */
+    function updatePriceOracle(IConsumerPriceOracle _primaryReserveOracle, IConsumerPriceOracle _secondaryReserveOracle) 
+        public 
+        ownerOnly 
+        notThis(_primaryReserveOracle)
+        notThis(_secondaryReserveOracle)
+        validAddress(_primaryReserveOracle)
+        validAddress(_secondaryReserveOracle)
+        returns (IPriceOracle)
+    {
+        IWhitelist oracleWhitelist = IWhitelist(addressOf(CHAINLINK_ORACLE_WHITELIST));
+        require(oracleWhitelist.isWhitelisted(_primaryReserveOracle), "ERR_INVALID_ORACLE");
+        require(oracleWhitelist.isWhitelisted(_secondaryReserveOracle), "ERR_INVALID_ORACLE");
+
+        LiquidityPoolV2ConverterCustomFactory customFactory =
+            LiquidityPoolV2ConverterCustomFactory(IConverterFactory(addressOf(CONVERTER_FACTORY)).customFactories(converterType()));
+        priceOracle = customFactory.createPriceOracle(primaryReserveToken, secondaryReserveToken, _primaryReserveOracle, _secondaryReserveOracle);
+
+        emit PriceOracleUpdate(priceOracle, priceOracle.tokenAOracle(), priceOracle.tokenBOracle());
+
+        return priceOracle;
     }
 
     /**

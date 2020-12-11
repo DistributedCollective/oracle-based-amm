@@ -122,6 +122,7 @@ const upgradeConverter = async (web3, upgrader, oldConverter, newConverterContra
     let events = await upgrader.getPastEvents('ConverterUpgrade');
     let newConverterAddress = events[0].returnValues._newConverter;
     let newConverter = deployed(web3, newConverterContract, newConverterAddress);
+    await execute(newConverter.methods.acceptOwnership());
     return newConverter;
 
     // For previous versions we transfer ownership to the upgrader, then call upgradeOld on the upgrader,
@@ -148,7 +149,7 @@ const getConverterState = async (converter) => {
     const state = {
         address: converter._address,
         owner: await converter.methods.owner().call(),
-        tokenOwner: await smartToken.methods.owner().call(),
+        poolTokenOwner: await smartToken.methods.owner().call(),
         newOwner: await converter.methods.newOwner().call(),
         conversionFee: await converter.methods.conversionFee().call(),
         maxConversionFee: await converter.methods.maxConversionFee().call(),
@@ -157,7 +158,7 @@ const getConverterState = async (converter) => {
         reserveTokens: []
     };
 
-    state.token = {
+    state.poolToken = {
         address: address,
         name: await smartToken.methods.name().call(),
         symbol: await smartToken.methods.symbol().call(),
@@ -176,6 +177,7 @@ const getConverterState = async (converter) => {
 
     if (converterType == 2) {
         const priceOracleAddres = await converter.methods.priceOracle().call();
+        state.priceOracle = priceOracleAddres;
         if (priceOracleAddres === ZERO_ADDRESS) {
             state.tokenAOracle = ZERO_ADDRESS;
             state.tokenBOracle = ZERO_ADDRESS;
@@ -211,3 +213,23 @@ const run = async() => {
 };
 
 run();
+
+const testUpdatePriceOracle = async () => {
+    let converter = deployed(web3, NEW_CONVERTER_CONTRACT, '0x294916BB9C1eFa4d4002717267abf297CDC8080D');
+
+    await execute(converter.methods.updatePriceOracle('0xE67cf20A24c85f0417070668123102247a6cfcC1', '0xBD01D701541D96399c338C9D66D4AE7bCAd878a2'));
+    let events = await converter.getPastEvents('PriceOracleUpdate');
+    console.log(events);
+
+    let newPriceOracleAddress = await converter.methods.priceOracle().call();
+    let newPriceOracle = deployed(web3, 'PriceOracle', newPriceOracleAddress);
+
+    console.log('new price oracle:', newPriceOracleAddress, '\n');
+    console.log('tokenAOracle:',await newPriceOracle.methods.tokenAOracle().call());
+    console.log('tokenBOracle:',await newPriceOracle.methods.tokenBOracle().call());
+
+    let newState = await getConverterState(converter);
+    console.log('state:', newState);  
+};
+
+//testUpdatePriceOracle();
