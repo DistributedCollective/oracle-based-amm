@@ -218,7 +218,8 @@ const run = async() => {
     console.log("The new converter address:", newConverter._address, '\n');
     //console.log("The new converter methods:", newConverter.methods, '\n');
     
-    let oldConverterStateAfter = await getConverterState(oldConverter);  
+    //note: public RSK testnet node gave an method not allowed error here
+    let oldConverterStateAfter = await getConverterState(oldConverter); 
     let newConverterStateAfter = await getConverterState(newConverter);
     console.log("The old converter state after upgrading:", oldConverterStateAfter, '\n');
     console.log("The new converter state after upgrading:", newConverterStateAfter, '\n');
