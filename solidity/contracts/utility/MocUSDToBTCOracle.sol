@@ -35,9 +35,7 @@ contract MocUSDToBTCOracle is IConsumerPriceOracle, Owned {
       * @return always returns the rate of 10000
     */
     function latestAnswer() external view returns (int256) {
-        (bytes32 value, bool hasValue) = Medianizer(mocOracleAddress).peek();
-        require(hasValue, "Doesn't has value");
-        
+        (bytes32 value, ) = Medianizer(mocOracleAddress).peek();        
         return int256(DECIMALS.div(uint256(value)).mul(DECIMALS));
     }
 

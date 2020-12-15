@@ -33,8 +33,7 @@ contract MocBTCToUSDOracle is IConsumerPriceOracle, Owned {
       * @return MoC medianizer rate
     */
     function latestAnswer() external view returns (int256) {
-        (bytes32 value, bool hasValue) = Medianizer(mocOracleAddress).peek();
-        require(hasValue, "Doesn't has value");
+        (bytes32 value, ) = Medianizer(mocOracleAddress).peek();
         return int256(value);
     }
 
