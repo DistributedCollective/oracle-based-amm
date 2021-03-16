@@ -1,334 +1,303 @@
-const { expect } = require('chai');
-const { expectRevert, BN, balance } = require('@openzeppelin/test-helpers');
+const { expect } = require("chai");
+const { expectRevert, BN, balance } = require("@openzeppelin/test-helpers");
 
-const { ETH_RESERVE_ADDRESS, registry } = require('./helpers/Constants');
+const { ETH_RESERVE_ADDRESS, registry } = require("./helpers/Constants");
 
-const LiquidityPoolV1Converter = artifacts.require('LiquidityPoolV1Converter');
-const SovrynSwapX = artifacts.require('SovrynSwapX');
-const SmartToken = artifacts.require('SmartToken');
-const ContractRegistry = artifacts.require('ContractRegistry');
-const SovrynSwapNetwork = artifacts.require('SovrynSwapNetwork');
-const SovrynSwapFormula = artifacts.require('SovrynSwapFormula');
-const ERC20Token = artifacts.require('ERC20Token');
+const LiquidityPoolV1Converter = artifacts.require("LiquidityPoolV1Converter");
+const SovrynSwapX = artifacts.require("SovrynSwapX");
+const SmartToken = artifacts.require("SmartToken");
+const ContractRegistry = artifacts.require("ContractRegistry");
+const SovrynSwapNetwork = artifacts.require("SovrynSwapNetwork");
+const SovrynSwapFormula = artifacts.require("SovrynSwapFormula");
+const ERC20Token = artifacts.require("ERC20Token");
 
-const MAX_LOCK_LIMIT = new BN('1000000000000000000000'); // 1000 bnt
-const MAX_RELEASE_LIMIT = new BN('1000000000000000000000'); // 1000 bnt
-const MIN_LIMIT = new BN('1000000000000000000'); // 1 bnt
-const LIM_INC_PER_BLOCK = new BN('1000000000000000000'); // 1 bnt
+const MAX_LOCK_LIMIT = new BN("1000000000000000000000"); // 1000 bnt
+const MAX_RELEASE_LIMIT = new BN("1000000000000000000000"); // 1000 bnt
+const MIN_LIMIT = new BN("1000000000000000000"); // 1 bnt
+const LIM_INC_PER_BLOCK = new BN("1000000000000000000"); // 1 bnt
 const MIN_REQUIRED_REPORTS = new BN(3);
-const BNT_AMOUNT = new BN('920201018469141404133');
+const BNT_AMOUNT = new BN("920201018469141404133");
 
-const EOS_ADDRESS = '0xd5e9a21dbc95b47e2750562a96d365aa5fb6a75c000000000000000000000000';
-const EOS_BLOCKCHAIN = '0xd5e9a21dbc95b47e2750562a96d365aa5fb6a75c000000000000000000000000';
+const EOS_ADDRESS = "0xd5e9a21dbc95b47e2750562a96d365aa5fb6a75c000000000000000000000000";
+const EOS_BLOCKCHAIN = "0xd5e9a21dbc95b47e2750562a96d365aa5fb6a75c000000000000000000000000";
 const MIN_RETURN = new BN(1);
 const TX_ID = new BN(0);
 
-contract('XConversions', accounts => {
-    let sovrynSwapFormula;
-    let contractRegistry;
-    let sovrynSwapX;
-    let sovrynSwapNetwork;
-    let bntToken;
-    let erc20Token;
-    let erc20TokenConverter1;
-    let erc20TokenConverter2;
-    let ethBntPath;
-    let bntEthPath;
-    let erc20TokenBntPath;
-    let bntErc20Path;
-    const owner = accounts[0];
-    const reporter1 = accounts[1];
-    const reporter2 = accounts[2];
-    const reporter3 = accounts[3];
-    const affiliateAddress = accounts[4];
-    const sender = accounts[5];
-    const sender2 = accounts[6];
+contract("XConversions", (accounts) => {
+	let sovrynSwapFormula;
+	let contractRegistry;
+	let sovrynSwapX;
+	let sovrynSwapNetwork;
+	let bntToken;
+	let erc20Token;
+	let erc20TokenConverter1;
+	let erc20TokenConverter2;
+	let ethBntPath;
+	let bntEthPath;
+	let erc20TokenBntPath;
+	let bntErc20Path;
+	const owner = accounts[0];
+	const reporter1 = accounts[1];
+	const reporter2 = accounts[2];
+	const reporter3 = accounts[3];
+	const affiliateAddress = accounts[4];
+	const sender = accounts[5];
+	const sender2 = accounts[6];
 
-    before(async () => {
-        // The following contracts are unaffected by the underlying tests, this can be shared.
-        sovrynSwapFormula = await SovrynSwapFormula.new();
-        contractRegistry = await ContractRegistry.new();
+	before(async () => {
+		// The following contracts are unaffected by the underlying tests, this can be shared.
+		sovrynSwapFormula = await SovrynSwapFormula.new();
+		contractRegistry = await ContractRegistry.new();
 
-        await contractRegistry.registerAddress(registry.SOVRYNSWAP_FORMULA, sovrynSwapFormula.address);
-    });
+		await contractRegistry.registerAddress(registry.SOVRYNSWAP_FORMULA, sovrynSwapFormula.address);
+	});
 
-    beforeEach(async () => {
-        bntToken = await ERC20Token.new('SovrynSwap', 'BNT', 18, BNT_AMOUNT);
+	beforeEach(async () => {
+		bntToken = await ERC20Token.new("SovrynSwap", "BNT", 18, BNT_AMOUNT);
 
-        sovrynSwapX = await SovrynSwapX.new(
-            MAX_LOCK_LIMIT,
-            MAX_RELEASE_LIMIT,
-            MIN_LIMIT,
-            LIM_INC_PER_BLOCK,
-            MIN_REQUIRED_REPORTS,
-            contractRegistry.address,
-            bntToken.address
-        );
+		sovrynSwapX = await SovrynSwapX.new(
+			MAX_LOCK_LIMIT,
+			MAX_RELEASE_LIMIT,
+			MIN_LIMIT,
+			LIM_INC_PER_BLOCK,
+			MIN_REQUIRED_REPORTS,
+			contractRegistry.address,
+			bntToken.address
+		);
 
-        await sovrynSwapX.setReporter(reporter1, true);
-        await sovrynSwapX.setReporter(reporter2, true);
-        await sovrynSwapX.setReporter(reporter3, true);
+		await sovrynSwapX.setReporter(reporter1, true);
+		await sovrynSwapX.setReporter(reporter2, true);
+		await sovrynSwapX.setReporter(reporter3, true);
 
-        sovrynSwapNetwork = await SovrynSwapNetwork.new(contractRegistry.address);
+		sovrynSwapNetwork = await SovrynSwapNetwork.new(contractRegistry.address);
 
-        await contractRegistry.registerAddress(registry.BNT_TOKEN, bntToken.address);
-        await contractRegistry.registerAddress(registry.SOVRYNSWAP_FORMULA, sovrynSwapFormula.address);
-        await contractRegistry.registerAddress(registry.SOVRYNSWAP_NETWORK, sovrynSwapNetwork.address);
-        await contractRegistry.registerAddress(registry.SOVRYNSWAP_X, sovrynSwapX.address);
+		await contractRegistry.registerAddress(registry.BNT_TOKEN, bntToken.address);
+		await contractRegistry.registerAddress(registry.SOVRYNSWAP_FORMULA, sovrynSwapFormula.address);
+		await contractRegistry.registerAddress(registry.SOVRYNSWAP_NETWORK, sovrynSwapNetwork.address);
+		await contractRegistry.registerAddress(registry.SOVRYNSWAP_X, sovrynSwapX.address);
 
-        erc20Token = await ERC20Token.new('Test Token', 'TST', 18, web3.utils.toWei(new BN(100)));
+		erc20Token = await ERC20Token.new("Test Token", "TST", 18, web3.utils.toWei(new BN(100)));
 
-        // Create some converters.
-        const poolToken1 = await SmartToken.new('Pool Token 1', 'POOL1', 18);
-        const poolToken2 = await SmartToken.new('Pool Token 2', 'POOL2', 18);
-        await poolToken2.issue(owner, web3.utils.toWei(new BN(200)));
-        await poolToken2.issue(owner, web3.utils.toWei(new BN(200)));
+		// Create some converters.
+		const poolToken1 = await SmartToken.new("Pool Token 1", "POOL1", 18);
+		const poolToken2 = await SmartToken.new("Pool Token 2", "POOL2", 18);
+		await poolToken2.issue(owner, web3.utils.toWei(new BN(200)));
+		await poolToken2.issue(owner, web3.utils.toWei(new BN(200)));
 
-        erc20TokenConverter1 = await LiquidityPoolV1Converter.new(poolToken1.address, contractRegistry.address, 30000);
-        erc20TokenConverter2 = await LiquidityPoolV1Converter.new(poolToken2.address, contractRegistry.address, 30000);
+		erc20TokenConverter1 = await LiquidityPoolV1Converter.new(poolToken1.address, contractRegistry.address, 30000);
+		erc20TokenConverter2 = await LiquidityPoolV1Converter.new(poolToken2.address, contractRegistry.address, 30000);
 
-        await erc20TokenConverter1.addReserve(bntToken.address, 500000);
-        await erc20TokenConverter1.addReserve(ETH_RESERVE_ADDRESS, 500000);
+		await erc20TokenConverter1.addReserve(bntToken.address, 500000);
+		await erc20TokenConverter1.addReserve(ETH_RESERVE_ADDRESS, 500000);
 
-        await erc20TokenConverter2.addReserve(bntToken.address, 500000);
-        await erc20TokenConverter2.addReserve(erc20Token.address, 500000);
+		await erc20TokenConverter2.addReserve(bntToken.address, 500000);
+		await erc20TokenConverter2.addReserve(erc20Token.address, 500000);
 
-        await bntToken.transfer(erc20TokenConverter1.address, web3.utils.toWei(new BN(100)));
-        await bntToken.transfer(erc20TokenConverter2.address, web3.utils.toWei(new BN(100)));
+		await bntToken.transfer(erc20TokenConverter1.address, web3.utils.toWei(new BN(100)));
+		await bntToken.transfer(erc20TokenConverter2.address, web3.utils.toWei(new BN(100)));
 
-        await erc20TokenConverter1.send(web3.utils.toWei(new BN(1)));
-        await erc20Token.transfer(erc20TokenConverter2.address, web3.utils.toWei(new BN(50)));
+		await erc20TokenConverter1.send(web3.utils.toWei(new BN(1)));
+		await erc20Token.transfer(erc20TokenConverter2.address, web3.utils.toWei(new BN(50)));
 
-        await erc20Token.transfer(sender, web3.utils.toWei(new BN(50)));
+		await erc20Token.transfer(sender, web3.utils.toWei(new BN(50)));
 
-        await poolToken1.transferOwnership(erc20TokenConverter1.address);
-        await poolToken2.transferOwnership(erc20TokenConverter2.address);
+		await poolToken1.transferOwnership(erc20TokenConverter1.address);
+		await poolToken2.transferOwnership(erc20TokenConverter2.address);
 
-        await erc20TokenConverter1.acceptTokenOwnership();
-        await erc20TokenConverter2.acceptTokenOwnership();
+		await erc20TokenConverter1.acceptTokenOwnership();
+		await erc20TokenConverter2.acceptTokenOwnership();
 
-        // Set paths for easer use.
-        ethBntPath = [ETH_RESERVE_ADDRESS, poolToken1.address, bntToken.address];
-        bntEthPath = [bntToken.address, poolToken1.address, ETH_RESERVE_ADDRESS];
-        erc20TokenBntPath = [erc20Token.address, poolToken2.address, bntToken.address];
-        bntErc20Path = [bntToken.address, poolToken2.address, erc20Token.address];
-    });
+		// Set paths for easer use.
+		ethBntPath = [ETH_RESERVE_ADDRESS, poolToken1.address, bntToken.address];
+		bntEthPath = [bntToken.address, poolToken1.address, ETH_RESERVE_ADDRESS];
+		erc20TokenBntPath = [erc20Token.address, poolToken2.address, bntToken.address];
+		bntErc20Path = [bntToken.address, poolToken2.address, erc20Token.address];
+	});
 
-    describe('basic tests', () => {
-        const reportAndRelease = async (to, amount, txId, blockchainType, xTransferId = 0) => {
-            const reporters = [reporter1, reporter2, reporter3];
+	describe("basic tests", () => {
+		const reportAndRelease = async (to, amount, txId, blockchainType, xTransferId = 0) => {
+			const reporters = [reporter1, reporter2, reporter3];
 
-            for (let i = 0; i < reporters.length; ++i) {
-                await sovrynSwapX.reportTx(
-                    blockchainType,
-                    txId,
-                    to,
-                    amount,
-                    xTransferId,
-                    { from: reporters[i] }
-                );
-            }
-        };
+			for (let i = 0; i < reporters.length; ++i) {
+				await sovrynSwapX.reportTx(blockchainType, txId, to, amount, xTransferId, { from: reporters[i] });
+			}
+		};
 
-        it('should be able to xConvert from an ERC20', async () => {
-            const path = erc20TokenBntPath;
-            const amount = web3.utils.toWei(new BN(1));
+		it("should be able to xConvert from an ERC20", async () => {
+			const path = erc20TokenBntPath;
+			const amount = web3.utils.toWei(new BN(1));
 
-            await erc20Token.approve(sovrynSwapNetwork.address, amount, { from: sender });
+			await erc20Token.approve(sovrynSwapNetwork.address, amount, { from: sender });
 
-            const retAmount = await sovrynSwapNetwork.xConvert.call(
-                path,
-                amount,
-                MIN_RETURN,
-                EOS_BLOCKCHAIN,
-                EOS_ADDRESS,
-                TX_ID,
-                { from: sender }
-            );
+			const retAmount = await sovrynSwapNetwork.xConvert.call(path, amount, MIN_RETURN, EOS_BLOCKCHAIN, EOS_ADDRESS, TX_ID, { from: sender });
 
-            const prevBalance = await bntToken.balanceOf.call(sovrynSwapX.address);
+			const prevBalance = await bntToken.balanceOf.call(sovrynSwapX.address);
 
-            await sovrynSwapNetwork.xConvert(
-                path,
-                amount,
-                MIN_RETURN,
-                EOS_BLOCKCHAIN,
-                EOS_ADDRESS,
-                TX_ID,
-                { from: sender }
-            );
+			await sovrynSwapNetwork.xConvert(path, amount, MIN_RETURN, EOS_BLOCKCHAIN, EOS_ADDRESS, TX_ID, { from: sender });
 
-            expect((await bntToken.balanceOf.call(sovrynSwapX.address)).sub(prevBalance)).to.be.bignumber.equal(retAmount);
-        });
+			expect((await bntToken.balanceOf.call(sovrynSwapX.address)).sub(prevBalance)).to.be.bignumber.equal(retAmount);
+		});
 
-        it('should revert when attempting to xConvert2 to a different token than BNT', async () => {
-            const path = [...ethBntPath.slice(0, 1), sender];
-            const amount = web3.utils.toWei(new BN(1));
+		it("should revert when attempting to xConvert2 to a different token than BNT", async () => {
+			const path = [...ethBntPath.slice(0, 1), sender];
+			const amount = web3.utils.toWei(new BN(1));
 
-            await expectRevert(sovrynSwapNetwork.xConvert.call(
-                path,
-                amount,
-                MIN_RETURN,
-                EOS_BLOCKCHAIN,
-                EOS_ADDRESS,
-                TX_ID,
-                { from: sender, value: amount }
-            ), 'ERR_INVALID_TARGET_TOKEN');
-        });
+			await expectRevert(
+				sovrynSwapNetwork.xConvert.call(path, amount, MIN_RETURN, EOS_BLOCKCHAIN, EOS_ADDRESS, TX_ID, { from: sender, value: amount }),
+				"ERR_INVALID_TARGET_TOKEN"
+			);
+		});
 
-        it('should be able to completeXConversion to ETH', async () => {
-            const txId = TX_ID;
-            const xTransferId = txId.add(new BN(1));
-            const amount = web3.utils.toWei(new BN(10)); // releasing 10 BNT
-            const path = bntEthPath;
+		it("should be able to completeXConversion to ETH", async () => {
+			const txId = TX_ID;
+			const xTransferId = txId.add(new BN(1));
+			const amount = web3.utils.toWei(new BN(10)); // releasing 10 BNT
+			const path = bntEthPath;
 
-            await bntToken.transfer(sovrynSwapX.address, amount);
-            await reportAndRelease(sender, amount, txId, EOS_BLOCKCHAIN, xTransferId);
+			await bntToken.transfer(sovrynSwapX.address, amount);
+			await reportAndRelease(sender, amount, txId, EOS_BLOCKCHAIN, xTransferId);
 
-            await bntToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
+			await bntToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
 
-            const retAmount = await sovrynSwapNetwork.completeXConversion.call(path, sovrynSwapX.address, xTransferId,
-                MIN_RETURN, sender, { from: sender });
+			const retAmount = await sovrynSwapNetwork.completeXConversion.call(path, sovrynSwapX.address, xTransferId, MIN_RETURN, sender, {
+				from: sender,
+			});
 
-            const prevBalance = await balance.current(sender);
+			const prevBalance = await balance.current(sender);
 
-            const res = await sovrynSwapNetwork.completeXConversion(path, sovrynSwapX.address, xTransferId, MIN_RETURN, sender,
-                { from: sender });
-            const transaction = await web3.eth.getTransaction(res.tx);
-            const transactionCost = new BN(transaction.gasPrice).mul(new BN(res.receipt.cumulativeGasUsed));
+			const res = await sovrynSwapNetwork.completeXConversion(path, sovrynSwapX.address, xTransferId, MIN_RETURN, sender, { from: sender });
+			const transaction = await web3.eth.getTransaction(res.tx);
+			const transactionCost = new BN(transaction.gasPrice).mul(new BN(res.receipt.cumulativeGasUsed));
 
-            expect(await balance.current(sender)).to.be.bignumber.equal(prevBalance.add(retAmount).sub(transactionCost));
-        });
+			expect(await balance.current(sender)).to.be.bignumber.equal(prevBalance.add(retAmount).sub(transactionCost));
+		});
 
-        it('should be able to completeXConversion to an ERC20', async () => {
-            const txId = TX_ID;
-            const xTransferId = txId.add(new BN(1));
-            const amount = web3.utils.toWei(new BN(10)); // releasing 10 BNT
-            const path = bntErc20Path;
+		it("should be able to completeXConversion to an ERC20", async () => {
+			const txId = TX_ID;
+			const xTransferId = txId.add(new BN(1));
+			const amount = web3.utils.toWei(new BN(10)); // releasing 10 BNT
+			const path = bntErc20Path;
 
-            await bntToken.transfer(sovrynSwapX.address, amount);
-            await reportAndRelease(sender, amount, txId, EOS_BLOCKCHAIN, xTransferId);
+			await bntToken.transfer(sovrynSwapX.address, amount);
+			await reportAndRelease(sender, amount, txId, EOS_BLOCKCHAIN, xTransferId);
 
-            await bntToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
+			await bntToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
 
-            const prevBalance = await erc20Token.balanceOf.call(sender);
+			const prevBalance = await erc20Token.balanceOf.call(sender);
 
-            const retAmount = await sovrynSwapNetwork.completeXConversion.call(path, sovrynSwapX.address, xTransferId,
-                MIN_RETURN, sender, { from: sender });
-            await sovrynSwapNetwork.completeXConversion(path, sovrynSwapX.address, xTransferId, MIN_RETURN, sender,
-                { from: sender });
+			const retAmount = await sovrynSwapNetwork.completeXConversion.call(path, sovrynSwapX.address, xTransferId, MIN_RETURN, sender, {
+				from: sender,
+			});
+			await sovrynSwapNetwork.completeXConversion(path, sovrynSwapX.address, xTransferId, MIN_RETURN, sender, { from: sender });
 
-            expect(await erc20Token.balanceOf.call(sender)).to.be.bignumber.equal(prevBalance.add(retAmount));
-        });
+			expect(await erc20Token.balanceOf.call(sender)).to.be.bignumber.equal(prevBalance.add(retAmount));
+		});
 
-        it("shouldn't be able to completeXConversion to an ERC20 with a different xTransferId", async () => {
-            const txId1 = TX_ID;
-            const xTransferId1 = txId1.add(new BN(1));
-            const txId2 = TX_ID.add(new BN(100));
-            const xTransferId2 = txId2.add(new BN(1)); ;
-            const amount = web3.utils.toWei(new BN(10)); // releasing 10 BNT
-            const path = bntErc20Path;
+		it("shouldn't be able to completeXConversion to an ERC20 with a different xTransferId", async () => {
+			const txId1 = TX_ID;
+			const xTransferId1 = txId1.add(new BN(1));
+			const txId2 = TX_ID.add(new BN(100));
+			const xTransferId2 = txId2.add(new BN(1));
+			const amount = web3.utils.toWei(new BN(10)); // releasing 10 BNT
+			const path = bntErc20Path;
 
-            await bntToken.transfer(sovrynSwapX.address, amount.mul(new BN(2)));
+			await bntToken.transfer(sovrynSwapX.address, amount.mul(new BN(2)));
 
-            await reportAndRelease(sender, amount, txId1, EOS_BLOCKCHAIN, xTransferId1);
-            await reportAndRelease(sender2, amount, txId2, EOS_BLOCKCHAIN, xTransferId2);
+			await reportAndRelease(sender, amount, txId1, EOS_BLOCKCHAIN, xTransferId1);
+			await reportAndRelease(sender2, amount, txId2, EOS_BLOCKCHAIN, xTransferId2);
 
-            await bntToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
+			await bntToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
 
-            await expectRevert(sovrynSwapNetwork.completeXConversion(path, sovrynSwapX.address, xTransferId2, MIN_RETURN,
-                sender, { from: sender }), 'ERR_TX_MISMATCH');
-        });
+			await expectRevert(
+				sovrynSwapNetwork.completeXConversion(path, sovrynSwapX.address, xTransferId2, MIN_RETURN, sender, { from: sender }),
+				"ERR_TX_MISMATCH"
+			);
+		});
 
-        it('should revert when attempting to completeXConversion from a different token than BNT', async () => {
-            const txId = TX_ID;
-            const xTransferId = txId.add(new BN(1));
-            const path = [sender, ...bntErc20Path.slice(1)];
+		it("should revert when attempting to completeXConversion from a different token than BNT", async () => {
+			const txId = TX_ID;
+			const xTransferId = txId.add(new BN(1));
+			const path = [sender, ...bntErc20Path.slice(1)];
 
-            await expectRevert(sovrynSwapNetwork.completeXConversion(path, sovrynSwapX.address, xTransferId, MIN_RETURN,
-                sender, { from: sender }), 'ERR_INVALID_SOURCE_TOKEN');
-        });
-    });
+			await expectRevert(
+				sovrynSwapNetwork.completeXConversion(path, sovrynSwapX.address, xTransferId, MIN_RETURN, sender, { from: sender }),
+				"ERR_INVALID_SOURCE_TOKEN"
+			);
+		});
+	});
 
-    for (const percent of [0.5, 1.0, 1.5, 2.0, 3.0]) {
-        describe(`advanced testing with affiliate fee of ${percent}%:`, () => {
-            const expectedFee = (amount, percent) => new BN(amount).mul(new BN(10 * percent)).div(new BN(10)).div(new BN(100));
+	for (const percent of [0.5, 1.0, 1.5, 2.0, 3.0]) {
+		describe(`advanced testing with affiliate fee of ${percent}%:`, () => {
+			const expectedFee = (amount, percent) =>
+				new BN(amount)
+					.mul(new BN(10 * percent))
+					.div(new BN(10))
+					.div(new BN(100));
 
-            const affiliateFee = expectedFee(1000000, percent);
+			const affiliateFee = expectedFee(1000000, percent);
 
-            it('should be able to xConvert2 from ETH', async () => {
-                const path = ethBntPath;
-                const amount = web3.utils.toWei(new BN(1));
-                const expectedRate = await sovrynSwapNetwork.rateByPath.call(path, amount);
+			it("should be able to xConvert2 from ETH", async () => {
+				const path = ethBntPath;
+				const amount = web3.utils.toWei(new BN(1));
+				const expectedRate = await sovrynSwapNetwork.rateByPath.call(path, amount);
 
-                const retAmount = await sovrynSwapNetwork.xConvert2.call(
-                    path,
-                    amount,
-                    MIN_LIMIT,
-                    EOS_BLOCKCHAIN,
-                    EOS_ADDRESS,
-                    TX_ID,
-                    affiliateAddress, affiliateFee,
-                    { from: sender, value: amount }
-                );
+				const retAmount = await sovrynSwapNetwork.xConvert2.call(
+					path,
+					amount,
+					MIN_LIMIT,
+					EOS_BLOCKCHAIN,
+					EOS_ADDRESS,
+					TX_ID,
+					affiliateAddress,
+					affiliateFee,
+					{ from: sender, value: amount }
+				);
 
-                const prevBalanceOfSovrynSwapX = await bntToken.balanceOf.call(sovrynSwapX.address);
-                const prevBalanceAffiliate = await bntToken.balanceOf.call(affiliateAddress);
+				const prevBalanceOfSovrynSwapX = await bntToken.balanceOf.call(sovrynSwapX.address);
+				const prevBalanceAffiliate = await bntToken.balanceOf.call(affiliateAddress);
 
-                await sovrynSwapNetwork.xConvert2(
-                    path,
-                    amount,
-                    MIN_LIMIT,
-                    EOS_BLOCKCHAIN,
-                    EOS_ADDRESS,
-                    TX_ID,
-                    affiliateAddress, affiliateFee,
-                    { from: sender, value: amount }
-                );
+				await sovrynSwapNetwork.xConvert2(path, amount, MIN_LIMIT, EOS_BLOCKCHAIN, EOS_ADDRESS, TX_ID, affiliateAddress, affiliateFee, {
+					from: sender,
+					value: amount,
+				});
 
-                expect((await bntToken.balanceOf.call(sovrynSwapX.address)).sub(prevBalanceOfSovrynSwapX)).to.be.bignumber
-                    .equal(retAmount);
-                expect((await bntToken.balanceOf.call(affiliateAddress)).sub(prevBalanceAffiliate)).to.be.bignumber
-                    .equal(expectedFee(expectedRate, percent));
-            });
+				expect((await bntToken.balanceOf.call(sovrynSwapX.address)).sub(prevBalanceOfSovrynSwapX)).to.be.bignumber.equal(retAmount);
+				expect((await bntToken.balanceOf.call(affiliateAddress)).sub(prevBalanceAffiliate)).to.be.bignumber.equal(
+					expectedFee(expectedRate, percent)
+				);
+			});
 
-            it('should be able to xConvert2 from an ERC20', async () => {
-                const path = erc20TokenBntPath;
-                const amount = web3.utils.toWei(new BN(1));
-                const expectedRate = await sovrynSwapNetwork.rateByPath.call(path, amount);
+			it("should be able to xConvert2 from an ERC20", async () => {
+				const path = erc20TokenBntPath;
+				const amount = web3.utils.toWei(new BN(1));
+				const expectedRate = await sovrynSwapNetwork.rateByPath.call(path, amount);
 
-                await erc20Token.approve(sovrynSwapNetwork.address, amount, { from: sender });
+				await erc20Token.approve(sovrynSwapNetwork.address, amount, { from: sender });
 
-                const retAmount = await sovrynSwapNetwork.xConvert2.call(
-                    path,
-                    amount,
-                    MIN_RETURN,
-                    EOS_BLOCKCHAIN,
-                    EOS_ADDRESS,
-                    TX_ID,
-                    affiliateAddress, affiliateFee,
-                    { from: sender }
-                );
+				const retAmount = await sovrynSwapNetwork.xConvert2.call(
+					path,
+					amount,
+					MIN_RETURN,
+					EOS_BLOCKCHAIN,
+					EOS_ADDRESS,
+					TX_ID,
+					affiliateAddress,
+					affiliateFee,
+					{ from: sender }
+				);
 
-                const prevBalanceOfSovrynSwapX = await bntToken.balanceOf.call(sovrynSwapX.address);
-                const prevBalanceAffiliate = await bntToken.balanceOf.call(affiliateAddress);
+				const prevBalanceOfSovrynSwapX = await bntToken.balanceOf.call(sovrynSwapX.address);
+				const prevBalanceAffiliate = await bntToken.balanceOf.call(affiliateAddress);
 
-                await sovrynSwapNetwork.xConvert2(
-                    path,
-                    amount,
-                    MIN_RETURN,
-                    EOS_BLOCKCHAIN,
-                    EOS_ADDRESS,
-                    TX_ID,
-                    affiliateAddress, affiliateFee,
-                    { from: sender }
-                );
+				await sovrynSwapNetwork.xConvert2(path, amount, MIN_RETURN, EOS_BLOCKCHAIN, EOS_ADDRESS, TX_ID, affiliateAddress, affiliateFee, {
+					from: sender,
+				});
 
-                expect((await bntToken.balanceOf.call(sovrynSwapX.address)).sub(prevBalanceOfSovrynSwapX)).to.be.bignumber
-                    .equal(retAmount);
-                expect((await bntToken.balanceOf.call(affiliateAddress)).sub(prevBalanceAffiliate)).to.be.bignumber
-                    .equal(expectedFee(expectedRate, percent));
-            });
-        });
-    }
+				expect((await bntToken.balanceOf.call(sovrynSwapX.address)).sub(prevBalanceOfSovrynSwapX)).to.be.bignumber.equal(retAmount);
+				expect((await bntToken.balanceOf.call(affiliateAddress)).sub(prevBalanceAffiliate)).to.be.bignumber.equal(
+					expectedFee(expectedRate, percent)
+				);
+			});
+		});
+	}
 });

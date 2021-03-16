@@ -22,7 +22,7 @@
     "export": "node scripts/export.js",
     "lint": "npm run lint:js && npm run lint:sol",
     "lint:js": "eslint .",
-    "lint:sol": "solhint --max-errors 0 \"solidity/contracts/**/*.sol\"",
+    "lint:sol": "solhint \"solidity/contracts/**/*.sol\"",
     "deploy": "node scripts/deploy-one.js",
     "verify": "node scripts/verify-all.js",
     "flatten": "node scripts/flatten.js",
