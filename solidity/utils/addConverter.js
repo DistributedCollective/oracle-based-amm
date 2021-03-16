@@ -289,3 +289,7 @@ if (TOKEN_NAME === 'BPro') {
 if (TOKEN_NAME === 'USDT') {
     addConverter('MocBTCToBTCOracle');
 }
+
+if (TOKEN_NAME === 'SOV') {
+    addConverter();
+}
