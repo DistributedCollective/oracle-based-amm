@@ -4,7 +4,7 @@ const { BN, time, expectRevert, expectEvent } = require('@openzeppelin/test-help
 const { duration, latest, increase } = time;
 
 const MocBTCToUSDOracle = artifacts.require('MocBTCToUSDOracle');
-const MoCOracleMock = artifacts.require('MoCOracleMock');
+const MoCOracleMock = artifacts.require('MoCMedianizerMock');
 
 contract('MocBTCToUSDOracle', ([owner, unauthorizedAccount]) => {
     let oracleConsumer;
