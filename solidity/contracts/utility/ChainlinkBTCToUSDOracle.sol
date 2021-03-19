@@ -6,7 +6,7 @@ import "./interfaces/IConsumerPriceOracle.sol";
  * @dev Provides the BTC/USD rate
  */
 contract ChainlinkBTCToUSDOracle is IConsumerPriceOracle {
-	int256 private constant BTC_RATE = 1;
+	int256 private constant BTC_RATE = 10000;
 
 	/**
 	 * @dev returns the BTC/USD rate.
