@@ -1,35 +1,35 @@
 {
     "reserves": [
         {
-            "symbol": "RBTC",
+            "symbol": "(WR)BTC",
             "decimals": 18,
-            "address": "0x602C71e4DAC47a042Ee7f46E0aee17F94A3bA0B6"
+            "address": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d"
         },
         {
             "symbol": "SOV",
             "decimals": 18,
-            "address": "0x64B334435888bb5E44D890a7B319981c4Bb4B47d"
+            "address": "0xEFc78fc7d48b64958315949279Ba181c2114ABBd"
         }
     ],
     "converters": [
         {
             "type": 1,
-            "symbol": "SOVRBTC",
+            "symbol": "(WR)BTC/SOV",
             "decimals": 18,
             "fee": "0.1%",
             "reserves": [
                 {
-                    "symbol": "RBTC",
+                    "symbol": "(WR)BTC",
                     "weight": "50%",
-                    "balance": "1",
-                    "oracle": "0x0a6858f2E0f2b42dbDD21D248da589478c507cDD"
+                    "balance": "0.01"
                 },
                 {
                     "symbol": "SOV",
                     "weight": "50%",
-                    "balance": "10000"
+                    "balance": "67"   
                 }
             ]
         }
-    ]
+    ],
+    "phase": 0
 }
