@@ -310,7 +310,7 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
 	}
 
 	/**
-	 * @dev returns the list of aoncerter anchors associated with a given convertible token
+	 * @dev returns the list of converter anchors associated with a given convertible token
 	 *
 	 * @param _convertibleToken convertible token
 	 * @return list of anchors associated with the given convertible token
@@ -322,6 +322,7 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
 	/**
 	 * @dev returns the converter anchor associated with a given convertible token at a given index
 	 *
+	 * @param _convertibleToken convertible token
 	 * @param _index index
 	 * @return anchor associated with the given convertible token at the given index
 	 */
@@ -419,6 +420,7 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
 	/**
 	 * @dev adds a converter anchor to the registry
 	 *
+	 * @param _converterRegistryData Converter Registry Data Address
 	 * @param _anchor converter anchor
 	 */
 	function addAnchor(IConverterRegistryData _converterRegistryData, address _anchor) internal {
@@ -430,6 +432,7 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
 	/**
 	 * @dev removes a converter anchor from the registry
 	 *
+	 * @param _converterRegistryData Converter Registry Data Address
 	 * @param _anchor converter anchor
 	 */
 	function removeAnchor(IConverterRegistryData _converterRegistryData, address _anchor) internal {
@@ -441,6 +444,7 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
 	/**
 	 * @dev adds a liquidity pool to the registry
 	 *
+	 * @param _converterRegistryData Converter Registry Data Address
 	 * @param _liquidityPool liquidity pool
 	 */
 	function addLiquidityPool(IConverterRegistryData _converterRegistryData, address _liquidityPool) internal {
@@ -451,6 +455,7 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
 	/**
 	 * @dev removes a liquidity pool from the registry
 	 *
+	 * @param _converterRegistryData Converter Registry Data Address
 	 * @param _liquidityPool liquidity pool
 	 */
 	function removeLiquidityPool(IConverterRegistryData _converterRegistryData, address _liquidityPool) internal {
@@ -461,6 +466,7 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
 	/**
 	 * @dev adds a convertible token to the registry
 	 *
+	 * @param _converterRegistryData Converter Registry Data Address
 	 * @param _convertibleToken    convertible token
 	 * @param _anchor              associated converter anchor
 	 */
@@ -476,6 +482,7 @@ contract ConverterRegistry is IConverterRegistry, ContractRegistryClient, TokenH
 	/**
 	 * @dev removes a convertible token from the registry
 	 *
+	 * @param _converterRegistryData Converter Registry Data Address
 	 * @param _convertibleToken    convertible token
 	 * @param _anchor              associated converter anchor
 	 */
