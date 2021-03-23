@@ -1,58 +1,57 @@
 pragma solidity 0.4.26;
 import "../utility/ReentrancyGuard.sol";
 
-
 contract TestReentrancyGuardAttacker {
-    TestReentrancyGuard public target;
-    bool public reentrancy;
-    bool public callProtectedMethod;
-    bool public attacking;
+	TestReentrancyGuard public target;
+	bool public reentrancy;
+	bool public callProtectedMethod;
+	bool public attacking;
 
-    constructor(TestReentrancyGuard _target) public {
-        target = _target;
-    }
+	constructor(TestReentrancyGuard _target) public {
+		target = _target;
+	}
 
-    function setReentrancy(bool _reentrancy) external {
-        reentrancy = _reentrancy;
-    }
+	function setReentrancy(bool _reentrancy) external {
+		reentrancy = _reentrancy;
+	}
 
-    function setCallProtectedMethod(bool _callProtectedMethod) external {
-        callProtectedMethod = _callProtectedMethod;
-    }
+	function setCallProtectedMethod(bool _callProtectedMethod) external {
+		callProtectedMethod = _callProtectedMethod;
+	}
 
-    function run() public {
-        callProtectedMethod ? target.protectedMethod() : target.unprotectedMethod();
-    }
+	function run() public {
+		callProtectedMethod ? target.protectedMethod() : target.unprotectedMethod();
+	}
 
-    function callback() external {
-        if (!reentrancy) {
-            return;
-        }
+	function callback() external {
+		if (!reentrancy) {
+			return;
+		}
 
-        if (!attacking) {
-            attacking = true;
+		if (!attacking) {
+			attacking = true;
 
-            run();
-        }
+			run();
+		}
 
-        attacking = false;
-    }
+		attacking = false;
+	}
 }
 
 contract TestReentrancyGuard is ReentrancyGuard {
-    uint256 public calls;
+	uint256 public calls;
 
-    function protectedMethod() external protected {
-        run();
-    }
+	function protectedMethod() external protected {
+		run();
+	}
 
-    function unprotectedMethod() external {
-        run();
-    }
+	function unprotectedMethod() external {
+		run();
+	}
 
-    function run() private {
-        calls++;
+	function run() private {
+		calls++;
 
-        TestReentrancyGuardAttacker(msg.sender).callback();
-    }
+		TestReentrancyGuardAttacker(msg.sender).callback();
+	}
 }

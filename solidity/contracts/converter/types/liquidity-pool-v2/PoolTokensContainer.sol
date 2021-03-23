@@ -94,6 +94,6 @@ contract PoolTokensContainer is IPoolTokensContainer, Owned, TokenHolder {
       * @return concatenated string
     */
     function concatStrDigit(string _str, uint8 _digit) private pure returns (string) {
-        return string(abi.encodePacked(_str, uint8(bytes1('0')) + _digit));
+        return string(abi.encodePacked(_str, uint8(bytes1("0")) + _digit));
     }
 }

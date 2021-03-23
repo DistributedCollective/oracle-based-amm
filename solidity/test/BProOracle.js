@@ -1,38 +1,39 @@
-require('@openzeppelin/test-helpers/configure')({
-    provider: web3.currentProvider,
-    singletons: {
-      abstraction: 'truffle',
-    },
-  });
+require("@openzeppelin/test-helpers/configure")({
+	provider: web3.currentProvider,
+	singletons: {
+		abstraction: "truffle",
+	},
+});
 
-const { expect } = require('chai');
-const { BN, time } = require('@openzeppelin/test-helpers');
+const { expect } = require("chai");
+const { BN, time } = require("@openzeppelin/test-helpers");
 
 const { duration, latest, increase } = time;
 
-const BProOracle = artifacts.require('BProOracle');
+const BProOracle = artifacts.require("BProOracle");
 
-contract('BProOracle', () => {
-    let bproOracle;
+contract("BProOracle", () => {
+	let bproOracle;
 
-    beforeEach(async () => {
-        bproOracle = await BProOracle.deployed();
-    });
+	beforeEach(async () => {
+		bproOracle = await BProOracle.deployed();
+	});
 
-    it('should always return BPro USD Price for latestAnswer', async () => {
-        const bproUSDPrice = await bproOracle.latestAnswer.call();
+	it("should always return BPro USD Price for latestAnswer", async () => {
+		const bproUSDPrice = await bproOracle.latestAnswer.call();
 
-        expect(bproUSDPrice).to.be.above(0, 'The Bpro USD Price must be larger than 0');
-        
-        if (bproUSDPrice > 0) {
-            console.log('The BPro USD Price is:', bproUSDPrice);}
-    });
+		expect(bproUSDPrice).to.be.above(0, "The Bpro USD Price must be larger than 0");
 
-    it('should always return the current time for latestTimestamp', async () => {
-        expect(await bproOracle.latestTimestamp.call()).to.be.bignumber.equal(await latest());
+		if (bproUSDPrice > 0) {
+			console.log("The BPro USD Price is:", bproUSDPrice);
+		}
+	});
 
-        await increase(duration.days(1));
+	it("should always return the current time for latestTimestamp", async () => {
+		expect(await bproOracle.latestTimestamp.call()).to.be.bignumber.equal(await latest());
 
-        expect(await bproOracle.latestTimestamp.call()).to.be.bignumber.equal(await latest());
-    });
+		await increase(duration.days(1));
+
+		expect(await bproOracle.latestTimestamp.call()).to.be.bignumber.equal(await latest());
+	});
 });
