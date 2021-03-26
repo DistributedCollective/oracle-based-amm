@@ -32,25 +32,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"latestAnswer\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"latestTimestamp\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol\":\"IConsumerPriceOracle\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol\":{\"keccak256\":\"0xc962a71800b13de51f441dd6bd57cff6dd84506a89f57673d15b65284265c8c2\",\"urls\":[\"bzz-raw://0481e53e7b3fe4b246793478e4e1c69195d050ae6165f51ff5a90e1685f72861\",\"dweb:/ipfs/QmRPyeAufBGSP2ChNgdjteM58RuLsBjCfSR7gsRWsAaeGk\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"latestAnswer\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"latestTimestamp\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol\":\"IConsumerPriceOracle\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol\":{\"keccak256\":\"0x5e8188aa66742b15bc828e3c5b023fedd981d9651777cccd1a912d4b8e986a0d\",\"urls\":[\"bzz-raw://64f5b7400ad684dea6db427299708f689f474d8698a929320a70913b5071fa29\",\"dweb:/ipfs/QmZzNBXWhvo7BMDSSx7VPVH91M7d2uET4nWRFoRJteZB1o\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity >=0.5.0 <0.6.0;\n\n/*\n    Chainlink Price Oracle interface\n*/\ninterface IConsumerPriceOracle {\n    function latestAnswer() external view returns (int256);\n    function latestTimestamp() external view returns (uint256);\n}\n",
-  "sourcePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\n/*\n    Chainlink Price Oracle interface\n*/\ninterface IConsumerPriceOracle {\n\tfunction latestAnswer() external view returns (int256);\n\n\tfunction latestTimestamp() external view returns (uint256);\n}\n",
+  "sourcePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
   "ast": {
-    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
+    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
     "exportedSymbols": {
       "IConsumerPriceOracle": [
-        475
+        1210
       ]
     },
-    "id": 476,
+    "id": 1211,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 464,
+        "id": 1199,
         "literals": [
           "solidity",
           ">=",
@@ -61,7 +61,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:1"
+        "src": "0:31:3"
       },
       {
         "baseContracts": [],
@@ -69,9 +69,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 475,
+        "id": 1210,
         "linearizedBaseContracts": [
-          475
+          1210
         ],
         "name": "IConsumerPriceOracle",
         "nodeType": "ContractDefinition",
@@ -79,29 +79,29 @@
           {
             "body": null,
             "documentation": null,
-            "id": 469,
+            "id": 1204,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "latestAnswer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 465,
+              "id": 1200,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "134:2:1"
+              "src": "131:2:3"
             },
             "returnParameters": {
-              "id": 468,
+              "id": 1203,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 467,
+                  "id": 1202,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 469,
-                  "src": "160:6:1",
+                  "scope": 1204,
+                  "src": "157:6:3",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -109,10 +109,10 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 466,
+                    "id": 1201,
                     "name": "int256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "160:6:1",
+                    "src": "157:6:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_int256",
                       "typeString": "int256"
@@ -122,10 +122,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "159:8:1"
+              "src": "156:8:3"
             },
-            "scope": 475,
-            "src": "113:55:1",
+            "scope": 1210,
+            "src": "110:55:3",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -133,29 +133,29 @@
           {
             "body": null,
             "documentation": null,
-            "id": 474,
+            "id": 1209,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "latestTimestamp",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 470,
+              "id": 1205,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "197:2:1"
+              "src": "192:2:3"
             },
             "returnParameters": {
-              "id": 473,
+              "id": 1208,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 472,
+                  "id": 1207,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 474,
-                  "src": "223:7:1",
+                  "scope": 1209,
+                  "src": "218:7:3",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -163,10 +163,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 471,
+                    "id": 1206,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "223:7:1",
+                    "src": "218:7:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -176,33 +176,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "222:9:1"
+              "src": "217:9:3"
             },
-            "scope": 475,
-            "src": "173:59:1",
+            "scope": 1210,
+            "src": "168:59:3",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 476,
-        "src": "76:158:1"
+        "scope": 1211,
+        "src": "76:153:3"
       }
     ],
-    "src": "0:235:1"
+    "src": "0:230:3"
   },
   "legacyAST": {
-    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
+    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
     "exportedSymbols": {
       "IConsumerPriceOracle": [
-        475
+        1210
       ]
     },
-    "id": 476,
+    "id": 1211,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 464,
+        "id": 1199,
         "literals": [
           "solidity",
           ">=",
@@ -213,7 +213,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:1"
+        "src": "0:31:3"
       },
       {
         "baseContracts": [],
@@ -221,9 +221,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 475,
+        "id": 1210,
         "linearizedBaseContracts": [
-          475
+          1210
         ],
         "name": "IConsumerPriceOracle",
         "nodeType": "ContractDefinition",
@@ -231,29 +231,29 @@
           {
             "body": null,
             "documentation": null,
-            "id": 469,
+            "id": 1204,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "latestAnswer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 465,
+              "id": 1200,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "134:2:1"
+              "src": "131:2:3"
             },
             "returnParameters": {
-              "id": 468,
+              "id": 1203,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 467,
+                  "id": 1202,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 469,
-                  "src": "160:6:1",
+                  "scope": 1204,
+                  "src": "157:6:3",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -261,10 +261,10 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 466,
+                    "id": 1201,
                     "name": "int256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "160:6:1",
+                    "src": "157:6:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_int256",
                       "typeString": "int256"
@@ -274,10 +274,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "159:8:1"
+              "src": "156:8:3"
             },
-            "scope": 475,
-            "src": "113:55:1",
+            "scope": 1210,
+            "src": "110:55:3",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -285,29 +285,29 @@
           {
             "body": null,
             "documentation": null,
-            "id": 474,
+            "id": 1209,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "latestTimestamp",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 470,
+              "id": 1205,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "197:2:1"
+              "src": "192:2:3"
             },
             "returnParameters": {
-              "id": 473,
+              "id": 1208,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 472,
+                  "id": 1207,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 474,
-                  "src": "223:7:1",
+                  "scope": 1209,
+                  "src": "218:7:3",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -315,10 +315,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 471,
+                    "id": 1206,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "223:7:1",
+                    "src": "218:7:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -328,28 +328,28 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "222:9:1"
+              "src": "217:9:3"
             },
-            "scope": 475,
-            "src": "173:59:1",
+            "scope": 1210,
+            "src": "168:59:3",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 476,
-        "src": "76:158:1"
+        "scope": 1211,
+        "src": "76:153:3"
       }
     ],
-    "src": "0:235:1"
+    "src": "0:230:3"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.2",
-  "updatedAt": "2020-11-23T12:14:24.288Z",
+  "schemaVersion": "3.3.2",
+  "updatedAt": "2021-03-26T10:10:09.409Z",
   "devdoc": {
     "methods": {}
   },
