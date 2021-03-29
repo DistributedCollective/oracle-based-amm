@@ -2,6 +2,7 @@ pragma solidity 0.5.16;
 
 import "./openzeppelin/Address.sol";
 import "./openzeppelin/SafeMath.sol";
+import "./openzeppelin/ReentrancyGuard.sol";
 import "./interfaces/IWrbtcERC20.sol";
 import "./interfaces/ILiquidityPoolV1Converter.sol";
 import "./interfaces/ILiquidityPoolV2Converter.sol";
@@ -9,7 +10,7 @@ import "./interfaces/ISmartToken.sol";
 import "./interfaces/ISovrynSwapNetwork.sol";
 import "./interfaces/IERC20Token.sol";
 
-contract RBTCWrapperProxy{
+contract RBTCWrapperProxy is ReentrancyGuard {
     
     using Address for address;
     using SafeMath for uint256;
@@ -290,6 +291,7 @@ contract RBTCWrapperProxy{
         uint256[] memory _reserveMinReturnAmounts
     )   
         public 
+        nonReentrant
         checkAddress(_liquidityPoolConverterAddress)
     {
         require(_amount > 0, "The amount should larger than zero");
@@ -311,6 +313,7 @@ contract RBTCWrapperProxy{
         _liquidityPoolConverter.removeLiquidity(_amount, _reserveTokens, _reserveMinReturnAmounts);
 
         uint256 reserveAmount;
+        bool successOfTransfer;
         for (uint256 i = 0; i < lengthOfToken; i++) {
             reserveToken = _reserveTokens[i];
 
@@ -323,7 +326,8 @@ contract RBTCWrapperProxy{
                 (bool successOfSendRBTC,) = msg.sender.call.value(reserveAmount)("");
                 require(successOfSendRBTC, "Failed to send RBTC to user");
             } else {
-                IERC20Token(reserveToken).transfer(msg.sender, reserveAmount);
+                successOfTransfer = IERC20Token(reserveToken).transfer(msg.sender, reserveAmount);
+                require(successOfTransfer, "Failed to transfer reserve token to user");
             }
 
             emit LiquidityRemovedFromV1(msg.sender, address(reserveToken), reserveAmount);
