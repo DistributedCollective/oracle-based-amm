@@ -171,7 +171,7 @@ contract RBTCWrapperProxy is ReentrancyGuard {
      * 5.Transfers pool tokens to user
      * 
      * @param _liquidityPoolConverterAddress    address of LiquidityPoolConverter contract
-     * @param _reserveTokens                    address of each reserve token. The first element should be the address of RBTC
+     * @param _reserveTokens                    address of each reserve token. The first element should be the address of WRBTC
      * @param _reserveAmounts                   amount of each reserve token. The first element should be the amount of RBTC
      * @param _minReturn                        minimum return-amount of reserve tokens
      *
@@ -190,7 +190,7 @@ contract RBTCWrapperProxy is ReentrancyGuard {
     {
         uint256 amountOfRBTC = _reserveAmounts[0];
 
-        require(address(_reserveTokens[0]) == wrbtcTokenAddress, "The first reserve token must be RBTC");
+        require(address(_reserveTokens[0]) == wrbtcTokenAddress, "The first reserve token must be WRBTC");
         require(amountOfRBTC == msg.value, "The provided amount of RBTC should be identical to msg.value");
 
         bool successOfTransfer;
@@ -281,8 +281,8 @@ contract RBTCWrapperProxy is ReentrancyGuard {
      * 
      * @param _liquidityPoolConverterAddress    address of LiquidityPoolConverter contract
      * @param _amount                           amount of pool tokens to burn
-     * @param _reserveTokens                    address of each reserve token
-     * @param _reserveMinReturnAmounts          minimum return-amount of each reserve token
+     * @param _reserveTokens                    address of each reserve token. The first element should be the address of WRBTC
+     * @param _reserveMinReturnAmounts          minimum return-amount of each reserve token. The first element should be the minimum return-amount of WRBTC
      */
     function removeLiquidityFromV1(
         address _liquidityPoolConverterAddress,
@@ -295,6 +295,7 @@ contract RBTCWrapperProxy is ReentrancyGuard {
         checkAddress(_liquidityPoolConverterAddress)
     {
         require(_amount > 0, "The amount should larger than zero");
+        require(address(_reserveTokens[0]) == wrbtcTokenAddress, "The first reserve token must be WRBTC");
 
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
@@ -312,23 +313,23 @@ contract RBTCWrapperProxy is ReentrancyGuard {
 
         _liquidityPoolConverter.removeLiquidity(_amount, _reserveTokens, _reserveMinReturnAmounts);
 
+        uint256 wrbtcAmount = _reserveTokens[0].balanceOf(address(this)).sub(reserveAmountBefore[0]);
+        require(wrbtcAmount >= _reserveMinReturnAmounts[0], "ERR_ZERO_TARGET_AMOUNT");
+        IWrbtcERC20(wrbtcTokenAddress).withdraw(wrbtcAmount);
+        msg.sender.transfer(wrbtcAmount);
+        emit LiquidityRemovedFromV1(msg.sender, wrbtcTokenAddress, wrbtcAmount);
+
         uint256 reserveAmount;
         bool successOfTransfer;
-        for (uint256 i = 0; i < lengthOfToken; i++) {
+        for (uint256 i = 1; i < lengthOfToken; i++) {
             reserveToken = _reserveTokens[i];
 
             reserveAmount = reserveToken.balanceOf(address(this)).sub(reserveAmountBefore[i]); 
 
             require(reserveAmount >= _reserveMinReturnAmounts[i], "ERR_ZERO_TARGET_AMOUNT");
 
-            if (address(reserveToken) == wrbtcTokenAddress) {
-                IWrbtcERC20(wrbtcTokenAddress).withdraw(reserveAmount);
-                (bool successOfSendRBTC,) = msg.sender.call.value(reserveAmount)("");
-                require(successOfSendRBTC, "Failed to send RBTC to user");
-            } else {
-                successOfTransfer = IERC20Token(reserveToken).transfer(msg.sender, reserveAmount);
-                require(successOfTransfer, "Failed to transfer reserve token to user");
-            }
+            successOfTransfer = IERC20Token(reserveToken).transfer(msg.sender, reserveAmount);
+            require(successOfTransfer, "Failed to transfer reserve token to user");
 
             emit LiquidityRemovedFromV1(msg.sender, address(reserveToken), reserveAmount);
         }
