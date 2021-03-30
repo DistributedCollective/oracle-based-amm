@@ -97,31 +97,27 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		assert.equal(await poolToken1.balanceOf(accounts[0]), web3.utils.toWei(poolToken1AmountBefore) - 1e15, "Wrong pool token balance");
 
 		var gasCost = result.receipt.gasUsed * (await web3.eth.getGasPrice());
-		var addedRBTCAmount = web3.utils.BN(result.logs[0].args._reserveAmount).toString();
+		var addedRBTCAmount = result.logs[0].args._reserveAmounts[0];
+		var addedSOVAmount = result.logs[0].args._reserveAmounts[1];
+
+		await expectEvent(result.receipt, "LiquidityRemovedFromV1", {
+			_provider: accounts[0],
+			_reserveTokens: [wrbtcAddress, sovTokenAddress],
+			_reserveAmounts: [addedRBTCAmount, addedSOVAmount]
+		});
+
 		assert.equal(
 			await web3.eth.getBalance(accounts[0]),
 			parseInt(web3.utils.toWei(rbtcAmountBefore)) + parseInt(addedRBTCAmount) - gasCost,
 			"Wrong RBTC balance"
 		);
-		await expectEvent(result.receipt, "LiquidityRemovedFromV1", {
-			_provider: accounts[0],
-			_reserveToken: wrbtcAddress,
-			_reserveAmount: addedRBTCAmount,
-		});
-
-		var addedSOVAmount = web3.utils.BN(result.logs[1].args._reserveAmount).toString();
 		assert.equal(
 			await sovToken.balanceOf(accounts[0]),
 			parseInt(web3.utils.toWei(sovAmountBefore)) + parseInt(addedSOVAmount),
 			"Wrong SOV balance"
 		);
-		await expectEvent(result.receipt, "LiquidityRemovedFromV1", {
-			_provider: accounts[0],
-			_reserveToken: sovTokenAddress,
-			_reserveAmount: addedSOVAmount,
-		});
 	});
-
+  
 	it("verifies that users could send RBTC and then add liquidity to get pool token 2", async () => {
 		var rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
 		var poolToken2AmountBefore = web3.utils.fromWei(await poolToken2.balanceOf(accounts[0]));

@@ -2,7 +2,6 @@ pragma solidity 0.5.16;
 
 import "./openzeppelin/Address.sol";
 import "./openzeppelin/SafeMath.sol";
-import "./openzeppelin/ReentrancyGuard.sol";
 import "./interfaces/IWrbtcERC20.sol";
 import "./interfaces/ILiquidityPoolV1Converter.sol";
 import "./interfaces/ILiquidityPoolV2Converter.sol";
@@ -10,7 +9,7 @@ import "./interfaces/ISmartToken.sol";
 import "./interfaces/ISovrynSwapNetwork.sol";
 import "./interfaces/IERC20Token.sol";
 
-contract RBTCWrapperProxy is ReentrancyGuard {
+contract RBTCWrapperProxy {
     
     using Address for address;
     using SafeMath for uint256;
@@ -18,7 +17,6 @@ contract RBTCWrapperProxy is ReentrancyGuard {
     bytes32 internal constant SOVRYNSWAP_FORMULA = "SovrynSwapFormula";
 
     address public wrbtcTokenAddress;
-    address public sovAddress;
     address public sovrynSwapNetworkAddress;
     
     /**
@@ -65,14 +63,14 @@ contract RBTCWrapperProxy is ReentrancyGuard {
     /**
      * @dev triggered after liquidity is removed from LiquidityPoolConverter V1
      *
-     * @param  _provider         liquidity provider
-     * @param  _reserveToken     added reserve token
-     * @param  _reserveAmount    added reserve token amount
+     * @param  _provider          liquidity provider
+     * @param  _reserveTokens     added reserve tokens
+     * @param  _reserveAmounts    added reserve token amounts
      */
     event LiquidityRemovedFromV1(
         address indexed _provider,
-        address indexed _reserveToken,
-        uint256 _reserveAmount
+        IERC20Token[] _reserveTokens,
+        uint256[] _reserveAmounts
     );
 
     /**
@@ -100,16 +98,13 @@ contract RBTCWrapperProxy is ReentrancyGuard {
     
     constructor(
         address _wrbtcTokenAddress, 
-        address _sovAddress, 
         address _sovrynSwapNetworkAddress
     ) 
         public 
         checkAddress(_wrbtcTokenAddress) 
-        checkAddress(_sovAddress) 
         checkAddress(_sovrynSwapNetworkAddress) 
     {
         wrbtcTokenAddress = _wrbtcTokenAddress;
-        sovAddress = _sovAddress;
         sovrynSwapNetworkAddress = _sovrynSwapNetworkAddress;
     }
 
@@ -291,12 +286,12 @@ contract RBTCWrapperProxy is ReentrancyGuard {
         uint256[] memory _reserveMinReturnAmounts
     )   
         public 
-        nonReentrant
         checkAddress(_liquidityPoolConverterAddress)
     {
         require(_amount > 0, "The amount should larger than zero");
         require(address(_reserveTokens[0]) == wrbtcTokenAddress, "The first reserve token must be WRBTC");
 
+        uint256[] memory reserveAmounts = new uint256[](_reserveTokens.length);
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
 
@@ -313,26 +308,27 @@ contract RBTCWrapperProxy is ReentrancyGuard {
 
         _liquidityPoolConverter.removeLiquidity(_amount, _reserveTokens, _reserveMinReturnAmounts);
 
-        uint256 wrbtcAmount = _reserveTokens[0].balanceOf(address(this)).sub(reserveAmountBefore[0]);
-        require(wrbtcAmount >= _reserveMinReturnAmounts[0], "ERR_ZERO_TARGET_AMOUNT");
-        IWrbtcERC20(wrbtcTokenAddress).withdraw(wrbtcAmount);
-        msg.sender.transfer(wrbtcAmount);
-        emit LiquidityRemovedFromV1(msg.sender, wrbtcTokenAddress, wrbtcAmount);
-
         uint256 reserveAmount;
         bool successOfTransfer;
         for (uint256 i = 1; i < lengthOfToken; i++) {
             reserveToken = _reserveTokens[i];
 
             reserveAmount = reserveToken.balanceOf(address(this)).sub(reserveAmountBefore[i]); 
-
             require(reserveAmount >= _reserveMinReturnAmounts[i], "ERR_ZERO_TARGET_AMOUNT");
+            reserveAmounts[i] = reserveAmount;
 
             successOfTransfer = IERC20Token(reserveToken).transfer(msg.sender, reserveAmount);
             require(successOfTransfer, "Failed to transfer reserve token to user");
-
-            emit LiquidityRemovedFromV1(msg.sender, address(reserveToken), reserveAmount);
         }
+
+        uint256 wrbtcAmount = _reserveTokens[0].balanceOf(address(this)).sub(reserveAmountBefore[0]);
+        require(wrbtcAmount >= _reserveMinReturnAmounts[0], "ERR_ZERO_TARGET_AMOUNT");
+        reserveAmounts[0] = wrbtcAmount;
+        IWrbtcERC20(wrbtcTokenAddress).withdraw(wrbtcAmount);
+        (bool successOfSendRBTC,) = msg.sender.call.value(wrbtcAmount)("");
+        require(successOfSendRBTC, "Failed to send RBTC to user");
+
+        emit LiquidityRemovedFromV1(msg.sender, _reserveTokens, reserveAmounts);
     }
     
     /**
