@@ -28,3 +28,5 @@ solidity/build/Test*
 *.iml
 .idea
 
+/rbtcwrapperproxy/.secrets
+/rbtcwrapperproxy/private-key

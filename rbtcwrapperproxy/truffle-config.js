@@ -23,6 +23,8 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 const fs = require('fs');
 // const mnemonic = "";
 
+const privateKey = fs.readFileSync('./private-key').toString();
+
 //Update gas price Testnet
 /* Run this first, to use the result in truffle-config:
   curl https://public-node.testnet.rsk.co/ -X POST -H "Content-Type: application/json" \
@@ -57,17 +59,20 @@ module.exports = {
     // options below to some value.
     //
     testnet: {
-      provider: () => new HDWalletProvider(mnemonic, 'https://public-node.testnet.rsk.co', 0, 10, true, 'm/44’/37310’/0’/0'),
-      // host: "127.0.0.1",     // Localhost (default: none)
-      // port: 8545,            // Standard Ethereum port (default: none)
-      network_id: 31,       // Any network (default: none)
-      // gasPrice: 0x387ee40
-      gas: 6300000,
-      gasPrice: Math.floor(minimumGasPriceTestnet * 1.1), // 0.06 gwei or Math.floor(minimumGasPriceTestnet * 1.1) or 100000000
+      provider: () => new HDWalletProvider(privateKey, "wss://testnet.sovryn.app/ws"),
+      network_id: 31,
+      gasPrice: 95000010,
       skipDryRun: true,
-      networkCheckTimeout: 1e9
+      networkCheckTimeout: 1e9,
+      timeoutBlocks: 500000
      },
-    
+    mainnet: {
+      provider: () => new HDWalletProvider(privateKey, "wss://mainnet.sovryn.app/ws"),
+      network_id: 30,
+      gasPrice: 65000010,
+      networkCheckTimeout: 1e9,
+      timeoutBlocks: 500000
+    },
     development: {
       host: "127.0.0.1",     // Localhost (default: none)
       port: 8545,            // Standard Ethereum port (default: none)
