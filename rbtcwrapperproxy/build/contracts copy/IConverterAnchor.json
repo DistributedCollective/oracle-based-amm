@@ -1,0 +1,303 @@
+{
+  "contractName": "IConverterAnchor",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "acceptOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "contract IERC20Token",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawTokens",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"acceptOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract IERC20Token\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"withdrawTokens\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol\":\"IConverterAnchor\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol\":{\"keccak256\":\"0x17f5e4e68c5770edff2f1656e46fbf57158fc96343c0de21353c57ec0e655cce\",\"urls\":[\"bzz-raw://862ffe6813ee3d52401e0ad29c39f4b43f8fdcac83564c578cdebee0730bd58f\",\"dweb:/ipfs/QmatYop16pX7xPzQEo68Bg9pR21i75XxqNYyRkALYwDYK7\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol\":{\"keccak256\":\"0x85f3acaf53418f63817c8b5d8e047203891bbb9c3fc9558a541a8c446857783b\",\"urls\":[\"bzz-raw://b80d05aeb3fc866a791d3de7f7a8d7c2a65dddc72ad436920e3f043414c82158\",\"dweb:/ipfs/QmVXNmZfw6pQ2xg6xJwHR5ptCxGKx9PRzX9dgQWK7KUTTE\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IOwned.sol\":{\"keccak256\":\"0xa82c5cce1bb1c13dccdcb590bcbfeda3409efb67adc55fce3a301c76075e320c\",\"urls\":[\"bzz-raw://272cd112c211795db57e41fd9c49aae08ead3f7169e73dd8f594c1a8ca3932ad\",\"dweb:/ipfs/QmVTXpDDZEJ6aPUt9f6dTLupE16Rh4HembDTNR2X678svt\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol\":{\"keccak256\":\"0xf4285fadaccd2065e9373f7e9ba9e9d510450ef5b00a297b04b35236f3ae8021\",\"urls\":[\"bzz-raw://52c708e32e441410130ef32316924621cf2daef5d94e043e5d2dba47df89500f\",\"dweb:/ipfs/QmXzFDueMA48Y2Cvyx9cdtSTcM6c3b2Y437BhGsfACvRsG\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"./IOwned.sol\";\nimport \"./ITokenHolder.sol\";\n\n/*\n    Converter Anchor interface\n*/\ncontract IConverterAnchor is IOwned, ITokenHolder {\n\n}\n",
+  "sourcePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol",
+  "ast": {
+    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol",
+    "exportedSymbols": {
+      "IConverterAnchor": [
+        1219
+      ]
+    },
+    "id": 1220,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1212,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:4"
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IOwned.sol",
+        "file": "./IOwned.sol",
+        "id": 1213,
+        "nodeType": "ImportDirective",
+        "scope": 1220,
+        "sourceUnit": 1682,
+        "src": "33:22:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
+        "file": "./ITokenHolder.sol",
+        "id": 1214,
+        "nodeType": "ImportDirective",
+        "scope": 1220,
+        "sourceUnit": 2017,
+        "src": "56:28:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1215,
+              "name": "IOwned",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1681,
+              "src": "152:6:4",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IOwned_$1681",
+                "typeString": "contract IOwned"
+              }
+            },
+            "id": 1216,
+            "nodeType": "InheritanceSpecifier",
+            "src": "152:6:4"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1217,
+              "name": "ITokenHolder",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2016,
+              "src": "160:12:4",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ITokenHolder_$2016",
+                "typeString": "contract ITokenHolder"
+              }
+            },
+            "id": 1218,
+            "nodeType": "InheritanceSpecifier",
+            "src": "160:12:4"
+          }
+        ],
+        "contractDependencies": [
+          1681,
+          2016
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 1219,
+        "linearizedBaseContracts": [
+          1219,
+          2016,
+          1681
+        ],
+        "name": "IConverterAnchor",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 1220,
+        "src": "123:54:4"
+      }
+    ],
+    "src": "0:178:4"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol",
+    "exportedSymbols": {
+      "IConverterAnchor": [
+        1219
+      ]
+    },
+    "id": 1220,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1212,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:4"
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IOwned.sol",
+        "file": "./IOwned.sol",
+        "id": 1213,
+        "nodeType": "ImportDirective",
+        "scope": 1220,
+        "sourceUnit": 1682,
+        "src": "33:22:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
+        "file": "./ITokenHolder.sol",
+        "id": 1214,
+        "nodeType": "ImportDirective",
+        "scope": 1220,
+        "sourceUnit": 2017,
+        "src": "56:28:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1215,
+              "name": "IOwned",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1681,
+              "src": "152:6:4",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IOwned_$1681",
+                "typeString": "contract IOwned"
+              }
+            },
+            "id": 1216,
+            "nodeType": "InheritanceSpecifier",
+            "src": "152:6:4"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1217,
+              "name": "ITokenHolder",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2016,
+              "src": "160:12:4",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ITokenHolder_$2016",
+                "typeString": "contract ITokenHolder"
+              }
+            },
+            "id": 1218,
+            "nodeType": "InheritanceSpecifier",
+            "src": "160:12:4"
+          }
+        ],
+        "contractDependencies": [
+          1681,
+          2016
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 1219,
+        "linearizedBaseContracts": [
+          1219,
+          2016,
+          1681
+        ],
+        "name": "IConverterAnchor",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 1220,
+        "src": "123:54:4"
+      }
+    ],
+    "src": "0:178:4"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.2",
+  "updatedAt": "2021-03-26T10:10:09.409Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
