@@ -12,7 +12,7 @@ import "./IConverterAnchor.sol";
   * Even though classic pools can have many reserves, the most common configuration of
   * the pool has 2 reserves with 50%/50% weights.
 */
-contract ILiquidityPoolV1Converter {
+interface ILiquidityPoolV1Converter {
     /**
       * @dev triggered after a conversion with new price data
       * deprecated, use `TokenRateUpdate` from version 28 and up
@@ -127,6 +127,8 @@ contract ILiquidityPoolV1Converter {
     */
     function token() external view returns (IConverterAnchor);
 
+    function reserveRatio() external view returns (uint32);
+
     struct Reserve {
       uint256 balance;    // reserve balance
       uint32 weight;      // reserve weight, represented in ppm, 1-1000000
@@ -134,8 +136,5 @@ contract ILiquidityPoolV1Converter {
       bool deprecated2;   // deprecated
       bool isSet;         // true if the reserve is valid, false otherwise
     }
-
-    mapping (address => Reserve) public reserves;
-
-    uint32 public reserveRatio;   
+    function reserves(address) external view returns (uint256, uint32, bool, bool, bool);  
 }

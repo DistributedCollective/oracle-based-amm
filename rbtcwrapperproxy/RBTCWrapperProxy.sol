@@ -206,6 +206,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
+        uint256 totalSupplyBefore = _poolToken.totalSupply();
+        uint32 reserveRatio_ = _liquidityPoolConverter.reserveRatio();
+
         uint256 poolTokenAmountBefore = _poolToken.balanceOf(address(this));
         _liquidityPoolConverter.addLiquidity(_reserveTokens, _reserveAmounts, _minReturn);
         uint256 poolTokenAmount = _poolToken.balanceOf(address(this)).sub(poolTokenAmountBefore);
@@ -213,21 +216,23 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         success = _poolToken.transfer(msg.sender, poolTokenAmount);
         require(success, "Failed to transfer pool token to user");
 
-        (uint256 rsvBalance, , , , ) = _liquidityPoolConverter.reserves(wrbtcTokenAddress);
-        uint256 costReserveAmount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).fundCost(_poolToken.totalSupply(), rsvBalance, _liquidityPoolConverter.reserveRatio(), poolTokenAmount);
-        if (_reserveAmounts[0] > costReserveAmount) {
-            IWrbtcERC20(wrbtcTokenAddress).withdraw(_reserveAmounts[0].sub(costReserveAmount));
-            (success,) = msg.sender.call.value(_reserveAmounts[0].sub(costReserveAmount))("");
-            require(success, "Failed to send extra RBTC back to user");
-        }
         for (uint256 i = 1; i < _reserveTokens.length; i++) {
-            (rsvBalance, , , , ) = (_liquidityPoolConverter.reserves(address(_reserveTokens[i])));
-            costReserveAmount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).fundCost(_poolToken.totalSupply(), rsvBalance, _liquidityPoolConverter.reserveRatio(), poolTokenAmount);
-            if (_reserveAmounts[i] > costReserveAmount) {
-                uint256 amount = _reserveAmounts[i].sub(costReserveAmount);
-                success = _reserveTokens[i].transfer(msg.sender, amount);
+            (uint256 rsvBalance, , , , ) = _liquidityPoolConverter.reserves(address(_reserveTokens[i]));
+            uint256 costReserveAmount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).fundCost(totalSupplyBefore, rsvBalance, reserveRatio_, poolTokenAmount);
+            uint256 reserveAmount = _reserveAmounts[i];
+            if (reserveAmount > costReserveAmount) {
+                success = _reserveTokens[i].transfer(msg.sender, reserveAmount.sub(costReserveAmount));
                 require(success, "Failed to transfer extra reserve token back to user");
             }
+        }
+
+        (uint256 wrbtcBalance, , , , ) = _liquidityPoolConverter.reserves(wrbtcTokenAddress);
+        uint256 costWRBTCAmount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).fundCost(totalSupplyBefore, wrbtcBalance, reserveRatio_, poolTokenAmount);
+        if (_reserveAmounts[0] > costWRBTCAmount) {
+            uint256 amount = _reserveAmounts[0].sub(costWRBTCAmount);
+            IWrbtcERC20(wrbtcTokenAddress).withdraw(amount);
+            (success,) = msg.sender.call.value(amount)("");
+            require(success, "Failed to send extra RBTC back to user");
         }
 
         emit LiquidityAddedToV1(msg.sender, _reserveTokens, _reserveAmounts, poolTokenAmount);
