@@ -1,0 +1,3426 @@
+{
+  "contractName": "ILiquidityPoolV1Converter",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_connectorToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_tokenSupply",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_connectorBalance",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "_connectorWeight",
+          "type": "uint32"
+        }
+      ],
+      "name": "PriceDataUpdate",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "converterType",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "acceptAnchorOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "contract IERC20Token",
+          "name": "_sourceToken",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20Token",
+          "name": "_targetToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "targetAmountAndFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "contract IERC20Token[]",
+          "name": "_reserveTokens",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_reserveAmounts",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minReturn",
+          "type": "uint256"
+        }
+      ],
+      "name": "addLiquidity",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IERC20Token[]",
+          "name": "_reserveTokens",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_reserveMinReturnAmounts",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "removeLiquidity",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "fund",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "liquidate",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_x",
+          "type": "uint256"
+        }
+      ],
+      "name": "decimalLength",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_n",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_d",
+          "type": "uint256"
+        }
+      ],
+      "name": "roundDiv",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "_values",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "geometricMean",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "token",
+      "outputs": [
+        {
+          "internalType": "contract IConverterAnchor",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "reserveRatio",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "reserves",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_connectorToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_tokenSupply\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_connectorBalance\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"_connectorWeight\",\"type\":\"uint32\"}],\"name\":\"PriceDataUpdate\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[],\"name\":\"acceptAnchorOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract IERC20Token[]\",\"name\":\"_reserveTokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"_reserveAmounts\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256\",\"name\":\"_minReturn\",\"type\":\"uint256\"}],\"name\":\"addLiquidity\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"converterType\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_x\",\"type\":\"uint256\"}],\"name\":\"decimalLength\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"fund\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"_values\",\"type\":\"uint256[]\"}],\"name\":\"geometricMean\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"liquidate\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"},{\"internalType\":\"contract IERC20Token[]\",\"name\":\"_reserveTokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"_reserveMinReturnAmounts\",\"type\":\"uint256[]\"}],\"name\":\"removeLiquidity\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"reserveRatio\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"reserves\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_n\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_d\",\"type\":\"uint256\"}],\"name\":\"roundDiv\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"contract IERC20Token\",\"name\":\"_sourceToken\",\"type\":\"address\"},{\"internalType\":\"contract IERC20Token\",\"name\":\"_targetToken\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"targetAmountAndFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"token\",\"outputs\":[{\"internalType\":\"contract IConverterAnchor\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Liquidity Pool v1 Converter   * The liquidity pool v1 converter is a specialized version of a converter that manages a classic SovrynSwap liquidity pool.   * Even though classic pools can have many reserves, the most common configuration of the pool has 2 reserves with 50%/50% weights.\",\"methods\":{\"acceptAnchorOwnership()\":{\"details\":\"accepts ownership of the anchor after an ownership transfer also activates the converter can only be called by the contract owner note that prior to version 28, you should use 'acceptTokenOwnership' instead\"},\"addLiquidity(address[],uint256[],uint256)\":{\"details\":\"increases the pool's liquidity and mints new shares in the pool to the caller note that prior to version 28, you should use 'fund' instead \",\"params\":{\"_minReturn\":\"token minimum return-amount\",\"_reserveAmounts\":\"amount of each reserve token\",\"_reserveTokens\":\"address of each reserve token\"}},\"converterType()\":{\"details\":\"returns the converter type \",\"return\":\"see the converter types in the the main contract doc\"},\"decimalLength(uint256)\":{\"details\":\"calculates the number of decimal digits in a given value \",\"params\":{\"_x\":\"value (assumed positive)\"},\"return\":\"the number of decimal digits in the given value\"},\"fund(uint256)\":{\"details\":\"increases the pool's liquidity and mints new shares in the pool to the caller for example, if the caller increases the supply by 10%, then it will cost an amount equal to 10% of each reserve token balance note that starting from version 28, you should use 'addLiquidity' instead \",\"params\":{\"_amount\":\"amount to increase the supply by (in the pool token)\"}},\"geometricMean(uint256[])\":{\"details\":\"calculates the average number of decimal digits in a given list of values \",\"params\":{\"_values\":\"list of values (each of which assumed positive)\"},\"return\":\"the average number of decimal digits in the given list of values\"},\"liquidate(uint256)\":{\"details\":\"decreases the pool's liquidity and burns the caller's shares in the pool for example, if the holder sells 10% of the supply, then they will receive 10% of each reserve token balance in return note that starting from version 28, you should use 'removeLiquidity' instead \",\"params\":{\"_amount\":\"amount to liquidate (in the pool token)\"}},\"removeLiquidity(uint256,address[],uint256[])\":{\"details\":\"decreases the pool's liquidity and burns the caller's shares in the pool note that prior to version 28, you should use 'liquidate' instead \",\"params\":{\"_amount\":\"token amount\",\"_reserveMinReturnAmounts\":\"minimum return-amount of each reserve token\",\"_reserveTokens\":\"address of each reserve token\"}},\"roundDiv(uint256,uint256)\":{\"details\":\"calculates the nearest integer to a given quotient \",\"params\":{\"_d\":\"quotient denominator\",\"_n\":\"quotient numerator\"},\"return\":\"the nearest integer to the given quotient\"},\"targetAmountAndFee(address,address,uint256)\":{\"details\":\"returns the expected target amount of converting one reserve to another along with the fee \",\"params\":{\"_amount\":\"amount of tokens received from the user \",\"_sourceToken\":\"contract address of the source reserve token\",\"_targetToken\":\"contract address of the target reserve token\"},\"return\":\"expected target amountexpected fee\"},\"token()\":{\"details\":\"deprecated since version 28, backward compatibility - use only for earlier versions\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ILiquidityPoolV1Converter.sol\":\"ILiquidityPoolV1Converter\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol\":{\"keccak256\":\"0x17f5e4e68c5770edff2f1656e46fbf57158fc96343c0de21353c57ec0e655cce\",\"urls\":[\"bzz-raw://862ffe6813ee3d52401e0ad29c39f4b43f8fdcac83564c578cdebee0730bd58f\",\"dweb:/ipfs/QmatYop16pX7xPzQEo68Bg9pR21i75XxqNYyRkALYwDYK7\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol\":{\"keccak256\":\"0x85f3acaf53418f63817c8b5d8e047203891bbb9c3fc9558a541a8c446857783b\",\"urls\":[\"bzz-raw://b80d05aeb3fc866a791d3de7f7a8d7c2a65dddc72ad436920e3f043414c82158\",\"dweb:/ipfs/QmVXNmZfw6pQ2xg6xJwHR5ptCxGKx9PRzX9dgQWK7KUTTE\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ILiquidityPoolV1Converter.sol\":{\"keccak256\":\"0xdb7c19fe20114f01f982fc31427be8f7e8c109a8c36bc0fd1d6d044bb2ad06e8\",\"urls\":[\"bzz-raw://83f7bbcbb516c5c2cb46624e7a79358bdb66201200d2da222565b452d5b66f4e\",\"dweb:/ipfs/QmTvz1UzHbBTKvNKms7XnxmMeWMehKwwBVGdi3LNQMWuSc\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IOwned.sol\":{\"keccak256\":\"0xa82c5cce1bb1c13dccdcb590bcbfeda3409efb67adc55fce3a301c76075e320c\",\"urls\":[\"bzz-raw://272cd112c211795db57e41fd9c49aae08ead3f7169e73dd8f594c1a8ca3932ad\",\"dweb:/ipfs/QmVTXpDDZEJ6aPUt9f6dTLupE16Rh4HembDTNR2X678svt\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol\":{\"keccak256\":\"0xf4285fadaccd2065e9373f7e9ba9e9d510450ef5b00a297b04b35236f3ae8021\",\"urls\":[\"bzz-raw://52c708e32e441410130ef32316924621cf2daef5d94e043e5d2dba47df89500f\",\"dweb:/ipfs/QmXzFDueMA48Y2Cvyx9cdtSTcM6c3b2Y437BhGsfACvRsG\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity 0.5.16;\r\n\r\nimport \"./IERC20Token.sol\";\r\nimport \"./IConverterAnchor.sol\";\r\n\r\n/**\r\n  * @dev Liquidity Pool v1 Converter\r\n  *\r\n  * The liquidity pool v1 converter is a specialized version of a converter that manages\r\n  * a classic SovrynSwap liquidity pool.\r\n  *\r\n  * Even though classic pools can have many reserves, the most common configuration of\r\n  * the pool has 2 reserves with 50%/50% weights.\r\n*/\r\ninterface ILiquidityPoolV1Converter {\r\n    /**\r\n      * @dev triggered after a conversion with new price data\r\n      * deprecated, use `TokenRateUpdate` from version 28 and up\r\n      *\r\n      * @param  _connectorToken     reserve token\r\n      * @param  _tokenSupply        smart token supply\r\n      * @param  _connectorBalance   reserve balance\r\n      * @param  _connectorWeight    reserve weight\r\n    */\r\n    event PriceDataUpdate(\r\n        address indexed _connectorToken,\r\n        uint256 _tokenSupply,\r\n        uint256 _connectorBalance,\r\n        uint32 _connectorWeight\r\n    );\r\n\r\n    /**\r\n      * @dev returns the converter type\r\n      *\r\n      * @return see the converter types in the the main contract doc\r\n    */\r\n    function converterType() external pure returns (uint16);\r\n\r\n    /**\r\n      * @dev accepts ownership of the anchor after an ownership transfer\r\n      * also activates the converter\r\n      * can only be called by the contract owner\r\n      * note that prior to version 28, you should use 'acceptTokenOwnership' instead\r\n    */\r\n    function acceptAnchorOwnership() external;\r\n\r\n    /**\r\n      * @dev returns the expected target amount of converting one reserve to another along with the fee\r\n      *\r\n      * @param _sourceToken contract address of the source reserve token\r\n      * @param _targetToken contract address of the target reserve token\r\n      * @param _amount      amount of tokens received from the user\r\n      *\r\n      * @return expected target amount\r\n      * @return expected fee\r\n    */\r\n    function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _amount) external view returns (uint256, uint256);\r\n\r\n\r\n    /**\r\n      * @dev increases the pool's liquidity and mints new shares in the pool to the caller\r\n      * note that prior to version 28, you should use 'fund' instead\r\n      *\r\n      * @param _reserveTokens   address of each reserve token\r\n      * @param _reserveAmounts  amount of each reserve token\r\n      * @param _minReturn       token minimum return-amount\r\n    */\r\n    function addLiquidity(IERC20Token[] calldata _reserveTokens, uint256[] calldata _reserveAmounts, uint256 _minReturn) external payable;\r\n\r\n    /**\r\n      * @dev decreases the pool's liquidity and burns the caller's shares in the pool\r\n      * note that prior to version 28, you should use 'liquidate' instead\r\n      *\r\n      * @param _amount                  token amount\r\n      * @param _reserveTokens           address of each reserve token\r\n      * @param _reserveMinReturnAmounts minimum return-amount of each reserve token\r\n    */\r\n    function removeLiquidity(uint256 _amount, IERC20Token[] calldata _reserveTokens, uint256[] calldata _reserveMinReturnAmounts) external;\r\n\r\n    /**\r\n      * @dev increases the pool's liquidity and mints new shares in the pool to the caller\r\n      * for example, if the caller increases the supply by 10%,\r\n      * then it will cost an amount equal to 10% of each reserve token balance\r\n      * note that starting from version 28, you should use 'addLiquidity' instead\r\n      *\r\n      * @param _amount  amount to increase the supply by (in the pool token)\r\n    */\r\n    function fund(uint256 _amount) external payable;\r\n\r\n    /**\r\n      * @dev decreases the pool's liquidity and burns the caller's shares in the pool\r\n      * for example, if the holder sells 10% of the supply,\r\n      * then they will receive 10% of each reserve token balance in return\r\n      * note that starting from version 28, you should use 'removeLiquidity' instead\r\n      *\r\n      * @param _amount  amount to liquidate (in the pool token)\r\n    */\r\n    function liquidate(uint256 _amount) external;\r\n\r\n    /**\r\n      * @dev calculates the number of decimal digits in a given value\r\n      *\r\n      * @param _x   value (assumed positive)\r\n      * @return the number of decimal digits in the given value\r\n    */\r\n    function decimalLength(uint256 _x) external pure returns (uint256);\r\n\r\n    /**\r\n      * @dev calculates the nearest integer to a given quotient\r\n      *\r\n      * @param _n   quotient numerator\r\n      * @param _d   quotient denominator\r\n      * @return the nearest integer to the given quotient\r\n    */\r\n    function roundDiv(uint256 _n, uint256 _d) external pure returns (uint256);\r\n\r\n    /**\r\n      * @dev calculates the average number of decimal digits in a given list of values\r\n      *\r\n      * @param _values  list of values (each of which assumed positive)\r\n      * @return the average number of decimal digits in the given list of values\r\n    */\r\n    function geometricMean(uint256[] calldata _values) external pure returns (uint256);\r\n\r\n    /**\r\n      * @dev deprecated since version 28, backward compatibility - use only for earlier versions\r\n    */\r\n    function token() external view returns (IConverterAnchor);\r\n\r\n    function reserveRatio() external view returns (uint32);\r\n\r\n    struct Reserve {\r\n      uint256 balance;    // reserve balance\r\n      uint32 weight;      // reserve weight, represented in ppm, 1-1000000\r\n      bool deprecated1;   // deprecated\r\n      bool deprecated2;   // deprecated\r\n      bool isSet;         // true if the reserve is valid, false otherwise\r\n    }\r\n    function reserves(address) external view returns (uint256, uint32, bool, bool, bool);  \r\n}\r\n",
+  "sourcePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ILiquidityPoolV1Converter.sol",
+  "ast": {
+    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ILiquidityPoolV1Converter.sol",
+    "exportedSymbols": {
+      "ILiquidityPoolV1Converter": [
+        1939
+      ]
+    },
+    "id": 1940,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1813,
+        "literals": [
+          "solidity",
+          "0.5",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:10"
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol",
+        "file": "./IERC20Token.sol",
+        "id": 1814,
+        "nodeType": "ImportDirective",
+        "scope": 1940,
+        "sourceUnit": 1786,
+        "src": "27:27:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol",
+        "file": "./IConverterAnchor.sol",
+        "id": 1815,
+        "nodeType": "ImportDirective",
+        "scope": 1940,
+        "sourceUnit": 1619,
+        "src": "56:32:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@dev Liquidity Pool v1 Converter\n\n  * The liquidity pool v1 converter is a specialized version of a converter that manages\na classic SovrynSwap liquidity pool.\n\n  * Even though classic pools can have many reserves, the most common configuration of\nthe pool has 2 reserves with 50%/50% weights.",
+        "fullyImplemented": false,
+        "id": 1939,
+        "linearizedBaseContracts": [
+          1939
+        ],
+        "name": "ILiquidityPoolV1Converter",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": "@dev triggered after a conversion with new price data\ndeprecated, use `TokenRateUpdate` from version 28 and up\n\n      * @param  _connectorToken     reserve token\n@param  _tokenSupply        smart token supply\n@param  _connectorBalance   reserve balance\n@param  _connectorWeight    reserve weight",
+            "id": 1825,
+            "name": "PriceDataUpdate",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1824,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1817,
+                  "indexed": true,
+                  "name": "_connectorToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1825,
+                  "src": "862:31:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1816,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "862:7:10",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1819,
+                  "indexed": false,
+                  "name": "_tokenSupply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1825,
+                  "src": "904:20:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1818,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "904:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1821,
+                  "indexed": false,
+                  "name": "_connectorBalance",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1825,
+                  "src": "935:25:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1820,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "935:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1823,
+                  "indexed": false,
+                  "name": "_connectorWeight",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1825,
+                  "src": "971:23:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1822,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "971:6:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "851:150:10"
+            },
+            "src": "830:172:10"
+          },
+          {
+            "body": null,
+            "documentation": "@dev returns the converter type\n\n      * @return see the converter types in the the main contract doc",
+            "id": 1830,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "converterType",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1826,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1169:2:10"
+            },
+            "returnParameters": {
+              "id": 1829,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1828,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1830,
+                  "src": "1195:6:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 1827,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1195:6:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1194:8:10"
+            },
+            "scope": 1939,
+            "src": "1147:56:10",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev accepts ownership of the anchor after an ownership transfer\nalso activates the converter\ncan only be called by the contract owner\nnote that prior to version 28, you should use 'acceptTokenOwnership' instead",
+            "id": 1833,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "acceptAnchorOwnership",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1831,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1506:2:10"
+            },
+            "returnParameters": {
+              "id": 1832,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1517:0:10"
+            },
+            "scope": 1939,
+            "src": "1476:42:10",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev returns the expected target amount of converting one reserve to another along with the fee\n\n      * @param _sourceToken contract address of the source reserve token\n@param _targetToken contract address of the target reserve token\n@param _amount      amount of tokens received from the user\n\n      * @return expected target amount\n@return expected fee",
+            "id": 1846,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "targetAmountAndFee",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1840,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1835,
+                  "name": "_sourceToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "1981:24:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                    "typeString": "contract IERC20Token"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1834,
+                    "name": "IERC20Token",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1785,
+                    "src": "1981:11:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                      "typeString": "contract IERC20Token"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1837,
+                  "name": "_targetToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "2007:24:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                    "typeString": "contract IERC20Token"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1836,
+                    "name": "IERC20Token",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1785,
+                    "src": "2007:11:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                      "typeString": "contract IERC20Token"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1839,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "2033:15:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1838,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2033:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1980:69:10"
+            },
+            "returnParameters": {
+              "id": 1845,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1842,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "2073:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1841,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2073:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1844,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "2082:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1843,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2082:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2072:18:10"
+            },
+            "scope": 1939,
+            "src": "1953:138:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev increases the pool's liquidity and mints new shares in the pool to the caller\nnote that prior to version 28, you should use 'fund' instead\n\n      * @param _reserveTokens   address of each reserve token\n@param _reserveAmounts  amount of each reserve token\n@param _minReturn       token minimum return-amount",
+            "id": 1857,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addLiquidity",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1855,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1849,
+                  "name": "_reserveTokens",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1857,
+                  "src": "2497:37:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_contract$_IERC20Token_$1785_$dyn_calldata_ptr",
+                    "typeString": "contract IERC20Token[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "contractScope": null,
+                      "id": 1847,
+                      "name": "IERC20Token",
+                      "nodeType": "UserDefinedTypeName",
+                      "referencedDeclaration": 1785,
+                      "src": "2497:11:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                        "typeString": "contract IERC20Token"
+                      }
+                    },
+                    "id": 1848,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "2497:13:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_contract$_IERC20Token_$1785_$dyn_storage_ptr",
+                      "typeString": "contract IERC20Token[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1852,
+                  "name": "_reserveAmounts",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1857,
+                  "src": "2536:34:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_calldata_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1850,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "2536:7:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1851,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "2536:9:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1854,
+                  "name": "_minReturn",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1857,
+                  "src": "2572:18:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1853,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2572:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2496:95:10"
+            },
+            "returnParameters": {
+              "id": 1856,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2608:0:10"
+            },
+            "scope": 1939,
+            "src": "2475:134:10",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev decreases the pool's liquidity and burns the caller's shares in the pool\nnote that prior to version 28, you should use 'liquidate' instead\n\n      * @param _amount                  token amount\n@param _reserveTokens           address of each reserve token\n@param _reserveMinReturnAmounts minimum return-amount of each reserve token",
+            "id": 1868,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "removeLiquidity",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1866,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1859,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1868,
+                  "src": "3040:15:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1858,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3040:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1862,
+                  "name": "_reserveTokens",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1868,
+                  "src": "3057:37:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_contract$_IERC20Token_$1785_$dyn_calldata_ptr",
+                    "typeString": "contract IERC20Token[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "contractScope": null,
+                      "id": 1860,
+                      "name": "IERC20Token",
+                      "nodeType": "UserDefinedTypeName",
+                      "referencedDeclaration": 1785,
+                      "src": "3057:11:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                        "typeString": "contract IERC20Token"
+                      }
+                    },
+                    "id": 1861,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "3057:13:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_contract$_IERC20Token_$1785_$dyn_storage_ptr",
+                      "typeString": "contract IERC20Token[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1865,
+                  "name": "_reserveMinReturnAmounts",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1868,
+                  "src": "3096:43:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_calldata_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1863,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "3096:7:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1864,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "3096:9:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3039:101:10"
+            },
+            "returnParameters": {
+              "id": 1867,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3149:0:10"
+            },
+            "scope": 1939,
+            "src": "3015:135:10",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev increases the pool's liquidity and mints new shares in the pool to the caller\nfor example, if the caller increases the supply by 10%,\nthen it will cost an amount equal to 10% of each reserve token balance\nnote that starting from version 28, you should use 'addLiquidity' instead\n\n      * @param _amount  amount to increase the supply by (in the pool token)",
+            "id": 1873,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fund",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1871,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1870,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1873,
+                  "src": "3596:15:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1869,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3596:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3595:17:10"
+            },
+            "returnParameters": {
+              "id": 1872,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3629:0:10"
+            },
+            "scope": 1939,
+            "src": "3582:48:10",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev decreases the pool's liquidity and burns the caller's shares in the pool\nfor example, if the holder sells 10% of the supply,\nthen they will receive 10% of each reserve token balance in return\nnote that starting from version 28, you should use 'removeLiquidity' instead\n\n      * @param _amount  amount to liquidate (in the pool token)",
+            "id": 1878,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "liquidate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1876,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1875,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1878,
+                  "src": "4058:15:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1874,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4058:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4057:17:10"
+            },
+            "returnParameters": {
+              "id": 1877,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "4083:0:10"
+            },
+            "scope": 1939,
+            "src": "4039:45:10",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev calculates the number of decimal digits in a given value\n\n      * @param _x   value (assumed positive)\n@return the number of decimal digits in the given value",
+            "id": 1885,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "decimalLength",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1881,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1880,
+                  "name": "_x",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1885,
+                  "src": "4323:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1879,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4323:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4322:12:10"
+            },
+            "returnParameters": {
+              "id": 1884,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1883,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1885,
+                  "src": "4358:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1882,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4358:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4357:9:10"
+            },
+            "scope": 1939,
+            "src": "4300:67:10",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev calculates the nearest integer to a given quotient\n\n      * @param _n   quotient numerator\n@param _d   quotient denominator\n@return the nearest integer to the given quotient",
+            "id": 1894,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "roundDiv",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1890,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1887,
+                  "name": "_n",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "4625:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1886,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4625:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1889,
+                  "name": "_d",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "4637:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1888,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4637:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4624:24:10"
+            },
+            "returnParameters": {
+              "id": 1893,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1892,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "4672:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1891,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4672:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4671:9:10"
+            },
+            "scope": 1939,
+            "src": "4607:74:10",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev calculates the average number of decimal digits in a given list of values\n\n      * @param _values  list of values (each of which assumed positive)\n@return the average number of decimal digits in the given list of values",
+            "id": 1902,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "geometricMean",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1898,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1897,
+                  "name": "_values",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1902,
+                  "src": "4981:26:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_calldata_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1895,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "4981:7:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1896,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "4981:9:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4980:28:10"
+            },
+            "returnParameters": {
+              "id": 1901,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1900,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1902,
+                  "src": "5032:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1899,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5032:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5031:9:10"
+            },
+            "scope": 1939,
+            "src": "4958:83:10",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev deprecated since version 28, backward compatibility - use only for earlier versions",
+            "id": 1907,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "token",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1903,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "5178:2:10"
+            },
+            "returnParameters": {
+              "id": 1906,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1905,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1907,
+                  "src": "5204:16:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IConverterAnchor_$1618",
+                    "typeString": "contract IConverterAnchor"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1904,
+                    "name": "IConverterAnchor",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1618,
+                    "src": "5204:16:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IConverterAnchor_$1618",
+                      "typeString": "contract IConverterAnchor"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5203:18:10"
+            },
+            "scope": 1939,
+            "src": "5164:58:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 1912,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "reserveRatio",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1908,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "5251:2:10"
+            },
+            "returnParameters": {
+              "id": 1911,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1910,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1912,
+                  "src": "5277:6:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1909,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5277:6:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5276:8:10"
+            },
+            "scope": 1939,
+            "src": "5230:55:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "canonicalName": "ILiquidityPoolV1Converter.Reserve",
+            "id": 1923,
+            "members": [
+              {
+                "constant": false,
+                "id": 1914,
+                "name": "balance",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5317:15:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1913,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5317:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1916,
+                "name": "weight",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5363:13:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint32",
+                  "typeString": "uint32"
+                },
+                "typeName": {
+                  "id": 1915,
+                  "name": "uint32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5363:6:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1918,
+                "name": "deprecated1",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5439:16:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1917,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5439:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1920,
+                "name": "deprecated2",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5480:16:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1919,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5480:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1922,
+                "name": "isSet",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5521:10:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1921,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5521:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Reserve",
+            "nodeType": "StructDefinition",
+            "scope": 1939,
+            "src": "5293:303:10",
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 1938,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "reserves",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1926,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1925,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5620:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1924,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5620:7:10",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5619:9:10"
+            },
+            "returnParameters": {
+              "id": 1937,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1928,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5652:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1927,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5652:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1930,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5661:6:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1929,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5661:6:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1932,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5669:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1931,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5669:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1934,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5675:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1933,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5675:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1936,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5681:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1935,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5681:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5651:35:10"
+            },
+            "scope": 1939,
+            "src": "5602:85:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 1940,
+        "src": "420:5272:10"
+      }
+    ],
+    "src": "0:5694:10"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ILiquidityPoolV1Converter.sol",
+    "exportedSymbols": {
+      "ILiquidityPoolV1Converter": [
+        1939
+      ]
+    },
+    "id": 1940,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1813,
+        "literals": [
+          "solidity",
+          "0.5",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:10"
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol",
+        "file": "./IERC20Token.sol",
+        "id": 1814,
+        "nodeType": "ImportDirective",
+        "scope": 1940,
+        "sourceUnit": 1786,
+        "src": "27:27:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConverterAnchor.sol",
+        "file": "./IConverterAnchor.sol",
+        "id": 1815,
+        "nodeType": "ImportDirective",
+        "scope": 1940,
+        "sourceUnit": 1619,
+        "src": "56:32:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@dev Liquidity Pool v1 Converter\n\n  * The liquidity pool v1 converter is a specialized version of a converter that manages\na classic SovrynSwap liquidity pool.\n\n  * Even though classic pools can have many reserves, the most common configuration of\nthe pool has 2 reserves with 50%/50% weights.",
+        "fullyImplemented": false,
+        "id": 1939,
+        "linearizedBaseContracts": [
+          1939
+        ],
+        "name": "ILiquidityPoolV1Converter",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": "@dev triggered after a conversion with new price data\ndeprecated, use `TokenRateUpdate` from version 28 and up\n\n      * @param  _connectorToken     reserve token\n@param  _tokenSupply        smart token supply\n@param  _connectorBalance   reserve balance\n@param  _connectorWeight    reserve weight",
+            "id": 1825,
+            "name": "PriceDataUpdate",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1824,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1817,
+                  "indexed": true,
+                  "name": "_connectorToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1825,
+                  "src": "862:31:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1816,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "862:7:10",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1819,
+                  "indexed": false,
+                  "name": "_tokenSupply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1825,
+                  "src": "904:20:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1818,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "904:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1821,
+                  "indexed": false,
+                  "name": "_connectorBalance",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1825,
+                  "src": "935:25:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1820,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "935:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1823,
+                  "indexed": false,
+                  "name": "_connectorWeight",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1825,
+                  "src": "971:23:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1822,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "971:6:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "851:150:10"
+            },
+            "src": "830:172:10"
+          },
+          {
+            "body": null,
+            "documentation": "@dev returns the converter type\n\n      * @return see the converter types in the the main contract doc",
+            "id": 1830,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "converterType",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1826,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1169:2:10"
+            },
+            "returnParameters": {
+              "id": 1829,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1828,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1830,
+                  "src": "1195:6:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 1827,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1195:6:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1194:8:10"
+            },
+            "scope": 1939,
+            "src": "1147:56:10",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev accepts ownership of the anchor after an ownership transfer\nalso activates the converter\ncan only be called by the contract owner\nnote that prior to version 28, you should use 'acceptTokenOwnership' instead",
+            "id": 1833,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "acceptAnchorOwnership",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1831,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1506:2:10"
+            },
+            "returnParameters": {
+              "id": 1832,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1517:0:10"
+            },
+            "scope": 1939,
+            "src": "1476:42:10",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev returns the expected target amount of converting one reserve to another along with the fee\n\n      * @param _sourceToken contract address of the source reserve token\n@param _targetToken contract address of the target reserve token\n@param _amount      amount of tokens received from the user\n\n      * @return expected target amount\n@return expected fee",
+            "id": 1846,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "targetAmountAndFee",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1840,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1835,
+                  "name": "_sourceToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "1981:24:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                    "typeString": "contract IERC20Token"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1834,
+                    "name": "IERC20Token",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1785,
+                    "src": "1981:11:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                      "typeString": "contract IERC20Token"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1837,
+                  "name": "_targetToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "2007:24:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                    "typeString": "contract IERC20Token"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1836,
+                    "name": "IERC20Token",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1785,
+                    "src": "2007:11:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                      "typeString": "contract IERC20Token"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1839,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "2033:15:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1838,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2033:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1980:69:10"
+            },
+            "returnParameters": {
+              "id": 1845,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1842,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "2073:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1841,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2073:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1844,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1846,
+                  "src": "2082:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1843,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2082:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2072:18:10"
+            },
+            "scope": 1939,
+            "src": "1953:138:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev increases the pool's liquidity and mints new shares in the pool to the caller\nnote that prior to version 28, you should use 'fund' instead\n\n      * @param _reserveTokens   address of each reserve token\n@param _reserveAmounts  amount of each reserve token\n@param _minReturn       token minimum return-amount",
+            "id": 1857,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addLiquidity",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1855,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1849,
+                  "name": "_reserveTokens",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1857,
+                  "src": "2497:37:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_contract$_IERC20Token_$1785_$dyn_calldata_ptr",
+                    "typeString": "contract IERC20Token[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "contractScope": null,
+                      "id": 1847,
+                      "name": "IERC20Token",
+                      "nodeType": "UserDefinedTypeName",
+                      "referencedDeclaration": 1785,
+                      "src": "2497:11:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                        "typeString": "contract IERC20Token"
+                      }
+                    },
+                    "id": 1848,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "2497:13:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_contract$_IERC20Token_$1785_$dyn_storage_ptr",
+                      "typeString": "contract IERC20Token[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1852,
+                  "name": "_reserveAmounts",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1857,
+                  "src": "2536:34:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_calldata_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1850,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "2536:7:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1851,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "2536:9:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1854,
+                  "name": "_minReturn",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1857,
+                  "src": "2572:18:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1853,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2572:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2496:95:10"
+            },
+            "returnParameters": {
+              "id": 1856,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2608:0:10"
+            },
+            "scope": 1939,
+            "src": "2475:134:10",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev decreases the pool's liquidity and burns the caller's shares in the pool\nnote that prior to version 28, you should use 'liquidate' instead\n\n      * @param _amount                  token amount\n@param _reserveTokens           address of each reserve token\n@param _reserveMinReturnAmounts minimum return-amount of each reserve token",
+            "id": 1868,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "removeLiquidity",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1866,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1859,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1868,
+                  "src": "3040:15:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1858,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3040:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1862,
+                  "name": "_reserveTokens",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1868,
+                  "src": "3057:37:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_contract$_IERC20Token_$1785_$dyn_calldata_ptr",
+                    "typeString": "contract IERC20Token[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "contractScope": null,
+                      "id": 1860,
+                      "name": "IERC20Token",
+                      "nodeType": "UserDefinedTypeName",
+                      "referencedDeclaration": 1785,
+                      "src": "3057:11:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IERC20Token_$1785",
+                        "typeString": "contract IERC20Token"
+                      }
+                    },
+                    "id": 1861,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "3057:13:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_contract$_IERC20Token_$1785_$dyn_storage_ptr",
+                      "typeString": "contract IERC20Token[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1865,
+                  "name": "_reserveMinReturnAmounts",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1868,
+                  "src": "3096:43:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_calldata_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1863,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "3096:7:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1864,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "3096:9:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3039:101:10"
+            },
+            "returnParameters": {
+              "id": 1867,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3149:0:10"
+            },
+            "scope": 1939,
+            "src": "3015:135:10",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev increases the pool's liquidity and mints new shares in the pool to the caller\nfor example, if the caller increases the supply by 10%,\nthen it will cost an amount equal to 10% of each reserve token balance\nnote that starting from version 28, you should use 'addLiquidity' instead\n\n      * @param _amount  amount to increase the supply by (in the pool token)",
+            "id": 1873,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fund",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1871,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1870,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1873,
+                  "src": "3596:15:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1869,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3596:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3595:17:10"
+            },
+            "returnParameters": {
+              "id": 1872,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3629:0:10"
+            },
+            "scope": 1939,
+            "src": "3582:48:10",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev decreases the pool's liquidity and burns the caller's shares in the pool\nfor example, if the holder sells 10% of the supply,\nthen they will receive 10% of each reserve token balance in return\nnote that starting from version 28, you should use 'removeLiquidity' instead\n\n      * @param _amount  amount to liquidate (in the pool token)",
+            "id": 1878,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "liquidate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1876,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1875,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1878,
+                  "src": "4058:15:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1874,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4058:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4057:17:10"
+            },
+            "returnParameters": {
+              "id": 1877,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "4083:0:10"
+            },
+            "scope": 1939,
+            "src": "4039:45:10",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev calculates the number of decimal digits in a given value\n\n      * @param _x   value (assumed positive)\n@return the number of decimal digits in the given value",
+            "id": 1885,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "decimalLength",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1881,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1880,
+                  "name": "_x",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1885,
+                  "src": "4323:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1879,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4323:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4322:12:10"
+            },
+            "returnParameters": {
+              "id": 1884,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1883,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1885,
+                  "src": "4358:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1882,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4358:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4357:9:10"
+            },
+            "scope": 1939,
+            "src": "4300:67:10",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev calculates the nearest integer to a given quotient\n\n      * @param _n   quotient numerator\n@param _d   quotient denominator\n@return the nearest integer to the given quotient",
+            "id": 1894,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "roundDiv",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1890,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1887,
+                  "name": "_n",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "4625:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1886,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4625:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1889,
+                  "name": "_d",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "4637:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1888,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4637:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4624:24:10"
+            },
+            "returnParameters": {
+              "id": 1893,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1892,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1894,
+                  "src": "4672:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1891,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4672:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4671:9:10"
+            },
+            "scope": 1939,
+            "src": "4607:74:10",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev calculates the average number of decimal digits in a given list of values\n\n      * @param _values  list of values (each of which assumed positive)\n@return the average number of decimal digits in the given list of values",
+            "id": 1902,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "geometricMean",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1898,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1897,
+                  "name": "_values",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1902,
+                  "src": "4981:26:10",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_calldata_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1895,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "4981:7:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1896,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "4981:9:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4980:28:10"
+            },
+            "returnParameters": {
+              "id": 1901,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1900,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1902,
+                  "src": "5032:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1899,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5032:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5031:9:10"
+            },
+            "scope": 1939,
+            "src": "4958:83:10",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev deprecated since version 28, backward compatibility - use only for earlier versions",
+            "id": 1907,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "token",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1903,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "5178:2:10"
+            },
+            "returnParameters": {
+              "id": 1906,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1905,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1907,
+                  "src": "5204:16:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IConverterAnchor_$1618",
+                    "typeString": "contract IConverterAnchor"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1904,
+                    "name": "IConverterAnchor",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1618,
+                    "src": "5204:16:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IConverterAnchor_$1618",
+                      "typeString": "contract IConverterAnchor"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5203:18:10"
+            },
+            "scope": 1939,
+            "src": "5164:58:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 1912,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "reserveRatio",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1908,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "5251:2:10"
+            },
+            "returnParameters": {
+              "id": 1911,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1910,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1912,
+                  "src": "5277:6:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1909,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5277:6:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5276:8:10"
+            },
+            "scope": 1939,
+            "src": "5230:55:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "canonicalName": "ILiquidityPoolV1Converter.Reserve",
+            "id": 1923,
+            "members": [
+              {
+                "constant": false,
+                "id": 1914,
+                "name": "balance",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5317:15:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1913,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5317:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1916,
+                "name": "weight",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5363:13:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint32",
+                  "typeString": "uint32"
+                },
+                "typeName": {
+                  "id": 1915,
+                  "name": "uint32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5363:6:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1918,
+                "name": "deprecated1",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5439:16:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1917,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5439:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1920,
+                "name": "deprecated2",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5480:16:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1919,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5480:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1922,
+                "name": "isSet",
+                "nodeType": "VariableDeclaration",
+                "scope": 1923,
+                "src": "5521:10:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1921,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "5521:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Reserve",
+            "nodeType": "StructDefinition",
+            "scope": 1939,
+            "src": "5293:303:10",
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 1938,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "reserves",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1926,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1925,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5620:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1924,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5620:7:10",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5619:9:10"
+            },
+            "returnParameters": {
+              "id": 1937,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1928,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5652:7:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1927,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5652:7:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1930,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5661:6:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 1929,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5661:6:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1932,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5669:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1931,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5669:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1934,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5675:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1933,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5675:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1936,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1938,
+                  "src": "5681:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1935,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5681:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5651:35:10"
+            },
+            "scope": 1939,
+            "src": "5602:85:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 1940,
+        "src": "420:5272:10"
+      }
+    ],
+    "src": "0:5694:10"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.2",
+  "updatedAt": "2021-04-08T03:07:12.769Z",
+  "devdoc": {
+    "details": "Liquidity Pool v1 Converter   * The liquidity pool v1 converter is a specialized version of a converter that manages a classic SovrynSwap liquidity pool.   * Even though classic pools can have many reserves, the most common configuration of the pool has 2 reserves with 50%/50% weights.",
+    "methods": {
+      "acceptAnchorOwnership()": {
+        "details": "accepts ownership of the anchor after an ownership transfer also activates the converter can only be called by the contract owner note that prior to version 28, you should use 'acceptTokenOwnership' instead"
+      },
+      "addLiquidity(address[],uint256[],uint256)": {
+        "details": "increases the pool's liquidity and mints new shares in the pool to the caller note that prior to version 28, you should use 'fund' instead ",
+        "params": {
+          "_minReturn": "token minimum return-amount",
+          "_reserveAmounts": "amount of each reserve token",
+          "_reserveTokens": "address of each reserve token"
+        }
+      },
+      "converterType()": {
+        "details": "returns the converter type ",
+        "return": "see the converter types in the the main contract doc"
+      },
+      "decimalLength(uint256)": {
+        "details": "calculates the number of decimal digits in a given value ",
+        "params": {
+          "_x": "value (assumed positive)"
+        },
+        "return": "the number of decimal digits in the given value"
+      },
+      "fund(uint256)": {
+        "details": "increases the pool's liquidity and mints new shares in the pool to the caller for example, if the caller increases the supply by 10%, then it will cost an amount equal to 10% of each reserve token balance note that starting from version 28, you should use 'addLiquidity' instead ",
+        "params": {
+          "_amount": "amount to increase the supply by (in the pool token)"
+        }
+      },
+      "geometricMean(uint256[])": {
+        "details": "calculates the average number of decimal digits in a given list of values ",
+        "params": {
+          "_values": "list of values (each of which assumed positive)"
+        },
+        "return": "the average number of decimal digits in the given list of values"
+      },
+      "liquidate(uint256)": {
+        "details": "decreases the pool's liquidity and burns the caller's shares in the pool for example, if the holder sells 10% of the supply, then they will receive 10% of each reserve token balance in return note that starting from version 28, you should use 'removeLiquidity' instead ",
+        "params": {
+          "_amount": "amount to liquidate (in the pool token)"
+        }
+      },
+      "removeLiquidity(uint256,address[],uint256[])": {
+        "details": "decreases the pool's liquidity and burns the caller's shares in the pool note that prior to version 28, you should use 'liquidate' instead ",
+        "params": {
+          "_amount": "token amount",
+          "_reserveMinReturnAmounts": "minimum return-amount of each reserve token",
+          "_reserveTokens": "address of each reserve token"
+        }
+      },
+      "roundDiv(uint256,uint256)": {
+        "details": "calculates the nearest integer to a given quotient ",
+        "params": {
+          "_d": "quotient denominator",
+          "_n": "quotient numerator"
+        },
+        "return": "the nearest integer to the given quotient"
+      },
+      "targetAmountAndFee(address,address,uint256)": {
+        "details": "returns the expected target amount of converting one reserve to another along with the fee ",
+        "params": {
+          "_amount": "amount of tokens received from the user ",
+          "_sourceToken": "contract address of the source reserve token",
+          "_targetToken": "contract address of the target reserve token"
+        },
+        "return": "expected target amountexpected fee"
+      },
+      "token()": {
+        "details": "deprecated since version 28, backward compatibility - use only for earlier versions"
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

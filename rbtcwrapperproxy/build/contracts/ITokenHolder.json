@@ -66,25 +66,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"acceptOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract IERC20Token\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"withdrawTokens\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol\":\"ITokenHolder\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol\":{\"keccak256\":\"0x1341dd060a2d4b8c123dbc71ed9d7f1d76ca98aecc70235f9f735ea20b8cd714\",\"urls\":[\"bzz-raw://8e3f60d035d1d29bb589f091fe4d1c1c995eb4b40f4b1cd9b0370b9c2f7411c7\",\"dweb:/ipfs/QmZcyc18jWheskD9xNpaYqovARs7E3g3J8mNvm3L5gL1M6\"]},\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IOwned.sol\":{\"keccak256\":\"0x8eae5fd70d41025ab2ec612ce2914d45c95ca9e19974cad06597e9e8d7ee8c89\",\"urls\":[\"bzz-raw://7df26f28b62c170c664362a87120ccbe05b06e0b832491c7e92c21532a336c9b\",\"dweb:/ipfs/QmXDHgk7FvEQ5it8EgkvztMuSMq67Tybmz3gFKYC4ZnejH\"]},\"/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol\":{\"keccak256\":\"0x043d3f190ccdd738b89d750337831c8701d606efbbdc1a46c81ea303bee32084\",\"urls\":[\"bzz-raw://e92b15a97ba9b64da5a0a47afe99cc1417d8cfc1b8e94b375bf5f81c41e0b217\",\"dweb:/ipfs/QmXru2uWMd5irQ8ez3qAVRH2mMoKnE6ieoHWRZHjdMmX4F\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"acceptOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract IERC20Token\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"withdrawTokens\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol\":\"ITokenHolder\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol\":{\"keccak256\":\"0x85f3acaf53418f63817c8b5d8e047203891bbb9c3fc9558a541a8c446857783b\",\"urls\":[\"bzz-raw://b80d05aeb3fc866a791d3de7f7a8d7c2a65dddc72ad436920e3f043414c82158\",\"dweb:/ipfs/QmVXNmZfw6pQ2xg6xJwHR5ptCxGKx9PRzX9dgQWK7KUTTE\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IOwned.sol\":{\"keccak256\":\"0xa82c5cce1bb1c13dccdcb590bcbfeda3409efb67adc55fce3a301c76075e320c\",\"urls\":[\"bzz-raw://272cd112c211795db57e41fd9c49aae08ead3f7169e73dd8f594c1a8ca3932ad\",\"dweb:/ipfs/QmVTXpDDZEJ6aPUt9f6dTLupE16Rh4HembDTNR2X678svt\"]},\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol\":{\"keccak256\":\"0xf4285fadaccd2065e9373f7e9ba9e9d510450ef5b00a297b04b35236f3ae8021\",\"urls\":[\"bzz-raw://52c708e32e441410130ef32316924621cf2daef5d94e043e5d2dba47df89500f\",\"dweb:/ipfs/QmXzFDueMA48Y2Cvyx9cdtSTcM6c3b2Y437BhGsfACvRsG\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"./IOwned.sol\";\nimport \"./IERC20Token.sol\";\n\n/*\n    Token Holder interface\n*/\ncontract ITokenHolder is IOwned {\n    function withdrawTokens(IERC20Token _token, address _to, uint256 _amount) public;\n}\n",
-  "sourcePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"./IOwned.sol\";\nimport \"./IERC20Token.sol\";\n\n/*\n    Token Holder interface\n*/\ncontract ITokenHolder is IOwned {\n\tfunction withdrawTokens(\n\t\tIERC20Token _token,\n\t\taddress _to,\n\t\tuint256 _amount\n\t) public;\n}\n",
+  "sourcePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
   "ast": {
-    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
+    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
     "exportedSymbols": {
       "ITokenHolder": [
-        1184
+        2016
       ]
     },
-    "id": 1185,
+    "id": 2017,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1170,
+        "id": 2002,
         "literals": [
           "solidity",
           ">=",
@@ -95,27 +95,27 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:11"
+        "src": "0:31:14"
       },
       {
-        "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IOwned.sol",
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IOwned.sol",
         "file": "./IOwned.sol",
-        "id": 1171,
+        "id": 2003,
         "nodeType": "ImportDirective",
-        "scope": 1185,
-        "sourceUnit": 850,
-        "src": "33:22:11",
+        "scope": 2017,
+        "sourceUnit": 1682,
+        "src": "33:22:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol",
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol",
         "file": "./IERC20Token.sol",
-        "id": 1172,
+        "id": 2004,
         "nodeType": "ImportDirective",
-        "scope": 1185,
-        "sourceUnit": 652,
-        "src": "56:27:11",
+        "scope": 2017,
+        "sourceUnit": 1387,
+        "src": "56:27:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -125,31 +125,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1173,
+              "id": 2005,
               "name": "IOwned",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 849,
-              "src": "143:6:11",
+              "referencedDeclaration": 1681,
+              "src": "143:6:14",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IOwned_$849",
+                "typeIdentifier": "t_contract$_IOwned_$1681",
                 "typeString": "contract IOwned"
               }
             },
-            "id": 1174,
+            "id": 2006,
             "nodeType": "InheritanceSpecifier",
-            "src": "143:6:11"
+            "src": "143:6:14"
           }
         ],
         "contractDependencies": [
-          849
+          1681
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1184,
+        "id": 2016,
         "linearizedBaseContracts": [
-          1184,
-          849
+          2016,
+          1681
         ],
         "name": "ITokenHolder",
         "nodeType": "ContractDefinition",
@@ -157,38 +157,38 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1183,
+            "id": 2015,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdrawTokens",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1181,
+              "id": 2013,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1176,
+                  "id": 2008,
                   "name": "_token",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1183,
-                  "src": "180:18:11",
+                  "scope": 2015,
+                  "src": "180:18:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20Token_$651",
+                    "typeIdentifier": "t_contract$_IERC20Token_$1386",
                     "typeString": "contract IERC20Token"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1175,
+                    "id": 2007,
                     "name": "IERC20Token",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 651,
-                    "src": "180:11:11",
+                    "referencedDeclaration": 1386,
+                    "src": "180:11:14",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20Token_$651",
+                      "typeIdentifier": "t_contract$_IERC20Token_$1386",
                       "typeString": "contract IERC20Token"
                     }
                   },
@@ -197,11 +197,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1178,
+                  "id": 2010,
                   "name": "_to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1183,
-                  "src": "200:11:11",
+                  "scope": 2015,
+                  "src": "202:11:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -209,10 +209,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1177,
+                    "id": 2009,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "200:7:11",
+                    "src": "202:7:14",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -224,11 +224,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1180,
+                  "id": 2012,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1183,
-                  "src": "213:15:11",
+                  "scope": 2015,
+                  "src": "217:15:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -236,10 +236,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1179,
+                    "id": 2011,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "213:7:11",
+                    "src": "217:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -249,39 +249,39 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "179:50:11"
+              "src": "176:59:14"
             },
             "returnParameters": {
-              "id": 1182,
+              "id": 2014,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "236:0:11"
+              "src": "242:0:14"
             },
-            "scope": 1184,
-            "src": "156:81:11",
+            "scope": 2016,
+            "src": "153:90:14",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1185,
-        "src": "118:121:11"
+        "scope": 2017,
+        "src": "118:127:14"
       }
     ],
-    "src": "0:240:11"
+    "src": "0:246:14"
   },
   "legacyAST": {
-    "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
+    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/ITokenHolder.sol",
     "exportedSymbols": {
       "ITokenHolder": [
-        1184
+        2016
       ]
     },
-    "id": 1185,
+    "id": 2017,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1170,
+        "id": 2002,
         "literals": [
           "solidity",
           ">=",
@@ -292,27 +292,27 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:11"
+        "src": "0:31:14"
       },
       {
-        "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IOwned.sol",
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IOwned.sol",
         "file": "./IOwned.sol",
-        "id": 1171,
+        "id": 2003,
         "nodeType": "ImportDirective",
-        "scope": 1185,
-        "sourceUnit": 850,
-        "src": "33:22:11",
+        "scope": 2017,
+        "sourceUnit": 1682,
+        "src": "33:22:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/hsiang/Desktop/RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol",
+        "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IERC20Token.sol",
         "file": "./IERC20Token.sol",
-        "id": 1172,
+        "id": 2004,
         "nodeType": "ImportDirective",
-        "scope": 1185,
-        "sourceUnit": 652,
-        "src": "56:27:11",
+        "scope": 2017,
+        "sourceUnit": 1387,
+        "src": "56:27:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -322,31 +322,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1173,
+              "id": 2005,
               "name": "IOwned",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 849,
-              "src": "143:6:11",
+              "referencedDeclaration": 1681,
+              "src": "143:6:14",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IOwned_$849",
+                "typeIdentifier": "t_contract$_IOwned_$1681",
                 "typeString": "contract IOwned"
               }
             },
-            "id": 1174,
+            "id": 2006,
             "nodeType": "InheritanceSpecifier",
-            "src": "143:6:11"
+            "src": "143:6:14"
           }
         ],
         "contractDependencies": [
-          849
+          1681
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1184,
+        "id": 2016,
         "linearizedBaseContracts": [
-          1184,
-          849
+          2016,
+          1681
         ],
         "name": "ITokenHolder",
         "nodeType": "ContractDefinition",
@@ -354,38 +354,38 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1183,
+            "id": 2015,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdrawTokens",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1181,
+              "id": 2013,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1176,
+                  "id": 2008,
                   "name": "_token",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1183,
-                  "src": "180:18:11",
+                  "scope": 2015,
+                  "src": "180:18:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20Token_$651",
+                    "typeIdentifier": "t_contract$_IERC20Token_$1386",
                     "typeString": "contract IERC20Token"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1175,
+                    "id": 2007,
                     "name": "IERC20Token",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 651,
-                    "src": "180:11:11",
+                    "referencedDeclaration": 1386,
+                    "src": "180:11:14",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20Token_$651",
+                      "typeIdentifier": "t_contract$_IERC20Token_$1386",
                       "typeString": "contract IERC20Token"
                     }
                   },
@@ -394,11 +394,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1178,
+                  "id": 2010,
                   "name": "_to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1183,
-                  "src": "200:11:11",
+                  "scope": 2015,
+                  "src": "202:11:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -406,10 +406,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1177,
+                    "id": 2009,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "200:7:11",
+                    "src": "202:7:14",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -421,11 +421,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 1180,
+                  "id": 2012,
                   "name": "_amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1183,
-                  "src": "213:15:11",
+                  "scope": 2015,
+                  "src": "217:15:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -433,10 +433,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1179,
+                    "id": 2011,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "213:7:11",
+                    "src": "217:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -446,34 +446,34 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "179:50:11"
+              "src": "176:59:14"
             },
             "returnParameters": {
-              "id": 1182,
+              "id": 2014,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "236:0:11"
+              "src": "242:0:14"
             },
-            "scope": 1184,
-            "src": "156:81:11",
+            "scope": 2016,
+            "src": "153:90:14",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1185,
-        "src": "118:121:11"
+        "scope": 2017,
+        "src": "118:127:14"
       }
     ],
-    "src": "0:240:11"
+    "src": "0:246:14"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.2",
-  "updatedAt": "2020-11-23T12:14:24.299Z",
+  "schemaVersion": "3.3.2",
+  "updatedAt": "2021-03-26T10:10:09.423Z",
   "devdoc": {
     "methods": {}
   },

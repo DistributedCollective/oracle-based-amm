@@ -289,6 +289,10 @@ if (TOKEN_NAME === "BPro") {
 	addConverter("BProOracle", "MoCStateMock", "20000000000000000000000");
 }
 
-if (TOKEN_NAME === "USDT") {
-	addConverter("MocBTCToBTCOracle");
+if (TOKEN_NAME === 'USDT') {
+    addConverter('MocBTCToBTCOracle');
+}
+
+if (TOKEN_NAME === 'SOV') {
+    addConverter();
 }
