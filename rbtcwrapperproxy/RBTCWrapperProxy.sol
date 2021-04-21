@@ -131,6 +131,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      */
     function addLiquidity(
         address _liquidityPoolConverterAddress, 
+        //todo: add the reserve address
         uint256 _amount, 
         uint256 _minReturn
     )  
@@ -142,15 +143,19 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         require(_amount == msg.value, "The provided amount should be identical to msg.value");
 
         ILiquidityPoolV2Converter _liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
+        //todo: reserve address
         ISmartToken _poolToken = _liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
-
+        //todo only if reserve == wrbtc
         IWrbtcERC20(wrbtcTokenAddress).deposit.value(_amount)();
 
         bool successOfApprove = IWrbtcERC20(wrbtcTokenAddress).approve(_liquidityPoolConverterAddress, _amount);
         require(successOfApprove);
 
+        //todo reserve address
         uint256 poolTokenAmount = _liquidityPoolConverter.addLiquidity(IERC20Token(wrbtcTokenAddress), _amount, _minReturn);
         
+        //todo replace with deposit on LM contract: deposit(uint256 _pid, uint256 _amount)
+        //todo -> use address instead of id. contract could use mapping address => pid
         bool successOfTransfer = _poolToken.transfer(msg.sender, poolTokenAmount);
         require(successOfTransfer);
 
@@ -216,6 +221,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         _liquidityPoolConverter.addLiquidity(_reserveTokens, _reserveAmounts, _minReturn);
         uint256 poolTokenAmount = _poolToken.balanceOf(address(this)).sub(poolTokenAmountBefore);
         
+        //todo: add to #lm mining contract
         success = _poolToken.transfer(msg.sender, poolTokenAmount);
         require(success, "Failed to transfer pool token to user");
 
@@ -258,6 +264,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      */
     function removeLiquidity(
         address _liquidityPoolConverterAddress, 
+        //todo: add reserve address
         uint256 _amount, 
         uint256 _minReturn
     )   
@@ -266,8 +273,12 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         returns(uint256) 
     {
         ILiquidityPoolV2Converter _liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
+        //todo: reserve address
         ISmartToken _poolToken = _liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
 
+        //todo remove from lm contract instead
+        //withdraw(uint256 _pid, uint256 _amount)
+        //remember that it's important that we can specify the user because of the reward payment
         bool successOfTransferFrom = _poolToken.transferFrom(msg.sender, address(this), _amount);
         require(successOfTransferFrom);
 
@@ -315,6 +326,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
 
+        //todo withdraw pool token from lm mining contract first
         bool successOfTransferFrom = _poolToken.transferFrom(msg.sender, address(this), _amount);
         require(successOfTransferFrom);
 
