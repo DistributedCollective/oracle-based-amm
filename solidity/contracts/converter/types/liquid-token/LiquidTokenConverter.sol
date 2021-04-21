@@ -140,9 +140,9 @@ contract LiquidTokenConverter is ConverterBase {
     {
         uint256 totalSupply = ISmartToken(anchor).totalSupply();
 
-        // special case for buying the initial supply
+        // if the current supply is zero, then return the input amount divided by the normalized reserve-weight
         if (totalSupply == 0)
-            return (_amount, 0);
+            return (_amount.mul(WEIGHT_RESOLUTION).div(reserves[reserveToken].weight), 0);
 
         IERC20Token reserveToken = reserveTokens[0];
         uint256 amount = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).purchaseTargetAmount(

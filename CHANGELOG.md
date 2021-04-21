@@ -1,3 +1,14 @@
+### 0.6.11 (2021-03-17)
+PriceOracle
+* Fixed `lastUpdateTime` to return the latest time between the oracles
+* Fixed the corresponding test to the update of `lastUpdateTime`
+
+ReentrancyGuard
+* Reentrancy Guard Optimized
+
+LiquidTokenConverter
+* Initial purchase/supply now takes the reserve weight into account
+
 ### 0.6.10 (2020-08-07)
 LiquidityPoolV2Converter
 * Fixed an issue in the upgrade process
