@@ -217,6 +217,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
 		console.log("New Converter is  ", newConverter);
+		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
 		console.log("Calling anchors");
 		console.log(await converterRegistry.methods.getAnchors().call());

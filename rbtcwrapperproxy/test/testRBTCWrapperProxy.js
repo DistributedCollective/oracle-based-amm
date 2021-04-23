@@ -4,10 +4,10 @@ require("@openzeppelin/test-helpers/configure")({
 		abstraction: "truffle",
 	},
 });
+const fs = require("fs");
 
 const assert = require("chai").assert;
-const { expectRevert, expectEvent } = require("@openzeppelin/test-helpers");
-const { before } = require("lodash");
+const { expectRevert, expectEvent, BN } = require("@openzeppelin/test-helpers");
 
 const RBTCWrapperProxy = artifacts.require("../RBTCWrapperProxy.sol");
 const IERC20Token = artifacts.require("../interfaces/IERC20Token.sol");
@@ -16,13 +16,20 @@ const ISovrynSwapNetwork = artifacts.require("../interfaces/ISovrynSwapNetwork.s
 const ILiquidityPoolV1Converter = artifacts.require("../interfaces/ILiquidityPoolV1Converter.sol");
 const ILiquidityPoolV2Converter = artifacts.require("../interfaces/ILiquidityPoolV2Converter.sol");
 
-// Update following addresses
-const liquidityPoolV1ConverterAddress = '0xC6350b199C1B06Dd594F323147792A7279c7f11B';
-const liquidityPoolV2ConverterAddress = '0xcC27A710702BBDE50E0ca41E92bB9438AD297175';
-const sovrynSwapNetworkAddress = '0x0764A8da0FCAa127b31E13b79E9a273Fb5B2bF26';
-const wrbtcAddress = '0x602C71e4DAC47a042Ee7f46E0aee17F94A3bA0B6';
-const sovTokenAddress = '0x286677F2b204be093ABBee3e35074352b339243B';
-const docTokenAddress = '0x3194cBDC3dbcd3E11a07892e7bA5c3394048Cc87';
+const getConfig = () => {
+	return JSON.parse(fs.readFileSync("../solidity/utils/config_rsk.json", { encoding: "utf8" }));
+};
+
+const getConfigFromSOV = () => {
+	return JSON.parse(fs.readFileSync("../solidity/utils/addSOV.json", { encoding: "utf8" }));
+};
+
+const liquidityPoolV1ConverterAddress = getConfigFromSOV()["newLiquidityPoolV1Converter"].addr;
+const liquidityPoolV2ConverterAddress = getConfig()["newLiquidityPoolV2Converter"].addr;
+const sovrynSwapNetworkAddress = getConfig()["sovrynSwapNetwork"].addr;
+const wrbtcAddress = getConfig()["reserves"][0].address;
+const sovTokenAddress = getConfigFromSOV()["reserves"][1].address;
+const docTokenAddress = getConfig()["reserves"][1].address;
 
 contract("RBTCWrapperProxy", async (accounts) => {
 	let rbtcWrapperProxy, liquidityPoolV1Converter, liquidityPoolV2Converter, poolToken1Address, poolToken2Address, poolToken1, poolToken2, sovToken, docToken, sovrynSwapNetwork;
@@ -33,7 +40,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		liquidityPoolV2Converter = await ILiquidityPoolV2Converter.at(liquidityPoolV2ConverterAddress);
 		poolToken1Address = await liquidityPoolV1Converter.token();
 		poolToken1 = await ISmartToken.at(poolToken1Address);
-		poolToken2Address = await liquidityPoolV2Converter.poolToken(docTokenAddress);
+		poolToken2Address = await liquidityPoolV2Converter.poolToken(wrbtcAddress);
 		poolToken2 = await ISmartToken.at(poolToken2Address);
 		sovToken = await IERC20Token.at(sovTokenAddress);
 		docToken = await IERC20Token.at(docTokenAddress);
@@ -44,24 +51,27 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		var sovAmountBefore = web3.utils.fromWei(await sovToken.balanceOf(accounts[0]));
 		var poolToken1AmountBefore = web3.utils.fromWei(await poolToken1.balanceOf(accounts[0]));
 
-		await sovToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(4e15), { from: accounts[0] });
+		var rbtcAmount = getConfigFromSOV()["converters"][0]["reserves"][0]["balance"] * 1e14;
+		var sovAmount = getConfigFromSOV()["converters"][0]["reserves"][1]["balance"] * 4 * 1e14;
+
+		await sovToken.approve(RBTCWrapperProxy.address, sovAmount, { from: accounts[0] }); 
 
 		var result = await rbtcWrapperProxy.addLiquidityToV1(
 			liquidityPoolV1ConverterAddress, 
 			[wrbtcAddress,sovTokenAddress], 
-			[web3.utils.toBN(1e14), web3.utils.toBN(1e15)], 
+			[rbtcAmount, sovAmount / 4], 
 			1, 
 		{
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
-			value: 1e14
+			value: rbtcAmount
 		});
  
 		var addedPoolToken1Amount = web3.utils.fromWei(result.logs[0].args._poolTokenAmount);
 
 		assert.equal(
-			await sovToken.balanceOf(accounts[0]),
-			parseInt(web3.utils.toWei(sovAmountBefore)) - 1e15,
+			web3.utils.fromWei(await sovToken.balanceOf(accounts[0])),
+			sovAmountBefore - web3.utils.fromWei((sovAmount/4).toString()),
 			"Wrong SOV balance"
 		);
 
@@ -74,7 +84,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		await expectEvent(result.receipt, "LiquidityAddedToV1", {
 			_provider: accounts[0],
 			_reserveTokens: [wrbtcAddress, sovTokenAddress],
-			_reserveAmounts: [web3.utils.toBN(1e14), web3.utils.toBN(1e15)],
+			_reserveAmounts: [web3.utils.toBN(rbtcAmount), web3.utils.toBN(sovAmount / 4)], 
 			_poolTokenAmount: web3.utils.toWei(addedPoolToken1Amount),
 		});
 
@@ -85,19 +95,19 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		var result = await rbtcWrapperProxy.addLiquidityToV1(
 			liquidityPoolV1ConverterAddress, 
 			[wrbtcAddress,sovTokenAddress], 
-			[web3.utils.toBN(1e14), web3.utils.toBN(2e15)], 
+			[rbtcAmount, sovAmount / 2], 
 			1, 
 		{
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
-			value: 1e14
+			value: rbtcAmount
 		});
 	
 		var addedPoolToken1Amount = web3.utils.fromWei(result.logs[0].args._poolTokenAmount);
 
 		assert.equal(
-			await sovToken.balanceOf(accounts[0]),
-			parseInt(web3.utils.toWei(sovAmountAfter)) - 1e15,
+			web3.utils.fromWei(await sovToken.balanceOf(accounts[0])),
+			sovAmountAfter - web3.utils.fromWei((sovAmount/4).toString()),
 			"Wrong SOV balance"
 		);
 
@@ -110,26 +120,21 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		await expectEvent(result.receipt, "LiquidityAddedToV1", {
 			_provider: accounts[0],
 			_reserveTokens: [wrbtcAddress, sovTokenAddress],
-			_reserveAmounts: [web3.utils.toBN(1e14), web3.utils.toBN(2e15)],
+			_reserveAmounts: [web3.utils.toBN(rbtcAmount), web3.utils.toBN(sovAmount / 2)], 
 			_poolTokenAmount: web3.utils.toWei(addedPoolToken1Amount),
 		});
 	});
 
 	it("verifies that users could remove liquidity to burn pool token 1 and then get RBTC and SOV", async () => {
-		await poolToken1.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e15), { from: accounts[0] });
+		await poolToken1.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e14), { from: accounts[0] });
 
 		rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
 		sovAmountBefore = web3.utils.fromWei(await sovToken.balanceOf(accounts[0]));
 		poolToken1AmountBefore = web3.utils.fromWei(await poolToken1.balanceOf(accounts[0]));
 
-		var result = await rbtcWrapperProxy.removeLiquidityFromV1(liquidityPoolV1ConverterAddress, web3.utils.toBN(1e15), [wrbtcAddress, sovTokenAddress], [1, 1]);
-		console.log("The amount of RBTC of the account after burning 0.001 pool token 1:", web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
-		console.log(
-			"The amount of pool token 1 of the account after burning 0.001 pool token 1:",
-			web3.utils.fromWei(await poolToken1.balanceOf(accounts[0]))
-		);
+		var result = await rbtcWrapperProxy.removeLiquidityFromV1(liquidityPoolV1ConverterAddress, web3.utils.toBN(1e14), [wrbtcAddress, sovTokenAddress], [1, 1]);
 
-		assert.equal(await poolToken1.balanceOf(accounts[0]), web3.utils.toWei(poolToken1AmountBefore) - 1e15, "Wrong pool token balance");
+		assert.equal(await poolToken1.balanceOf(accounts[0]), web3.utils.toWei(poolToken1AmountBefore) - 1e14, "Wrong pool token balance");
 
 		var gasCost = result.receipt.gasUsed * (await web3.eth.getGasPrice());
 		var addedRBTCAmount = result.logs[0].args._reserveAmounts[0];
@@ -156,23 +161,18 @@ contract("RBTCWrapperProxy", async (accounts) => {
 	it("verifies that users could send RBTC and then add liquidity to get pool token 2", async () => {
 		var rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
 		var poolToken2AmountBefore = web3.utils.fromWei(await poolToken2.balanceOf(accounts[0]));
-		console.log("The account address:", accounts[0]);
-		console.log("The amount of RBTC of the account:", rbtcAmountBefore);
-		console.log("The amount of pool token of the account:", poolToken2AmountBefore);
 
 		var result = await rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
 			value: 1e16,
 		});
-		console.log("The amount of RBTC of the account after sending 0.01 RBTC:", web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
-		console.log("The amount of pool token 2 of the account after sending 0.01 RBTC:", web3.utils.fromWei(await poolToken2.balanceOf(accounts[0])));
 
 		var gasCost = result.receipt.gasUsed * (await web3.eth.getGasPrice());
 		var addedPoolToken2Amount = web3.utils.fromWei(result.logs[0].args._poolTokenAmount);
 		assert.equal(await web3.eth.getBalance(accounts[0]), web3.utils.toWei(rbtcAmountBefore) - gasCost - 1e16, "Wrong RBTC balance");
 		assert.equal(
-			web3.utils.BN(await poolToken2.balanceOf(accounts[0])).toString(),
+			parseInt(web3.utils.BN(await poolToken2.balanceOf(accounts[0])).toString()),
 			parseInt(web3.utils.toWei(poolToken2AmountBefore)) + parseInt(web3.utils.toWei(addedPoolToken2Amount)),
 			"Wrong pool token balance"
 		);
@@ -184,27 +184,16 @@ contract("RBTCWrapperProxy", async (accounts) => {
 	});
 
 	it("verifies that users could remove liquidity to burn pool token 2 and then get RBTC", async () => {
-		console.log("The account address:", accounts[0]);
-		console.log("The amount of RBTC of the account:", rbtcAmountBefore);
-		console.log("The amount of pool token of the account:", poolToken2AmountBefore);
-
-		await poolToken2.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e16), { from: accounts[0] });
-		console.log(
-			"The allowance of pool token that the RBTCWrapperProxy smart contract could spend:",
-			web3.utils.fromWei(await poolToken2.allowance(accounts[0], RBTCWrapperProxy.address))
-		);
 		var rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
 		var poolToken2AmountBefore = web3.utils.fromWei(await poolToken2.balanceOf(accounts[0]));
 
+		await poolToken2.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e16), { from: accounts[0] });
+
+		rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
 		var result = await rbtcWrapperProxy.removeLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
 		});
-		console.log("The amount of RBTC of the account after burning 0.01 pool token:", web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
-		console.log(
-			"The amount of pool token 2 of the account after burning 0.01 pool token:",
-			web3.utils.fromWei(await poolToken2.balanceOf(accounts[0]))
-		);
 
 		var gasCost = result.receipt.gasUsed * (await web3.eth.getGasPrice());
 		var addedRBTCAmount = web3.utils.BN(result.logs[0].args._reserveAmount).toString();
@@ -224,19 +213,15 @@ contract("RBTCWrapperProxy", async (accounts) => {
 	it("verifies that users could send RBTC and then swap it to DoC", async () => {
 		var rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
 		var docTokenAmountBefore = web3.utils.fromWei(await docToken.balanceOf(accounts[0]));
-		console.log("The account address:", accounts[0]);
-		console.log("The amount of RBTC of the account:", rbtcAmountBefore);
-		console.log("The amount of DoC of the account:", docTokenAmountBefore);
 
 		var pathWRBTCToDoC = await sovrynSwapNetwork.conversionPath(wrbtcAddress, docTokenAddress);
 		var result = await rbtcWrapperProxy.convertByPath(pathWRBTCToDoC, web3.utils.toBN(1e16), 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
-			value: 1e16,
+			value: 1e16
 		});
-		console.log("The amount of RBTC of the account after sending 0.01 RBTC:", web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
-		console.log("The amount of DoC of the account after sending 0.01 RBTC:", web3.utils.fromWei(await docToken.balanceOf(accounts[0])));
 
+		rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
 		var gasCost = result.receipt.gasUsed * (await web3.eth.getGasPrice());
 		var addedDoCTokenAmount = web3.utils.BN(result.logs[0].args._targetTokenAmount).toString();
 		assert.equal(await web3.eth.getBalance(accounts[0]), parseInt(web3.utils.toWei(rbtcAmountBefore)) - gasCost - 1e16, "Wrong RBTC balance");
@@ -254,26 +239,18 @@ contract("RBTCWrapperProxy", async (accounts) => {
 	});
 
 	it("verifies that users could send DoC and then swap it to RBTC", async () => {
-		console.log("The account address:", accounts[0]);
-		console.log("The amount of RBTC of the account:", rbtcAmountBefore);
-		console.log("The amount of DoC of the account:", docTokenAmountBefore);
-
-		await docToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e20), { from: accounts[0] });
-		console.log(
-			"The allowance of DoC that the RBTCWrapperProxy smart contract could spend:",
-			web3.utils.fromWei((await docToken.allowance(accounts[0], RBTCWrapperProxy.address)).toString())
-		);
 		var rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
 		var docTokenAmountBefore = web3.utils.fromWei(await docToken.balanceOf(accounts[0]));
 
+		await docToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e20), { from: accounts[0] });
+
 		var pathDoCToWRBTC = await sovrynSwapNetwork.conversionPath(docTokenAddress, wrbtcAddress);
 		var rbtcAmountBefore = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]));
-		var result = await rbtcWrapperProxy.convertByPath(pathDoCToWRBTC, web3.utils.toBN(1e20), 1, {
+		
+		var result = await rbtcWrapperProxy.convertByPath(pathDoCToWRBTC, web3.utils.toBN(1), 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
 		});
-		console.log("The amount of RBTC of the account after sending 100 DoC:", web3.utils.fromWei(await web3.eth.getBalance(accounts[0])));
-		console.log("The amount of DoC of the account after sending 100 DoC:", web3.utils.fromWei(await docToken.balanceOf(accounts[0])));
 
 		var gasCost = result.receipt.gasUsed * (await web3.eth.getGasPrice());
 		var addedRBTCAmount = web3.utils.BN(result.logs[0].args._targetTokenAmount).toString();
@@ -294,7 +271,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			_path: pathDoCToWRBTC,
 		});
 	});
-
+ 
 	it("should revert when sending rBTC to this smart contract from user directly", async () => {
 		await expectRevert.unspecified(rbtcWrapperProxy.send(web3.utils.toBN(1e16)));
 	});
