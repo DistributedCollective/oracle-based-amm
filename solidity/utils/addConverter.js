@@ -193,6 +193,12 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		if (reserve.address) {
 			addresses[reserve.symbol] = reserve.address;
 			tokenDecimals[reserve.symbol] = reserve.decimals;
+			setConfig({ [reserve.symbol]: { name: reserve.symbol, addr: reserve.address } });
+		}
+		else{
+			t = await web3Func(deploy, reserve.symbol, "ERC20Token", [reserve.symbol, reserve.symbol, reserve.decimals, decimalToInteger("10000", reserve.decimals) ]);
+			tokenDecimals[reserve.symbol] = reserve.decimals;
+			addresses[reserve.symbol] = t._address;
 		}
 	}
 

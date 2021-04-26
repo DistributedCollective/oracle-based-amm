@@ -214,6 +214,18 @@ const run = async () => {
 		if (reserve.address) {
 			addresses[reserve.symbol] = reserve.address;
 			tokenDecimals[reserve.symbol] = reserve.decimals;
+			setConfig({ [reserve.symbol]: { name: reserve.symbol, addr: reserve.address } });
+		}
+		else{
+			let t;
+			if(reserve.symbol == "RBTC"){
+				t = await web3Func(deploy, reserve.symbol, "WRBTC");
+				await execute(deployed(web3, "WRBTC", t._address).methods.deposit(), decimalToInteger("10", reserve.decimals));
+			}
+			else
+				t = await web3Func(deploy, reserve.symbol, "ERC20Token", [reserve.symbol, reserve.symbol, reserve.decimals, decimalToInteger("10000", reserve.decimals) ]);
+			tokenDecimals[reserve.symbol] = reserve.decimals;
+			addresses[reserve.symbol] = t._address;
 		}
 	}
 
@@ -225,6 +237,10 @@ const run = async () => {
 		const fee = percentageToPPM(converter.fee);
 
 		const tokens = converter.reserves.map((reserve) => addresses[reserve.symbol]);
+		console.log("------------------------------------");
+		console.log("tokens:");
+		console.log(tokens);
+		console.log("------------------------------------")
 		const weights = converter.reserves.map((reserve) => percentageToPPM(reserve.weight));
 		const amounts = converter.reserves.map((reserve) => decimalToInteger(reserve.balance, tokenDecimals[reserve.symbol]));
 		const value = 0; // amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'RBTC')];
