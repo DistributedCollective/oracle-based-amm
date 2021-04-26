@@ -7,5 +7,5 @@ const getConfig = () => {
 };
 
 module.exports = function (deployer) {
-	deployer.deploy(RBTCWrapperProxy, getConfig()["reserves"][0].address, getConfig()["sovrynSwapNetwork"].addr, getConfig()["contractRegistry"].addr);
+	deployer.deploy(RBTCWrapperProxy, getConfig()["RBTC"].addr, getConfig()["sovrynSwapNetwork"].addr, getConfig()["contractRegistry"].addr);
 };

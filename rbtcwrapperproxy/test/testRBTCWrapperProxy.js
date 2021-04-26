@@ -27,9 +27,9 @@ const getConfigFromSOV = () => {
 const liquidityPoolV1ConverterAddress = getConfigFromSOV()["newLiquidityPoolV1Converter"].addr;
 const liquidityPoolV2ConverterAddress = getConfig()["newLiquidityPoolV2Converter"].addr;
 const sovrynSwapNetworkAddress = getConfig()["sovrynSwapNetwork"].addr;
-const wrbtcAddress = getConfig()["reserves"][0].address;
-const sovTokenAddress = getConfigFromSOV()["reserves"][1].address;
-const docTokenAddress = getConfig()["reserves"][1].address;
+const wrbtcAddress = getConfig()["RBTC"].addr;
+const sovTokenAddress = getConfigFromSOV()["SOV"].addr;
+const docTokenAddress = getConfig()["SUSD"].addr;
 
 contract("RBTCWrapperProxy", async (accounts) => {
 	let rbtcWrapperProxy, liquidityPoolV1Converter, liquidityPoolV2Converter, poolToken1Address, poolToken2Address, poolToken1, poolToken2, sovToken, docToken, sovrynSwapNetwork;
@@ -53,6 +53,14 @@ contract("RBTCWrapperProxy", async (accounts) => {
 
 		var rbtcAmount = web3.utils.toBN(getConfigFromSOV()["converters"][0]["reserves"][0]["balance"] * 1e14);
 		var sovAmount = web3.utils.toBN(getConfigFromSOV()["converters"][0]["reserves"][1]["balance"] * 1e14);
+
+		console.log("sovAmountBefore "+sovAmountBefore);
+		console.log("poolToken1AmountBefore "+poolToken1AmountBefore);
+		console.log("rbtcAmount "+web3.utils.fromWei(rbtcAmount));
+		console.log("sovAmount "+web3.utils.fromWei(sovAmount));
+		console.log("liquidityPoolV1ConverterAddress "+liquidityPoolV1ConverterAddress);
+		console.log("wrbtcAddress "+wrbtcAddress);
+		console.log("sovTokenAddress "+sovTokenAddress);
 
 		await sovToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(sovAmount * 4), { from: accounts[0] }); 
 
