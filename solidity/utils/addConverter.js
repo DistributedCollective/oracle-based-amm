@@ -193,6 +193,12 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		if (reserve.address) {
 			addresses[reserve.symbol] = reserve.address;
 			tokenDecimals[reserve.symbol] = reserve.decimals;
+			setConfig({ [reserve.symbol]: { name: reserve.symbol, addr: reserve.address } });
+		}
+		else{
+			t = await web3Func(deploy, reserve.symbol, "ERC20Token", [reserve.symbol, reserve.symbol, reserve.decimals, decimalToInteger("10000", reserve.decimals) ]);
+			tokenDecimals[reserve.symbol] = reserve.decimals;
+			addresses[reserve.symbol] = t._address;
 		}
 	}
 
@@ -217,6 +223,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
 		console.log("New Converter is  ", newConverter);
+		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
 		console.log("Calling anchors");
 		console.log(await converterRegistry.methods.getAnchors().call());
