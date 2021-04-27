@@ -141,15 +141,18 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         checkAddress(_liquidityPoolConverterAddress)
         returns(uint256) 
     {
-        require(_amount == msg.value, "The provided amount should be identical to msg.value");
-
         ILiquidityPoolV2Converter _liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
         IERC20Token reserveToken = IERC20Token(_reserveAddress);
         ISmartToken _poolToken = _liquidityPoolConverter.poolToken(reserveToken);
 
         //wrap rbtc if required
-        if(_reserveAddress == wrbtcTokenAddress)
+        if(_reserveAddress == wrbtcTokenAddress){
+            require(_amount == msg.value, "The provided amount should be identical to msg.value");
             IWrbtcERC20(wrbtcTokenAddress).deposit.value(_amount)();
+        }
+        else{
+            reserveToken.transferFrom(msg.sender, address(this), _amount);
+        }
 
         require(reserveToken.approve(_liquidityPoolConverterAddress, _amount), "token approval failed");
 
@@ -158,7 +161,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         //todo replace with deposit on LM contract: deposit(uint256 _pid, uint256 _amount)
         //todo -> use address instead of id. contract could use mapping address => pid
         bool successOfTransfer = _poolToken.transfer(msg.sender, poolTokenAmount);
-        require(successOfTransfer);
+        require(successOfTransfer, "token transfer failed");
 
         emit LiquidityAdded(msg.sender, _amount, poolTokenAmount);
         
