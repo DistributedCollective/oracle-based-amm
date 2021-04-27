@@ -170,7 +170,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		var rbtcAmountBefore = await web3.eth.getBalance(accounts[0]);
 		var poolToken2AmountBefore = await poolToken2.balanceOf(accounts[0]);
 
-		var result = await rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {
+		var result = await rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, wrbtcAddress, web3.utils.toBN(1e16), 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
 			value: 1e16,
@@ -299,7 +299,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 
 	it("should revert when calling the addLIquidity() without sending RBTC", async () => {
 		await expectRevert.unspecified(
-			rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {
+			rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, wrbtcAddress, web3.utils.toBN(1e16), 1, {
 				from: accounts[0],
 				to: RBTCWrapperProxy.address,
 			}),
@@ -309,7 +309,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 
 	it("should revert when amount param not identical to msg.value to call addLiquidity()", async () => {
 		await expectRevert.unspecified(
-			rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {
+			rbtcWrapperProxy.addLiquidity(liquidityPoolV2ConverterAddress, wrbtcAddress, web3.utils.toBN(1e16), 1, {
 				from: accounts[0],
 				to: RBTCWrapperProxy.address,
 				value: 1e8,

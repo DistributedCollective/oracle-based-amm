@@ -124,6 +124,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      * 4.Transfers pool tokens to user
      * 
      * @param _liquidityPoolConverterAddress    address of LiquidityPoolConverter contract
+     * @param _reserveAddress                   address of the reserve to add to the pool
      * @param _amount                           amount of liquidity to add
      * @param _minReturn                        minimum return-amount of reserve tokens
      *
@@ -131,7 +132,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      */
     function addLiquidity(
         address _liquidityPoolConverterAddress, 
-        //todo: add the reserve address
+        address _reserveAddress,
         uint256 _amount, 
         uint256 _minReturn
     )  
@@ -143,16 +144,16 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         require(_amount == msg.value, "The provided amount should be identical to msg.value");
 
         ILiquidityPoolV2Converter _liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
-        //todo: reserve address
-        ISmartToken _poolToken = _liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
-        //todo only if reserve == wrbtc
-        IWrbtcERC20(wrbtcTokenAddress).deposit.value(_amount)();
+        IERC20Token reserveToken = IERC20Token(_reserveAddress);
+        ISmartToken _poolToken = _liquidityPoolConverter.poolToken(reserveToken);
 
-        bool successOfApprove = IWrbtcERC20(wrbtcTokenAddress).approve(_liquidityPoolConverterAddress, _amount);
-        require(successOfApprove);
+        //wrap rbtc if required
+        if(_reserveAddress == wrbtcTokenAddress)
+            IWrbtcERC20(wrbtcTokenAddress).deposit.value(_amount)();
 
-        //todo reserve address
-        uint256 poolTokenAmount = _liquidityPoolConverter.addLiquidity(IERC20Token(wrbtcTokenAddress), _amount, _minReturn);
+        require(reserveToken.approve(_liquidityPoolConverterAddress, _amount), "token approval failed");
+
+        uint256 poolTokenAmount = _liquidityPoolConverter.addLiquidity(reserveToken, _amount, _minReturn);
         
         //todo replace with deposit on LM contract: deposit(uint256 _pid, uint256 _amount)
         //todo -> use address instead of id. contract could use mapping address => pid
@@ -160,7 +161,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         require(successOfTransfer);
 
         emit LiquidityAdded(msg.sender, _amount, poolTokenAmount);
-
+        
         return poolTokenAmount;
     }
 
