@@ -11,6 +11,7 @@ import "./interfaces/ISovrynSwapNetwork.sol";
 import "./interfaces/ISovrynSwapFormula.sol";
 import "./interfaces/IContractRegistry.sol";
 import "./ContractRegistryClient.sol";
+import "./mockups/LiquidityMining.sol";
 
 contract RBTCWrapperProxy is ContractRegistryClient {
     
@@ -19,6 +20,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
     address public wrbtcTokenAddress;
     address public sovrynSwapNetworkAddress;
+    LiquidityMining public liquidityMiningContract;
     
     /**
      * @dev triggered after liquidity is added
@@ -100,7 +102,8 @@ contract RBTCWrapperProxy is ContractRegistryClient {
     constructor(
         address _wrbtcTokenAddress, 
         address _sovrynSwapNetworkAddress,
-        IContractRegistry _registry 
+        IContractRegistry _registry,
+        address liquidityMiningAddress
     ) 
         public
         ContractRegistryClient(_registry)
@@ -109,6 +112,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
     {
         wrbtcTokenAddress = _wrbtcTokenAddress;
         sovrynSwapNetworkAddress = _sovrynSwapNetworkAddress;
+        liquidityMiningContract = LiquidityMining(liquidityMiningAddress);
     }
 
     function() external payable {
