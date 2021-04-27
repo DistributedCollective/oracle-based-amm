@@ -261,6 +261,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      * 4.Sneds RBTC to user
      * 
      * @param _liquidityPoolConverterAddress    address of LiquidityPoolConverter contract
+     * @param _reserveAddress                   address of the reserve to add to the pool
      * @param _amount                           amount of pool tokens to burn
      * @param _minReturn                        minimum return-amount of reserve tokens
      * 
@@ -268,7 +269,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      */
     function removeLiquidityFromV2(
         address _liquidityPoolConverterAddress, 
-        //todo: add reserve address
+        address _reserveAddress,
         uint256 _amount, 
         uint256 _minReturn
     )   
@@ -277,8 +278,8 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         returns(uint256) 
     {
         ILiquidityPoolV2Converter _liquidityPoolConverter = ILiquidityPoolV2Converter(_liquidityPoolConverterAddress);
-        //todo: reserve address
-        ISmartToken _poolToken = _liquidityPoolConverter.poolToken(IERC20Token(wrbtcTokenAddress));
+        IERC20Token reserveToken = IERC20Token(_reserveAddress);
+        ISmartToken _poolToken = _liquidityPoolConverter.poolToken(IERC20Token(_reserveAddress));
 
         //todo remove from lm contract instead
         //withdraw(uint256 _pid, uint256 _amount)
@@ -288,10 +289,14 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         uint256 reserveAmount = _liquidityPoolConverter.removeLiquidity(_poolToken, _amount, _minReturn);
         
-        IWrbtcERC20(wrbtcTokenAddress).withdraw(reserveAmount);
-        
-        (bool successOfSendRBTC,) = msg.sender.call.value(reserveAmount)("");
-        require(successOfSendRBTC, "Failed to send RBTC to user");
+        if(_reserveAddress == wrbtcTokenAddress){
+            IWrbtcERC20(wrbtcTokenAddress).withdraw(reserveAmount);
+            (bool success, ) = msg.sender.call.value(reserveAmount)("");
+            require(success, "Failed to send RBTC to the user");
+        }
+        else{
+            require(reserveToken.transfer(msg.sender, reserveAmount), "Failed to transfer reserve tokens to the user");
+        }
 
         emit LiquidityRemoved(msg.sender, reserveAmount, _amount);
 

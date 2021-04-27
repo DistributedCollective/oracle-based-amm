@@ -230,7 +230,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		await wrbtcPoolTokenV2.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e16), { from: accounts[0] });
 
 		var rbtcAmountBefore = await web3.eth.getBalance(accounts[0]);
-		var result = await rbtcWrapperProxy.removeLiquidityFromV2(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {
+		var result = await rbtcWrapperProxy.removeLiquidityFromV2(liquidityPoolV2ConverterAddress, wrbtcAddress, web3.utils.toBN(1e16), 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
 		});
@@ -251,6 +251,37 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		await expectEvent(result.receipt, "LiquidityRemoved", {
 			_provider: accounts[0],
 			_reserveAmount: addedRBTCAmount,
+			_poolTokenAmount: web3.utils.toBN(1e16),
+		});
+	});
+
+	it("verifies that users could remove liquidity to burn pool token 2 and then get RBTC", async () => {
+		
+		var usdPoolTokenV2AmountBefore = await usdPoolTokenV2.balanceOf(accounts[0]);
+
+		await usdPoolTokenV2.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e16), { from: accounts[0] });
+
+		var usdAmountBefore = await usdToken.balanceOf(accounts[0]);
+		var result = await rbtcWrapperProxy.removeLiquidityFromV2(liquidityPoolV2ConverterAddress, usdTokenAddress, web3.utils.toBN(1e16), 1, {
+			from: accounts[0],
+			to: RBTCWrapperProxy.address,
+		});
+
+		var addedUSDAmount = web3.utils.BN(result.logs[0].args._reserveAmount);
+		var expectedBalance = usdAmountBefore.add(addedUSDAmount);
+		
+		assert.equal(
+			await usdToken.balanceOf(accounts[0]),
+			expectedBalance.toString(),
+			"Wrong USD balance"
+		);
+		
+		var expectedBalance = new BN (usdPoolTokenV2AmountBefore.toString()).sub(new BN((10**16).toString()));
+		assert.equal(await usdPoolTokenV2.balanceOf(accounts[0]), expectedBalance.toString(), "Wrong pool token balance");
+		
+		await expectEvent(result.receipt, "LiquidityRemoved", {
+			_provider: accounts[0],
+			_reserveAmount: addedUSDAmount,
 			_poolTokenAmount: web3.utils.toBN(1e16),
 		});
 	});
