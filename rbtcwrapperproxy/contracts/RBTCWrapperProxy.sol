@@ -130,7 +130,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      *
      * @return amount of pool tokens minted
      */
-    function addLiquidity(
+    function addLiquidityToV2(
         address _liquidityPoolConverterAddress, 
         address _reserveAddress,
         uint256 _amount, 
