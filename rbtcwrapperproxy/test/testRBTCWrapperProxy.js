@@ -230,7 +230,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		await wrbtcPoolTokenV2.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e16), { from: accounts[0] });
 
 		var rbtcAmountBefore = await web3.eth.getBalance(accounts[0]);
-		var result = await rbtcWrapperProxy.removeLiquidity(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {
+		var result = await rbtcWrapperProxy.removeLiquidityFromV2(liquidityPoolV2ConverterAddress, web3.utils.toBN(1e16), 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
 		});

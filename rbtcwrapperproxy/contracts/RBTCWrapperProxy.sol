@@ -266,7 +266,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      * 
      * @return amount of liquidity removed also WRBTC unwrapped to RBTC
      */
-    function removeLiquidity(
+    function removeLiquidityFromV2(
         address _liquidityPoolConverterAddress, 
         //todo: add reserve address
         uint256 _amount, 
