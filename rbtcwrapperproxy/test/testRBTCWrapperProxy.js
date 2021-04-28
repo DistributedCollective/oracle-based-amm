@@ -15,6 +15,7 @@ const ISmartToken = artifacts.require("../interfaces/ISmartToken.sol");
 const ISovrynSwapNetwork = artifacts.require("../interfaces/ISovrynSwapNetwork.sol");
 const ILiquidityPoolV1Converter = artifacts.require("../interfaces/ILiquidityPoolV1Converter.sol");
 const ILiquidityPoolV2Converter = artifacts.require("../interfaces/ILiquidityPoolV2Converter.sol");
+const LiquidityMining = artifacts.require("../mockups/LiquidityMining.sol");
 
 const getConfig = () => {
 	return JSON.parse(fs.readFileSync("../solidity/utils/config_rsk.json", { encoding: "utf8" }));
@@ -47,6 +48,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		sovToken = await IERC20Token.at(sovTokenAddress);
 		usdToken = await IERC20Token.at(usdTokenAddress);
 		sovrynSwapNetwork = await ISovrynSwapNetwork.at(sovrynSwapNetworkAddress);
+		liquidityMining = await LiquidityMining.deployed();
 	});
 
 	it("verifies that users could send RBTC and SOV, and then add liquidity to get pool token 1", async () => {
@@ -184,11 +186,10 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		
 		assert.equal(await web3.eth.getBalance(accounts[0]), expectedBalance, "Wrong RBTC balance");
 
-		expectedBalance = new BN(wrbtcPoolTokenV2AmountBefore).add(addedWrbtcPoolTokenV2Amount)
 		assert.equal(
-			await wrbtcPoolTokenV2.balanceOf(accounts[0]),
-			expectedBalance.toString(),
-			"Wrong pool token balance"
+			(await liquidityMining.userLPBalance(accounts[0], wrbtcPoolTokenV2Address)).toString(),
+			addedWrbtcPoolTokenV2Amount.toString(),
+			"Wrong pool token balance on LM contract"
 		);
 		await expectEvent(result.receipt, "LiquidityAdded", {
 			_provider: accounts[0],
@@ -199,7 +200,6 @@ contract("RBTCWrapperProxy", async (accounts) => {
 
 	it("verifies that users could add USD liquidity to the v2 pool", async () => {
 		var usdAmountBefore = await usdToken.balanceOf(accounts[0]);
-		var usdPoolTokenV2AmountBefore = await usdPoolTokenV2.balanceOf(accounts[0]);
 
 		await usdToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e16), { from: accounts[0] });
 
@@ -210,10 +210,9 @@ contract("RBTCWrapperProxy", async (accounts) => {
 
 		assert.equal((await usdToken.balanceOf(accounts[0])).toString(), expectedBalance.toString(), "Wrong USD balance");
 
-		expectedBalance = new BN(usdPoolTokenV2AmountBefore).add(addedUsdPoolTokenV2Amount)
 		assert.equal(
-			await usdPoolTokenV2.balanceOf(accounts[0]),
-			expectedBalance.toString(),
+			(await liquidityMining.userLPBalance(accounts[0], usdPoolTokenV2Address)).toString(),
+			addedUsdPoolTokenV2Amount.toString(),
 			"Wrong pool token balance"
 		);
 		await expectEvent(result.receipt, "LiquidityAdded", {

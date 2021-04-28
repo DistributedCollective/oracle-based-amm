@@ -11,7 +11,7 @@ const getSOVConfig = () => {
 };
 
 module.exports = function (deployer) {
-	deployer.deploy(LiquidityMining, getSOVConfig()["SOV"].addr).then(function() {
-		deployer.deploy(RBTCWrapperProxy, getConfig()["RBTC"].addr, getConfig()["sovrynSwapNetwork"].addr, getConfig()["contractRegistry"].addr, LiquidityMining.address);
+	return deployer.deploy(LiquidityMining, getSOVConfig()["SOV"].addr).then(function() {
+		return deployer.deploy(RBTCWrapperProxy, getConfig()["RBTC"].addr, getConfig()["sovrynSwapNetwork"].addr, getConfig()["contractRegistry"].addr, LiquidityMining.address);
 	});
 };

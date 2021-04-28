@@ -162,10 +162,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         uint256 poolTokenAmount = _liquidityPoolConverter.addLiquidity(reserveToken, _amount, _minReturn);
         
-        //todo replace with deposit on LM contract: deposit(uint256 _pid, uint256 _amount)
-        //todo -> use address instead of id. contract could use mapping address => pid
-        bool successOfTransfer = _poolToken.transfer(msg.sender, poolTokenAmount);
-        require(successOfTransfer, "token transfer failed");
+        //deposit the pool tokens in the liquidity mining contract on the sender's behalf
+        _poolToken.approve(address(liquidityMiningContract), poolTokenAmount);
+        liquidityMiningContract.deposit(address(_poolToken), poolTokenAmount, msg.sender);
 
         emit LiquidityAdded(msg.sender, _amount, poolTokenAmount);
         
