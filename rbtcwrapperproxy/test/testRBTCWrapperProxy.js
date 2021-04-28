@@ -80,13 +80,12 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			"Wrong SOV balance"
 		);
 		
-		expectedBalance = new BN(poolTokenV1AmountBefore.toString()).add(addedPoolTokenV1Amount);
 		assert.equal(
-			(await poolTokenV1.balanceOf(accounts[0])).toString(),
-			expectedBalance.toString(),
-			"Wrong pool token balance"
+			(await liquidityMining.userLPBalance(accounts[0], poolTokenV1Address)).toString(),
+			addedPoolTokenV1Amount.toString(),
+			"Wrong pool token balance on LM contract"
 		);
-
+		
 		await expectEvent(result.receipt, "LiquidityAddedToV1", {
 			_provider: accounts[0],
 			_reserveTokens: [wrbtcAddress, sovTokenAddress],
@@ -95,7 +94,6 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		});
 
 		var sovAmountAfter = await sovToken.balanceOf(accounts[0]);
-		var poolTokenV1AmountAfter = await poolTokenV1.balanceOf(accounts[0]);
 
 		// Send 2x SOV, User should get 1x SOV back
 		var result = await rbtcWrapperProxy.addLiquidityToV1(
@@ -109,7 +107,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			value: rbtcAmount
 		});
 	
-		var addedPoolTokenV1Amount = new BN(result.logs[0].args._poolTokenAmount);
+		addedPoolTokenV1Amount = addedPoolTokenV1Amount.add(new BN(result.logs[0].args._poolTokenAmount));
 		expectedBalance = new BN(sovAmountAfter.toString()).sub(sovAmount);
 
 		assert.equal(
@@ -117,20 +115,17 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			expectedBalance.toString(),
 			"Wrong SOV balance"
 		);
-
-		expectedBalance = new BN(poolTokenV1AmountAfter.toString()).add(addedPoolTokenV1Amount);
-
+		
 		assert.equal(
-			await poolTokenV1.balanceOf(accounts[0]),
-			expectedBalance.toString(),
-			"Wrong pool token balance"
+			(await liquidityMining.userLPBalance(accounts[0], poolTokenV1Address)).toString(),
+			addedPoolTokenV1Amount.toString(),
+			"Wrong pool token balance on LM contract"
 		);
 
 		await expectEvent(result.receipt, "LiquidityAddedToV1", {
 			_provider: accounts[0],
 			_reserveTokens: [wrbtcAddress, sovTokenAddress],
-			_reserveAmounts: [rbtcAmount, web3.utils.toBN(sovAmount * 2)], 
-			_poolTokenAmount: addedPoolTokenV1Amount,
+			_reserveAmounts: [rbtcAmount, web3.utils.toBN(sovAmount * 2)]
 		});
 	});
 

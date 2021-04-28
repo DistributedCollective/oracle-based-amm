@@ -228,9 +228,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         _liquidityPoolConverter.addLiquidity(_reserveTokens, _reserveAmounts, _minReturn);
         uint256 poolTokenAmount = _poolToken.balanceOf(address(this)).sub(poolTokenAmountBefore);
         
-        //todo: add to #lm mining contract
-        success = _poolToken.transfer(msg.sender, poolTokenAmount);
-        require(success, "Failed to transfer pool token to user");
+        //deposit the pool tokens in the liquidity mining contract on the sender's behalf
+        _poolToken.approve(address(liquidityMiningContract), poolTokenAmount);
+        liquidityMiningContract.deposit(address(_poolToken), poolTokenAmount, msg.sender);
 
         for (uint256 i = 1; i < _reserveTokens.length; i++) {
             amount = _reserveAmounts[i].sub(ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).fundCost(totalSupplyBefore, rsvBalances[i], reserveRatio_, poolTokenAmount));
