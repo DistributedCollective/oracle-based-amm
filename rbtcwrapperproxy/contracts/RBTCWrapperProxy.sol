@@ -284,11 +284,8 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         IERC20Token reserveToken = IERC20Token(_reserveAddress);
         ISmartToken _poolToken = _liquidityPoolConverter.poolToken(IERC20Token(_reserveAddress));
 
-        //todo remove from lm contract instead
-        //withdraw(uint256 _pid, uint256 _amount)
-        //remember that it's important that we can specify the user because of the reward payment
-        bool successOfTransferFrom = _poolToken.transferFrom(msg.sender, address(this), _amount);
-        require(successOfTransferFrom);
+        //withdraw always transfers the pool tokens to the caller and the reward tokens to the passed address
+        liquidityMiningContract.withdraw(address(_poolToken), _amount, msg.sender);
 
         uint256 reserveAmount = _liquidityPoolConverter.removeLiquidity(_poolToken, _amount, _minReturn);
         
@@ -338,9 +335,8 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
 
-        //todo withdraw pool token from lm mining contract first
-        bool successOfTransferFrom = _poolToken.transferFrom(msg.sender, address(this), _amount);
-        require(successOfTransferFrom);
+        //withdraw always transfers the pool tokens to the caller and the reward tokens to the passed address
+        liquidityMiningContract.withdraw(address(_poolToken), _amount, msg.sender);
 
         uint256 lengthOfToken = _reserveTokens.length;
         IERC20Token reserveToken;
@@ -358,15 +354,16 @@ contract RBTCWrapperProxy is ContractRegistryClient {
             reserveToken = _reserveTokens[i];
 
             reserveAmount = reserveToken.balanceOf(address(this)).sub(reserveAmountBefore[i]); 
-            require(reserveAmount >= _reserveMinReturnAmounts[i], "ERR_ZERO_TARGET_AMOUNT");
+            require(reserveAmount >= _reserveMinReturnAmounts[i], "min return too high");
             reserveAmounts[i] = reserveAmount;
+            
 
             successOfTransfer = IERC20Token(reserveToken).transfer(msg.sender, reserveAmount);
             require(successOfTransfer, "Failed to transfer reserve token to user");
         }
 
         uint256 wrbtcAmount = _reserveTokens[0].balanceOf(address(this)).sub(reserveAmountBefore[0]);
-        require(wrbtcAmount >= _reserveMinReturnAmounts[0], "ERR_ZERO_TARGET_AMOUNT");
+        require(wrbtcAmount >= _reserveMinReturnAmounts[0], "min return too high");
         reserveAmounts[0] = wrbtcAmount;
         IWrbtcERC20(wrbtcTokenAddress).withdraw(wrbtcAmount);
         (bool successOfSendRBTC,) = msg.sender.call.value(wrbtcAmount)("");

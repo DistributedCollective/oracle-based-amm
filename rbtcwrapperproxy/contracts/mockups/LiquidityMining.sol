@@ -32,7 +32,7 @@ contract LiquidityMining{
 	function withdraw(address _poolToken, uint256 _amount, address _user) public {
         require(userLPBalance[_user][_poolToken] >= _amount, "insufficient LP balance");
         userLPBalance[_user][_poolToken] -= _amount;
-        IERC20Token(_poolToken).transferFrom(address(this), address(msg.sender), _amount);
-        IERC20Token(rewardToken).transferFrom(address(this), address(msg.sender), _amount);
+        IERC20Token(_poolToken).transfer(address(msg.sender), _amount);
+        IERC20Token(rewardToken).transfer(address(_user), _amount);
     }
 }

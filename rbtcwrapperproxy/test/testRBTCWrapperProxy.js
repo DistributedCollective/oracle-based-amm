@@ -35,7 +35,7 @@ const usdTokenAddress = getConfig()["SUSD"].addr;
 contract("RBTCWrapperProxy", async (accounts) => {
 	let rbtcWrapperProxy, liquidityPoolV1Converter, liquidityPoolV2Converter, poolTokenV1Address, wrbtcPoolTokenV2Address, poolTokenV1, wrbtcPoolTokenV2, sovToken, usdToken, sovrynSwapNetwork;
 
-	beforeEach(async () => {
+	before(async () => {
 		rbtcWrapperProxy = await RBTCWrapperProxy.deployed();
 		liquidityPoolV1Converter = await ILiquidityPoolV1Converter.at(liquidityPoolV1ConverterAddress);
 		liquidityPoolV2Converter = await ILiquidityPoolV2Converter.at(liquidityPoolV2ConverterAddress);
@@ -49,6 +49,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		usdToken = await IERC20Token.at(usdTokenAddress);
 		sovrynSwapNetwork = await ISovrynSwapNetwork.at(sovrynSwapNetworkAddress);
 		liquidityMining = await LiquidityMining.deployed();
+		await sovToken.transfer(liquidityMining.address, web3.utils.toWei("100","Ether"));
 	});
 
 	it("verifies that users could send RBTC and SOV, and then add liquidity to get pool token 1", async () => {
@@ -130,15 +131,13 @@ contract("RBTCWrapperProxy", async (accounts) => {
 	});
 
 	it("verifies that users could remove liquidity to burn pool token 1 and then get RBTC and SOV", async () => {
-		await poolTokenV1.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e14), { from: accounts[0] });
+		poolTokenBalance = await liquidityMining.userLPBalance(accounts[0], poolTokenV1Address);
+		assert(poolTokenBalance > 0, "incorrect test setup");
 
 		rbtcAmountBefore = await web3.eth.getBalance(accounts[0]);
 		sovAmountBefore = await sovToken.balanceOf(accounts[0]);
-		poolTokenV1AmountBefore = await poolTokenV1.balanceOf(accounts[0]);
 
-		var result = await rbtcWrapperProxy.removeLiquidityFromV1(liquidityPoolV1ConverterAddress, web3.utils.toBN(1e14), [wrbtcAddress, sovTokenAddress], [1, 1]);
-		var expectedBalance = new BN (poolTokenV1AmountBefore.toString()).sub(new BN((10**14).toString()));
-		assert.equal(await poolTokenV1.balanceOf(accounts[0]), expectedBalance.toString(), "Wrong pool token balance");
+		var result = await rbtcWrapperProxy.removeLiquidityFromV1(liquidityPoolV1ConverterAddress, poolTokenBalance, [wrbtcAddress, sovTokenAddress], [1, 1]);
 
 		var gasCost = new BN(result.receipt.gasUsed).mul( new BN((await web3.eth.getGasPrice()).toString()));
 		var addedRBTCAmount = result.logs[0].args._reserveAmounts[0];
@@ -157,9 +156,10 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			"Wrong RBTC balance"
 		);
 
-		expectedBalance = new BN(sovAmountBefore).add(addedSOVAmount)
+		//adding the pool token balance because of the reward being paid out
+		expectedBalance = new BN(sovAmountBefore).add(addedSOVAmount).add(poolTokenBalance);
 		assert.equal(
-			await sovToken.balanceOf(accounts[0]),
+			(await sovToken.balanceOf(accounts[0])).toString(),
 			expectedBalance.toString(),
 			"Wrong SOV balance"
 		);
@@ -218,13 +218,13 @@ contract("RBTCWrapperProxy", async (accounts) => {
 	});
 
 	it("verifies that users could remove liquidity to burn pool token 2 and then get RBTC", async () => {
-		
-		var wrbtcPoolTokenV2AmountBefore = await wrbtcPoolTokenV2.balanceOf(accounts[0]);
+		poolTokenBalance = await liquidityMining.userLPBalance(accounts[0], wrbtcPoolTokenV2Address);
+		assert(poolTokenBalance > 0, "incorrect test setup");
 
-		await wrbtcPoolTokenV2.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e16), { from: accounts[0] });
+		var sovAmountBefore = await sovToken.balanceOf(accounts[0]);
 
 		var rbtcAmountBefore = await web3.eth.getBalance(accounts[0]);
-		var result = await rbtcWrapperProxy.removeLiquidityFromV2(liquidityPoolV2ConverterAddress, wrbtcAddress, web3.utils.toBN(1e16), 1, {
+		var result = await rbtcWrapperProxy.removeLiquidityFromV2(liquidityPoolV2ConverterAddress, wrbtcAddress, poolTokenBalance, 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
 		});
@@ -238,25 +238,30 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			expectedBalance.toString(),
 			"Wrong RBTC balance"
 		);
-		
-		var expectedBalance = new BN (wrbtcPoolTokenV2AmountBefore.toString()).sub(new BN((10**16).toString()));
-		assert.equal(await wrbtcPoolTokenV2.balanceOf(accounts[0]), expectedBalance.toString(), "Wrong pool token balance");
+
+		//checking if the LM reward being paid out
+		expectedBalance = new BN(sovAmountBefore).add(poolTokenBalance);
+		assert.equal(
+			(await sovToken.balanceOf(accounts[0])).toString(),
+			expectedBalance.toString(),
+			"Wrong SOV balance"
+		);
 		
 		await expectEvent(result.receipt, "LiquidityRemoved", {
 			_provider: accounts[0],
 			_reserveAmount: addedRBTCAmount,
-			_poolTokenAmount: web3.utils.toBN(1e16),
+			_poolTokenAmount: poolTokenBalance,
 		});
 	});
 
 	it("verifies that users could remove liquidity to burn pool token 2 and then get RBTC", async () => {
-		
-		var usdPoolTokenV2AmountBefore = await usdPoolTokenV2.balanceOf(accounts[0]);
+		poolTokenBalance = await liquidityMining.userLPBalance(accounts[0], usdPoolTokenV2Address);
+		assert(poolTokenBalance > 0, "incorrect test setup");
 
-		await usdPoolTokenV2.approve(RBTCWrapperProxy.address, web3.utils.toBN(1e16), { from: accounts[0] });
+		var sovAmountBefore = await sovToken.balanceOf(accounts[0]);
 
 		var usdAmountBefore = await usdToken.balanceOf(accounts[0]);
-		var result = await rbtcWrapperProxy.removeLiquidityFromV2(liquidityPoolV2ConverterAddress, usdTokenAddress, web3.utils.toBN(1e16), 1, {
+		var result = await rbtcWrapperProxy.removeLiquidityFromV2(liquidityPoolV2ConverterAddress, usdTokenAddress, poolTokenBalance, 1, {
 			from: accounts[0],
 			to: RBTCWrapperProxy.address,
 		});
@@ -270,13 +275,18 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			"Wrong USD balance"
 		);
 		
-		var expectedBalance = new BN (usdPoolTokenV2AmountBefore.toString()).sub(new BN((10**16).toString()));
-		assert.equal(await usdPoolTokenV2.balanceOf(accounts[0]), expectedBalance.toString(), "Wrong pool token balance");
+		//checking if the LM reward being paid out
+		expectedBalance = new BN(sovAmountBefore).add(poolTokenBalance);
+		assert.equal(
+			(await sovToken.balanceOf(accounts[0])).toString(),
+			expectedBalance.toString(),
+			"Wrong SOV balance"
+		);
 		
 		await expectEvent(result.receipt, "LiquidityRemoved", {
 			_provider: accounts[0],
 			_reserveAmount: addedUSDAmount,
-			_poolTokenAmount: web3.utils.toBN(1e16),
+			_poolTokenAmount: poolTokenBalance,
 		});
 	});
 
