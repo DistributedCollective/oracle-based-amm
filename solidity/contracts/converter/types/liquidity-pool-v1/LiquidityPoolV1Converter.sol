@@ -120,21 +120,26 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         }
 
         bytes32 previousObservationId = keccak256(abi.encodePacked(totalObservations-1));
-        Observation previousObservation = observations[previousObservationId];
+        Observation storage previousObservation = observations[previousObservationId];
 
         //return if same block number
         if (previousObservation.blockNumber == block.timestamp) return;
 
         //write new entry
         bytes32 id = keccak256(abi.encodePacked(totalObservations));
-		uint256 price0 = (_reserve1).mul(1e18).div(_reserve0);
-		uint256 price1 = (_reserve0).mul(1e18).div(_reserve1);
+		uint256 price0 = (reserves[reserveTokens[1]])
+            .mul(1e18)
+            .div(reserves[reserveTokens[0]]);
 
-		Observation observation =
+		uint256 price1 = (reserves[reserveTokens[0]])
+            .mul(1e18)
+            .div(reserves[reserveTokens[1]]);
+
+		Observation storage observation =
 			Observation({
 				id: id,
-				ema0: k * price0 + (1 - k) * (previousObservation.ema0),
-				ema1: k * price1 + (1 - k) * (previousObservation.ema1),
+				ema0: k * price0 + (1 - k) * (previousObservation.lastCumulativePrice0),
+				ema1: k * price1 + (1 - k) * (previousObservation.lastCumulativePrice1),
 				blockNumber: block.number,
 				Timestamp: block.timestamp,
 				lastCumulativePrice0: price0,
@@ -148,10 +153,15 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     //to be called with initial liquidity addition
     function _addInitialEMA() internal {
         bytes32 id = keccak256(abi.encodePacked(0));
-		uint256 price0 = (_reserve1).mul(1e18).div(_reserve0);
-		uint256 price1 = (_reserve0).mul(1e18).div(_reserve1);
+		uint256 price0 = (reserves[reserveTokens[1]])
+            .mul(1e18)
+            .div(reserves[reserveTokens[0]]);
 
-		Observation observation =
+		uint256 price1 = (reserves[reserveTokens[0]])
+            .mul(1e18)
+            .div(reserves[reserveTokens[1]]);
+
+		Observation storage observation =
 			Observation({
 				id: id,
 				ema0: 0,
