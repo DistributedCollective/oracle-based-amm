@@ -429,4 +429,43 @@ contract RBTCWrapperProxy is ContractRegistryClient {
             return _targetTokenAmount;
         }        
     }
+
+    /**
+     * @notice provides funds to a lending pool and deposits the pool tokens into the liquidity mining contract.
+     * @param loanTokenAddress the address of the loan token (aka lending pool)
+     * @param receiver the address for which the pool tokens should be held on the LM contract
+     * @param depositAmount he amount of underlying tokens to deposit 
+     */
+    function addToLendingPool(address loanTokenAddress, address receiver, uint256 depositAmount) public{
+        LoanToken loanToken = LoanToken(loanTokenAddress);
+        IERC20Token underlyingAsset = IERC20Token(loanToken.loanTokenAddress());
+
+        //retrieve the underlying asset from the user
+        require(underlyingAsset.transferFrom(msg.sender, address(this), depositAmount), "Failed to transfer tokens to the wrapper proxy");
+
+        //add the tokens to the lending pool
+        approvedSuccess = underlyingAsset.approve(loanTokenAddress, depositAmount);
+        uint256 minted = loanToken.mint(receiver, depositAmount);
+
+        //deposit the pool tokens in the liquidity mining contract on the sender's behalf
+        loanToken.approve(address(liquidityMiningContract), minted);
+        liquidityMiningContract.deposit(loanTokenAddress, minted, receiver);
+    }
+
+    /**
+     * @notice removes funds from the liquidity mining contract, burns them on the lending pool and 
+     * provides the underlying asset to the user
+     * @param loanTokenAddress the address of the loan token (aka lending pool)
+     * @param receiver the address which should receive the underlying tokens
+     * @param burnAmount the amount of pool tokens to withdraw from the lending pool and burn
+     */
+    function removeFromLendingPool(address loanTokenAddress, address receiver, uint256 burnAmount) public{
+        LoanToken loanToken = LoanToken(loanTokenAddress);
+
+        //withdraw always transfers the pool tokens to the caller and the reward tokens to the passed address
+        liquidityMiningContract.withdraw(loanTokenAddress, burnAmount, msg.sender);
+
+        loanToken.approve(address(liquidityMiningContract), burnAmount);
+        uint256 redeemed = loanToken.burn(receiver, burnAmount);
+    }
 }
