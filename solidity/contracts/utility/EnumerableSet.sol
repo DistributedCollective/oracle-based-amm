@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0.
  */
 
-pragma solidity 0.5.17;
+pragma solidity ^0.4.26;
 
 /**
  * @dev Library for managing loan sets
@@ -85,7 +85,8 @@ library EnumerableBytes32Set {
 			delete set.index[value];
 
 			// Delete the old entry for the moved value
-			set.values.pop();
+			// set.values.pop();
+			set.values.length--;
 
 			return true;
 		} else {

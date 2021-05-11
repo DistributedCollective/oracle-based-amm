@@ -19,7 +19,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
     struct Observation {
         bytes32 id;
-        uint32 blockNumber;
+        uint256 blockNumber;
 		uint256 timestamp;
         uint256 ema0;
 		uint256 ema1;
@@ -29,7 +29,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
     uint256 public k;
     mapping(bytes32 => Observation) public observations; //id -> observations
-    EnumerableBytes32Set.Bytes32Set public observationsSet; //contains all id
+    EnumerableBytes32Set.Bytes32Set internal observationsSet; //contains all id
 
     /**
       * @dev triggered after a conversion with new price data
@@ -95,7 +95,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
       * 2 reserves aren't defined yet
       *
       * @param _token   address of the reserve token
-      * @paramw  _weight  reserve weight, represented in ppm, 1-1000000
+      * @param  _weight  reserve weight, represented in ppm, 1-1000000
     */
     function addReserve(IERC20Token _token, uint32 _weight) public {
         // verify that the converter doesn't have 2 reserves yet
@@ -127,52 +127,48 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
         //write new entry
         bytes32 id = keccak256(abi.encodePacked(totalObservations));
-		uint256 price0 = (reserves[reserveTokens[1]])
+		uint256 price0 = (reserves[reserveTokens[1]].balance)
             .mul(1e18)
-            .div(reserves[reserveTokens[0]]);
+            .div(reserves[reserveTokens[0]].balance);
 
-		uint256 price1 = (reserves[reserveTokens[0]])
+		uint256 price1 = (reserves[reserveTokens[0]].balance)
             .mul(1e18)
-            .div(reserves[reserveTokens[1]]);
+            .div(reserves[reserveTokens[1]].balance);
 
-		Observation storage observation =
-			Observation({
-				id: id,
-				ema0: k * price0 + (1 - k) * (previousObservation.lastCumulativePrice0),
-				ema1: k * price1 + (1 - k) * (previousObservation.lastCumulativePrice1),
-				blockNumber: block.number,
-				Timestamp: block.timestamp,
-				lastCumulativePrice0: price0,
-				lastCumulativePrice1: price1
-			});
-
-		observations[id] = observation;
+		Observation memory observation = observations[id];
+			
+		observation.id = id;
+		observation.ema0 = k * price0 + (1 - k) * (previousObservation.lastCumulativePrice0);
+		observation.ema1 = k * price1 + (1 - k) * (previousObservation.lastCumulativePrice1);
+		observation.blockNumber = block.number;
+		observation.timestamp = block.timestamp;
+		observation.lastCumulativePrice0 = price0;
+		observation.lastCumulativePrice1 = price1;
+			
 		observationsSet.addBytes32(id);
 	}
 
     //to be called with initial liquidity addition
     function _addInitialEMA() internal {
-        bytes32 id = keccak256(abi.encodePacked(0));
-		uint256 price0 = (reserves[reserveTokens[1]])
+        bytes32 id = keccak256(abi.encodePacked(uint256(0)));
+		uint256 price0 = (reserves[reserveTokens[1]].balance)
             .mul(1e18)
-            .div(reserves[reserveTokens[0]]);
+            .div(reserves[reserveTokens[0]].balance);
 
-		uint256 price1 = (reserves[reserveTokens[0]])
+		uint256 price1 = (reserves[reserveTokens[0]].balance)
             .mul(1e18)
-            .div(reserves[reserveTokens[1]]);
+            .div(reserves[reserveTokens[1]].balance);
 
-		Observation storage observation =
-			Observation({
-				id: id,
-				ema0: 0,
-				ema1: 0,
-				blockNumber: block.number,
-				Timestamp: block.timestamp,
-				lastCumulativePrice0: price0,
-				lastCumulativePrice1: price1
-			});
+		Observation memory observation = observations[id];
+			
+		observation.id = id;
+		observation.ema0 = 0;
+		observation.ema1 = 0;
+		observation.blockNumber = block.number;
+		observation.timestamp = block.timestamp;
+		observation.lastCumulativePrice0 = price0;
+		observation.lastCumulativePrice1 = price1;
 
-		observations[id] = observation;
 		observationsSet.addBytes32(id);
     }
 
