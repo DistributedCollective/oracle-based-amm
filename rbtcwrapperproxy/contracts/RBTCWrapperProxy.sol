@@ -12,6 +12,7 @@ import "./interfaces/ISovrynSwapFormula.sol";
 import "./interfaces/IContractRegistry.sol";
 import "./ContractRegistryClient.sol";
 import "./mockups/LiquidityMining.sol";
+import "./interfaces/ILoanToken.sol";
 
 contract RBTCWrapperProxy is ContractRegistryClient {
     
@@ -444,8 +445,8 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         require(underlyingAsset.transferFrom(msg.sender, address(this), depositAmount), "Failed to transfer tokens to the wrapper proxy");
 
         //add the tokens to the lending pool
-        approvedSuccess = underlyingAsset.approve(loanTokenAddress, depositAmount);
-        uint256 minted = loanToken.mint(receiver, depositAmount);
+        underlyingAsset.approve(loanTokenAddress, depositAmount);
+        uint256 minted = loanToken.mint(address(this), depositAmount);
 
         //deposit the pool tokens in the liquidity mining contract on the sender's behalf
         loanToken.approve(address(liquidityMiningContract), minted);
