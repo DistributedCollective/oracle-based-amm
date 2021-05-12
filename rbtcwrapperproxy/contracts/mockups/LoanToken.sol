@@ -9,6 +9,7 @@ contract LoanToken{
     address public loanTokenAddress;
     
     mapping( address  => uint) public balanceOf;
+	mapping( address => mapping( address => uint)) public allowance;
 
     constructor(address loanToken) public{
         loanTokenAddress = loanToken;
@@ -26,13 +27,13 @@ contract LoanToken{
 
     /**
 	 * @notice burns pool tokens and transfers underlying tokens
-	 * @param _user the address of the receiver
+	 * @param _receiver the address of the receiver
 	 * @param _amount the amount of pool tokens
 	 */
-	function burn(address _user, uint256 _amount) public returns (uint256 redeemedAmount){
-        require(balanceOf[_user] >= _amount, "insufficient LP balance");
-        balanceOf[_user] -= _amount;
-        IERC20Token(loanTokenAddress).transfer(address(_user), _amount);
+	function burn(address _receiver, uint256 _amount) public returns (uint256 redeemedAmount){
+        require(balanceOf[msg.sender] >= _amount, "insufficient balance");
+        balanceOf[msg.sender] -= _amount;
+        IERC20Token(loanTokenAddress).transfer(address(_receiver), _amount);
         return _amount;
     }
 
@@ -49,7 +50,45 @@ contract LoanToken{
 	 *
 	 * @return true if the approval was successful, false if it wasn't
 	 */
-	function approve(address _spender, uint256 _value) public  returns (bool success) {
+	function approve(address _spender, uint256 _value) public returns (bool success) {
+		allowance[msg.sender][_spender] = _value;
+		return true;
+	}
+
+	/**
+	 * @dev transfers tokens to a given address on behalf of another address
+	 * throws on any error rather then return a false flag to minimize user errors
+	 *
+	 * @param _from    source address
+	 * @param _to      target address
+	 * @param _value   transfer amount
+	 *
+	 * @return true if the transfer was successful, false if it wasn't
+	 */
+	function transferFrom(
+		address _from,
+		address _to,
+		uint256 _value
+	) public returns (bool success) {
+		require(allowance[_from][msg.sender] >= _value);
+		allowance[_from][msg.sender] = allowance[_from][msg.sender] - _value;
+		balanceOf[_from] = balanceOf[_from] - _value;
+		balanceOf[_to] = balanceOf[_to] + _value;
+		return true;
+	}
+
+	/**
+	 * @dev transfers tokens to a given address
+	 * throws on any error rather then return a false flag to minimize user errors
+	 *
+	 * @param _to      target address
+	 * @param _value   transfer amount
+	 *
+	 * @return true if the transfer was successful, false if it wasn't
+	 */
+	function transfer(address _to, uint256 _value) public returns (bool success) {
+		balanceOf[msg.sender] = balanceOf[msg.sender] - _value;
+		balanceOf[_to] = balanceOf[_to] + _value;
 		return true;
 	}
 }

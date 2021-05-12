@@ -16,6 +16,7 @@ const ISovrynSwapNetwork = artifacts.require("../interfaces/ISovrynSwapNetwork.s
 const ILiquidityPoolV1Converter = artifacts.require("../interfaces/ILiquidityPoolV1Converter.sol");
 const ILiquidityPoolV2Converter = artifacts.require("../interfaces/ILiquidityPoolV2Converter.sol");
 const LiquidityMining = artifacts.require("../mockups/LiquidityMining.sol");
+const LoanToken = artifacts.require("../mockups/LoanToken.sol");
 
 const getConfig = () => {
 	return JSON.parse(fs.readFileSync("../solidity/utils/config_rsk.json", { encoding: "utf8" }));
@@ -49,6 +50,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		usdToken = await IERC20Token.at(usdTokenAddress);
 		sovrynSwapNetwork = await ISovrynSwapNetwork.at(sovrynSwapNetworkAddress);
 		liquidityMining = await LiquidityMining.deployed();
+		usdLoanToken = await LoanToken.deployed();
 		await sovToken.transfer(liquidityMining.address, web3.utils.toWei("100","Ether"));
 	});
 
@@ -396,5 +398,31 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			rbtcWrapperProxy.convertByPath(pathWRBTCToDoC, web3.utils.toBN(1e20), 1, { from: accounts[0], to: RBTCWrapperProxy.address }),
 			"Wrong path param"
 		);
+	});
+
+	it("should add to the lending pool and provide the pool tokens to the LM contract", async() => {
+		const amount = web3.utils.toBN(10e18);
+		const usdBefore = await usdToken.balanceOf(accounts[0]);
+		await usdToken.approve(rbtcWrapperProxy.address, amount);
+		await rbtcWrapperProxy.addToLendingPool(usdLoanToken.address, accounts[0], amount);
+		const usdAfter = await usdToken.balanceOf(accounts[0]);
+		assert.equal(amount.add(usdAfter).toString(), usdBefore.toString(), "incorrect account token balance");
+		assert.equal(amount.toString(), (await usdToken.balanceOf(usdLoanToken.address)).toString(), "incorrect underlying balance on loan token");
+		assert.equal(amount.toString(), (await usdLoanToken.balanceOf(liquidityMining.address)).toString(), "incorrect pool token balance on LM contract");
+	});
+
+	it("should withdraw from the lending pool and withdraw the rewrads from the LM contract", async() => {
+		const amount = await liquidityMining.userLPBalance(accounts[0], usdLoanToken.address);
+		assert(amount > 0, "incorrect test setup. account needs to have a balance on the LM contract");
+		
+		const usdBefore =  await usdToken.balanceOf(accounts[0]);
+		await rbtcWrapperProxy.removeFromLendingPool(usdLoanToken.address, accounts[0], amount);
+		const usdAfter = await usdToken.balanceOf(accounts[0]);
+		assert.equal(amount.add(usdBefore).toString(), usdAfter.toString(), "incorrect account token balance");
+
+	});
+
+	it("should add and withdraw to/from the lending pool with different receivers", async()  => {
+		assert(true);
 	});
 });

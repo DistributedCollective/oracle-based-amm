@@ -450,7 +450,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         //deposit the pool tokens in the liquidity mining contract on the sender's behalf
         loanToken.approve(address(liquidityMiningContract), minted);
-        liquidityMiningContract.deposit(loanTokenAddress, minted, receiver);
+        liquidityMiningContract.deposit(loanTokenAddress, minted, receiver);      
     }
 
     /**
@@ -466,7 +466,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         //withdraw always transfers the pool tokens to the caller and the reward tokens to the passed address
         liquidityMiningContract.withdraw(loanTokenAddress, burnAmount, msg.sender);
 
+        //burn pool token and directly send underlying tokens to the receiver
         loanToken.approve(address(liquidityMiningContract), burnAmount);
         uint256 redeemed = loanToken.burn(receiver, burnAmount);
     }
+
 }
