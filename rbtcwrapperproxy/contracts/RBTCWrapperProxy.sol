@@ -434,10 +434,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
     /**
      * @notice provides funds to a lending pool and deposits the pool tokens into the liquidity mining contract.
      * @param loanTokenAddress the address of the loan token (aka lending pool)
-     * @param receiver the address for which the pool tokens should be held on the LM contract
      * @param depositAmount he amount of underlying tokens to deposit 
      */
-    function addToLendingPool(address loanTokenAddress, address receiver, uint256 depositAmount) public{
+    function addToLendingPool(address loanTokenAddress, uint256 depositAmount) public{
         LoanToken loanToken = LoanToken(loanTokenAddress);
         IERC20Token underlyingAsset = IERC20Token(loanToken.loanTokenAddress());
 
@@ -450,17 +449,16 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         //deposit the pool tokens in the liquidity mining contract on the sender's behalf
         loanToken.approve(address(liquidityMiningContract), minted);
-        liquidityMiningContract.deposit(loanTokenAddress, minted, receiver);      
+        liquidityMiningContract.deposit(loanTokenAddress, minted, msg.sender);      
     }
 
     /**
      * @notice removes funds from the liquidity mining contract, burns them on the lending pool and 
      * provides the underlying asset to the user
      * @param loanTokenAddress the address of the loan token (aka lending pool)
-     * @param receiver the address which should receive the underlying tokens
      * @param burnAmount the amount of pool tokens to withdraw from the lending pool and burn
      */
-    function removeFromLendingPool(address loanTokenAddress, address receiver, uint256 burnAmount) public{
+    function removeFromLendingPool(address loanTokenAddress, uint256 burnAmount) public{
         LoanToken loanToken = LoanToken(loanTokenAddress);
 
         //withdraw always transfers the pool tokens to the caller and the reward tokens to the passed address
@@ -468,7 +466,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         //burn pool token and directly send underlying tokens to the receiver
         loanToken.approve(address(liquidityMiningContract), burnAmount);
-        uint256 redeemed = loanToken.burn(receiver, burnAmount);
+        uint256 redeemed = loanToken.burn(msg.sender, burnAmount);
     }
 
 }

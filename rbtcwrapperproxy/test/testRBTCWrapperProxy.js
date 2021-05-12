@@ -404,7 +404,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		const amount = web3.utils.toBN(10e18);
 		const usdBefore = await usdToken.balanceOf(accounts[0]);
 		await usdToken.approve(rbtcWrapperProxy.address, amount);
-		await rbtcWrapperProxy.addToLendingPool(usdLoanToken.address, accounts[0], amount);
+		await rbtcWrapperProxy.addToLendingPool(usdLoanToken.address,  amount);
 		const usdAfter = await usdToken.balanceOf(accounts[0]);
 		assert.equal(amount.add(usdAfter).toString(), usdBefore.toString(), "incorrect account token balance");
 		assert.equal(amount.toString(), (await usdToken.balanceOf(usdLoanToken.address)).toString(), "incorrect underlying balance on loan token");
@@ -416,13 +416,11 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		assert(amount > 0, "incorrect test setup. account needs to have a balance on the LM contract");
 		
 		const usdBefore =  await usdToken.balanceOf(accounts[0]);
-		await rbtcWrapperProxy.removeFromLendingPool(usdLoanToken.address, accounts[0], amount);
+		await rbtcWrapperProxy.removeFromLendingPool(usdLoanToken.address,  amount);
 		const usdAfter = await usdToken.balanceOf(accounts[0]);
 		assert.equal(amount.add(usdBefore).toString(), usdAfter.toString(), "incorrect account token balance");
 
 	});
 
-	it("should add and withdraw to/from the lending pool with different receivers", async()  => {
-		assert(true);
-	});
+
 });
