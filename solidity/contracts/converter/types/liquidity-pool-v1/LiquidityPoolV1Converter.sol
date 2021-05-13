@@ -2,6 +2,7 @@ pragma solidity 0.4.26;
 import "../../LiquidityPoolConverter.sol";
 import "../../../token/interfaces/ISmartToken.sol";
 import "../../../utility/interfaces/IOracle.sol";
+
 /**
   * @dev Liquidity Pool v1 Converter
   *
