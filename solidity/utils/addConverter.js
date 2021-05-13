@@ -39,7 +39,7 @@ const getConfig = () => {
 
 const getData = () => {
 	//todo read the config according to the network
-	return JSON.parse(fs.readFileSync("./config_rsk_testnet.json", { encoding: "utf8" }));
+	return JSON.parse(fs.readFileSync("./config_rsk.json", { encoding: "utf8" }));
 };
 
 const setConfig = (record) => {
@@ -221,7 +221,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		//if the script breaks during execution and you need to resume it, comment out this line + set the newConverter to the actual converter
 		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
-		//const newConverter = '0xe4E467D8B5f61b5C83048d857210678eB86730A4';
+		//const newConverter = '0xcD495d1b2a8cE7D8f3a660cf594d81590e90A0a5';
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
@@ -244,13 +244,13 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
 			for (let i = 0; i < converter.reserves.length; i++) {
 				const reserve = converter.reserves[i];
-				if (reserve.symbol !== "ETH") {
-					console.log("Approving amount for ERC20Token: " + amounts[i]);
-					await execute(deployed(web3, "ERC20Token", tokens[i]).methods.approve(converterBase._address, amounts[i]));
-					let availableBalance = await deployed(web3, "ERC20Token", tokens[i]).methods.balanceOf(account.address).call();
-					console.log("available balance: ");
-					console.log(availableBalance);
-				}
+				
+				console.log("Approving amount for ERC20Token: " + amounts[i]);
+				await execute(deployed(web3, "ERC20Token", tokens[i]).methods.approve(converterBase._address, amounts[i]));
+				let availableBalance = await deployed(web3, "ERC20Token", tokens[i]).methods.balanceOf(account.address).call();
+				console.log("available balance: ");
+				console.log(availableBalance);
+				
 
 				if (type == 2) {
 					if (!reserve.oracle) {
