@@ -1,8 +1,7 @@
 pragma solidity 0.4.26;
 import "../../LiquidityPoolConverter.sol";
 import "../../../token/interfaces/ISmartToken.sol";
-import "../../../utility/EnumerableSet.sol";
-
+import "../../../utility/interfaces/IOracle.sol";
 /**
   * @dev Liquidity Pool v1 Converter
   *
@@ -13,23 +12,8 @@ import "../../../utility/EnumerableSet.sol";
   * the pool has 2 reserves with 50%/50% weights.
 */
 contract LiquidityPoolV1Converter is LiquidityPoolConverter {
-    using EnumerableBytes32Set for EnumerableBytes32Set.Bytes32Set;
-
     IEtherToken internal etherToken = IEtherToken(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
-
-    struct Observation {
-        bytes32 id;
-        uint256 blockNumber;
-		uint256 timestamp;
-        uint256 ema0;
-		uint256 ema1;
-		uint256 lastCumulativePrice0;
-	    uint256 lastCumulativePrice1;
-    }
-
-    uint256 public k;
-    mapping(bytes32 => Observation) public observations; //id -> observations
-    EnumerableBytes32Set.Bytes32Set internal observationsSet; //contains all id
+    IOracle public oracle;
 
     /**
       * @dev triggered after a conversion with new price data
@@ -40,16 +24,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
       * @param  _connectorBalance   reserve balance
       * @param  _connectorWeight    reserve weight
     */
-    event PriceDataUpdate(
-        address indexed _connectorToken,
-        uint256 _tokenSupply,
-        uint256 _connectorBalance,
-        uint32 _connectorWeight
-    );
-
-    event KValueUpdate(
-        uint256 _k
-    );
+	event PriceDataUpdate(address indexed _connectorToken, uint256 _tokenSupply, uint256 _connectorBalance, uint32 _connectorWeight);
 
     /**
       * @dev initializes a new LiquidityPoolV1Converter instance
@@ -62,11 +37,12 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         ISmartToken _token,
         IContractRegistry _registry,
         uint32 _maxConversionFee
-    )
-        public
-        LiquidityPoolConverter(_token, _registry, _maxConversionFee)
-    {
-    }
+	) public LiquidityPoolConverter(_token, _registry, _maxConversionFee) {}
+    
+    function setOracle(address _oracle) external ownerOnly {
+		require(_oracle != address(0), "ERR_ZERO_ORACLE_ADDRESS");
+        oracle = IOracle(_oracle);
+	}
 
     /**
       * @dev returns the converter type
@@ -101,75 +77,6 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         // verify that the converter doesn't have 2 reserves yet
         require(reserveTokenCount() < 2, "ERR_INVALID_RESERVE_COUNT");
         super.addReserve(_token, _weight);
-    }
-
-    function setK(uint256 _k) public ownerOnly {
-        //only owner check
-        require(_k != 0 && _k < 100, "ERR_INVALID_K_VALUE");
-        k = _k;
-        emit KValueUpdate(_k);
-    }
-
-    function _write() internal {
-        uint256 totalObservations = observationsSet.length();
-
-        //handle initial observation
-        if(totalObservations == 0) {
-            _addInitialEMA();
-            return;
-        }
-
-        bytes32 previousObservationId = keccak256(abi.encodePacked(totalObservations-1));
-        Observation storage previousObservation = observations[previousObservationId];
-
-        //return if same block number
-        if (previousObservation.blockNumber == block.timestamp) return;
-
-        //write new entry
-        bytes32 id = keccak256(abi.encodePacked(totalObservations));
-		uint256 price0 = (reserves[reserveTokens[1]].balance)
-            .mul(1e18)
-            .div(reserves[reserveTokens[0]].balance);
-
-		uint256 price1 = (reserves[reserveTokens[0]].balance)
-            .mul(1e18)
-            .div(reserves[reserveTokens[1]].balance);
-
-		Observation memory observation = observations[id];
-			
-		observation.id = id;
-		observation.ema0 = k * price0 + (1 - k) * (previousObservation.lastCumulativePrice0);
-		observation.ema1 = k * price1 + (1 - k) * (previousObservation.lastCumulativePrice1);
-		observation.blockNumber = block.number;
-		observation.timestamp = block.timestamp;
-		observation.lastCumulativePrice0 = price0;
-		observation.lastCumulativePrice1 = price1;
-			
-		observationsSet.addBytes32(id);
-	}
-
-    //to be called with initial liquidity addition
-    function _addInitialEMA() internal {
-        bytes32 id = keccak256(abi.encodePacked(uint256(0)));
-		uint256 price0 = (reserves[reserveTokens[1]].balance)
-            .mul(1e18)
-            .div(reserves[reserveTokens[0]].balance);
-
-		uint256 price1 = (reserves[reserveTokens[0]].balance)
-            .mul(1e18)
-            .div(reserves[reserveTokens[1]].balance);
-
-		Observation memory observation = observations[id];
-			
-		observation.id = id;
-		observation.ema0 = 0;
-		observation.ema1 = 0;
-		observation.blockNumber = block.number;
-		observation.timestamp = block.timestamp;
-		observation.lastCumulativePrice0 = price0;
-		observation.lastCumulativePrice1 = price1;
-
-		observationsSet.addBytes32(id);
     }
 
     /**
@@ -218,10 +125,16 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
       *
       * @return amount of tokens received (in units of the target token)
     */
-    function doConvert(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _amount, address _trader, address _beneficiary)
-        internal
-        returns (uint256)
-    {
+	function doConvert(
+		IERC20Token _sourceToken,
+		IERC20Token _targetToken,
+		uint256 _amount,
+		address _trader,
+		address _beneficiary
+	) internal returns (uint256) {
+		//record oracle observations
+        oracle.write(reserveBalance(reserveTokens[0]), reserveBalance(reserveTokens[1]));
+
         // get expected target amount and fee
         (uint256 amount, uint256 fee) = targetAmountAndFee(_sourceToken, _targetToken, _amount);
 
@@ -253,9 +166,6 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
         // dispatch rate updates
         dispatchRateEvents(_sourceToken, _targetToken);
-
-        //Oracle observations
-        _write();
 
         return amount;
     }
@@ -297,9 +207,6 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
         // issue the tokens to the user
         ISmartToken(anchor).issue(msg.sender, amount);
-
-        //Oracle observations
-        _write();
     }
 
     /**
@@ -326,8 +233,6 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
         // transfer to the user an equivalent amount of each one of the reserve tokens
         removeLiquidityFromPool(_reserveTokens, _reserveMinReturnAmounts, totalSupply, _amount);
-
-        _write();
     }
 
     /**
@@ -384,9 +289,6 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
         // issue new funds to the caller in the pool token
         ISmartToken(anchor).issue(msg.sender, _amount);
-
-        //Oracle observations
-        _write();
     }
 
     /**
@@ -570,9 +472,6 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
             uint32 reserveWeight = reserves[reserveToken].weight;
             dispatchPoolTokenRateEvent(newPoolTokenSupply, reserveToken, newReserveBalance, reserveWeight);
         }
-
-        //Oracle observations
-        _write();
     }
 
     function getMinShare(ISovrynSwapFormula formula, uint256 _totalSupply, IERC20Token[] memory _reserveTokens, uint256[] memory _reserveAmounts) private view returns (uint256) {
