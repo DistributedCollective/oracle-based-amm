@@ -94,6 +94,30 @@ contract RBTCWrapperProxy is ContractRegistryClient {
     );
 
     /**
+     * @dev triggered after loan tokens are minted
+     * @param user the user address
+     * @param poolTokenAmount the minted amount of pool tokens
+     * @param assetAmount the deposited amount of underlying asset tokens 
+     */
+    event LoanTokensMinted(
+        address indexed user,
+        uint256 poolTokenAmount,
+        uint256 assetAmount
+    );
+
+    /**
+     * @dev triggered after loan tokens are minted
+     * @param user the user address
+     * @param poolTokenAmount the burnt amount of pool tokens
+     * @param assetAmount the withdrawn amount of underlying asset tokens 
+     */
+    event LoanTokensBurnt(
+        address indexed user,
+        uint256 poolTokenAmount,
+        uint256 assetAmount
+    );
+
+    /**
      * @dev To check if ddress is contract address 
      */
     modifier checkAddress(address address_) {
@@ -449,7 +473,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         //deposit the pool tokens in the liquidity mining contract on the sender's behalf
         loanToken.approve(address(liquidityMiningContract), minted);
-        liquidityMiningContract.deposit(loanTokenAddress, minted, msg.sender);      
+        liquidityMiningContract.deposit(loanTokenAddress, minted, msg.sender);   
+
+        emit LoanTokensMinted(msg.sender, minted, depositAmount);   
     }
 
     /**
@@ -467,6 +493,8 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         //burn pool token and directly send underlying tokens to the receiver
         loanToken.approve(address(liquidityMiningContract), burnAmount);
         uint256 redeemed = loanToken.burn(msg.sender, burnAmount);
+
+        emit LoanTokensBurnt(msg.sender, burnAmount, redeemed);   
     }
 
 }
