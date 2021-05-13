@@ -38,7 +38,8 @@ const getConfig = () => {
 };
 
 const getData = () => {
-	return JSON.parse(fs.readFileSync("./config_rsk.json", { encoding: "utf8" }));
+	//todo read the config according to the network
+	return JSON.parse(fs.readFileSync("./config_rsk_testnet.json", { encoding: "utf8" }));
 };
 
 const setConfig = (record) => {
@@ -168,6 +169,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
 	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
 
+	//this block is just relevant for v2 pools
 	let underlyingOracleAddress = [];
 	if (oracleMockName != undefined) {
 		//if underlying address is defined, use it
@@ -189,6 +191,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		}
 	}
 
+	//read reserve data from the config or deploy new tokens if not defined
 	for (const reserve of getConfig().reserves) {
 		if (reserve.address) {
 			addresses[reserve.symbol] = reserve.address;
@@ -233,11 +236,11 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		console.log("Now executing the settings on " + converterBase._address);
 		await execute(converterBase.methods.acceptOwnership());
+		console.log("Done with ownership acceptance");
 		await execute(converterBase.methods.setConversionFee(fee));
 		console.log("Done with conversion fee");
 
-		console.log("Done with ownership acceptance");
-
+		//adding the liquidity and thereby seeting the price
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
 			for (let i = 0; i < converter.reserves.length; i++) {
 				const reserve = converter.reserves[i];
@@ -296,10 +299,10 @@ if (TOKEN_NAME === "BPro") {
 	addConverter("BProOracle", "MoCStateMock", "20000000000000000000000");
 }
 
-if (TOKEN_NAME === 'USDT') {
+else if (TOKEN_NAME === 'USDT') {
     addConverter('MocBTCToBTCOracle');
 }
 
-if (TOKEN_NAME === 'SOV') {
+else {
     addConverter();
 }

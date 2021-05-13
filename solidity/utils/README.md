@@ -81,6 +81,8 @@ For USDT it is: ```node addConverter.js USDT <ethereum node address> <private ke
 
 For BPro it is: ```node addConverter.js BPro <ethereum node address> <private key>```
 
+For SOV it is: ```node addConverter.js SOV <ethereum node address> <private key>```
+
 The config will be read from ```add_bpro.sjon``` or ```add_usdt.json```.
 
 If an oracle for a token was already deployed, set the address in the reserve object within the converter object in the config. Remember that the wallet needs to posses WRBTC if WRBTC is used as second currency.
