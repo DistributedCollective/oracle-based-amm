@@ -484,6 +484,18 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         return formula.fundSupplyAmount(_totalSupply, reserves[_reserveTokens[minIndex]].balance, reserveRatio, _reserveAmounts[minIndex]);
     }
 
+	function getExpectedOutAmount(uint256 lpTokens) public view returns (uint256[2] memory amountOut) {
+		ISovrynSwapFormula formula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA));
+		uint256 supply = ISmartToken(anchor).totalSupply();
+
+		uint256 reserveCount = reserveTokens.length;
+		for (uint256 i = 0; i < reserveCount; i++) {
+			IERC20Token reserveToken = reserveTokens[i];
+			uint256 rsvBalance = reserves[reserveToken].balance;
+			amountOut[i] = formula.liquidateReserveAmount(supply, rsvBalance, reserveRatio, lpTokens);
+		}
+	}
+
     /**
       * @dev calculates the number of decimal digits in a given value
       *
