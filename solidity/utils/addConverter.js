@@ -220,6 +220,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		console.log("Deploying converter for ", type, " - ", name, " with value ", value);
 
 		//if the script breaks during execution and you need to resume it, comment out this line + set the newConverter to the actual converter
+		//TODO: log if the converter was created and verify it here
 		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
 		//const newConverter = '0xcD495d1b2a8cE7D8f3a660cf594d81590e90A0a5';
 
