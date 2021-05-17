@@ -197,9 +197,13 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 			addresses[reserve.symbol] = reserve.address;
 			tokenDecimals[reserve.symbol] = reserve.decimals;
 			setConfig({ [reserve.symbol]: { name: reserve.symbol, addr: reserve.address } });
-		}
-		else{
-			t = await web3Func(deploy, reserve.symbol, "ERC20Token", [reserve.symbol, reserve.symbol, reserve.decimals, decimalToInteger("10000", reserve.decimals) ]);
+		} else {
+			t = await web3Func(deploy, reserve.symbol, "ERC20Token", [
+				reserve.symbol,
+				reserve.symbol,
+				reserve.decimals,
+				decimalToInteger("10000", reserve.decimals),
+			]);
 			tokenDecimals[reserve.symbol] = reserve.decimals;
 			addresses[reserve.symbol] = t._address;
 		}
@@ -221,8 +225,9 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		//if the script breaks during execution and you need to resume it, comment out this line + set the newConverter to the actual converter
 		//TODO: log if the converter was created and verify it here
-		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
+		//const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
 		//const newConverter = '0xcD495d1b2a8cE7D8f3a660cf594d81590e90A0a5';
+		const newConverter = "0xD3118F62907f2b0FF677Ae3250e6E5Ff26Ce48AC";
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
@@ -245,13 +250,12 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
 			for (let i = 0; i < converter.reserves.length; i++) {
 				const reserve = converter.reserves[i];
-				
+
 				console.log("Approving amount for ERC20Token: " + amounts[i]);
 				await execute(deployed(web3, "ERC20Token", tokens[i]).methods.approve(converterBase._address, amounts[i]));
 				let availableBalance = await deployed(web3, "ERC20Token", tokens[i]).methods.balanceOf(account.address).call();
 				console.log("available balance: ");
 				console.log(availableBalance);
-				
 
 				if (type == 2) {
 					if (!reserve.oracle) {
@@ -298,12 +302,8 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 if (TOKEN_NAME === "BPro") {
 	addConverter("BProOracle", "MoCStateMock", "20000000000000000000000");
-}
-
-else if (TOKEN_NAME === 'USDT') {
-    addConverter('MocBTCToBTCOracle');
-}
-
-else {
-    addConverter();
+} else if (TOKEN_NAME === "USDT") {
+	addConverter("MocBTCToBTCOracle");
+} else {
+	addConverter();
 }

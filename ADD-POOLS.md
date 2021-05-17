@@ -1,4 +1,4 @@
-﻿# SovrynSwap Protocol Contracts v0.6 (beta)
+﻿# Add V1 AMM Pools Manual
 
 ![Docs](https://img.shields.io/badge/docs-%F0%9F%93%84-blue)
 
@@ -11,7 +11,7 @@ Deploy a set of contracts for testing purpose; can be used on both private and p
 [deployment_rsk.js](solidity/utils/deployment_rsk.js)  
 
 ```bash
-node test_deployment_rsk.js
+node deployment_rsk.js
     Configuration file name
     Ethereum node address
     Account private key
@@ -63,14 +63,13 @@ You can take the commands from [commands.txt](solidity/utils/command.txt)
 ### Local testing
 [deployment_rsk.js](solidity/utils/deployment_rsk.js) to deploy contracts needed for testing  
 
-The configuration file is updated during the process, in order to allow resuming a prematurely-terminated execution. This means, if you want to start a fresh deployment, you need to delete the phase and all of the deployed contract addresses from the config file.  
+The configuration file is updated during the process, in order to allow resuming a prematurely-terminated execution. This means, if you want to start a fresh deployment, you need to delete the "phase" section and all of the deployed contract addresses from the config file.  
 
 ### Adding LM pools to the testnet and mainnet  
 1. Before adding pools we need to make sure having updated comipled contracts in [./solidity/build](./solidity/build)
    - Change contract folder in script Compile contracts `../../scripts/compile.sh`
    - Run from root dir `./scripts/compile.sh`
-2. Top up RBTC and WRBTC account with some RBTC to launch for testing
-3. 
+2. Top up RBTC and WRBTC account with some RBTC to launch for testing  
 
 To add converters to an existing swap network, use ```addConverter.js```.
 
