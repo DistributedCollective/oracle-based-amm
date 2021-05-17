@@ -2,7 +2,7 @@ pragma solidity 0.4.26;
 import "./Owned.sol";
 import "./SafeMath.sol";
 
-contract Oracle is Owned{
+contract Oracle is Owned {
 	using SafeMath for uint256;
 
 	uint64 public blockNumber;
@@ -12,6 +12,8 @@ contract Oracle is Owned{
 	uint256 public lastCumulativePrice0;
 	uint256 public lastCumulativePrice1;
 	uint256 public k;
+
+	address public liquidityPool;
 
 	event ObservationsUpdated(
 		uint256 ema0,
@@ -23,6 +25,13 @@ contract Oracle is Owned{
 	);
 
 	event KValueUpdate(uint256 _k);
+	event PoolAddressUpdate(address _liquidityPool);
+
+	// ensures that the values are written by pool contract
+	modifier validPool() {
+		require(msg.sender == liquidityPool, "ERR_INVALID_POOL_ADDRESS");
+		_;
+	}
 
 	function setK(uint256 _k) public ownerOnly {
 		require(_k != 0 && _k < 100, "ERR_INVALID_K_VALUE");
@@ -30,7 +39,13 @@ contract Oracle is Owned{
 		emit KValueUpdate(_k);
 	}
 
-	function write(uint256 reserves0Balance, uint256 reserves1Balance) external {
+	function setLiquidityPool(address _liquidityPool) public ownerOnly {
+		require(_liquidityPool != address(0), "ERR_ZERO_POOL_ADDRESS");
+		liquidityPool = _liquidityPool;
+		emit PoolAddressUpdate(_liquidityPool);
+	}
+
+	function write(uint256 reserves0Balance, uint256 reserves1Balance) external validPool {
 		if (blockNumber == uint256(block.number)) return;
 
 		uint256 price0 = (reserves1Balance).mul(1e18).div(reserves0Balance);
@@ -54,6 +69,7 @@ contract Oracle is Owned{
 
 	function read()
 		external
+		view
 		returns (
 			uint256,
 			uint256,
