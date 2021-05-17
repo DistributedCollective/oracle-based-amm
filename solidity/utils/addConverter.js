@@ -225,9 +225,9 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		//if the script breaks during execution and you need to resume it, comment out this line + set the newConverter to the actual converter
 		//TODO: log if the converter was created and verify it here
-		//const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
+		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
 		//const newConverter = '0xcD495d1b2a8cE7D8f3a660cf594d81590e90A0a5';
-		const newConverter = "0xD3118F62907f2b0FF677Ae3250e6E5Ff26Ce48AC";
+		//const newConverter = "0xD3118F62907f2b0FF677Ae3250e6E5Ff26Ce48AC";
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
