@@ -14,6 +14,7 @@ const ERC20Token = artifacts.require("ERC20Token");
 const TestNonStandardToken = artifacts.require("TestNonStandardToken");
 const ConverterFactory = artifacts.require("ConverterFactory");
 const ConverterUpgrader = artifacts.require("ConverterUpgrader");
+const Oracle = artifacts.require("Oracle");
 
 contract("LiquidityPoolV1Converter", (accounts) => {
 	const createConverter = async (tokenAddress, registryAddress = contractRegistry.address, maxConversionFee = 0) => {
@@ -24,7 +25,13 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 		token = await SmartToken.new("Token1", "TKN1", 2);
 		tokenAddress = token.address;
 
+		oracle = await Oracle.new();
+		oracleAddress = oracle.address;
+
 		const converter = await createConverter(tokenAddress, contractRegistry.address, maxConversionFee);
+		await converter.setOracle(oracleAddress);
+		await oracle.setLiquidityPool(converter.address);
+
 		await converter.addReserve(getReserve1Address(isETHReserve), 250000);
 		await converter.addReserve(reserveToken2.address, 150000);
 		await reserveToken2.transfer(converter.address, 8000);
@@ -77,10 +84,11 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 	let sovrynSwapNetwork;
 	let token;
 	let tokenAddress;
+	let oracle;
+	let oracleAddress;
 	let contractRegistry;
 	let reserveToken;
 	let reserveToken2;
-	let reserveToken3;
 	let upgrader;
 	const sender = accounts[0];
 	const sender2 = accounts[9];
@@ -114,7 +122,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 		reserveToken = await ERC20Token.new("ERC Token 1", "ERC1", 18, 1000000000);
 		reserveToken2 = await TestNonStandardToken.new("ERC Token 2", "ERC2", 18, 2000000000);
-		reserveToken3 = await ERC20Token.new("ERC Token 3", "ERC3", 18, 1500000000);
 	});
 
 	it("verifies the Activation event after converter activation", async () => {
@@ -277,9 +284,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 			for (const percent of [50, 75, 100]) {
 				it(`verifies that fund executes when the reserve ratio equals ${percent}%`, async () => {
 					const converter = await initConverter(false, isETHReserve);
-					await converter.addReserve(reserveToken3.address, (percent - 40) * 10000);
-
-					await reserveToken3.transfer(converter.address, 6000);
+					await reserveToken2.transfer(converter.address, 6000);
 
 					await token.transferOwnership(converter.address);
 					await converter.acceptTokenOwnership();
@@ -295,7 +300,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					}
 
 					await reserveToken2.approve(converter.address, amount, { from: sender });
-					await reserveToken3.approve(converter.address, amount, { from: sender });
 
 					const amount2 = new BN(100);
 					await converter.fund(amount2, { value });
@@ -307,25 +311,19 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 			it("verifies that fund gets the correct reserve balance amounts from the caller", async () => {
 				const converter = await initConverter(false, isETHReserve);
-				await converter.addReserve(reserveToken3.address, 600000);
-
-				await reserveToken3.transfer(converter.address, 6000);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
 
 				await reserveToken.transfer(sender2, 5000);
 				await reserveToken2.transfer(sender2, 5000);
-				await reserveToken3.transfer(sender2, 5000);
 
 				const supply = await token.totalSupply.call();
-				const percentage = new BN(19);
+				const percentage = new BN(0);
 				const prevReserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const prevReserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
-				const prevReserve3Balance = await converter.reserveBalance.call(reserveToken3.address);
 				const token1Amount = divCeil(prevReserve1Balance.mul(percentage), supply);
 				const token2Amount = divCeil(prevReserve2Balance.mul(percentage), supply);
-				const token3Amount = divCeil(prevReserve3Balance.mul(percentage), supply);
 
 				const amount = new BN(100000);
 				let value = 0;
@@ -336,39 +334,31 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				}
 
 				await reserveToken2.approve(converter.address, amount, { from: sender2 });
-				await reserveToken3.approve(converter.address, amount, { from: sender2 });
 				await converter.fund(percentage, { from: sender2, value });
 
 				const reserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const reserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
-				const reserve3Balance = await converter.reserveBalance.call(reserveToken3.address);
 
 				expect(reserve1Balance).to.be.bignumber.equal(prevReserve1Balance.add(token1Amount));
 				expect(reserve2Balance).to.be.bignumber.equal(prevReserve2Balance.add(token2Amount));
-				expect(reserve3Balance).to.be.bignumber.equal(prevReserve3Balance.add(token3Amount));
 			});
 
 			it("verifies that increasing the liquidity by a large amount gets the correct reserve balance amounts from the caller", async () => {
 				const converter = await initConverter(false, isETHReserve);
-				await converter.addReserve(reserveToken3.address, 600000);
-
-				await reserveToken3.transfer(converter.address, 6000);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
 
 				await reserveToken.transfer(sender2, 500000);
 				await reserveToken2.transfer(sender2, 500000);
-				await reserveToken3.transfer(sender2, 500000);
 
 				const supply = await token.totalSupply.call();
-				const percentage = new BN(140854);
+				const percentage = new BN(0);
 				const prevReserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const prevReserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
-				const prevReserve3Balance = await converter.reserveBalance.call(reserveToken3.address);
+
 				const token1Amount = divCeil(prevReserve1Balance.mul(percentage), supply);
 				const token2Amount = divCeil(prevReserve2Balance.mul(percentage), supply);
-				const token3Amount = divCeil(prevReserve3Balance.mul(percentage), supply);
 
 				const amount = new BN(100000);
 				let value = 0;
@@ -379,30 +369,23 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				}
 
 				await reserveToken2.approve(converter.address, amount, { from: sender2 });
-				await reserveToken3.approve(converter.address, amount, { from: sender2 });
 				await converter.fund(percentage, { from: sender2, value });
 
 				const reserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const reserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
-				const reserve3Balance = await converter.reserveBalance.call(reserveToken3.address);
 
 				expect(reserve1Balance).to.be.bignumber.equal(prevReserve1Balance.add(token1Amount));
 				expect(reserve2Balance).to.be.bignumber.equal(prevReserve2Balance.add(token2Amount));
-				expect(reserve3Balance).to.be.bignumber.equal(prevReserve3Balance.add(token3Amount));
 			});
 
 			it("should revert when attempting to fund the converter with insufficient funds", async () => {
 				const converter = await initConverter(false, isETHReserve);
-				await converter.addReserve(reserveToken3.address, 600000);
-
-				await reserveToken3.transfer(converter.address, 6000);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
 
 				await reserveToken.transfer(sender2, 100);
 				await reserveToken2.transfer(sender2, 100);
-				await reserveToken3.transfer(sender2, 100);
 
 				const amount = new BN(100000);
 				let value = 0;
@@ -413,7 +396,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				}
 
 				await reserveToken2.approve(converter.address, amount, { from: sender2 });
-				await reserveToken3.approve(converter.address, amount, { from: sender2 });
 				await converter.fund(5, { from: sender2, value });
 
 				await expectRevert.unspecified(converter.fund(600, { from: sender2, value }));
@@ -422,9 +404,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 			for (const percent of [50, 75, 100]) {
 				it(`verifies that liquidate executes when the reserve ratio equals ${percent}%`, async () => {
 					const converter = await initConverter(false, isETHReserve);
-					await converter.addReserve(reserveToken3.address, (percent - 40) * 10000);
-
-					await reserveToken3.transfer(converter.address, 6000);
 
 					await token.transferOwnership(converter.address);
 					await converter.acceptTokenOwnership();
@@ -439,9 +418,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 			it("verifies that liquidate sends the correct reserve balance amounts to the caller", async () => {
 				const converter = await initConverter(false, isETHReserve);
-				await converter.addReserve(reserveToken3.address, 600000);
-
-				await reserveToken3.transfer(converter.address, 6000);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
@@ -449,17 +425,14 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await token.transfer(sender2, 100);
 
 				const supply = await token.totalSupply.call();
-				const percentage = new BN(19);
+				const percentage = new BN(1);
 				const reserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const reserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
-				const reserve3Balance = await converter.reserveBalance.call(reserveToken3.address);
 				const token1Amount = reserve1Balance.mul(percentage).div(supply);
 				const token2Amount = reserve2Balance.mul(percentage).div(supply);
-				const token3Amount = reserve3Balance.mul(percentage).div(supply);
 
 				const token1PrevBalance = await getBalance(reserveToken, getReserve1Address(isETHReserve), sender2);
 				const token2PrevBalance = await reserveToken2.balanceOf.call(sender2);
-				const token3PrevBalance = await reserveToken3.balanceOf.call(sender2);
 				const res = await converter.liquidate(percentage, { from: sender2 });
 
 				let transactionCost = new BN(0);
@@ -469,18 +442,13 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 				const token1Balance = await getBalance(reserveToken, getReserve1Address(isETHReserve), sender2);
 				const token2Balance = await reserveToken2.balanceOf.call(sender2);
-				const token3Balance = await reserveToken3.balanceOf.call(sender2);
 
 				expect(token1Balance).to.be.bignumber.equal(token1PrevBalance.add(token1Amount.sub(transactionCost)));
 				expect(token2Balance).to.be.bignumber.equal(token2PrevBalance.add(token2Amount));
-				expect(token3Balance).to.be.bignumber.equal(token3PrevBalance.add(token3Amount));
 			});
 
 			it("verifies that liquidating a large amount sends the correct reserve balance amounts to the caller", async () => {
 				const converter = await initConverter(false, isETHReserve);
-				await converter.addReserve(reserveToken3.address, 600000);
-
-				await reserveToken3.transfer(converter.address, 6000);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
@@ -488,17 +456,14 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await token.transfer(sender2, 15000);
 
 				const supply = await token.totalSupply.call();
-				const percentage = new BN(14854);
+				const percentage = new BN(0);
 				const reserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const reserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
-				const reserve3Balance = await converter.reserveBalance.call(reserveToken3.address);
 				const token1Amount = reserve1Balance.mul(percentage).div(supply);
 				const token2Amount = reserve2Balance.mul(percentage).div(supply);
-				const token3Amount = reserve3Balance.mul(percentage).div(supply);
 
 				const token1PrevBalance = await getBalance(reserveToken, getReserve1Address(isETHReserve), sender2);
 				const token2PrevBalance = await reserveToken2.balanceOf.call(sender2);
-				const token3PrevBalance = await reserveToken3.balanceOf.call(sender2);
 				const res = await converter.liquidate(14854, { from: sender2 });
 
 				let transactionCost = new BN(0);
@@ -508,18 +473,13 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 				const token1Balance = await getBalance(reserveToken, getReserve1Address(isETHReserve), sender2);
 				const token2Balance = await reserveToken2.balanceOf.call(sender2);
-				const token3Balance = await reserveToken3.balanceOf.call(sender2);
 
 				expect(token1Balance).to.be.bignumber.equal(token1PrevBalance.add(token1Amount.sub(transactionCost)));
 				expect(token2Balance).to.be.bignumber.equal(token2PrevBalance.add(token2Amount));
-				expect(token3Balance).to.be.bignumber.equal(token3PrevBalance.add(token3Amount));
 			});
 
 			it("verifies that liquidating the entire supply sends the full reserve balances to the caller", async () => {
 				const converter = await initConverter(false, isETHReserve);
-				await converter.addReserve(reserveToken3.address, 600000);
-
-				await reserveToken3.transfer(converter.address, 6000);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
@@ -528,11 +488,9 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 				const reserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const reserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
-				const reserve3Balance = await converter.reserveBalance.call(reserveToken3.address);
 
 				const token1PrevBalance = await getBalance(reserveToken, getReserve1Address(isETHReserve), sender2);
 				const token2PrevBalance = await reserveToken2.balanceOf.call(sender2);
-				const token3PrevBalance = await reserveToken3.balanceOf.call(sender2);
 				const res = await converter.liquidate(20000, { from: sender2 });
 
 				let transactionCost = new BN(0);
@@ -543,19 +501,14 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const supply = await token.totalSupply.call();
 				const token1Balance = await getBalance(reserveToken, getReserve1Address(isETHReserve), sender2);
 				const token2Balance = await reserveToken2.balanceOf.call(sender2);
-				const token3Balance = await reserveToken3.balanceOf.call(sender2);
 
 				expect(supply).to.be.bignumber.equal(new BN(0));
 				expect(token1PrevBalance.add(reserve1Balance).sub(transactionCost)).to.be.bignumber.equal(token1Balance);
 				expect(token2PrevBalance.add(reserve2Balance)).to.be.bignumber.equal(token2Balance);
-				expect(token3PrevBalance.add(reserve3Balance)).to.be.bignumber.equal(token3Balance);
 			});
 
 			it("should revert when attempting to liquidate with insufficient funds", async () => {
 				const converter = await initConverter(false, isETHReserve);
-				await converter.addReserve(reserveToken3.address, 600000);
-
-				await reserveToken3.transfer(converter.address, 6000);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
