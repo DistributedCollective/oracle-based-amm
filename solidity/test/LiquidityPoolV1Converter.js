@@ -425,7 +425,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await token.transfer(sender2, 100);
 
 				const supply = await token.totalSupply.call();
-				const percentage = new BN(1);
+				const percentage = new BN(19);
 				const reserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const reserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
 				const token1Amount = reserve1Balance.mul(percentage).div(supply);
@@ -456,7 +456,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await token.transfer(sender2, 15000);
 
 				const supply = await token.totalSupply.call();
-				const percentage = new BN(0);
+				const percentage = new BN(14854);
 				const reserve1Balance = await converter.reserveBalance.call(getReserve1Address(isETHReserve));
 				const reserve2Balance = await converter.reserveBalance.call(reserveToken2.address);
 				const token1Amount = reserve1Balance.mul(percentage).div(supply);
@@ -464,7 +464,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 				const token1PrevBalance = await getBalance(reserveToken, getReserve1Address(isETHReserve), sender2);
 				const token2PrevBalance = await reserveToken2.balanceOf.call(sender2);
-				const res = await converter.liquidate(14854, { from: sender2 });
+				const res = await converter.liquidate(percentage, { from: sender2 });
 
 				let transactionCost = new BN(0);
 				if (isETHReserve) {
