@@ -14,8 +14,8 @@ import "./SafeMath.sol";
 contract Oracle is Owned {
 	using SafeMath for uint256;
 
-	uint64 public blockNumber;
-	uint64 public timestamp;
+	uint256 public blockNumber;
+	uint256 public timestamp;
 	uint256 public ema0;
 	uint256 public ema1;
 	uint256 public lastCumulativePrice0;
@@ -27,8 +27,8 @@ contract Oracle is Owned {
 	event ObservationsUpdated(
 		uint256 ema0,
 		uint256 ema1,
-		uint64 blockNumber,
-		uint64 timestamp,
+		uint256 blockNumber,
+		uint256 timestamp,
 		uint256 lastCumulativePrice0,
 		uint256 lastCumulativePrice1
 	);
@@ -47,7 +47,7 @@ contract Oracle is Owned {
 	 * @param _k new value of k
 	 */
 	function setK(uint256 _k) public ownerOnly {
-		require(_k != 0 && _k < 100, "ERR_INVALID_K_VALUE");
+		require(_k != 0 && _k <= 10000, "ERR_INVALID_K_VALUE");
 		k = _k;
 		emit KValueUpdate(_k);
 	}
@@ -65,34 +65,37 @@ contract Oracle is Owned {
 	/**
 	 * @dev Used to write new price observations
 	 * only valid liquidity pool contract can call this function
-	 * @param _reserves0Balance reserve balance of token0
-	 * @param _reserves1Balance reserve balance of token1
+	 * @param _price0 price of token0
+	 * @param _price1 price of token1
 	 */
-	function write(uint256 _reserves0Balance, uint256 _reserves1Balance) external validPool {
-		if (blockNumber == uint256(block.number)) return;
+	function write(uint256 _price0, uint256 _price1) external validPool {
+		if (blockNumber == block.number) return;
 
-		uint256 price0 = (_reserves1Balance).mul(1e18).div(_reserves0Balance);
-		uint256 price1 = (_reserves0Balance).mul(1e18).div(_reserves1Balance);
+		uint256 timeElapsed;
+		if (timestamp == 0) {
+			ema0 = _price0;
+			ema1 = _price1;
 
-		if (lastCumulativePrice1 == 0 && lastCumulativePrice0 == 0) {
-			ema0 = 0;
-			ema1 = 0;
+			timeElapsed = block.timestamp;
 		} else {
-			ema0 = k * price0 + (1 - k) * (lastCumulativePrice0);
-			ema1 = k * price1 + (1 - k) * (lastCumulativePrice1);
+			ema0 = k.mul(_price0).add((10000 - k).mul(ema0)).div(10000);
+			ema1 = k.mul(_price1).add((10000 - k).mul(ema1)).div(10000);
+
+			timeElapsed = block.timestamp.sub(timestamp);
 		}
 
-		blockNumber = uint64(block.number);
-		timestamp = uint64(block.timestamp);
-		lastCumulativePrice0 = price0;
-		lastCumulativePrice1 = price1;
+		lastCumulativePrice0 = lastCumulativePrice0.add(_price0.mul(timeElapsed));
+		lastCumulativePrice1 = lastCumulativePrice1.add(_price1.mul(timeElapsed));
+
+		blockNumber = block.number;
+		timestamp = block.timestamp;
 
 		emit ObservationsUpdated(ema0, ema1, blockNumber, timestamp, lastCumulativePrice0, lastCumulativePrice1);
 	}
 
 	/**
 	 * @dev used to read the latest observations recorded
-	 * @return ema0 
+	 * @return ema0
 	 * @return ema1
 	 * @return blockNumber
 	 * @return timestamp
@@ -105,8 +108,8 @@ contract Oracle is Owned {
 		returns (
 			uint256,
 			uint256,
-			uint64,
-			uint64,
+			uint256,
+			uint256,
 			uint256,
 			uint256
 		)

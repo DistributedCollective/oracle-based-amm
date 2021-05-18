@@ -25,7 +25,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
       * @param  _connectorBalance   reserve balance
       * @param  _connectorWeight    reserve weight
     */
-	event PriceDataUpdate(address indexed _connectorToken, uint256 _tokenSupply, uint256 _connectorBalance, uint32 _connectorWeight);
+    event PriceDataUpdate(address indexed _connectorToken, uint256 _tokenSupply, uint256 _connectorBalance, uint32 _connectorWeight);
 
     /**
       * @dev initializes a new LiquidityPoolV1Converter instance
@@ -38,12 +38,12 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         ISmartToken _token,
         IContractRegistry _registry,
         uint32 _maxConversionFee
-	) public LiquidityPoolConverter(_token, _registry, _maxConversionFee) {}
+    ) public LiquidityPoolConverter(_token, _registry, _maxConversionFee) {}
     
     function setOracle(address _oracle) external ownerOnly {
-		require(_oracle != address(0), "ERR_ZERO_ORACLE_ADDRESS");
+        require(_oracle != address(0), "ERR_ZERO_ORACLE_ADDRESS");
         oracle = IOracle(_oracle);
-	}
+    }
 
     /**
       * @dev returns the converter type
@@ -134,7 +134,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 		address _beneficiary
 	) internal returns (uint256) {
 		//record oracle observations
-        oracle.write(reserveBalance(reserveTokens[0]), reserveBalance(reserveTokens[1]));
+        _write();
 
         // get expected target amount and fee
         (uint256 amount, uint256 fee) = targetAmountAndFee(_sourceToken, _targetToken, _amount);
@@ -169,6 +169,28 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         dispatchRateEvents(_sourceToken, _targetToken);
 
         return amount;
+    }
+
+    function _write() internal {
+        uint256 price0 =
+            ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
+                reserveBalance(reserveTokens[0]),
+                reserves[reserveTokens[0]].weight,
+                reserveBalance(reserveTokens[1]),
+                reserves[reserveTokens[1]].weight,
+                1
+            );
+
+        uint256 price1 =
+            ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
+                reserveBalance(reserveTokens[1]),
+                reserves[reserveTokens[1]].weight,
+                reserveBalance(reserveTokens[0]),
+                reserves[reserveTokens[0]].weight,
+                1
+            );
+
+        oracle.write(price0, price1);
     }
 
     /**
@@ -484,17 +506,17 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         return formula.fundSupplyAmount(_totalSupply, reserves[_reserveTokens[minIndex]].balance, reserveRatio, _reserveAmounts[minIndex]);
     }
 
-	function getExpectedOutAmount(uint256 lpTokens) public view returns (uint256[2] memory amountOut) {
-		ISovrynSwapFormula formula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA));
-		uint256 supply = ISmartToken(anchor).totalSupply();
+    function getExpectedOutAmount(uint256 lpTokens) public view returns (uint256[2] memory amountOut) {
+        ISovrynSwapFormula formula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA));
+        uint256 supply = ISmartToken(anchor).totalSupply();
 
-		uint256 reserveCount = reserveTokens.length;
-		for (uint256 i = 0; i < reserveCount; i++) {
-			IERC20Token reserveToken = reserveTokens[i];
-			uint256 rsvBalance = reserves[reserveToken].balance;
-			amountOut[i] = formula.liquidateReserveAmount(supply, rsvBalance, reserveRatio, lpTokens);
-		}
-	}
+        uint256 reserveCount = reserveTokens.length;
+        for (uint256 i = 0; i < reserveCount; i++) {
+            IERC20Token reserveToken = reserveTokens[i];
+            uint256 rsvBalance = reserves[reserveToken].balance;
+            amountOut[i] = formula.liquidateReserveAmount(supply, rsvBalance, reserveRatio, lpTokens);
+        }
+    }
 
     /**
       * @dev calculates the number of decimal digits in a given value
