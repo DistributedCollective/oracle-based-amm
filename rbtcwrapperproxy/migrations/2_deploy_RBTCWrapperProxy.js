@@ -2,7 +2,6 @@ const fs = require("fs");
 
 const RBTCWrapperProxy = artifacts.require("RBTCWrapperProxy");
 const LiquidityMining = artifacts.require("LiquidityMining");
-const LoanToken = artifacts.require("LoanToken");
 
 const getConfig = () => {
 	return JSON.parse(fs.readFileSync("../solidity/utils/config_rsk.json", { encoding: "utf8" }));
@@ -14,10 +13,8 @@ const getSOVConfig = () => {
 module.exports = function (deployer, network) {
 	if(network == "development"){
 		console.log(getConfig()["SUSD"].addr)
-		return deployer.deploy(LoanToken, getConfig()["SUSD"].addr).then(function() {
-			return deployer.deploy(LiquidityMining, getSOVConfig()["SOV"].addr).then(function() {
-				return deployer.deploy(RBTCWrapperProxy, getConfig()["RBTC"].addr, getConfig()["sovrynSwapNetwork"].addr, getConfig()["contractRegistry"].addr, LiquidityMining.address);
-			});
+		return deployer.deploy(LiquidityMining, getSOVConfig()["SOV"].addr).then(function() {
+			return deployer.deploy(RBTCWrapperProxy, getConfig()["RBTC"].addr, getConfig()["sovrynSwapNetwork"].addr, getConfig()["contractRegistry"].addr, LiquidityMining.address);
 		});
 	}
 		
