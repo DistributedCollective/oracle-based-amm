@@ -77,13 +77,18 @@ Note: Before running the deployment (even on ganache), the token addresses must 
 
 To add converters to an existing swap network, use ```addConverter.js```.
 
+!!!SYNTAX CHANGED!!!  
+  
+For ETH it is:  
+```node addConverter.js ETH <config e.g. addETH_testnet.json> <execution data e.g. data_testnet> <node address e.g. for rsk testnet: https://public-node.testnet.rsk.co>  <private key>
+
 For USDT it is: ```node addConverter.js USDT <ethereum node address> <private key>```
 
 For BPro it is: ```node addConverter.js BPro <ethereum node address> <private key>```
 
 For SOV it is: ```node addConverter.js SOV <ethereum node address> <private key>```
 
-The config will be read from ```add_bpro.sjon``` or ```add_usdt.json```.
+The config will be read from ```addBPro.jon``` or ```addUSDT.json```.
 
 If an oracle for a token was already deployed, set the address in the reserve object within the converter object in the config. Remember that the wallet needs to posses WRBTC if WRBTC is used as second currency.
 

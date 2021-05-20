@@ -3,8 +3,10 @@ const path = require("path");
 const Web3 = require("web3");
 
 const TOKEN_NAME = process.argv[2];
-const NODE_ADDRESS = process.argv[3];
-const PRIVATE_KEY = process.argv[4];
+const TOKEN_CONFIG_FILENAME = process.argv[3];
+const DATA_FILENAME = process.argv[4];
+const NODE_ADDRESS = process.argv[5];
+const PRIVATE_KEY = process.argv[6];
 
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
 
@@ -34,16 +36,18 @@ String.prototype.format = function (args) {
 };
 
 const getConfig = () => {
-	return JSON.parse(fs.readFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), { encoding: "utf8" }));
+	//return JSON.parse(fs.readFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), { encoding: "utf8" }));
+	return JSON.parse(fs.readFileSync(path.join(__dirname, TOKEN_CONFIG_FILENAME), { encoding: "utf8" }));
 };
 
 const getData = () => {
-	//todo read the config according to the network
-	return JSON.parse(fs.readFileSync("./config_rsk.json", { encoding: "utf8" }));
+	//TODO read the config according to the network; temporarily moved to input params
+	//return JSON.parse(fs.readFileSync("./config_rsk_testnet.json", { encoding: "utf8" }));
+	return JSON.parse(fs.readFileSync(DATA_FILENAME, { encoding: "utf8" }));
 };
 
 const setConfig = (record) => {
-	fs.writeFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), JSON.stringify({ ...getConfig(), ...record }, null, 4));
+	fs.writeFileSync(path.join(__dirname, TOKEN_CONFIG_FILENAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
 };
 
 const scan = async (message) => {
@@ -148,6 +152,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 	const gasPrice = await getGasPrice(web3);
 	const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
+	console.log("account: ", account);
 	const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
 
 	const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
@@ -223,16 +228,22 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		console.log("Deploying converter for ", type, " - ", name, " with value ", value);
 
-		//if the script breaks during execution and you need to resume it, comment out this line + set the newConverter to the actual converter
-		//TODO: log if the converter was created and verify it here
-		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
+		let newConverter;
+		//if the script breaks during execution, run it again, it will resume from the point of failure automagically
+		if (getConfig()["phase"] < 2) {
+			newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
+			await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
+			await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
+			console.log("New Converter is  ", newConverter);
+			setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
+		} else {
+			console.log(getConfig()[`newLiquidityPoolV${type}Converter`].addr);
+			newConverter = getConfig()[`newLiquidityPoolV${type}Converter`].addr;
+			console.log("Using created converter  ", newConverter);
+			//const newConverter = '0xBA25e656f4fb9389c1B07d23688867E88882E010';
+		}
 		//const newConverter = '0xcD495d1b2a8cE7D8f3a660cf594d81590e90A0a5';
 		//const newConverter = "0xD3118F62907f2b0FF677Ae3250e6E5Ff26Ce48AC";
-
-		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
-		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
-		console.log("New Converter is  ", newConverter);
-		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
 		console.log("Calling anchors");
 		console.log(await converterRegistry.methods.getAnchors().call());
