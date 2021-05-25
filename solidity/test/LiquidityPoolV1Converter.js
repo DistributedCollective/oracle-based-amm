@@ -25,12 +25,11 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 		token = await SmartToken.new("Token1", "TKN1", 2);
 		tokenAddress = token.address;
 
-		oracle = await Oracle.new();
+		const converter = await createConverter(tokenAddress, contractRegistry.address, maxConversionFee);
+		oracle = await Oracle.new(converter.address);
 		oracleAddress = oracle.address;
 
-		const converter = await createConverter(tokenAddress, contractRegistry.address, maxConversionFee);
 		await converter.setOracle(oracleAddress);
-		await oracle.setLiquidityPool(converter.address);
 
 		await converter.addReserve(getReserve1Address(isETHReserve), 250000);
 		await converter.addReserve(reserveToken2.address, 150000);
@@ -190,6 +189,21 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 			_rateN: reserve2Balance.mul(WEIGHT_RESOLUTION),
 			_rateD: poolTokenSupply.mul(reserve2Weight),
 		});
+	});
+
+	it("gives the amount of tokens that will be received after removing liquidity", async () => {
+		const converter = await initConverter(true, false);
+		const expectedAmounts = await converter.getExpectedOutAmount(100);
+
+		const initialBalance1 = await reserveToken.balanceOf.call(sender);
+		const initialBalance2 = await reserveToken2.balanceOf.call(sender);
+
+		await converter.removeLiquidity(100, [reserveToken.address, reserveToken2.address], [MIN_RETURN, MIN_RETURN]);
+		const finalBalance1 = await reserveToken.balanceOf.call(sender);
+		const finalBalance2 = await reserveToken2.balanceOf.call(sender);
+
+		expect(finalBalance1).to.be.bignumber.equal(initialBalance1.add(expectedAmounts[0]));
+		expect(finalBalance2).to.be.bignumber.equal(initialBalance2.add(expectedAmounts[1]));
 	});
 
 	for (let isETHReserve = 0; isETHReserve < 2; isETHReserve++) {
