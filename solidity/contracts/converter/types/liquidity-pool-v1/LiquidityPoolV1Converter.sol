@@ -41,7 +41,6 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     ) public LiquidityPoolConverter(_token, _registry, _maxConversionFee) {}
     
     function setOracle(address _oracle) external ownerOnly {
-        require(_oracle != address(0), "ERR_ZERO_ORACLE_ADDRESS");
         oracle = IOracle(_oracle);
     }
 
@@ -134,7 +133,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 		address _beneficiary
 	) internal returns (uint256) {
 		//record oracle observations
-        _write();
+        if(address(oracle) != address(0)) _write();
 
         // get expected target amount and fee
         (uint256 amount, uint256 fee) = targetAmountAndFee(_sourceToken, _targetToken, _amount);
