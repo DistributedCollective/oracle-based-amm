@@ -1,0 +1,34 @@
+{
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d"
+        },
+        {
+            "symbol": "ETHx",
+            "decimals": 18,
+            "address": ""
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/ETHs",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0.01"
+                },
+                {
+                    "symbol": "ETHs",
+                    "weight": "50%",
+                    "balance": ""
+                }
+            ]
+        }
+    ]
+}
