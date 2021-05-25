@@ -1,8 +1,6 @@
 const { expect } = require("chai");
-const { expectRevert, expectEvent, BN, ether, constants } = require("@openzeppelin/test-helpers");
+const { expectRevert, expectEvent, BN, ether } = require("@openzeppelin/test-helpers");
 const { latest, latestBlock } = require("@openzeppelin/test-helpers/src/time");
-
-const { ZERO_ADDRESS } = constants;
 
 const Oracle = artifacts.require("Oracle");
 
@@ -10,44 +8,30 @@ contract("Oracle", (accounts) => {
   let oracle;
   let price0 = ether("1");
   let price1 = ether("0.5");
+  let k;
 
   const pool = accounts[1];
 
-  beforeEach(async () => {
-    oracle = await Oracle.new();
-    await oracle.setLiquidityPool(pool);
+  before(async () => {
+    oracle = await Oracle.new(pool);
+    k = new BN("3000");
+    await oracle.setK(k);
   });
 
   it("should revert if k value not set by owner", async () => {
-    await expectRevert(oracle.setK(10, { from: accounts[2] }), "ERR_ACCESS_DENIED");
+    await expectRevert(oracle.setK(k, { from: accounts[2] }), "ERR_ACCESS_DENIED");
   });
 
   it("should revert if k value do not lie within a valid range", async () => {
-    await expectRevert(oracle.setK(100000), "ERR_INVALID_K_VALUE");
+    let invalidK = new BN("1000000")
+    await expectRevert(oracle.setK(invalidK), "ERR_INVALID_K_VALUE");
   });
 
   it("should set k value", async () => {
-    const k = new BN("30");
     const receipt = await oracle.setK(k);
     expect(await oracle.k.call()).to.be.bignumber.equal(k);
     expectEvent(receipt, "KValueUpdate", {
       _k: k
-    });
-  });
-
-  it("should revert if pool address is not set by owner", async () => {
-    await expectRevert(oracle.setLiquidityPool(accounts[1], { from: accounts[2] }), "ERR_ACCESS_DENIED");
-  });
-
-  it("should revert if pool address is set as zero address", async () => {
-    await expectRevert(oracle.setLiquidityPool(ZERO_ADDRESS), "ERR_ZERO_POOL_ADDRESS");
-  });
-
-  it("should set pool address", async () => {
-    const receipt = await oracle.setLiquidityPool(accounts[1]);
-    expect(await oracle.liquidityPool.call()).to.be.equal(accounts[1]);
-    expectEvent(receipt, "PoolAddressUpdate", {
-      _liquidityPool: accounts[1]
     });
   });
 
@@ -59,8 +43,8 @@ contract("Oracle", (accounts) => {
     const receipt = await oracle.write(price0, price1, { from: pool });
 
     const timestamp = await latest();
-    const lastCumulativePrice0 = price0.mul(timestamp);
-    const lastCumulativePrice1 = price1.mul(timestamp);
+    const lastCumulativePrice0 = price0;
+    const lastCumulativePrice1 = price1;
 
     expectEvent(receipt, "ObservationsUpdated", {
       ema0: price0,
@@ -72,32 +56,29 @@ contract("Oracle", (accounts) => {
     });
   });
 
-  it("should update observations", async () => {
-    const k = await oracle.k.call();
+  describe("should update observations for below prices and calculate EMA as expected", () => {
+    const prices = [5, 6, 8, 15, 16, 14, 17, 22, 25, 26, 10]
+    //parsed according to decimals considered in tests
+    const expectedEMA0 = [500000000, 530000000, 611000000, 877700000, 1094390000, 1186073000, 1340251100, 1598175770, 1868723039, 2088106127, 1761674288]
+    const priceMultiplier = new BN(10 ** 8);
 
-    await oracle.write(price0, price1, { from: pool });
+    before(async () => {
+      oracle = await Oracle.new(pool);
 
-    const timestamp = await latest();
-    let lastCumulativePrice0 = price0.mul(timestamp);
-    let lastCumulativePrice1 = price1.mul(timestamp);
-
-    const receipt = await oracle.write(price0, price1, { from: pool });
-
-    const newTimestamp = await latest();
-    lastCumulativePrice0 = lastCumulativePrice0.add(price0.mul(newTimestamp.sub(timestamp)));
-    lastCumulativePrice1 = lastCumulativePrice1.add(price1.mul(newTimestamp.sub(timestamp)));
-
-    const ema0 = (k * price0 + ((10000 - k) * (price0)) / 10000).toString();
-    const ema1 = (k * price1 + ((10000 - k) * (price1)) / 10000).toString();
-
-    expectEvent(receipt, "ObservationsUpdated", {
-      ema0,
-      ema1,
-      blockNumber: await latestBlock(),
-      timestamp: await latest(),
-      lastCumulativePrice0,
-      lastCumulativePrice1
+      k = new BN("3000");
+      await oracle.setK(k);
     });
-  });
 
+    for (let index = 0; index < prices.length; index++) {
+      let testPrice0 = prices[index] * priceMultiplier;
+      let testPrice1 = parseInt(priceMultiplier / prices[index]);
+
+      it(`(price0 = ${testPrice0}, price1 = ${testPrice1})`, async () => {
+        await oracle.write(testPrice0.toString(), testPrice1.toString(), { from: pool });
+
+        const ema0 = (await oracle.ema0.call()).toString();
+        expect(ema0).to.be.equal(expectedEMA0[index].toString())
+      });
+    }
+  });
 });

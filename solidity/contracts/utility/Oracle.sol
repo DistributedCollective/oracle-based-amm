@@ -34,12 +34,20 @@ contract Oracle is Owned {
 	);
 
 	event KValueUpdate(uint256 _k);
-	event PoolAddressUpdate(address _liquidityPool);
 
 	// ensures that the values are written by pool contract
 	modifier validPool() {
 		require(msg.sender == liquidityPool, "ERR_INVALID_POOL_ADDRESS");
 		_;
+	}
+
+	/**
+	 * @dev Initializes liquidity pool address for Oracle
+	 * @param _liquidityPool liquidity pool address
+	 */
+	constructor(address _liquidityPool) public {
+		require(_liquidityPool != address(0), "ERR_ZERO_POOL_ADDRESS");
+		liquidityPool = _liquidityPool;
 	}
 
 	/**
@@ -50,16 +58,6 @@ contract Oracle is Owned {
 		require(_k != 0 && _k <= 10000, "ERR_INVALID_K_VALUE");
 		k = _k;
 		emit KValueUpdate(_k);
-	}
-
-	/**
-	 * @dev Used to set liquidity pool address
-	 * @param _liquidityPool liquidity pool address
-	 */
-	function setLiquidityPool(address _liquidityPool) public ownerOnly {
-		require(_liquidityPool != address(0), "ERR_ZERO_POOL_ADDRESS");
-		liquidityPool = _liquidityPool;
-		emit PoolAddressUpdate(_liquidityPool);
 	}
 
 	/**
@@ -76,7 +74,7 @@ contract Oracle is Owned {
 			ema0 = _price0;
 			ema1 = _price1;
 
-			timeElapsed = block.timestamp;
+			timeElapsed = 1;
 		} else {
 			ema0 = k.mul(_price0).add((10000 - k).mul(ema0)).div(10000);
 			ema1 = k.mul(_price1).add((10000 - k).mul(ema1)).div(10000);
