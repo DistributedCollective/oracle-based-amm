@@ -288,6 +288,13 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 			}
 
 			if (type == 1) {
+				console.log("adding liquidity");
+				console.log("tokens:");
+				console.log(tokens);
+				console.log("amounts:");
+				console.log(amounts);
+				console.log("converterBase._address");
+				console.log(converterBase._address);
 				await execute(deployed(web3, "LiquidityPoolV1Converter", converterBase._address).methods.addLiquidity(tokens, amounts, 1), value);
 			} else if (type == 2) {
 				const deployedConverter = deployed(web3, "LiquidityPoolV2Converter", converterBase._address);

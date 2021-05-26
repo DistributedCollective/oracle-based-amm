@@ -3,12 +3,12 @@
         {
             "symbol": "(WR)BTC",
             "decimals": 18,
-            "address": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d"
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
         },
         {
             "symbol": "ETHs",
             "decimals": 18,
-            "address": "0x1D931Bf8656d795E50eF6D639562C5bD8Ac2B78f"
+            "address": "0x0fd0D8D78CE9299eE0e5676A8D51f938c234162c"
         }
     ],
     "converters": [
@@ -26,9 +26,23 @@
                 {
                     "symbol": "ETHs",
                     "weight": "50%",
-                    "balance": ""
+                    "balance": "0.142067"
                 }
             ]
         }
-    ]
+    ],
+    "phase": 6,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "ETHs": {
+        "name": "ETHs",
+        "addr": "0x0fd0D8D78CE9299eE0e5676A8D51f938c234162c"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xC8717501Bb0c6640069fcD8BF0DD13904F861abE",
+        "args": ""
+    }
 }
