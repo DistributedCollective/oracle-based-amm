@@ -4,17 +4,18 @@
 
 ## Overview
 
-Basic flow: 
+Basic flow:  
+NOTE: ALL SCRIPTS SHOULD RUN FROM ```solidity/utils``` folder
 
 Prepare config [e.g. addETHs_testnet.json](solidity/utils/addETHs_testnet.json)  
-NOTE: TO REDEPLOY CONVERTER, YOU NEED TO UNREGISTER IT FIRST!
+**NOTE: TO REDEPLOY CONVERTER, YOU NEED TO UNREGISTER IT FIRST!**   
 //TODO: add description how to unregister converter
 Deploy a set of contracts for testing purpose; can be used on both private and public networks:
 [deployment_rsk.js](solidity/utils/deployment_rsk.js)  
 
 ```bash
 node deployment_rsk.js
-    Configuration file name
+    Configuration file name #should contain only *reserves* and *converters*
     Ethereum node address
     Account private key
 ```  
@@ -26,6 +27,9 @@ You can take the commands from [commands.txt](solidity/utils/command.txt)
 [sampleETH](solidity/utils/sampleETH.json)
 
 ```json
+/// ADDRESSES NEED TO FOLLOW ETHEREUM NETWORK FORMAT ELSE THE SCRIPT WILL FAIL
+/// TO MAKE SURE, BEFORE WRITING AN ADDRESS TO CONFIG, FIRST PUT IT INTO SEARCH IN E.G. https://etherscan.io/
+/// THEN COPY FROM THERE
 {
     "reserves": [
         {
