@@ -71,7 +71,8 @@ The configuration file is updated during the process, in order to allow resuming
 1. Before adding pools we need to make sure having updated comipled contracts in [./solidity/build](./solidity/build)
    - Change contract folder in script Compile contracts `../../scripts/compile.sh`
    - Run from root dir `./scripts/compile.sh`
-2. Top up RBTC and WRBTC account with some RBTC to launch for testing  
+2. Top up RBTC and WRBTC account with some RBTC to pay for tx and **WRBTC** amount fo initial deposit (0.01 usually) 
+   
 
 To add converters to an existing swap network, use ```addConverter.js```.
 
