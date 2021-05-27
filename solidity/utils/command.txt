@@ -6,3 +6,10 @@ node deployment_rsk.js config_rsk.json https://public-node.testnet.rsk.co [PRIVA
 RSK ganache with custom tokens (start ganache with `--gasLimit 6700000`)
 
 node deployment_rsk.js config_rsk.json http://127.0.0.1:8545 [PRIVATE KEY]
+
+Deploy converter only:
+testnet:
+node addConverter.js ETH addETHs_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>
+
+mainnet:  
+node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet.sovryn.app/rpc <private key>

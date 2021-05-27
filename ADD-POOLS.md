@@ -6,7 +6,9 @@
 
 Basic flow: 
 
-Prepare config [e.g. addETH](solidity/utils/addETH.json)  
+Prepare config [e.g. addETHs_testnet.json](solidity/utils/addETHs_testnet.json)  
+NOTE: TO REDEPLOY CONVERTER, YOU NEED TO UNREGISTER IT FIRST!
+//TODO: add description how to unregister converter
 Deploy a set of contracts for testing purpose; can be used on both private and public networks:
 [deployment_rsk.js](solidity/utils/deployment_rsk.js)  
 
@@ -27,30 +29,30 @@ You can take the commands from [commands.txt](solidity/utils/command.txt)
 {
     "reserves": [
         {
-            "symbol": "(WR)BTC", // always goes first
+            "symbol": "WRBTC", // always goes first
             "decimals": 18,
-            "address": "" // if empty the token will be created
+            "address": "" // for WRBTC needs relevant address else if empty the token will be created
         },
         {
-            "symbol": "ETH",
+            "symbol": "ETHs",
             "decimals": 18,
-            "address": "" // if empty the token will be created  
+            "address": "" // for mainnet/testnet deployments we sould have addresses; if empty the token will be created  
         }
     ],
     "converters": [
         {
             "type": 1, // 1 for v1 amm pool
-            "symbol": "(WR)BTC/ETH",
+            "symbol": "WRBTC/ETHs",
             "decimals": 18,
             "fee": "0.3%", // always 0.3%
             "reserves": [ // both tokens of the pair should be ERC20
                 {
-                    "symbol": "(WR)BTC", // always goes first in the pair
+                    "symbol": "WRBTC", // always goes first in the pair
                     "weight": "50%",
                     "balance": "0.01" // initial balance amount to be added to the pool
                 },
                 {
-                    "symbol": "ETH", // second pair token
+                    "symbol": "ETHs", // second pair token
                     "weight": "50%",
                     "balance": "0.1167268" // balance BTC * ETH ex_rate, should be set right before deployment 
                 }
@@ -65,7 +67,7 @@ You can take the commands from [commands.txt](solidity/utils/command.txt)
 
 The configuration file is updated during the process, in order to allow resuming a prematurely-terminated execution. This means, if you want to start a fresh deployment, you need to delete the "phase" section and all of the deployed contract addresses from the config file.  
 
-### Adding LM pools to the testnet and mainnet  
+### Adding LM pools to the testnet and mainnet (only needed if contracts' abi were changed)  
 1. Before adding pools we need to make sure having updated comipled contracts in [./solidity/build](./solidity/build)
    - Change contract folder in script Compile contracts `../../scripts/compile.sh`
    - Run from root dir `./scripts/compile.sh`
@@ -73,19 +75,25 @@ The configuration file is updated during the process, in order to allow resuming
 
 To add converters to an existing swap network, use ```addConverter.js```.
 
-For USDT it is: ```node addConverter.js USDT <ethereum node address> <private key>```
+Example creation v1 pool WRBTC/ETH  
 
-For BPro it is: ```node addConverter.js BPro <ethereum node address> <private key>```
+```// data_testnet.json and data_mainnet.json store contracts addresses participating in converter creation```  
 
-For SOV it is: ```node addConverter.js SOV <ethereum node address> <private key>```
+testnet:  
 
-The config will be read from ```add_bpro.sjon``` or ```add_usdt.json```.
+```node addConverter.js ETH addETHs_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
 
-If an oracle for a token was already deployed, set the address in the reserve object within the converter object in the config. Remember that the wallet needs to posses WRBTC if WRBTC is used as second currency.
+mainnet:  
 
+```node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet.sovryn.app/rpc <private key>```
+
+```//TODO: check if the following is for v2 pools only```  
+If an oracle for a token was already deployed, set the address in the reserve object within the converter object in the config. Remember that the wallet needs to posses WRBTC if WRBTC is used as second currency.  
+
+```//TODO: check if the following is for v2 pools only```  
 In case of BPro, add the MoC State address as  ```underlyingOracleAddress``` to the config file.
 
-If the script breaks somewhere in the process and needs to be resumed, don't forget to comment out the line deploying the new converter. (someone should prettify this)
+If the script breaks somewhere in the process and needs to be resumed - go ahead, run it again.
 
 
 [commands to run](solidity/utils/command.txt)
@@ -129,7 +137,7 @@ Sovryn Swap is a work in progress. Make sure you understand the risks before usi
 ### [Utilities](solidity/utils/README.md)
 
 ## MoC Integraton
-
+//TODO: v2 only?  
 There are three MoC SCs files:
 1. MocBTCToBTCOracle: it is used only for tests purposes. It has a hardcoded rate of 1.
 2. MocBTCToUSDOracle: it is the original MoC contract to get BTC/USD pair price.

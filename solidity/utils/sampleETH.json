@@ -1,12 +1,12 @@
 {
     "reserves": [
         {
-            "symbol": "(WR)BTC",
+            "symbol": "WRBTC",
             "decimals": 18,
             "address": ""
         },
         {
-            "symbol": "ETH",
+            "symbol": "ETHs",
             "decimals": 18,
             "address": ""
         }
@@ -14,17 +14,17 @@
     "converters": [
         {
             "type": 1,
-            "symbol": "(WR)BTC/ETH",
+            "symbol": "WRBTC/ETHs",
             "decimals": 18,
             "fee": "0.3%",
             "reserves": [
                 {
-                    "symbol": "(WR)BTC",
+                    "symbol": "WRBTC",
                     "weight": "50%",
                     "balance": "0.01"
                 },
                 {
-                    "symbol": "ETH",
+                    "symbol": "ETHs",
                     "weight": "50%",
                     "balance": "0.1167268"
                 }

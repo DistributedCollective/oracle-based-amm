@@ -227,23 +227,21 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		const value = 0; // amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'RBTC')];
 
 		console.log("Deploying converter for ", type, " - ", name, " with value ", value);
+		if (getConfig()["phase"] > 0) console.log(`Restarting from phase #${getConfig()["phase"]}`);
 
 		let newConverter;
 		//if the script breaks during execution, run it again, it will resume from the point of failure automagically
 		if (getConfig()["phase"] < 2) {
 			newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
-			await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
-			await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
-			console.log("New Converter is  ", newConverter);
-			setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 		} else {
-			console.log(getConfig()[`newLiquidityPoolV${type}Converter`].addr);
 			newConverter = getConfig()[`newLiquidityPoolV${type}Converter`].addr;
-			console.log("Using created converter  ", newConverter);
-			//const newConverter = '0xBA25e656f4fb9389c1B07d23688867E88882E010';
+			console.log("Using previously created converter  ", newConverter);
 		}
-		//const newConverter = '0xcD495d1b2a8cE7D8f3a660cf594d81590e90A0a5';
-		//const newConverter = "0xD3118F62907f2b0FF677Ae3250e6E5Ff26Ce48AC";
+
+		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
+		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
+		console.log("New Converter is  ", newConverter);
+		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
 		console.log("Calling anchors");
 		console.log(await converterRegistry.methods.getAnchors().call());
@@ -293,7 +291,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 				console.log(tokens);
 				console.log("amounts:");
 				console.log(amounts);
-				console.log("converterBase._address");
+				console.log("converterBase._address:");
 				console.log(converterBase._address);
 				await execute(deployed(web3, "LiquidityPoolV1Converter", converterBase._address).methods.addLiquidity(tokens, amounts, 1), value);
 			} else if (type == 2) {
