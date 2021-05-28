@@ -143,7 +143,6 @@ const run = async () => {
   const converterRegistry = await web3Func(deploy, "converterRegistry", "ConverterRegistry", [contractRegistry._address]);
   const liquidityPoolV1ConverterFactory = await web3Func(deploy, "liquidityPoolV1ConverterFactory", "LiquidityPoolV1ConverterFactory", []);
   const smartToken = await web3Func(deploy, "smartToken", "SmartToken", ["TOKEN", "TKN", 1]);
-  const oracle = await web3Func(deploy, "oracle", "Oracle", []);
   const liquidityPoolV1Converter = await web3Func(deploy, "liquidityPoolV1Converter", "LiquidityPoolV1Converter", [smartToken._address, contractRegistry._address, MAX_CONVERSION_FEE]);
 
   //init sovryn swap formula
@@ -161,8 +160,8 @@ const run = async () => {
   await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV1ConverterFactory._address));
 
   // initialize liquidityPoolV1Converter
+  const oracle = await web3Func(deploy, "oracle", "Oracle", [liquidityPoolV1Converter._address]);
   await execute(liquidityPoolV1Converter.methods.setOracle(oracle._address));
-  await execute(oracle.methods.setLiquidityPool(liquidityPoolV1Converter._address));
   console.log("All done");
 
   if (web3.currentProvider.constructor.name === "WebsocketProvider") {
