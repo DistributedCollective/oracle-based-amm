@@ -1,6 +1,8 @@
 pragma solidity 0.4.26;
+
 import "./Owned.sol";
 import "./SafeMath.sol";
+import "../converter/interfaces/ILiquidityPoolV1Converter.sol";
 
 /**
  * @dev Provides the off-chain rate between two tokens
@@ -23,6 +25,7 @@ contract Oracle is Owned {
 	uint256 public k;
 
 	address public liquidityPool;
+	address private constant BTC_ADDRESS = address(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
 
 	event ObservationsUpdated(
 		uint256 ema0,
@@ -113,5 +116,15 @@ contract Oracle is Owned {
 		)
 	{
 		return (ema0, ema1, blockNumber, timestamp, lastCumulativePrice0, lastCumulativePrice1);
+	}
+
+	/**
+	 * @dev returns the price of a reserve in base currency (assuming one of the reserves is always BTC)
+	 * @return ema
+	 */
+	function latestAnswer() external view returns (uint256 answer) {
+		if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(0) == BTC_ADDRESS) {
+			answer = ema0;
+		} else answer = ema1;
 	}
 }
