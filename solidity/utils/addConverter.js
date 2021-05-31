@@ -247,7 +247,11 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		console.log(await converterRegistry.methods.getAnchors().call());
 
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
-		const converterBase = deployed(web3, "ConverterBase", await anchor.methods.owner().call());
+
+		// TODO: Remove next line, just here for checking which address is received from anchor. The last address shown from above anchor list should be shown.
+		console.log("Anchor Taken: ", anchor)
+
+		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
 		console.log("Now executing the settings on " + converterBase._address);
 		await execute(converterBase.methods.acceptOwnership());
