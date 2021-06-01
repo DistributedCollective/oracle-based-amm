@@ -1,0 +1,48 @@
+{
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+        },
+        {
+            "symbol": "MoC",
+            "decimals": 18,
+            "address": "0x45a97b54021a3f99827641afe1bfae574431e6ab"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/MoC",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0.00081332"
+                },
+                {
+                    "symbol": "MoC",
+                    "weight": "50%",
+                    "balance": "100"
+                }
+            ]
+        }
+    ],
+    "phase": 7,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "MoC": {
+        "name": "MoC",
+        "addr": "0x45a97b54021a3f99827641afe1bfae574431e6ab"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xc137aD4Ef759D9206b15105532c05c866cc89f31",
+        "args": ""
+    }
+}

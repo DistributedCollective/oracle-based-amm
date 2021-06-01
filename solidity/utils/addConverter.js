@@ -3,8 +3,10 @@ const path = require("path");
 const Web3 = require("web3");
 
 const TOKEN_NAME = process.argv[2];
-const NODE_ADDRESS = process.argv[3];
-const PRIVATE_KEY = process.argv[4];
+const TOKEN_CONFIG_FILENAME = process.argv[3];
+const DATA_FILENAME = process.argv[4];
+const NODE_ADDRESS = process.argv[5];
+const PRIVATE_KEY = process.argv[6];
 
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
 
@@ -34,15 +36,18 @@ String.prototype.format = function (args) {
 };
 
 const getConfig = () => {
-	return JSON.parse(fs.readFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), { encoding: "utf8" }));
+	//return JSON.parse(fs.readFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), { encoding: "utf8" }));
+	return JSON.parse(fs.readFileSync(path.join(__dirname, TOKEN_CONFIG_FILENAME), { encoding: "utf8" }));
 };
 
 const getData = () => {
-	return JSON.parse(fs.readFileSync("./config_rsk.json", { encoding: "utf8" }));
+	//TODO read the config according to the network; temporarily moved to input params
+	//return JSON.parse(fs.readFileSync("./config_rsk_testnet.json", { encoding: "utf8" }));
+	return JSON.parse(fs.readFileSync(DATA_FILENAME, { encoding: "utf8" }));
 };
 
 const setConfig = (record) => {
-	fs.writeFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), JSON.stringify({ ...getConfig(), ...record }, null, 4));
+	fs.writeFileSync(path.join(__dirname, TOKEN_CONFIG_FILENAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
 };
 
 const scan = async (message) => {
@@ -147,6 +152,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 	const gasPrice = await getGasPrice(web3);
 	const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
+	console.log("account: ", account);
 	const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
 
 	const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
@@ -168,6 +174,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
 	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
 
+	//this block is just relevant for v2 pools
 	let underlyingOracleAddress = [];
 	if (oracleMockName != undefined) {
 		//if underlying address is defined, use it
@@ -189,14 +196,19 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		}
 	}
 
+	//read reserve data from the config or deploy new tokens if not defined
 	for (const reserve of getConfig().reserves) {
 		if (reserve.address) {
 			addresses[reserve.symbol] = reserve.address;
 			tokenDecimals[reserve.symbol] = reserve.decimals;
 			setConfig({ [reserve.symbol]: { name: reserve.symbol, addr: reserve.address } });
-		}
-		else{
-			t = await web3Func(deploy, reserve.symbol, "ERC20Token", [reserve.symbol, reserve.symbol, reserve.decimals, decimalToInteger("10000", reserve.decimals) ]);
+		} else {
+			t = await web3Func(deploy, reserve.symbol, "ERC20Token", [
+				reserve.symbol,
+				reserve.symbol,
+				reserve.decimals,
+				decimalToInteger("10000", reserve.decimals),
+			]);
 			tokenDecimals[reserve.symbol] = reserve.decimals;
 			addresses[reserve.symbol] = t._address;
 		}
@@ -215,10 +227,16 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		const value = 0; // amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'RBTC')];
 
 		console.log("Deploying converter for ", type, " - ", name, " with value ", value);
+		if (getConfig()["phase"] > 0) console.log(`Restarting from phase #${getConfig()["phase"]}`);
 
-		//if the script breaks during execution and you need to resume it, comment out this line + set the newConverter to the actual converter
-		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
-		//const newConverter = '0xe4E467D8B5f61b5C83048d857210678eB86730A4';
+		let newConverter;
+		//if the script breaks during execution, run it again, it will resume from the point of failure automagically
+		if (getConfig()["phase"] < 2) {
+			newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
+		} else {
+			newConverter = getConfig()[`newLiquidityPoolV${type}Converter`].addr;
+			console.log("Using previously created converter  ", newConverter);
+		}
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
@@ -229,25 +247,28 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		console.log(await converterRegistry.methods.getAnchors().call());
 
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
-		const converterBase = deployed(web3, "ConverterBase", await anchor.methods.owner().call());
+
+		// TODO: Remove next line, just here for checking which address is received from anchor. The last address shown from above anchor list should be shown.
+		console.log("Anchor Taken: ", anchor)
+
+		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
 		console.log("Now executing the settings on " + converterBase._address);
 		await execute(converterBase.methods.acceptOwnership());
+		console.log("Done with ownership acceptance");
 		await execute(converterBase.methods.setConversionFee(fee));
 		console.log("Done with conversion fee");
 
-		console.log("Done with ownership acceptance");
-
+		//adding the liquidity and thereby seeting the price
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
 			for (let i = 0; i < converter.reserves.length; i++) {
 				const reserve = converter.reserves[i];
-				if (reserve.symbol !== "ETH") {
-					console.log("Approving amount for ERC20Token: " + amounts[i]);
-					await execute(deployed(web3, "ERC20Token", tokens[i]).methods.approve(converterBase._address, amounts[i]));
-					let availableBalance = await deployed(web3, "ERC20Token", tokens[i]).methods.balanceOf(account.address).call();
-					console.log("available balance: ");
-					console.log(availableBalance);
-				}
+
+				console.log("Approving amount for ERC20Token: " + amounts[i]);
+				await execute(deployed(web3, "ERC20Token", tokens[i]).methods.approve(converterBase._address, amounts[i]));
+				let availableBalance = await deployed(web3, "ERC20Token", tokens[i]).methods.balanceOf(account.address).call();
+				console.log("available balance: ");
+				console.log(availableBalance);
 
 				if (type == 2) {
 					if (!reserve.oracle) {
@@ -269,6 +290,13 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 			}
 
 			if (type == 1) {
+				console.log("adding liquidity");
+				console.log("tokens:");
+				console.log(tokens);
+				console.log("amounts:");
+				console.log(amounts);
+				console.log("converterBase._address:");
+				console.log(converterBase._address);
 				await execute(deployed(web3, "LiquidityPoolV1Converter", converterBase._address).methods.addLiquidity(tokens, amounts, 1), value);
 			} else if (type == 2) {
 				const deployedConverter = deployed(web3, "LiquidityPoolV2Converter", converterBase._address);
@@ -294,12 +322,8 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 if (TOKEN_NAME === "BPro") {
 	addConverter("BProOracle", "MoCStateMock", "20000000000000000000000");
-}
-
-if (TOKEN_NAME === 'USDT') {
-    addConverter('MocBTCToBTCOracle');
-}
-
-if (TOKEN_NAME === 'SOV') {
-    addConverter();
+} else if (TOKEN_NAME === "USDT") {
+	addConverter("MocBTCToBTCOracle");
+} else {
+	addConverter();
 }

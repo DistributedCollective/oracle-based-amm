@@ -1,0 +1,48 @@
+{
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+        },
+        {
+            "symbol": "esETH",
+            "decimals": 18,
+            "address": "0xC855FD4aF3526215d37b39Cc33fa3C352d42e6F8"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/esETH",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0.01"
+                },
+                {
+                    "symbol": "esETH",
+                    "weight": "50%",
+                    "balance": "0.1167268"
+                }
+            ]
+        }
+    ],
+    "phase": 5,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "esETH": {
+        "name": "esETH",
+        "addr": "0xC855FD4aF3526215d37b39Cc33fa3C352d42e6F8"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xBA25e656f4fb9389c1B07d23688867E88882E010",
+        "args": ""
+    }
+}
