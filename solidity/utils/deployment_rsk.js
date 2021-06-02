@@ -64,7 +64,8 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
 	while (true) {
 		try {
 			const gasEstimate = await transaction.estimateGas({ from: account.address, value: value });
-			console.log("gasEstimate: " + gasEstimate, " - value - ", value);
+			const nonce = await web3.eth.getTransactionCount(account.address, 'pending');
+			console.log("gasEstimate: " + gasEstimate, " - value - ", value, " - nonce - ", nonce);
 			const tx = {
 				to: transaction._parent._address,
 				data: transaction.encodeABI(),
@@ -72,6 +73,7 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
 				gasPrice: gasPrice || (await getGasPrice(web3)),
 				chainId: await web3.eth.net.getId(),
 				value: value,
+				nonce: nonce
 			};
 			const signed = await web3.eth.accounts.signTransaction(tx, account.privateKey);
 			const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
