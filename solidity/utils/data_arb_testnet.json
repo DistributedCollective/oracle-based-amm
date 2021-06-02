@@ -31,21 +31,6 @@
             ]
         }
     ],
-
-
-    "mocOracleAddress": "0xC0DD2B4FDA1eDD89099407938c89a56813F10738",
-    "rskOracleAddress": "0xF86c29b5F9b81514555aABa9139D331588005ef2",
-    "mocState": "0xbC154bD967dB97426C913A96766f17400Aa7747F",
-    "sovrynProtocol": "0x31Ec06eB090Af6EEbfF5cF52084e9BCc3D7d9248",
-    "PriceFeeds": "0xd5A4436399d3E09C78ca63d70F229Fc5af2f84B2",
-    "loanTokenSUSD": "0x92385ce64fEC10F37328984C617a2FA9310D643C",
-    "loanTokenRBTC": "0x481399b4935a0288Bb21E1fee93C943557949C0e",
-
-
-    "SUSD": "0x6f5556e58F03228b1B8677d06319d34A3339B59D",
-    "WRBTC": "0x44b13c278d02708B8995dA2AcdeE3A5959Ce645D",
-
-
     "sovrynSwapNetwork": {
         "name": "SovrynSwapNetwork",
         "addr": "0xA431888C9bA7E73FCC6F725f273110B489aedB90",
