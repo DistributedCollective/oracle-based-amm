@@ -21,12 +21,12 @@
                 {
                     "symbol": "(WR)BTC",
                     "weight": "50%",
-                    "balance": "0.0000081332"
+                    "balance": "0.01"
                 },
                 {
                     "symbol": "MoC",
                     "weight": "50%",
-                    "balance": "1"
+                    "balance": "841.333008017903566"
                 }
             ]
         }
