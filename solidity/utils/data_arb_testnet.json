@@ -3,12 +3,12 @@
         {
             "symbol": "RBTC",
             "decimals": 18,
-            "address": ""
+            "address": "0x44b13c278d02708B8995dA2AcdeE3A5959Ce645D"
         },
         {
             "symbol": "SUSD",
             "decimals": 18,
-            "address": ""
+            "address": "0x6f5556e58F03228b1B8677d06319d34A3339B59D"
         }
     ],
     "converters": [
@@ -31,29 +31,103 @@
             ]
         }
     ],
+    "phase": 30,
+    "contractRegistry": {
+        "name": "ContractRegistry",
+        "addr": "0x91371713075d65612da76c2EfB10c0dbcE7B9Ca2",
+        "args": ""
+    },
+    "converterFactory": {
+        "name": "ConverterFactory",
+        "addr": "0xBe9D3E4A1bee8F913C6BeAeda720d2Ed36B29bCf",
+        "args": ""
+    },
+    "sovrynSwapFormula": {
+        "name": "SovrynSwapFormula",
+        "addr": "0xB642f1c7A5ea3497c1C230Fc9094bf7DD37B4FD2",
+        "args": ""
+    },
     "sovrynSwapNetwork": {
         "name": "SovrynSwapNetwork",
-        "addr": "0xA431888C9bA7E73FCC6F725f273110B489aedB90",
+        "addr": "0x57Afb71F46A67C269d3769d81c52a0Bfe21768fC",
+        "args": "00000000000000000000000091371713075d65612da76c2efb10c0dbce7b9ca2"
+    },
+    "conversionPathFinder": {
+        "name": "ConversionPathFinder",
+        "addr": "0x58C67B8cD0c0554f1616e75797Aa306f74E02130",
+        "args": "00000000000000000000000091371713075d65612da76c2efb10c0dbce7b9ca2"
+    },
+    "converterUpgrader": {
+        "name": "ConverterUpgrader",
+        "addr": "0x911B3b9d1831dB73073A11dC04c4566628b700DA",
+        "args": "00000000000000000000000091371713075d65612da76c2efb10c0dbce7b9ca2000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0xC38b3A8dc9F6B0A1030A96AEc3e5C6ec57aba9DB",
+        "args": "00000000000000000000000091371713075d65612da76c2efb10c0dbce7b9ca2"
+    },
+    "converterRegistryData": {
+        "name": "ConverterRegistryData",
+        "addr": "0xf7C883BaF15057c94577e6660a401C7f8D5D385a",
+        "args": "00000000000000000000000091371713075d65612da76c2efb10c0dbce7b9ca2"
+    },
+    "liquidTokenConverterFactory": {
+        "name": "LiquidTokenConverterFactory",
+        "addr": "0xDCe5103c6C522385e294401b2dE30234310BB605",
+        "args": ""
+    },
+    "liquidityPoolV1ConverterFactory": {
+        "name": "LiquidityPoolV1ConverterFactory",
+        "addr": "0x9b3e9dECB860Ae86b679e03cF0DcE28CEA246066",
+        "args": ""
+    },
+    "liquidityPoolV2ConverterFactory": {
+        "name": "LiquidityPoolV2ConverterFactory",
+        "addr": "0xa08BC1908db738A58Bd4496720B9F2D0BFEfcb10",
+        "args": ""
+    },
+    "liquidityPoolV2ConverterAnchorFactory": {
+        "name": "LiquidityPoolV2ConverterAnchorFactory",
+        "addr": "0xbcbD14BB4316C84B4aaa8B041FDa88dD6bAdd8e0",
+        "args": ""
+    },
+    "liquidityPoolV2ConverterCustomFactory": {
+        "name": "LiquidityPoolV2ConverterCustomFactory",
+        "addr": "0xa637649E4b5A6BDfD5F5da83A7aD00095ae953Cf",
+        "args": ""
+    },
+    "oracleWhitelist": {
+        "name": "Whitelist",
+        "addr": "0x8a7F5459C96719Fb313194Ce21E31bCBcA3e7189",
+        "args": ""
+    },
+    "mocMedianizerMockUSDtoBTC": {
+        "name": "MoCMedianizerMock",
+        "addr": "0x7B37E839b21069cC67ab5dA77A64aF0E51187341",
         "args": ""
     },
     "RBTC": {
-        "name": "WRBTC",
-        "addr": "0x44b13c278d02708B8995dA2AcdeE3A5959Ce645D",
-        "args": ""
+        "name": "RBTC",
+        "addr": "0x44b13c278d02708B8995dA2AcdeE3A5959Ce645D"
     },
     "SUSD": {
-        "name": "ERC20Token",
-        "addr": "0x6f5556e58F03228b1B8677d06319d34A3339B59D",
+        "name": "SUSD",
+        "addr": "0x6f5556e58F03228b1B8677d06319d34A3339B59D"
+    },
+    "newLiquidityPoolV2Converter": {
+        "name": "LiquidityPoolV2Converter",
+        "addr": "0xD877f6623CbF6d2BFbAa2947c37A483161C5910c",
         "args": ""
     },
     "mocPriceOraclesUSDrBTCRBTC": {
         "name": "MocBTCToUSDOracle",
-        "addr": "0xC0DD2B4FDA1eDD89099407938c89a56813F10738",
-        "args": ""
+        "addr": "0x87A8b766205545649f46027ee40d949D306fF5DB",
+        "args": "0000000000000000000000007b37e839b21069cc67ab5da77a64af0e51187341"
     },
     "mocPriceOraclesUSDrBTCSUSD": {
         "name": "MocBTCToBTCOracle",
-        "addr": "0xF86c29b5F9b81514555aABa9139D331588005ef2",
+        "addr": "0xfD6eEE205b6A3fd433ACd1143510D98ED5A5bEF7",
         "args": ""
     }
 }
