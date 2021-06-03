@@ -58,6 +58,14 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
+    arb_testnet: {
+      provider: () => new HDWalletProvider(privateKey, "http://3.16.57.108:8547/"),
+      network_id: 145445671939847,
+      gasPrice: 0,
+      skipDryRun: true,
+      networkCheckTimeout: 1e9,
+      timeoutBlocks: 500000
+    },
     testnet: {
       provider: () => new HDWalletProvider(privateKey, "wss://testnet.sovryn.app/ws"),
       network_id: 31,

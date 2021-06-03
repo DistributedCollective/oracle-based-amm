@@ -22,10 +22,10 @@ module.exports = function (deployer, network) {
 	}
 		
 	else{
-		liquidityMiningAddress = '0xe28aEbA913c34EC8F10DF0D9C92D2Aa27545870e';
-		wrbtcAddress = '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab';
-		swapNetworkAddress = '0x61172B53423E205a399640e5283e51FE60EC2256';
-		contractRegistry = '0x0E7CcF6A67e614B507Aa524572F72C7e5Dec23CB';
+		liquidityMiningAddress = '0x0000000000000000000000000000000000000000';
+		wrbtcAddress = '0x44b13c278d02708B8995dA2AcdeE3A5959Ce645D';
+		swapNetworkAddress = '0x57Afb71F46A67C269d3769d81c52a0Bfe21768fC';
+		contractRegistry = '0x91371713075d65612da76c2EfB10c0dbcE7B9Ca2';
 		return deployer.deploy(RBTCWrapperProxy, wrbtcAddress, swapNetworkAddress, contractRegistry, liquidityMiningAddress);
 
 	}
