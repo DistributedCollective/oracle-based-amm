@@ -1,6 +1,8 @@
 pragma solidity 0.4.26;
+
 import "../../LiquidityPoolConverter.sol";
 import "../../../token/interfaces/ISmartToken.sol";
+import "../../../utility/interfaces/IOracle.sol";
 
 /**
   * @dev Liquidity Pool v1 Converter
@@ -13,6 +15,7 @@ import "../../../token/interfaces/ISmartToken.sol";
 */
 contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     IEtherToken internal etherToken = IEtherToken(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
+    IOracle public oracle;
 
     /**
       * @dev triggered after a conversion with new price data
@@ -46,6 +49,15 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     function converterType() public pure returns (uint16) {
         return 1;
     }
+
+    /**
+      * @dev set oracle contract address
+      * can be called by owner of the contract only
+    */
+	function setOracle(address _oracle) external ownerOnly {
+        oracle = IOracle(_oracle);
+    }
+
 
     /**
       * @dev accepts ownership of the anchor after an ownership transfer

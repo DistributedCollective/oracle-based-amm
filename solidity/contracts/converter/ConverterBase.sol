@@ -11,7 +11,6 @@ import "../utility/TokenHandler.sol";
 import "../utility/TokenHolder.sol";
 import "../token/interfaces/IEtherToken.sol";
 import "../sovrynswapx/interfaces/ISovrynSwapX.sol";
-import "../utility/interfaces/IOracle.sol";
 
 /**
  * @dev ConverterBase
@@ -46,8 +45,6 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	uint32 internal constant WEIGHT_RESOLUTION = 1000000;
 	uint32 internal constant CONVERSION_FEE_RESOLUTION = 1000000;
 	address internal constant ETH_RESERVE_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
-
-	IOracle public oracle;
 
 	struct Reserve {
 		uint256 balance; // reserve balance
@@ -190,14 +187,6 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	function _validReserveWeight(uint32 _weight) internal pure {
 		require(_weight > 0 && _weight <= WEIGHT_RESOLUTION, "ERR_INVALID_RESERVE_WEIGHT");
 	}
-
-	/**
-	 * @dev set oracle contract address
-	 * can be called by owner of the contract only
-	 */
-	function setOracle(address _oracle) external ownerOnly {
-    oracle = IOracle(_oracle);
-  }
 
 	/**
 	 * @dev deposits ether
