@@ -1,8 +1,4 @@
-RSK testnet with custom tokens
-
-node test_deployment_rsk.js config_rsk.json https://public-node.testnet.rsk.co [PRIVATE KEY]
-
 
 RSK ganache with custom tokens (start ganache with `--gasLimit 6700000`)
 
-node test_deployment_rsk.js config_rsk.json http://127.0.0.1:8545 [PRIVATE KEY]
+node test_deployment_rsk.js config_rsk.json output.json
