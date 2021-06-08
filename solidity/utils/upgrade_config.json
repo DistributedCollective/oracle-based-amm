@@ -1,0 +1,57 @@
+{
+  "privateKey": "0x",
+  "nodeURL": "http://127.0.0.1:8545/",
+  "type": 1,
+  "reserves": [
+    {
+      "symbol": "RBTC",
+      "decimals": 18,
+      "addr": ""
+    },
+    {
+      "symbol": "SUSD",
+      "decimals": 18,
+      "addr": ""
+    }
+  ],
+  "converters": [
+    {
+      "type": 1,
+      "symbol": "",
+      "decimals": 18,
+      "fee": "0.1%",
+      "reserves": [
+        {
+          "symbol": "RBTC",
+          "weight": "50%",
+          "balance": "10"
+        },
+        {
+          "symbol": "SUSD",
+          "weight": "50%",
+          "balance": "10"
+        }
+      ]
+    }
+  ],
+  "converterFactory": {
+    "name": "ConverterFactory",
+    "addr": "",
+    "args": ""
+  },
+  "converterUpgrader": {
+    "name": "ConverterUpgrader",
+    "addr": "",
+    "args": ""
+  },
+  "converterRegistry": {
+    "name": "ConverterRegistry",
+    "addr": "",
+    "args": ""
+  },
+  "converterContract": {
+    "name": "LiquidityPoolV1Converter",
+    "addr": "",
+    "args": ""
+  }
+}
