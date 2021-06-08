@@ -3,13 +3,12 @@ const path = require("path");
 const Web3 = require("web3");
 
 const TOKEN_NAME = process.argv[2];
-const NODE_ADDRESS = process.argv[3];
-const PRIVATE_KEY = process.argv[4];
+const NETWORK = process.argv[3];
 
-const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
-
+const ARTIFACTS_DIR = path.resolve(__dirname, "../build/contracts");
 const MIN_GAS_LIMIT = 100000;
-
+const TOKEN_CONFIG_FILENAME = `config_${NETWORK}_${TOKEN_NAME}.json`;
+const DATA_FILENAME = `add_${TOKEN_NAME}.json`;
 String.prototype.replaceAll = function (exp, newStr) {
 	return this.replace(new RegExp(exp, "gm"), newStr);
 };
@@ -33,16 +32,25 @@ String.prototype.format = function (args) {
 	return result;
 };
 
-const getConfig = () => {
-	return JSON.parse(fs.readFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), { encoding: "utf8" }));
-};
+let web3;
+let gasPrice;
+let account;
+let phase = 0;
 
-const getData = () => {
-	return JSON.parse(fs.readFileSync("./config_rsk.json", { encoding: "utf8" }));
+const initialiseWeb3 = async () => {
+	const nodeURL = getConfig().nodeURL;
+	const privateKey = getConfig().privateKey;
+	web3 = new Web3(nodeURL);
+	account = await web3.eth.accounts.privateKeyToAccount(privateKey);
+	gasPrice = await getGasPrice(web3);
+}
+
+const getConfig = () => {
+	return JSON.parse(fs.readFileSync(path.join(__dirname, TOKEN_CONFIG_FILENAME), { encoding: "utf8" }));
 };
 
 const setConfig = (record) => {
-	fs.writeFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), JSON.stringify({ ...getConfig(), ...record }, null, 4));
+	fs.writeFileSync(path.join(__dirname, DATA_FILENAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
 };
 
 const scan = async (message) => {
@@ -115,10 +123,9 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
 
 const deploy = async (web3, account, gasPrice, contractId, contractName, contractArgs) => {
 	if (getConfig()[contractId] === undefined) {
-		const abi = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".abi"), { encoding: "utf8" });
-		const bin = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".bin"), { encoding: "utf8" });
-		const contract = new web3.eth.Contract(JSON.parse(abi));
-		const options = { data: "0x" + bin, arguments: contractArgs };
+		const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
+		const contract = new web3.eth.Contract(abi);
+		const options = { data: bin, arguments: contractArgs };
 		const transaction = contract.deploy(options);
 		const receipt = await send(web3, account, gasPrice, transaction);
 		const args = transaction.encodeABI().slice(options.data.length);
@@ -129,8 +136,8 @@ const deploy = async (web3, account, gasPrice, contractId, contractName, contrac
 };
 
 const deployed = (web3, contractName, contractAddr) => {
-	const abi = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".abi"), { encoding: "utf8" });
-	return new web3.eth.Contract(JSON.parse(abi), contractAddr);
+	const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
+	return new web3.eth.Contract(buildFile.abi, contractAddr);
 };
 
 const decimalToInteger = (value, decimals) => {
@@ -142,31 +149,27 @@ const percentageToPPM = (value) => {
 	return decimalToInteger(value.replace("%", ""), 4);
 };
 
+const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
+const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
+const tokenDecimals = { ETH: 18 };
+
+const execute = async (transaction, ...args) => {
+	if (getConfig().phase === phase++) {
+		await web3Func(send, transaction, ...args);
+		console.log(`phase ${phase} executed`);
+		setConfig({ phase });
+	}
+};
+
 const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, oracleMockHas) => {
-	const web3 = new Web3(NODE_ADDRESS);
+	await initialiseWeb3();
 
-	const gasPrice = await getGasPrice(web3);
-	const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
-	const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
-
-	const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
-	const tokenDecimals = { ETH: 18 };
-
-	let phase = 0;
 	if (getConfig().phase === undefined) {
 		setConfig({ phase });
 	}
 
-	const execute = async (transaction, ...args) => {
-		if (getConfig().phase === phase++) {
-			await web3Func(send, transaction, ...args);
-			console.log(`phase ${phase} executed`);
-			setConfig({ phase });
-		}
-	};
-
-	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
-	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
+	const converterRegistry = await deployed(web3, "ConverterRegistry", getConfig().converterRegistry.addr);
+	const oracleWhitelist = await deployed(web3, "Whitelist", getConfig().oracleWhitelist.addr);
 
 	let underlyingOracleAddress = [];
 	if (oracleMockName != undefined) {
@@ -194,9 +197,13 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 			addresses[reserve.symbol] = reserve.address;
 			tokenDecimals[reserve.symbol] = reserve.decimals;
 			setConfig({ [reserve.symbol]: { name: reserve.symbol, addr: reserve.address } });
-		}
-		else{
-			t = await web3Func(deploy, reserve.symbol, "ERC20Token", [reserve.symbol, reserve.symbol, reserve.decimals, decimalToInteger("10000", reserve.decimals) ]);
+		} else {
+			t = await web3Func(deploy, reserve.symbol, "ERC20Token", [
+				reserve.symbol,
+				reserve.symbol,
+				reserve.decimals,
+				decimalToInteger("10000", reserve.decimals),
+			]);
 			tokenDecimals[reserve.symbol] = reserve.decimals;
 			addresses[reserve.symbol] = t._address;
 		}
@@ -215,13 +222,20 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		const value = 0; // amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'RBTC')];
 
 		console.log("Deploying converter for ", type, " - ", name, " with value ", value);
+		if (getConfig()["phase"] > 0) console.log(`Restarting from phase #${getConfig()["phase"]}`);
 
-		//if the script breaks during execution and you need to resume it, comment out this line + set the newConverter to the actual converter
-		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
-		//const newConverter = '0xe4E467D8B5f61b5C83048d857210678eB86730A4';
+		let newConverter;
+		//if the script breaks during execution, run it again, it will resume from the point of failure automagically
+		if (getConfig()["phase"] < 2) {
+			newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
+		} else {
+			newConverter = getConfig()[`newLiquidityPoolV${type}Converter`].addr;
+			console.log("Using previously created converter  ", newConverter);
+		}
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
+		const oracle = await web3Func(deploy, "oracle", "Oracle", [newConverter]);
 		console.log("New Converter is  ", newConverter);
 		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
@@ -233,28 +247,33 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		console.log("Now executing the settings on " + converterBase._address);
 		await execute(converterBase.methods.acceptOwnership());
+		console.log("Done with ownership acceptance");
 		await execute(converterBase.methods.setConversionFee(fee));
 		console.log("Done with conversion fee");
 
-		console.log("Done with ownership acceptance");
+		if (type === 1) {
+			const liquidityV1PoolConverter = deployed(web3, "LiquidityPoolV1Converter", converterBase._address);
+			await execute(liquidityV1PoolConverter.methods.setOracle(oracle._address));
+			console.log("Done with adding oracle");
+		}
 
+		//adding the liquidity and thereby seeting the price
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
 			for (let i = 0; i < converter.reserves.length; i++) {
 				const reserve = converter.reserves[i];
-				if (reserve.symbol !== "ETH") {
-					console.log("Approving amount for ERC20Token: " + amounts[i]);
-					await execute(deployed(web3, "ERC20Token", tokens[i]).methods.approve(converterBase._address, amounts[i]));
-					let availableBalance = await deployed(web3, "ERC20Token", tokens[i]).methods.balanceOf(account.address).call();
-					console.log("available balance: ");
-					console.log(availableBalance);
-				}
+
+				console.log("Approving amount for ERC20Token: " + amounts[i]);
+				await execute(deployed(web3, "ERC20Token", tokens[i]).methods.approve(converterBase._address, amounts[i]));
+				let availableBalance = await deployed(web3, "ERC20Token", tokens[i]).methods.balanceOf(account.address).call();
+				console.log("available balance: ");
+				console.log(availableBalance);
 
 				if (type == 2) {
 					if (!reserve.oracle) {
 						const oracleName = reserve.symbol === "RBTC" ? "MocBTCToUSDOracle" : tokenOracleName;
 						//mocMedianizerMockUSDtoBTC is actually returning BTCtoUSD
 						const mocOracleArgs =
-							oracleName === "MocBTCToUSDOracle" ? [getData().mocMedianizerMockUSDtoBTC.addr] : [underlyingOracleAddress];
+							oracleName === "MocBTCToUSDOracle" ? [getConfig().mocMedianizerMockUSDtoBTC.addr] : [underlyingOracleAddress];
 						const mocPriceOracle = await web3Func(
 							deploy,
 							"mocPriceOracle" + converter.symbol + reserve.symbol,
@@ -269,6 +288,13 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 			}
 
 			if (type == 1) {
+				console.log("adding liquidity");
+				console.log("tokens:");
+				console.log(tokens);
+				console.log("amounts:");
+				console.log(amounts);
+				console.log("converterBase._address:");
+				console.log(converterBase._address);
 				await execute(deployed(web3, "LiquidityPoolV1Converter", converterBase._address).methods.addLiquidity(tokens, amounts, 1), value);
 			} else if (type == 2) {
 				const deployedConverter = deployed(web3, "LiquidityPoolV2Converter", converterBase._address);
@@ -294,12 +320,8 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 if (TOKEN_NAME === "BPro") {
 	addConverter("BProOracle", "MoCStateMock", "20000000000000000000000");
-}
-
-if (TOKEN_NAME === 'USDT') {
-    addConverter('MocBTCToBTCOracle');
-}
-
-if (TOKEN_NAME === 'SOV') {
-    addConverter();
+} else if (TOKEN_NAME === "USDT") {
+	addConverter("MocBTCToBTCOracle");
+} else {
+	addConverter();
 }
