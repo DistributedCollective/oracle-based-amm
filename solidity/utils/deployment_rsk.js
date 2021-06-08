@@ -31,9 +31,6 @@ const setConfig = (record) => {
 
 const setDataConfig = () => {
   fs.writeFileSync(path.join(__dirname, DATA_FILENAME), JSON.stringify({ ...getConfig() }, null, 4));
-
-  //to reset config file
-  setConfig({ phase: 0 });
 }
 
 const scan = async (message) => {
