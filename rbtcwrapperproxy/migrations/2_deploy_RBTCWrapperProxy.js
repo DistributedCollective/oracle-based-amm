@@ -17,22 +17,27 @@ module.exports = function (deployer, network) {
 			return deployer.deploy(RBTCWrapperProxy, getConfig()["RBTC"].addr, getConfig()["sovrynSwapNetwork"].addr, getConfig()["contractRegistry"].addr, LiquidityMining.address);
 		});
 	}
-		
-	else{//mainnet
-		liquidityMiningAddress = '0xf730af26e87D9F55E46A6C447ED2235C385E55e0';
-		wrbtcAddress = '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d';
-		swapNetworkAddress = '0x98aCE08D2b759a265ae326F010496bcD63C15afc';
-		contractRegistry = '0x46EBC03EF2277308BdB106a73d11c65109C4B89B';
+	else{
+		if(network =="mainnet"){
+			liquidityMiningAddress = '0xf730af26e87D9F55E46A6C447ED2235C385E55e0';
+			wrbtcAddress = '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d';
+			swapNetworkAddress = '0x98aCE08D2b759a265ae326F010496bcD63C15afc';
+			contractRegistry = '0x46EBC03EF2277308BdB106a73d11c65109C4B89B';		
+		}
+		else if(network =="testnet"){
+			liquidityMiningAddress = '0xe28aEbA913c34EC8F10DF0D9C92D2Aa27545870e';
+			wrbtcAddress = '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab';
+			swapNetworkAddress = '0x61172B53423E205a399640e5283e51FE60EC2256';
+			contractRegistry = '0x0E7CcF6A67e614B507Aa524572F72C7e5Dec23CB';
+		}
+		else{//arb testnet
+			liquidityMiningAddress = '0x932F876517129c4bbE12563dAD53112592688012';
+			wrbtcAddress = '0x0F3E903d1aefbF9151c82C7EE9301A37C5158d58';
+			swapNetworkAddress = '0x01c1943fc90693e0738849E90C03D562D5BbC60C';
+			contractRegistry = '0x49b11f6D038Bb77D51682680B0298f3AB16F74B5';
+		}
 		return deployer.deploy(RBTCWrapperProxy, wrbtcAddress, swapNetworkAddress, contractRegistry, liquidityMiningAddress);
+	}	 
 
-	}
-
-	//testnet
-	/**
-	 liquidityMiningAddress = '0xe28aEbA913c34EC8F10DF0D9C92D2Aa27545870e';
-	 wrbtcAddress = '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab';
-	 swapNetworkAddress = '0x61172B53423E205a399640e5283e51FE60EC2256';
-	 contractRegistry = '0x0E7CcF6A67e614B507Aa524572F72C7e5Dec23CB';
-	 */
 
 };

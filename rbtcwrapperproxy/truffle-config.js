@@ -78,6 +78,13 @@ module.exports = {
       port: 8545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
     },
+    arbtestnet: {
+      provider: () => new HDWalletProvider(privateKey, "https://arbitrumtestnode.sovryn.app/rpc"),
+      network_id: 214922641175343,
+      gasPrice: 0,
+      networkCheckTimeout: 1e9,
+      timeoutBlocks: 500000
+    }
 
     // Another network with more advanced options...
     // advanced: {

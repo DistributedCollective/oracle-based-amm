@@ -8,7 +8,7 @@ const PRIVATE_KEY = process.argv[4];
 
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
 
-const MIN_GAS_LIMIT = 100000;
+const MIN_GAS_LIMIT = 6800000;
 
 const getConfig = () => {
 	return JSON.parse(fs.readFileSync(CFG_FILE_NAME, { encoding: "utf8" }));
