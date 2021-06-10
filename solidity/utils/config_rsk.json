@@ -3,12 +3,12 @@
         {
             "symbol": "RBTC",
             "decimals": 18,
-            "addr": ""
+            "address": ""
         },
         {
             "symbol": "SUSD",
             "decimals": 18,
-            "addr": ""
+            "address": ""
         }
     ],
     "converters": [
