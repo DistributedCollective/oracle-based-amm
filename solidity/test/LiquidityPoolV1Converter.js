@@ -296,20 +296,22 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 			});
 
 			it("verifies that it gives latest answer from oracle", async () => {
-				const converter = await initConverter(true, isETHReserve, 5000);
-				await converter.setConversionFee(3000);
+        const converter = await initConverter(true, isETHReserve, 5000);
+        await converter.setConversionFee(3000);
 
-				const amount = new BN(500);
-				let value = 0;
-				if (isETHReserve) {
-					value = amount;
-				} else {
-					await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
-				}
+        const amount = new BN(500);
+        let value = 0;
+        if (isETHReserve) {
+          value = amount;
+        } else {
+          await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
+        }
 
-				await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
-				await oracle.latestAnswer.call();
-			});
+        await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
+        const price = await oracle.latestAnswer.call();
+        expect(await oracle.latestPrice.call(getReserve1Address(isETHReserve))).to.be.bignumber.equal(new BN("2"));
+        expect(await oracle.latestPrice.call(reserveToken2.address)).to.be.bignumber.equal(price);
+      });
 
 			for (const percent of [50, 75, 100]) {
 				it(`verifies that fund executes when the reserve ratio equals ${percent}%`, async () => {

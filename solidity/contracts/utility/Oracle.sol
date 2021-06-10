@@ -120,11 +120,27 @@ contract Oracle is Owned {
 
 	/**
 	 * @dev returns the price of a reserve in base currency (assuming one of the reserves is always BTC)
-	 * @return ema
+	 * This function is kept to comply with the chainlink interface 
+	 * @return ema EMA of non-BTC token in pool
 	 */
 	function latestAnswer() external view returns (uint256 answer) {
 		if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(0) == BTC_ADDRESS) {
 			answer = ema0;
-		} else answer = ema1;
+		} else if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(1) == BTC_ADDRESS) {
+			answer = ema1;
+		}
+	}
+
+	/**
+	 * @dev returns the price of a reserve in base currency
+	 * @param _baseToken address of token considered as base currency
+	 * @return ema EMA of other token in pool
+	 */
+	function latestPrice(address _baseToken) external view returns (uint256 answer) {
+		if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(0) == _baseToken) {
+			answer = ema0;
+		} else if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(1) == _baseToken) {
+			answer = ema1;
+		}
 	}
 }

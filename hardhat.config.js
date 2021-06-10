@@ -83,7 +83,7 @@ module.exports = {
   },
   paths: {
     sources: "./solidity/contracts",
-    tests: "./solidity/test/new/",
+    tests: "./solidity/test/",
   },
   mocha: {
     timeout: 800000,
