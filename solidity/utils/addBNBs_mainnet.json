@@ -1,0 +1,34 @@
+{
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+        },
+        {
+            "symbol": "BNBs",
+            "decimals": 18,
+            "address": "0x6D9659BDF5b1a1Da217f7BBAf7DBaf8190e2e71b"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/BNBs",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0.001"
+                },
+                {
+                    "symbol": "BNBs",
+                    "weight": "50%",
+                    "balance": "0.087"
+                }
+            ]
+        }
+    ]
+}
