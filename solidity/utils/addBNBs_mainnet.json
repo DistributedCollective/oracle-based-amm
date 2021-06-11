@@ -8,7 +8,7 @@
         {
             "symbol": "BNBs",
             "decimals": 18,
-            "address": "0x6D9659BDF5b1a1Da217f7BBAf7DBaf8190e2e71b"
+            "address": "0x6d9659bdf5b1a1da217f7bbaf7dbaf8190e2e71b"
         }
     ],
     "converters": [
@@ -26,7 +26,7 @@
                 {
                     "symbol": "BNBs",
                     "weight": "50%",
-                    "balance": "0.087"
+                    "balance": "0.0097"
                 }
             ]
         }
