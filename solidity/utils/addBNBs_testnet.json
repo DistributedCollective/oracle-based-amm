@@ -8,7 +8,7 @@
         {
             "symbol": "BNBs",
             "decimals": 18,
-            "address": "0x801f223dEF9A4e3A543EACcefB79dcE981Fa2fB5"
+            "address": "0x801f223def9a4e3a543eaccefb79dce981fa2fb5"
         }
     ],
     "converters": [
@@ -21,14 +21,28 @@
                 {
                     "symbol": "(WR)BTC",
                     "weight": "50%",
-                    "balance": "0.001"
+                    "balance": "0.03"
                 },
                 {
                     "symbol": "BNBs",
                     "weight": "50%",
-                    "balance": "0.087"
+                    "balance": "0.291"
                 }
             ]
         }
-    ]
+    ],
+    "phase": 7,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "BNBs": {
+        "name": "BNBs",
+        "addr": "0x801f223def9a4e3a543eaccefb79dce981fa2fb5"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0x4B2b25526c42c4D5FC096d1f77589edCB21476e2",
+        "args": ""
+    }
 }
