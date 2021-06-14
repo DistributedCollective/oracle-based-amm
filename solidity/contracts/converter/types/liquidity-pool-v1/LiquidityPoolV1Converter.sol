@@ -15,6 +15,7 @@ import "../../../utility/interfaces/IOracle.sol";
 */
 contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     IEtherToken internal etherToken = IEtherToken(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
+    uint256 private constant CONVERTER_TYPE = 1;
     IOracle public oracle;
 
     /**
@@ -47,7 +48,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
       * @return see the converter types in the the main contract doc
     */
     function converterType() public pure returns (uint16) {
-        return 1;
+        return uint16(CONVERTER_TYPE);
     }
 
     /**
@@ -271,7 +272,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
       *
       * @param _amount  amount to increase the supply by (in the pool token)
     */
-    function fund(uint256 _amount) public payable protected {
+    function fund(uint256 _amount) external payable protected {
         syncReserveBalances();
         reserves[ETH_RESERVE_ADDRESS].balance = reserves[ETH_RESERVE_ADDRESS].balance.sub(msg.value);
 
@@ -327,7 +328,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
       *
       * @param _amount  amount to liquidate (in the pool token)
     */
-    function liquidate(uint256 _amount) public protected {
+    function liquidate(uint256 _amount) external protected {
         require(_amount > 0, "ERR_ZERO_AMOUNT");
 
         uint256 totalSupply = ISmartToken(anchor).totalSupply();
@@ -511,7 +512,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         return formula.fundSupplyAmount(_totalSupply, reserves[_reserveTokens[minIndex]].balance, reserveRatio, _reserveAmounts[minIndex]);
     }
 
-    function getExpectedOutAmount(uint256 lpTokens) public view returns (uint256[2] memory amountOut) {
+    function getExpectedOutAmount(uint256 lpTokens) external view returns (uint256[2] memory amountOut) {
         ISovrynSwapFormula formula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA));
         uint256 supply = ISmartToken(anchor).totalSupply();
 

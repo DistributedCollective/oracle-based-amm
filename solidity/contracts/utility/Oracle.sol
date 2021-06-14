@@ -7,9 +7,9 @@ import "../converter/interfaces/ILiquidityPoolV1Converter.sol";
 /**
  * @dev Provides the off-chain rate between two tokens
  *
- * The oracle is used by liquidity v1 pool converter to store the Exponential Moving
- * Averages of two tokens for each block having trades once. It is stored at the beginning
- * of each block.
+ * The oracle is used by liquidity v1 pool converter to update the Exponential Moving
+ * Averages and other observations of pool tokens for each block having trades once. It is stored 
+ * at the beginning of each block.
  * EMA = k * currentPrice + (1 - k) * lastCumulativePrice
  * Were k is the weight given to more recent prices compared to the older ones.
  */
@@ -25,7 +25,9 @@ contract Oracle is Owned {
 	uint256 public k;
 
 	address public liquidityPool;
-	address private constant BTC_ADDRESS = address(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
+	address public btcAddress;
+
+	uint256 private constant IS_EQUAL_TO_10000 = 10000;
 
 	event ObservationsUpdated(
 		uint256 ema0,
@@ -51,14 +53,15 @@ contract Oracle is Owned {
 	constructor(address _liquidityPool) public {
 		require(_liquidityPool != address(0), "ERR_ZERO_POOL_ADDRESS");
 		liquidityPool = _liquidityPool;
+		btcAddress = address(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
 	}
 
 	/**
 	 * @dev Used to set the value of k
 	 * @param _k new value of k
 	 */
-	function setK(uint256 _k) public ownerOnly {
-		require(_k != 0 && _k <= 10000, "ERR_INVALID_K_VALUE");
+	function setK(uint256 _k) external ownerOnly {
+		require(_k != 0 && _k <= IS_EQUAL_TO_10000, "ERR_INVALID_K_VALUE");
 		k = _k;
 		emit KValueUpdate(_k);
 	}
@@ -79,8 +82,8 @@ contract Oracle is Owned {
 
 			timeElapsed = 1;
 		} else {
-			ema0 = k.mul(_price0).add((10000 - k).mul(ema0)).div(10000);
-			ema1 = k.mul(_price1).add((10000 - k).mul(ema1)).div(10000);
+			ema0 = k.mul(_price0).add((IS_EQUAL_TO_10000 - k).mul(ema0)).div(IS_EQUAL_TO_10000);
+			ema1 = k.mul(_price1).add((IS_EQUAL_TO_10000 - k).mul(ema1)).div(IS_EQUAL_TO_10000);
 
 			timeElapsed = block.timestamp.sub(timestamp);
 		}
@@ -124,9 +127,9 @@ contract Oracle is Owned {
 	 * @return ema EMA of non-BTC token in pool
 	 */
 	function latestAnswer() external view returns (uint256 answer) {
-		if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(0) == BTC_ADDRESS) {
+		if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(0) == btcAddress) {
 			answer = ema0;
-		} else if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(1) == BTC_ADDRESS) {
+		} else if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(1) == btcAddress) {
 			answer = ema1;
 		}
 	}
