@@ -151,8 +151,8 @@ const acceptOwnership = async () => {
   await execute(multisig.methods.submitTransaction(CONVERTER_ADDRESS, 0, acceptOwnershipTxn));
   console.log("Transaction submitted at: ", transactionId);
 
-  await execute(multisig.methods.executeTransaction(transactionId));
-  console.log("TransactionId", transactionId, "executed");
+  // await execute(multisig.methods.executeTransaction(transactionId));
+  // console.log("TransactionId", transactionId, "executed");
 
   console.log("All done");
 
