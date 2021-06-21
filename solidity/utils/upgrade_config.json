@@ -53,5 +53,10 @@
     "name": "LiquidityPoolV1Converter",
     "addr": "",
     "args": ""
+  },
+  "multiSigWallet": {
+    "name": "MultiSigWallet",
+    "addr": "",
+    "args": ""
   }
 }

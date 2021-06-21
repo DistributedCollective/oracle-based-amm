@@ -50,10 +50,10 @@ contract Oracle is Owned {
 	 * @dev Initializes liquidity pool address for Oracle
 	 * @param _liquidityPool liquidity pool address
 	 */
-	constructor(address _liquidityPool) public {
+	constructor(address _liquidityPool, address _btcAddress) public {
 		require(_liquidityPool != address(0), "ERR_ZERO_POOL_ADDRESS");
 		liquidityPool = _liquidityPool;
-		btcAddress = address(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
+		btcAddress = _btcAddress;
 	}
 
 	/**

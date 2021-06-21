@@ -8,10 +8,12 @@ const CFG_FILE_NAME = process.argv[2];
 const ARTIFACTS_DIR = path.resolve(__dirname, '../build/contracts');
 const MIN_GAS_LIMIT = 100000;
 const ZERO_ADDRESS = '0x0';
+const BTCAddress = "0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315"
 
 let web3;
 let gasPrice;
 let account;
+let multiSigWallet;
 
 const initialiseWeb3 = async () => {
   const nodeURL = getConfig().nodeURL;
@@ -120,14 +122,12 @@ const execute = async (transaction, ...args) => {
   await web3Func(send, transaction, ...args);
 };
 
-const upgradeConverter = async (web3, upgrader, oldConverter, newConverterContract) => {
+const getConverter = async (web3, upgrader, newConverterContract) => {
   // For versions 11 or higher, we just call upgrade on the converter.
-  await execute(oldConverter.methods.upgrade());
-
   let events = await upgrader.getPastEvents('ConverterUpgrade');
   let newConverterAddress = events[0].returnValues._newConverter;
   let newConverter = deployed(web3, newConverterContract, newConverterAddress);
-  await execute(newConverter.methods.acceptOwnership());
+
   return newConverter;
 
   // For previous versions we transfer ownership to the upgrader, then call upgradeOld on the upgrader,
@@ -202,8 +202,14 @@ const getConverterState = async (converter) => {
   return state;
 };
 
+const executeMultisigTxn = async (multisigWallet, multisigTxn, contractAddress) => {
+  const transactionId = await multisigWallet.methods.submitTransaction(contractAddress, 0, multisigTxn).call();
+  await execute(multisigWallet.methods.submitTransaction(contractAddress, 0, multisigTxn));
+  console.log("Transaction submitted at: ", transactionId);
+}
+
 //IMPORTANT: NEEDS ConverterUpgrader and ConverterFactory in the config, nothing else   (possibly whitelist)
-const run = async () => {
+const upgrade = async () => {
   await initialiseWeb3();
 
   const config = getConfig();
@@ -212,27 +218,70 @@ const run = async () => {
   const oldConverterStateBefore = await getConverterState(oldConverter);
   console.log("\n\nThe old converter state before upgrading:", oldConverterStateBefore, '\n');
 
-  const upgrader = deployed(web3, 'ConverterUpgrader', config.converterUpgrader.addr);
+  multiSigWallet = deployed(web3, config.multiSigWallet.name, config.multiSigWallet.addr);
   const converterFactory = deployed(web3, 'ConverterFactory', config.converterFactory.addr);
 
+  let registerFactoryTxn;
   if (config.type === 1) {
     const liquidityPoolV1ConverterFactory = await web3Func(deploy, 'liquidityPoolV1ConverterFactory', 'LiquidityPoolV1ConverterFactory', []);
-    await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV1ConverterFactory._address));
-
+    registerFactoryTxn = converterFactory.methods.registerTypedConverterFactory(liquidityPoolV1ConverterFactory._address).encodeABI();
   } else if (config.type === 2) {
     const liquidityPoolV2ConverterFactory = await web3Func(deploy, 'liquidityPoolV2ConverterFactory', 'LiquidityPoolV2ConverterFactory', []);
-    await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address));
+    registerFactoryTxn = converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address).encodeABI();
   }
 
-  const newConverter = await upgradeConverter(web3, upgrader, oldConverter, `LiquidityPoolV${config.type}Converter`);
+  //register factory
+  await executeMultisigTxn(
+    multiSigWallet,
+    registerFactoryTxn,
+    config.converterFactory.addr
+  );
+
+  //upgradeConverter
+  await executeMultisigTxn(
+    multiSigWallet,
+    oldConverter.methods.upgrade().encodeABI(),
+    oldConverter._address
+  );
+};
+
+const setupPool = async () => {
+  await initialiseWeb3();
+
+  const config = getConfig();
+
+  const oldConverter = deployed(web3, config.converterContract.name, config.converterContract.addr);
+  const oldConverterStateBefore = await getConverterState(oldConverter);
+  console.log("\n\nThe old converter state before upgrading:", oldConverterStateBefore, '\n');
+
+  multiSigWallet = deployed(web3, config.multiSigWallet.name, config.multiSigWallet.addr);
+  const upgrader = deployed(web3, 'ConverterUpgrader', config.converterUpgrader.addr);
+
+  const newConverter = await getConverter(web3, upgrader, `LiquidityPoolV${config.type}Converter`);
+
+  await executeMultisigTxn(
+    multiSigWallet,
+    newConverter.methods.acceptOwnership().encodeABI(),
+    newConverter._address
+  );
+
   console.log("The new converter address:", newConverter._address, '\n');
 
   if (config.type === 1) {
     const oracle = await web3Func(deploy, 'Oracle', 'Oracle', [newConverter._address]);
-    await execute(newConverter.methods.setOracle(oracle._address));
-    const oracleAddress = await newConverter.methods.oracle().call();
+
+    await executeMultisigTxn(
+      multiSigWallet,
+      newConverter.methods.setOracle(oracle._address, BTCAddress).encodeABI(),
+      config.converterFactory.addr
+    );
 
     console.log(oracleAddress, "Oracle added in new converter");
+    await executeMultisigTxn(
+      multiSigWallet,
+      oracle.methods.transferOwnership(multiSigWallet._address).encodeABI(),
+      config.converterFactory.addr
+    );
   }
 
   //note: public RSK testnet node gave an method not allowed error here
@@ -242,4 +291,12 @@ const run = async () => {
   console.log("The new converter state after upgrading:", newConverterStateAfter, '\n');
 };
 
-run();
+const run = async (toExecute) => {
+  if (toExecute === 1) {
+    await upgrade();
+  } else {
+    await setupPool();
+  }
+}
+
+run(process.argv[3]);
