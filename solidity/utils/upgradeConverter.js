@@ -202,9 +202,9 @@ const getConverterState = async (converter) => {
   return state;
 };
 
-const executeMultisigTxn = async (multisigWallet, multisigTxn, contractAddress) => {
-  const transactionId = await multisigWallet.methods.submitTransaction(contractAddress, 0, multisigTxn).call();
-  await execute(multisigWallet.methods.submitTransaction(contractAddress, 0, multisigTxn));
+const submitTransaction = async (data, contractAddress) => {
+  const transactionId = await multiSigWallet.methods.submitTransaction(contractAddress, 0, data).call();
+  await execute(multiSigWallet.methods.submitTransaction(contractAddress, 0, data));
   console.log("Transaction submitted at: ", transactionId);
 }
 
@@ -231,15 +231,13 @@ const upgrade = async () => {
   }
 
   //register factory
-  await executeMultisigTxn(
-    multiSigWallet,
+  await submitTransaction(
     registerFactoryTxn,
     config.converterFactory.addr
   );
 
   //upgradeConverter
-  await executeMultisigTxn(
-    multiSigWallet,
+  await submitTransaction(
     oldConverter.methods.upgrade().encodeABI(),
     oldConverter._address
   );
@@ -259,8 +257,7 @@ const setupPool = async () => {
 
   const newConverter = await getConverter(web3, upgrader, `LiquidityPoolV${config.type}Converter`);
 
-  await executeMultisigTxn(
-    multiSigWallet,
+  await submitTransaction(
     newConverter.methods.acceptOwnership().encodeABI(),
     newConverter._address
   );
@@ -270,15 +267,13 @@ const setupPool = async () => {
   if (config.type === 1) {
     const oracle = await web3Func(deploy, 'Oracle', 'Oracle', [newConverter._address]);
 
-    await executeMultisigTxn(
-      multiSigWallet,
-      newConverter.methods.setOracle(oracle._address, BTCAddress).encodeABI(),
+    await submitTransaction(
+     newConverter.methods.setOracle(oracle._address, BTCAddress).encodeABI(),
       config.converterFactory.addr
     );
 
     console.log(oracleAddress, "Oracle added in new converter");
-    await executeMultisigTxn(
-      multiSigWallet,
+    await submitTransaction(
       oracle.methods.transferOwnership(multiSigWallet._address).encodeABI(),
       config.converterFactory.addr
     );
@@ -292,7 +287,7 @@ const setupPool = async () => {
 };
 
 const run = async (toExecute) => {
-  if (toExecute === 1) {
+  if (toExecute == 1) {
     await upgrade();
   } else {
     await setupPool();
