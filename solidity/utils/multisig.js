@@ -4,8 +4,6 @@ const Web3 = require("web3");
 
 const NODE_ADDRESS = process.argv[2];
 const PRIVATE_KEY = process.argv[3];
-const MULTISIG_ADDRESS = process.argv[4];
-const CONVERTER_ADDRESS = process.argv[5];
 
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build/contracts");
 const MIN_GAS_LIMIT = 100000;
@@ -101,19 +99,6 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
   }
 };
 
-const deploy = async (web3, account, gasPrice, contractId, contractName, contractArgs) => {
-
-  const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
-
-  const contract = new web3.eth.Contract(buildFile.abi);
-  const options = { data: buildFile.bytecode, arguments: contractArgs };
-  const transaction = contract.deploy(options);
-  const receipt = await send(web3, account, gasPrice, transaction);
-  const args = transaction.encodeABI().slice(options.data.length);
-  console.log(`${contractId} deployed at ${receipt.contractAddress}`);
-  return deployed(web3, contractName, receipt.contractAddress);
-};
-
 const deployed = (web3, contractName, contractAddr) => {
   const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
   return new web3.eth.Contract(buildFile.abi, contractAddr);
@@ -122,6 +107,7 @@ const deployed = (web3, contractName, contractAddr) => {
 let web3;
 let gasPrice;
 let account;
+
 const initialiseWeb3 = async () => {
   web3 = new Web3(NODE_ADDRESS);
   gasPrice = await getGasPrice(web3);
@@ -134,25 +120,20 @@ const execute = async (transaction, ...args) => {
 };
 const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
 
-const acceptOwnership = async () => {
+const transferOwnership = async () => {
   await initialiseWeb3();
-  let multisig;
 
-  if (!MULTISIG_ADDRESS) {
-    multisig = await web3Func(deploy, "multisig", "MultiSigWallet", [[account.address], 1]);
-  } else {
-    multisig = deployed(web3, "MultiSigWallet", MULTISIG_ADDRESS);
+  const MULTISIG_ADDRESS = "0x189ecD23E9e34CFC07bFC3b7f5711A23F43F8a57";
+
+  const converters = [
+    "0x4B2b25526c42c4D5FC096d1f77589edCB21476e2",
+    "0xc137aD4Ef759D9206b15105532c05c866cc89f31"
+  ];
+
+  for (let index = 0; index < converters.length; index++) {
+    const converterBase = deployed(web3, "ConverterBase", converters[index]);
+    await execute(converterBase.methods.transferOwnership(MULTISIG_ADDRESS));
   }
-
-  const converterBase = deployed(web3, "ConverterBase", CONVERTER_ADDRESS);
-  const acceptOwnershipTxn = converterBase.methods.acceptOwnership().encodeABI();
-
-  const transactionId = await multisig.methods.submitTransaction(CONVERTER_ADDRESS, 0, acceptOwnershipTxn).call();
-  await execute(multisig.methods.submitTransaction(CONVERTER_ADDRESS, 0, acceptOwnershipTxn));
-  console.log("Transaction submitted at: ", transactionId);
-
-  // await execute(multisig.methods.executeTransaction(transactionId));
-  // console.log("TransactionId", transactionId, "executed");
 
   console.log("All done");
 
@@ -169,4 +150,6 @@ const acceptOwnership = async () => {
   }
 };
 
-acceptOwnership(false);
+
+
+transferOwnership();
