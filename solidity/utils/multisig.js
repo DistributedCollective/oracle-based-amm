@@ -123,33 +123,34 @@ const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
 const transferOwnership = async () => {
   await initialiseWeb3();
 
-  const MULTISIG_ADDRESS = "0x189ecD23E9e34CFC07bFC3b7f5711A23F43F8a57";
+  const MULTISIG_ADDRESS = "0x924f5ad34698Fd20c90Fe5D5A8A0abd3b42dc711";
 
   const converters = [
-    "0x4B2b25526c42c4D5FC096d1f77589edCB21476e2",
-    "0xc137aD4Ef759D9206b15105532c05c866cc89f31"
+    "0x52eD2aD69A44A431B393d28CE415c19348abAb16",
+    "0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e",
+    "0x303401D9AB4394AEaE4156F1A21C620eED56E22C"
   ];
 
   for (let index = 0; index < converters.length; index++) {
     const converterBase = deployed(web3, "ConverterBase", converters[index]);
     await execute(converterBase.methods.transferOwnership(MULTISIG_ADDRESS));
+
+    console.log("\nConverter: "+converters[index]);
+
+    const owner = await converterBase.methods.owner().call();
+    console.log("\nowner: ");
+    console.log(owner);
+  
+    const newOwner = await converterBase.methods.newOwner().call();
+    console.log("\nnewOwner: ");
+    console.log(newOwner);
   }
 
   console.log("All done");
-
-  const owner = await converterBase.methods.owner().call();
-  console.log("\nowner: ");
-  console.log(owner);
-
-  const newOwner = await converterBase.methods.newOwner().call();
-  console.log("\nnewOwner: ");
-  console.log(newOwner);
 
   if (web3.currentProvider.constructor.name === "WebsocketProvider") {
     web3.currentProvider.connection.close();
   }
 };
-
-
 
 transferOwnership();
