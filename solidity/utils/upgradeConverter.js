@@ -27,6 +27,10 @@ const getConfig = () => {
   return JSON.parse(fs.readFileSync(path.join(__dirname, CFG_FILE_NAME), { encoding: "utf8" }));
 };
 
+const setConfig = (record) => {
+	fs.writeFileSync(path.join(__dirname, CFG_FILE_NAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
+};
+
 const scan = async (message) => {
   process.stdout.write(message);
   return await new Promise((resolve, reject) => {
@@ -243,12 +247,14 @@ const upgrade = async () => {
   }
 
   //upgradeConverter
-  await execute(oldConverter.methods.transferOwnership(config.multiSigWallet.addr));
+  if (oldConverter.methods.owner().call() !== config.multiSigWallet.addr) {
+    await execute(oldConverter.methods.transferOwnership(config.multiSigWallet.addr));
 
-  await submitTransaction(
-    oldConverter.methods.acceptOwnership().encodeABI(),
-    oldConverter._address
-  )
+    await submitTransaction(
+      oldConverter.methods.acceptOwnership().encodeABI(),
+      oldConverter._address
+    )
+  }
 
   await submitTransaction(
     oldConverter.methods.upgrade().encodeABI(),

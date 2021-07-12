@@ -80,13 +80,24 @@ To add converters to an existing swap network, use ```addConverter.js```.
 !!!SYNTAX CHANGED!!!  
   
 For ETH it is:  
-```node addConverter.js ETH <config e.g. addETH_testnet.json> <execution data e.g. data_testnet> <node address e.g. for rsk testnet: https://public-node.testnet.rsk.co>  <private key>
+```
+node addConverter.js ETH <config e.g. addETH_testnet.json> <execution data e.g. data_testnet> <node address e.g. for rsk testnet: https://public-node.testnet.rsk.co>  <private key>
+```
 
-For USDT it is: ```node addConverter.js USDT <ethereum node address> <private key>```
+For USDT it is: 
+```
+node addConverter.js USDT <ethereum node address> <private key>
+```
 
-For BPro it is: ```node addConverter.js BPro <ethereum node address> <private key>```
+For BPro it is: 
+```
+node addConverter.js BPro <ethereum node address> <private key>
+```
 
-For SOV it is: ```node addConverter.js SOV <ethereum node address> <private key>```
+For SOV it is: 
+```
+node addConverter.js SOV <ethereum node address> <private key>
+```
 
 The config will be read from ```addBPro.jon``` or ```addUSDT.json```.
 
@@ -95,3 +106,13 @@ If an oracle for a token was already deployed, set the address in the reserve ob
 In case of BPro, add the MoC State address as  ```underlyingOracleAddress``` to the config file.
 
 If the script breaks somewhere in the process and needs to be resumed, don't forget to comment out the line deploying the new converter. (someone should prettify this)
+
+### Upgrading Converters:
+
+Upgrades converter to latest smart contract; can be used on both private and public networks:
+```bash
+node upgradeConverter.js
+    Configuration file name
+    action
+```
+Action is used to represent part of the upgrade process. First part is used for upgrading the pool which generates a new converter address. This address is used by the second part of the script to setup the new converter with oracle and transfer the ownership to multisig.
