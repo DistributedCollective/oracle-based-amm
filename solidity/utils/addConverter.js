@@ -4,8 +4,11 @@ const Web3 = require("web3");
 
 const TOKEN_NAME = process.argv[2];
 const NETWORK = process.argv[3];
+const NODE_ADDRESS = process.argv[5];
+const PRIVATE_KEY = process.argv[6];
 
-const ARTIFACTS_DIR = path.resolve(__dirname, "../build/contracts");
+const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
+
 const MIN_GAS_LIMIT = 100000;
 const TOKEN_CONFIG_FILENAME = `config_${NETWORK}_${TOKEN_NAME}.json`;
 const DATA_FILENAME = `add_${TOKEN_NAME}.json`;
@@ -38,8 +41,8 @@ let account;
 let phase = 0;
 
 const initialiseWeb3 = async () => {
-	const nodeURL = getConfig().nodeURL;
-	const privateKey = getConfig().privateKey;
+	const nodeURL = NODE_ADDRESS;
+	const privateKey = PRIVATE_KEY;
 	web3 = new Web3(nodeURL);
 	account = await web3.eth.accounts.privateKeyToAccount(privateKey);
 	gasPrice = await getGasPrice(web3);
@@ -153,14 +156,6 @@ const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
 const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
 const tokenDecimals = { ETH: 18 };
 
-const execute = async (transaction, ...args) => {
-	if (getConfig().phase === phase++) {
-		await web3Func(send, transaction, ...args);
-		console.log(`phase ${phase} executed`);
-		setConfig({ phase });
-	}
-};
-
 const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, oracleMockHas) => {
 	await initialiseWeb3();
 
@@ -171,6 +166,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getConfig().converterRegistry.addr);
 	const oracleWhitelist = await deployed(web3, "Whitelist", getConfig().oracleWhitelist.addr);
 
+	//this block is just relevant for v2 pools
 	let underlyingOracleAddress = [];
 	if (oracleMockName != undefined) {
 		//if underlying address is defined, use it
@@ -192,6 +188,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		}
 	}
 
+	//read reserve data from the config or deploy new tokens if not defined
 	for (const reserve of getConfig().reserves) {
 		if (reserve.address) {
 			addresses[reserve.symbol] = reserve.address;
@@ -243,7 +240,10 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		console.log(await converterRegistry.methods.getAnchors().call());
 
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
-		const converterBase = deployed(web3, "ConverterBase", await anchor.methods.owner().call());
+
+		console.log("Anchor Taken: ", anchor._address)
+
+		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
 		console.log("Now executing the settings on " + converterBase._address);
 		await execute(converterBase.methods.acceptOwnership());

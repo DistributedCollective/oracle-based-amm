@@ -1,0 +1,48 @@
+{
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d"
+        },
+        {
+            "symbol": "BNBs",
+            "decimals": 18,
+            "address": "0x6d9659bdf5b1a1da217f7bbaf7dbaf8190e2e71b"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/BNBs",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0.001"
+                },
+                {
+                    "symbol": "BNBs",
+                    "weight": "50%",
+                    "balance": "0.111"
+                }
+            ]
+        }
+    ],
+    "phase": 7,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d"
+    },
+    "BNBs": {
+        "name": "BNBs",
+        "addr": "0x6d9659bdf5b1a1da217f7bbaf7dbaf8190e2e71b"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e",
+        "args": ""
+    }
+}
