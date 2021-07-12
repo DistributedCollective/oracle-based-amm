@@ -252,13 +252,15 @@ const run = async () => {
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
 		console.log("New Converter is  ", newConverter);
+
+    const oracle = await web3Func(deploy, "oracle", "Oracle", [newConverter]);
 		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
 		console.log("Calling anchors");
 		console.log(await converterRegistry.methods.getAnchors().call());
 
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
-		const converterBase = deployed(web3, "ConverterBase", await anchor.methods.owner().call());
+		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
 		console.log("Now executing the settings on " + converterBase._address);
 		await execute(converterBase.methods.acceptOwnership());
@@ -296,8 +298,12 @@ const run = async () => {
 			}
 
 			if (type == 1) {
-				await execute(deployed(web3, "LiquidityPoolV1Converter", converterBase._address).methods.addLiquidity(tokens, amounts, 1), value);
-			} else if (type == 2) {
+        const deployedConverter = await deployed(web3, "LiquidityPoolV1Converter", converterBase._address);
+
+        //setup oracle
+        await execute(deployedConverter.methods.setOracle(oracle._address));
+        await execute(deployedConverter.methods.addLiquidity(tokens, amounts, 1), value);
+      } else if (type == 2) {
 				const deployedConverter = deployed(web3, "LiquidityPoolV2Converter", converterBase._address);
 				await execute(deployedConverter.methods.activate(tokens[0], converter.reserves[0].oracle, converter.reserves[1].oracle));
 
