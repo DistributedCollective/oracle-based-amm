@@ -1,4 +1,6 @@
 {
+    "privateKey": "0x",
+    "nodeURL": "http://127.0.0.1:8545",
     "reserves": [
         {
             "symbol": "RBTC",
