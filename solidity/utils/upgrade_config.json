@@ -1,62 +1,47 @@
 {
   "privateKey": "0x",
-  "nodeURL": "http://127.0.0.1:8545/",
+  "nodeURL": "https://mainnet.sovryn.app/rpc",
   "type": 1,
-  "reserves": [
-    {
-      "symbol": "RBTC",
-      "decimals": 18,
-      "addr": ""
-    },
-    {
-      "symbol": "SUSD",
-      "decimals": 18,
-      "addr": ""
-    }
-  ],
-  "converters": [
-    {
-      "type": 1,
-      "symbol": "",
-      "decimals": 18,
-      "fee": "0.1%",
-      "reserves": [
-        {
-          "symbol": "RBTC",
-          "weight": "50%",
-          "balance": "10"
-        },
-        {
-          "symbol": "SUSD",
-          "weight": "50%",
-          "balance": "10"
-        }
-      ]
-    }
-  ],
+  "btcAddress": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d",
+  "k": 6779,
   "converterFactory": {
     "name": "ConverterFactory",
-    "addr": "",
+    "addr": "0xcF46f24423B8da97E2c06B41df28163D55e80935",
     "args": ""
   },
   "converterUpgrader": {
     "name": "ConverterUpgrader",
-    "addr": "",
+    "addr": "0x40346f7Ce14B3a10bAB22F6a0A444902CF0Bc598",
     "args": ""
   },
   "converterRegistry": {
     "name": "ConverterRegistry",
+    "addr": "0x31A0F8400c75d52FdB413372233F28E3bdFB1c06",
+    "args": ""
+  },
+  "multiSigWallet": {
+    "name": "MultiSigWallet",
+    "addr": "0x924f5ad34698Fd20c90Fe5D5A8A0abd3b42dc711",
+    "args": ""
+  },
+  "liquidityPoolV1ConverterFactory": {
+    "name": "LiquidityPoolV1ConverterFactory",
     "addr": "",
     "args": ""
   },
   "converterContract": {
     "name": "LiquidityPoolV1Converter",
+    "addr": "0x1D2c04967e8B17168310fd7035cC219dE477BE82",
+    "args": ""
+  },
+  "newConverterContract": {
+    "name": "LiquidityPoolV1Converter",
     "addr": "",
     "args": ""
   },
-  "multiSigWallet": {
-    "name": "MultiSigWallet",
-    "addr": "",
-    "args": ""
-  }
+  "sov": "0x1D2c04967e8B17168310fd7035cC219dE477BE82",
+  "eth": "0x22Fc2cee6DC31e29dcB68f1DA77718c687551a20",
+  "moc": "0x52eD2aD69A44A431B393d28CE415c19348abAb16",
+  "bnb": "0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e",
+  "xusd": "0x303401D9AB4394AEaE4156F1A21C620eED56E22C"
 }

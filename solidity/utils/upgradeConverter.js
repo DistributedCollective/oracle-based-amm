@@ -8,7 +8,6 @@ const CFG_FILE_NAME = process.argv[2];
 const ARTIFACTS_DIR = path.resolve(__dirname, '../build/contracts');
 const MIN_GAS_LIMIT = 100000;
 const ZERO_ADDRESS = '0x0';
-const BTCAddress = "0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315"
 
 let web3;
 let gasPrice;
@@ -28,7 +27,7 @@ const getConfig = () => {
 };
 
 const setConfig = (record) => {
-	fs.writeFileSync(path.join(__dirname, CFG_FILE_NAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
+  fs.writeFileSync(path.join(__dirname, CFG_FILE_NAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
 };
 
 const scan = async (message) => {
@@ -111,6 +110,7 @@ const deploy = async (web3, account, gasPrice, contractId, contractName, contrac
     const receipt = await send(web3, account, gasPrice, transaction);
     const args = transaction.encodeABI().slice(options.data.length);
     console.log(`${contractId} deployed at ${receipt.contractAddress}`);
+    setConfig({ [contractId]: { name: contractName, addr: receipt.contractAddress, args: args } });
     return deployed(web3, contractName, receipt.contractAddress);
   }
   return deployed(web3, contractName, getConfig()[contractId].addr);
@@ -229,7 +229,9 @@ const upgrade = async () => {
   multiSigWallet = deployed(web3, config.multiSigWallet.name, config.multiSigWallet.addr);
   const converterFactory = deployed(web3, 'ConverterFactory', config.converterFactory.addr);
 
-  if (config[`liquidityPool${config.type}ConverterFactory`] === undefined) {
+  if (!config[`liquidityPool${config.type}ConverterFactory`] ||
+    config[`liquidityPool${config.type}ConverterFactory`].addr === ""
+  ) {
     let registerFactoryTxn;
     if (config.type === 1) {
       const liquidityPoolV1ConverterFactory = await web3Func(deploy, 'liquidityPoolV1ConverterFactory', 'LiquidityPoolV1ConverterFactory', []);
@@ -286,6 +288,7 @@ const setupPool = async () => {
 
   if (config.type === 1) {
     const oracle = await web3Func(deploy, 'Oracle', 'Oracle', [newConverter._address, config.btcAddress]);
+    await execute(oracle.methods.setK(config.k));
 
     await submitTransaction(
       newConverter.methods.setOracle(oracle._address).encodeABI(),
