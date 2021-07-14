@@ -15,8 +15,11 @@ import "../../../utility/interfaces/IOracle.sol";
 */
 contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     IEtherToken internal etherToken = IEtherToken(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
-    uint256 private constant CONVERTER_TYPE = 1;
-    IOracle public oracle;
+    uint256 public constant ETHER_DECIMALS = 18;
+
+	uint256 private constant CONVERTER_TYPE = 1;
+	uint256 public constant POOL_PERCENTAGE = 10;
+	IOracle public oracle;
 
     /**
       * @dev triggered after a conversion with new price data
@@ -177,27 +180,31 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         return amount;
     }
 
-    function _write() internal {
-        uint256 price0 =
-            ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
-                reserveBalance(reserveTokens[0]),
-                reserves[reserveTokens[0]].weight,
-                reserveBalance(reserveTokens[1]),
-                reserves[reserveTokens[1]].weight,
-                1
-            );
+	function _write() internal {
+		uint256 price0 = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
+			reserveBalance(reserveTokens[0]),
+			reserves[reserveTokens[0]].weight,
+			reserveBalance(reserveTokens[1]),
+			reserves[reserveTokens[1]].weight,
+			reserveBalance(reserveTokens[0]).div(POOL_PERCENTAGE)
+		);
 
-        uint256 price1 =
-            ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
-                reserveBalance(reserveTokens[1]),
-                reserves[reserveTokens[1]].weight,
-                reserveBalance(reserveTokens[0]),
-                reserves[reserveTokens[0]].weight,
-                1
-            );
+		uint256 price1 = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
+			reserveBalance(reserveTokens[1]),
+			reserves[reserveTokens[1]].weight,
+			reserveBalance(reserveTokens[0]),
+			reserves[reserveTokens[0]].weight,
+			reserveBalance(reserveTokens[1]).div(POOL_PERCENTAGE)
+		);
 
-        oracle.write(price0, price1);
-    }
+		uint256 decimals0 = reserveTokens[0] == address(etherToken) ? ETHER_DECIMALS : IERC20Token(reserveTokens[0]).decimals();
+		uint256 decimals1 = reserveTokens[1] == address(etherToken) ? ETHER_DECIMALS : IERC20Token(reserveTokens[1]).decimals();
+
+		price0 = price0.mul(10**decimals0).div(reserveBalance(reserveTokens[0]).div(POOL_PERCENTAGE));
+		price1 = price1.mul(10**decimals1).div(reserveBalance(reserveTokens[1]).div(POOL_PERCENTAGE));
+
+		oracle.write(price0, price1);
+	}
 
     /**
       * @dev increases the pool's liquidity and mints new shares in the pool to the caller
