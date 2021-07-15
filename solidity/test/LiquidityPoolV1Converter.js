@@ -26,7 +26,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 		tokenAddress = token.address;
 
 		const converter = await createConverter(tokenAddress, contractRegistry.address, maxConversionFee);
-		oracle = await Oracle.new(converter.address);
+		oracle = await Oracle.new(converter.address, getReserve1Address(isETHReserve));
 		oracleAddress = oracle.address;
 
 		await converter.setOracle(oracleAddress);
@@ -295,24 +295,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				);
 			});
 
-			it("verifies that it gives latest answer from oracle", async () => {
-        const converter = await initConverter(true, isETHReserve, 5000);
-        await converter.setConversionFee(3000);
-
-        const amount = new BN(500);
-        let value = 0;
-        if (isETHReserve) {
-          value = amount;
-        } else {
-          await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
-        }
-
-        await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
-        const price = await oracle.latestAnswer.call();
-        expect(await oracle.latestPrice.call(getReserve1Address(isETHReserve))).to.be.bignumber.equal(new BN("2"));
-        expect(await oracle.latestPrice.call(reserveToken2.address)).to.be.bignumber.equal(price);
-      });
-
 			for (const percent of [50, 75, 100]) {
 				it(`verifies that fund executes when the reserve ratio equals ${percent}%`, async () => {
 					const converter = await initConverter(false, isETHReserve);
@@ -552,6 +534,70 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await expectRevert.unspecified(converter.liquidate(600, { from: sender2 }));
 			});
 		});
+	}
+
+	it("verifies that it gives latest answer from oracle", async () => {
+		const converter = await initConverter(true, false, 5000);
+		await converter.setConversionFee(3000);
+
+		const amount = new BN(500);
+		await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
+
+		await convert([reserveToken.address, tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value: 0 });
+		const ema0 = await oracle.ema0.call();
+		const ema1 = await oracle.ema1.call();
+		expect(await oracle.latestPrice.call(reserveToken.address)).to.be.bignumber.equal(ema0);
+		expect(await oracle.latestPrice.call(reserveToken2.address)).to.be.bignumber.equal(ema1);
+	});
+
+	for (let decimal0 = 1; decimal0 <= 18; decimal0++) {
+		for (let decimal1 = 1; decimal1 <= 18; decimal1++) {
+			const maxConversionFee = 5000
+
+			const setupConverter = async () => {
+				reserveToken = await ERC20Token.new("ERC Token 1", "ERC1", decimal0, 1000000000);
+				reserveToken2 = await TestNonStandardToken.new("ERC Token 2", "ERC2", decimal1, 2000000000);
+
+				token = await SmartToken.new("Token1", "TKN1", 2);
+				tokenAddress = token.address;
+
+				const converter = await createConverter(tokenAddress, contractRegistry.address, maxConversionFee);
+				oracle = await Oracle.new(converter.address, reserveToken.address);
+				oracleAddress = oracle.address;
+
+				await converter.setOracle(oracleAddress);
+
+				await converter.addReserve(reserveToken.address, 250000);
+				await converter.addReserve(reserveToken2.address, 150000);
+				await reserveToken2.transfer(converter.address, 8000);
+				await token.issue(sender, 20000);
+
+				await reserveToken.transfer(converter.address, 5000);
+
+				await token.transferOwnership(converter.address);
+				await converter.acceptTokenOwnership();
+
+				return converter;
+			};
+
+			it("verifies that oracle gives non zero EMA for all decimal ranges", async () => {
+				const converter = await setupConverter();
+				await converter.setConversionFee(3000);
+
+				const amount = new BN(500);
+				await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
+				await convert([reserveToken.address, tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value: 0 });
+
+				const ema0 = await oracle.ema0.call();
+				const ema1 = await oracle.ema1.call();
+
+				expect(await oracle.latestPrice.call(reserveToken.address)).to.be.bignumber.equal(ema0);
+				expect(await oracle.latestPrice.call(reserveToken2.address)).to.be.bignumber.equal(ema1);
+
+				expect(ema0).to.be.bignumber.greaterThan('0');
+				expect(ema1).to.be.bignumber.greaterThan('0');
+			});
+		}
 	}
 
 	describe("verifies that the maximum possible liquidity is added", () => {
