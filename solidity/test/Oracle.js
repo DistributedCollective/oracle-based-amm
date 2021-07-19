@@ -9,14 +9,13 @@ contract("Oracle", (accounts) => {
   let oracle;
   let price0 = ether("1");
   let price1 = ether("0.5");
-  let k;
+  let k = new BN("3000");
 
   const btcAddress = ZERO_ADDRESS;
   const pool = accounts[1];
 
   const setupOracle = async () => {
     oracle = await Oracle.new(pool, btcAddress);
-    k = new BN("3000");
     await oracle.setK(k);
   }
 
@@ -62,6 +61,33 @@ contract("Oracle", (accounts) => {
     });
   });
 
+  describe("should update observations for various prices ranges", () => {
+    const priceDecimal = 18;
+    const price0 = 1;
+
+    beforeEach(async () => {
+      await setupOracle();
+    })
+
+    for (let decimal = 0; decimal < priceDecimal; decimal++) {
+      const price1 = 10 ** decimal;
+
+      it(`(price0 = ${price0}, price1 = ${price1})`, async () => {
+        await oracle.write(price0.toString(), price1.toString(), { from: pool });
+
+        const ema0 = (await oracle.ema0.call()).toString();
+        const ema1 = (await oracle.ema1.call()).toString();
+
+        expect(ema0).to.be.bignumber.greaterThan('0');
+        expect(ema1).to.be.bignumber.greaterThan('0');
+
+        expect(ema0).to.be.bignumber.equal(price0.toString());
+        expect(ema1).to.be.bignumber.equal(price1.toString());
+
+      });
+    }
+  });
+
   describe("should update observations for below prices and calculate EMA as expected", () => {
     const prices = [5, 6, 8, 15, 16, 14, 17, 22, 25, 26, 10]
 
@@ -82,28 +108,6 @@ contract("Oracle", (accounts) => {
 
         const ema0 = (await oracle.ema0.call()).toString();
         expect(ema0).to.be.equal(expectedEMA0[index].toString())
-      });
-    }
-  });
-
-  describe("should update observations for various prices ranges", () => {
-    const priceDecimal = 18;
-    const price0 = 1;
-    
-    beforeEach(async () => {
-      await setupOracle();
-    })
-
-    for (let decimal = 0; decimal < priceDecimal; decimal++) {
-      const price1 = 10 ** decimal;
-
-      it(`(price0 = ${price0}, price1 = ${price1})`, async () => {
-        await oracle.write(price0.toString(), price1.toString(), { from: pool });
-
-        const ema0 = (await oracle.ema0.call()).toString();
-        const ema1 = (await oracle.ema1.call()).toString();
-        expect(ema0).to.be.bignumber.greaterThan('0');
-        expect(ema1).to.be.bignumber.greaterThan('0');
       });
     }
   });
