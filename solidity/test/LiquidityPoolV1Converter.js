@@ -588,8 +588,8 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const reserve0Weight = (await converter.reserves.call(reserveToken.address)).weight;
 				const reserve1Balance = await converter.reserveBalance.call(reserveToken2.address);
 				const reserve1Weight = (await converter.reserves.call(reserveToken2.address)).weight;
-				const partialReserves0 = reserve0Balance.div(new BN(10));
-				const partialReserves1 = reserve1Balance.div(new BN(10));
+				const partialReserves0 = reserve0Balance.div(new BN(1000));
+				const partialReserves1 = reserve1Balance.div(new BN(1000));
 
 				let price0 = await sovrynSwapFormula.crossReserveTargetAmount.call(reserve0Balance, reserve0Weight, reserve1Balance, reserve1Weight, partialReserves0);
 				let price1 = await sovrynSwapFormula.crossReserveTargetAmount.call(reserve1Balance, reserve1Weight, reserve0Balance, reserve0Weight, partialReserves1);

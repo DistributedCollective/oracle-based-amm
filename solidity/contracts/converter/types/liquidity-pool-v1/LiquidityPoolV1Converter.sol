@@ -18,7 +18,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 	uint256 private constant CONVERTER_TYPE = 1;
 
     ///@dev used to calculate 0.1% of the amount
-	uint256 public constant DENOMINATOR = 10;
+	uint256 public constant DENOMINATOR = 1000;
 	IOracle public oracle;
 
     uint256 public token0Decimal;
