@@ -229,9 +229,7 @@ const upgrade = async () => {
   multiSigWallet = deployed(web3, config.multiSigWallet.name, config.multiSigWallet.addr);
   const converterFactory = deployed(web3, 'ConverterFactory', config.converterFactory.addr);
 
-  if (!config[`liquidityPool${config.type}ConverterFactory`] ||
-    config[`liquidityPool${config.type}ConverterFactory`].addr === ""
-  ) {
+  if (config[`liquidityPool${config.type}ConverterFactory`] === undefined) {
     let registerFactoryTxn;
     if (config.type === 1) {
       const liquidityPoolV1ConverterFactory = await web3Func(deploy, 'liquidityPoolV1ConverterFactory', 'LiquidityPoolV1ConverterFactory', []);
@@ -249,7 +247,11 @@ const upgrade = async () => {
   }
 
   //upgradeConverter
-  if (oldConverter.methods.owner().call() !== config.multiSigWallet.addr) {
+  let multisigAddress = config.multiSigWallet.addr.toLowerCase().slice(2);
+  let owner = oldConverter.methods.owner().call();
+  owner = owner.toLowerCase().slice(2);
+
+  if (owner !== multisigAddress) {
     await execute(oldConverter.methods.transferOwnership(config.multiSigWallet.addr));
 
     await submitTransaction(
