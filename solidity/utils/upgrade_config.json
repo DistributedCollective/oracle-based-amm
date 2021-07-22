@@ -24,24 +24,26 @@
     "addr": "0x924f5ad34698Fd20c90Fe5D5A8A0abd3b42dc711",
     "args": ""
   },
+  "converterContract": {
+    "name": "LiquidityPoolV1Converter",
+    "addr": [
+      "0x1D2c04967e8B17168310fd7035cC219dE477BE82",
+      "0x1D2c04967e8B17168310fd7035cC219dE477BE82",
+      "0x22Fc2cee6DC31e29dcB68f1DA77718c687551a20",
+      "0x52eD2aD69A44A431B393d28CE415c19348abAb16",
+      "0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e",
+      "0x303401D9AB4394AEaE4156F1A21C620eED56E22C"
+    ],
+    "args": ""
+  },
   "liquidityPoolV1ConverterFactory": {
     "name": "LiquidityPoolV1ConverterFactory",
     "addr": "",
     "args": ""
   },
-  "converterContract": {
-    "name": "LiquidityPoolV1Converter",
-    "addr": "0x1D2c04967e8B17168310fd7035cC219dE477BE82",
-    "args": ""
-  },
   "newConverterContract": {
     "name": "LiquidityPoolV1Converter",
-    "addr": "",
+    "addr": [],
     "args": ""
-  },
-  "sov": "0x1D2c04967e8B17168310fd7035cC219dE477BE82",
-  "eth": "0x22Fc2cee6DC31e29dcB68f1DA77718c687551a20",
-  "moc": "0x52eD2aD69A44A431B393d28CE415c19348abAb16",
-  "bnb": "0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e",
-  "xusd": "0x303401D9AB4394AEaE4156F1A21C620eED56E22C"
+  }
 }
