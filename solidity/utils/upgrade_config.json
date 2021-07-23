@@ -4,6 +4,7 @@
   "type": 1,
   "btcAddress": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d",
   "k": 6779,
+  "block": 1969000,
   "converterFactory": {
     "name": "ConverterFactory",
     "addr": "0xcF46f24423B8da97E2c06B41df28163D55e80935",
@@ -27,23 +28,13 @@
   "converterContract": {
     "name": "LiquidityPoolV1Converter",
     "addr": [
-      "0x1D2c04967e8B17168310fd7035cC219dE477BE82",
-      "0x1D2c04967e8B17168310fd7035cC219dE477BE82",
-      "0x22Fc2cee6DC31e29dcB68f1DA77718c687551a20",
-      "0x52eD2aD69A44A431B393d28CE415c19348abAb16",
-      "0xf90558859d1bBC79544Cb2Da49bA7Ce471a6343e",
-      "0x303401D9AB4394AEaE4156F1A21C620eED56E22C"
+      "0x36B3b4C34906f6C6B5148b8d228cF6cD90837297",
+      "0x346f086079d250E97Ad64C60CCaCbd64A5E50B79",
+      "0xa84f851b62aCc3af633ce9fB497893Bb2571e810",
+      "0x633a3c595a7EE0cB8254B8CAb598Bb9aBC66E96D",
+      "0x432CF15Df918Db95ECFfD3e849539364D432E392",
+      "0xE1b2151943C1C8ddc92Df15b4Bb0D4bEE7b867a3"
     ],
-    "args": ""
-  },
-  "liquidityPoolV1ConverterFactory": {
-    "name": "LiquidityPoolV1ConverterFactory",
-    "addr": "",
-    "args": ""
-  },
-  "newConverterContract": {
-    "name": "LiquidityPoolV1Converter",
-    "addr": [],
     "args": ""
   }
 }
