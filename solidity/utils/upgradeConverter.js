@@ -98,8 +98,10 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
 	}
 };
 
+let converterIndex = 0;
+
 const deploy = async (web3, account, gasPrice, contractId, contractName, contractArgs) => {
-	if (getConfig()[contractId] === undefined) {
+	if (getConfig()[contractId] === undefined || contractId === "Oracle") {
 		const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
 
 		const contract = new web3.eth.Contract(buildFile.abi);
@@ -108,7 +110,7 @@ const deploy = async (web3, account, gasPrice, contractId, contractName, contrac
 		const receipt = await send(web3, account, gasPrice, transaction);
 		const args = transaction.encodeABI().slice(options.data.length);
 		console.log(`${contractId} deployed at ${receipt.contractAddress}`);
-		setConfig({ [contractId]: { name: contractName, addr: receipt.contractAddress, args: args } });
+		setConfig({ [`${contractId}${converterIndex++}`]: { name: contractName, addr: receipt.contractAddress, args: args } });
 		return deployed(web3, contractName, receipt.contractAddress);
 	}
 	return deployed(web3, contractName, getConfig()[contractId].addr);
@@ -130,7 +132,7 @@ const getConverters = async (upgrader) => {
 
 	let converters = [];
 	for (let event of events) {
-		converters[event.returnValues._oldConverter] = event.returnValues._newConverter;
+		converters[event.returnValues._oldConverter.toString().toLowerCase()] = event.returnValues._newConverter;
 	}
 
 	return converters;
@@ -207,7 +209,8 @@ const getConverterState = async (converter) => {
 
 const submitTransaction = async (data, contractAddress) => {
 	const receipt = await execute(multiSigWallet.methods.submitTransaction(contractAddress, 0, data));
-	console.log("Transaction ID:", parseInt(receipt.logs[0].topics[1]));
+	const transactionId = receipt.logs[0].topics[1];
+	console.log("Transaction ID:", parseInt(transactionId));
 };
 
 /**
@@ -238,11 +241,8 @@ const upgrade = async () => {
 		await submitTransaction(registerFactoryTxn, config.converterFactory.addr);
 	}
 
-	upgradeConverter;
 	for (let converter of config.converterContract.addr) {
 		const oldConverter = deployed(web3, config.converterContract.name, converter);
-		const oldConverterStateBefore = await getConverterState(oldConverter);
-		console.log("\n\nThe old converter state before upgrading:", oldConverterStateBefore, "\n");
 
 		let multisigAddress =
 			config.multiSigWallet.addr.substring(0, 2) === "0x"
@@ -272,7 +272,7 @@ const setupPool = async () => {
 	const newConverters = await getConverters(upgrader);
 
 	for (let converter of config.converterContract.addr) {
-		const newConverter = deployed(web3, `LiquidityPoolV${config.type}Converter`, newConverters[converter]);
+		const newConverter = deployed(web3, `LiquidityPoolV${config.type}Converter`, newConverters[converter.toString().toLowerCase()]);
 		await submitTransaction(newConverter.methods.acceptOwnership().encodeABI(), newConverter._address);
 		console.log("The new converter address:", newConverter._address, "\n");
 
