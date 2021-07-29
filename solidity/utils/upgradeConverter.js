@@ -110,7 +110,11 @@ const deploy = async (web3, account, gasPrice, contractId, contractName, contrac
 		const receipt = await send(web3, account, gasPrice, transaction);
 		const args = transaction.encodeABI().slice(options.data.length);
 		console.log(`${contractId} deployed at ${receipt.contractAddress}`);
-		setConfig({ [`${contractId}${converterIndex++}`]: { name: contractName, addr: receipt.contractAddress, args: args } });
+
+		let configName = contractId;
+		if (contractId === "Oracle") configName = `${contractId}${converterIndex++}`;
+
+		setConfig({ [configName]: { name: contractName, addr: receipt.contractAddress, args: args } });
 		return deployed(web3, contractName, receipt.contractAddress);
 	}
 	return deployed(web3, contractName, getConfig()[contractId].addr);
@@ -227,17 +231,20 @@ const upgrade = async () => {
 	multiSigWallet = deployed(web3, config.multiSigWallet.name, config.multiSigWallet.addr);
 	const converterFactory = deployed(web3, "ConverterFactory", config.converterFactory.addr);
 
-	if (config[`liquidityPool${config.type}ConverterFactory`] === undefined) {
+	if (config[`liquidityPoolV${config.type}ConverterFactory`] === undefined) {
 		let registerFactoryTxn;
 		if (config.type === 1) {
+			console.log("Redeploying v1 factory contract");
 			const liquidityPoolV1ConverterFactory = await web3Func(deploy, "liquidityPoolV1ConverterFactory", "LiquidityPoolV1ConverterFactory", []);
 			registerFactoryTxn = converterFactory.methods.registerTypedConverterFactory(liquidityPoolV1ConverterFactory._address).encodeABI();
 		} else if (config.type === 2) {
+			console.log("Redeploying v2 factory contract");
 			const liquidityPoolV2ConverterFactory = await web3Func(deploy, "liquidityPoolV2ConverterFactory", "LiquidityPoolV2ConverterFactory", []);
 			registerFactoryTxn = converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address).encodeABI();
 		}
 
 		// register factory
+		console.log("Updating factory contract in registry");
 		await submitTransaction(registerFactoryTxn, config.converterFactory.addr);
 	}
 
@@ -253,10 +260,12 @@ const upgrade = async () => {
 		owner = owner.substring(0, 2) === "0x" ? owner.slice(2) : owner;
 
 		if (owner !== multisigAddress) {
+			console.log("Updating Owner");
 			await execute(oldConverter.methods.transferOwnership(config.multiSigWallet.addr));
 			await submitTransaction(oldConverter.methods.acceptOwnership().encodeABI(), converter);
 		}
 
+		console.log("Upgrading converter:", converter);
 		await submitTransaction(oldConverter.methods.upgrade().encodeABI(), converter);
 	}
 };
@@ -273,22 +282,30 @@ const setupPool = async () => {
 
 	for (let converter of config.converterContract.addr) {
 		const newConverter = deployed(web3, `LiquidityPoolV${config.type}Converter`, newConverters[converter.toString().toLowerCase()]);
+		console.log("\nThe new converter address:", newConverter._address);
+		console.log("Accepting converter ownership");
 		await submitTransaction(newConverter.methods.acceptOwnership().encodeABI(), newConverter._address);
-		console.log("The new converter address:", newConverter._address, "\n");
 
 		if (config.type === 1) {
+			console.log("Deploying Oracle");
 			const oracle = await web3Func(deploy, "Oracle", "Oracle", [newConverter._address, config.btcAddress]);
+
+			console.log("Setting k", config.k);
 			await execute(oracle.methods.setK(config.k));
 
+			console.log("Setting oracle in converter", oracle._address);
 			await submitTransaction(newConverter.methods.setOracle(oracle._address).encodeABI(), newConverter._address);
 
-			console.log(oracle._address, "Oracle added in new converter");
+			console.log("Updating oracle ownership");
 			await execute(oracle.methods.transferOwnership(multiSigWallet._address));
-
 			await submitTransaction(oracle.methods.acceptOwnership().encodeABI(), oracle._address);
 		}
 
 		//note: public RSK testnet node gave an method not allowed error here
+		const oldConverter = deployed(web3, `LiquidityPoolV${config.type}Converter`, converter);
+		const oldConverterStateAfter = await getConverterState(oldConverter);
+		console.log("The old converter state:", oldConverterStateAfter, "\n");
+
 		const newConverterStateAfter = await getConverterState(newConverter);
 		console.log("The new converter state after upgrading:", newConverterStateAfter, "\n");
 	}
