@@ -218,7 +218,7 @@ const submitTransaction = async (data, contractAddress) => {
 };
 
 /**
- * Used to upgrade v1 pools:
+ * Used to upgrade v1 pools: (step 1)
  * 1. Deploys a new factory and register it in ConverterFactory. (is a multisig transaction)
  * 2. Check if converter owner is multisig, transfers ownership if not. (is a multisig transaction)
  * 3. Execute upgrade converter on old converter and creates a transaction for multisig to be executed. (is a multisig transaction)
@@ -231,6 +231,7 @@ const upgrade = async () => {
 	multiSigWallet = deployed(web3, config.multiSigWallet.name, config.multiSigWallet.addr);
 	const converterFactory = deployed(web3, "ConverterFactory", config.converterFactory.addr);
 
+	//will read the typed factory from the config. if not present, a new one is deployed 
 	if (config[`liquidityPoolV${config.type}ConverterFactory`] === undefined) {
 		let registerFactoryTxn;
 		if (config.type === 1) {
@@ -248,6 +249,9 @@ const upgrade = async () => {
 		await submitTransaction(registerFactoryTxn, config.converterFactory.addr);
 	}
 
+	//for each converter in the list
+	// 1. transfer the ownership to multisig if it doesn't belong to the multisig yet
+	// 2. upgrades the converter
 	for (let converter of config.converterContract.addr) {
 		const oldConverter = deployed(web3, config.converterContract.name, converter);
 
@@ -270,6 +274,11 @@ const upgrade = async () => {
 	}
 };
 
+/**
+ * Step 2
+ * Deploy and setup the oracle
+ * Accept the ownership of the new converter + oracle with the multisig
+ */
 const setupPool = async () => {
 	await initialiseWeb3();
 
