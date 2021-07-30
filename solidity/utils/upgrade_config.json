@@ -1,40 +1,45 @@
 {
-  "privateKey": "0x",
-  "nodeURL": "https://mainnet.sovryn.app/rpc",
-  "type": 1,
-  "btcAddress": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d",
-  "k": 6779,
-  "block": 1969000,
-  "converterFactory": {
-    "name": "ConverterFactory",
-    "addr": "0xcF46f24423B8da97E2c06B41df28163D55e80935",
-    "args": ""
-  },
-  "converterUpgrader": {
-    "name": "ConverterUpgrader",
-    "addr": "0x40346f7Ce14B3a10bAB22F6a0A444902CF0Bc598",
-    "args": ""
-  },
-  "converterRegistry": {
-    "name": "ConverterRegistry",
-    "addr": "0x31A0F8400c75d52FdB413372233F28E3bdFB1c06",
-    "args": ""
-  },
-  "multiSigWallet": {
-    "name": "MultiSigWallet",
-    "addr": "0x924f5ad34698Fd20c90Fe5D5A8A0abd3b42dc711",
-    "args": ""
-  },
-  "converterContract": {
-    "name": "LiquidityPoolV1Converter",
-    "addr": [
-      "0x36B3b4C34906f6C6B5148b8d228cF6cD90837297",
-      "0x346f086079d250E97Ad64C60CCaCbd64A5E50B79",
-      "0xa84f851b62aCc3af633ce9fB497893Bb2571e810",
-      "0x633a3c595a7EE0cB8254B8CAb598Bb9aBC66E96D",
-      "0x432CF15Df918Db95ECFfD3e849539364D432E392",
-      "0xE1b2151943C1C8ddc92Df15b4Bb0D4bEE7b867a3"
-    ],
-    "args": ""
-  }
+    "privateKey": "0x",
+    "nodeURL": "https://mainnet.sovryn.app/rpc",
+    "type": 1,
+    "btcAddress": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d",
+    "k": 6779,
+    "block": 3550895,
+    "converterFactory": {
+        "name": "ConverterFactory",
+        "addr": "0xcF46f24423B8da97E2c06B41df28163D55e80935",
+        "args": ""
+    },
+    "converterUpgrader": {
+        "name": "ConverterUpgrader",
+        "addr": "0x40346f7Ce14B3a10bAB22F6a0A444902CF0Bc598",
+        "args": ""
+    },
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0x31A0F8400c75d52FdB413372233F28E3bdFB1c06",
+        "args": ""
+    },
+    "multiSigWallet": {
+        "name": "MultiSigWallet",
+        "addr": "0x924f5ad34698Fd20c90Fe5D5A8A0abd3b42dc711",
+        "args": ""
+    },
+    "converterContract": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": [
+            "0x9996E5F902d2d804E9eD0DdB1B628D1EBf6Bb6fE"
+        ],
+        "args": ""
+    },
+    "liquidityPoolV1ConverterFactory": {
+        "name": "LiquidityPoolV1ConverterFactory",
+        "addr": "0x1E7428B34Af8FA6Dc40d7A38769efA948E065669",
+        "args": ""
+    },
+    "Oracle0": {
+        "name": "Oracle",
+        "addr": "0x345f2eC520431db542e33eD31a8f687E8eC705BB",
+        "args": "00000000000000000000000034031d1cd14e2c80b0268b47eff49643375afaeb000000000000000000000000542fda317318ebf1d3deaf76e0b632741a7e677d"
+    }
 }
