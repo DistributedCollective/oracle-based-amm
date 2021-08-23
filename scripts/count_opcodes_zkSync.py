@@ -3,9 +3,13 @@
 # Script to create report on bytecodes not supported by zkSync
 # https://github.com/DistributedCollective/Sovryn-smart-contracts/issues/285
 
+# To call the script, first parameter should be the json file that solc compiler generates:
+# python scripts/count_opcodes_zkSync.py artifacts/build-info/0202910f40424d4ba1f4d5c762daecf5.json
+
 import json
 import re
 import csv
+import sys
 
 # Hardhat json packs opcodes in 1 line. Better visual on multiline.
 def opcode1linerToMultiline(oneLiner):
@@ -34,9 +38,9 @@ def countCode(code, opcode):
 #     print ("\nsplitted: " + ' '.join(s))
 #     exit()
 
-# Opening the JSON output from the last hardhat compilation
-# f = open('artifacts/build-info/eaaf433b5af1a78be582155342f51ab5.json',)
-f = open('artifacts/build-info/0202910f40424d4ba1f4d5c762daecf5.json',)
+# Opening a JSON output from hardhat compilation specified as the first script parameter
+user_args = sys.argv[1:] # get parameter list after the script name
+f = open(user_args[0],) # use first parameter as filename to open
 
 # Return JSON object as a dictionary
 hardhatOutput = json.load(f)
