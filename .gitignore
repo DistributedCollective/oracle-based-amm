@@ -35,3 +35,6 @@ solidity/build/Test*
 workspace.code-workspace
 .env
 yarn.lock
+
+artifacts/
+cache/
