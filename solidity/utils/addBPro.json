@@ -1,4 +1,6 @@
 {
+    "privateKey": "",
+    "nodeURL": "",
     "reserves": [
         {
             "symbol": "RBTC",
