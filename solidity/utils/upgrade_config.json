@@ -1,62 +1,45 @@
 {
   "privateKey": "0x",
-  "nodeURL": "http://127.0.0.1:8545/",
+  "nodeURL": "https://mainnet.sovryn.app/rpc",
   "type": 1,
-  "reserves": [
-    {
-      "symbol": "RBTC",
-      "decimals": 18,
-      "addr": ""
-    },
-    {
-      "symbol": "SUSD",
-      "decimals": 18,
-      "addr": ""
-    }
-  ],
-  "converters": [
-    {
-      "type": 1,
-      "symbol": "",
-      "decimals": 18,
-      "fee": "0.1%",
-      "reserves": [
-        {
-          "symbol": "RBTC",
-          "weight": "50%",
-          "balance": "10"
-        },
-        {
-          "symbol": "SUSD",
-          "weight": "50%",
-          "balance": "10"
-        }
-      ]
-    }
-  ],
+  "btcAddress": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d",
+  "k": 6779,
+  "block": 3550895,
   "converterFactory": {
-    "name": "ConverterFactory",
-    "addr": "",
-    "args": ""
+      "name": "ConverterFactory",
+      "addr": "0xcF46f24423B8da97E2c06B41df28163D55e80935",
+      "args": ""
   },
   "converterUpgrader": {
-    "name": "ConverterUpgrader",
-    "addr": "",
-    "args": ""
+      "name": "ConverterUpgrader",
+      "addr": "0x40346f7Ce14B3a10bAB22F6a0A444902CF0Bc598",
+      "args": ""
   },
   "converterRegistry": {
-    "name": "ConverterRegistry",
-    "addr": "",
-    "args": ""
-  },
-  "converterContract": {
-    "name": "LiquidityPoolV1Converter",
-    "addr": "",
-    "args": ""
+      "name": "ConverterRegistry",
+      "addr": "0x31A0F8400c75d52FdB413372233F28E3bdFB1c06",
+      "args": ""
   },
   "multiSigWallet": {
-    "name": "MultiSigWallet",
-    "addr": "",
-    "args": ""
+      "name": "MultiSigWallet",
+      "addr": "0x924f5ad34698Fd20c90Fe5D5A8A0abd3b42dc711",
+      "args": ""
+  },
+  "converterContract": {
+      "name": "LiquidityPoolV1Converter",
+      "addr": [
+          "0x9996E5F902d2d804E9eD0DdB1B628D1EBf6Bb6fE"
+      ],
+      "args": ""
+  },
+  "liquidityPoolV1ConverterFactory": {
+      "name": "LiquidityPoolV1ConverterFactory",
+      "addr": "0x1E7428B34Af8FA6Dc40d7A38769efA948E065669",
+      "args": ""
+  },
+  "Oracle0": {
+      "name": "Oracle",
+      "addr": "0x345f2eC520431db542e33eD31a8f687E8eC705BB",
+      "args": "00000000000000000000000034031d1cd14e2c80b0268b47eff49643375afaeb000000000000000000000000542fda317318ebf1d3deaf76e0b632741a7e677d"
   }
 }

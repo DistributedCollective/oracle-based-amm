@@ -232,7 +232,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
-		const oracle = await web3Func(deploy, "oracle", "Oracle", [newConverter]);
+		
 		console.log("New Converter is  ", newConverter);
 		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
@@ -252,9 +252,19 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		console.log("Done with conversion fee");
 
 		if (type === 1) {
+			console.log("Deploying Oracle");
+			const oracle = await web3Func(deploy, "Oracle", "Oracle", [converterBase._address, getConfig().btcAddress]);
+
+			console.log("Setting k", getConfig().k);
+			await execute(oracle.methods.setK(getConfig().k));
+
+			console.log("Setting oracle in converter", oracle._address);
 			const liquidityV1PoolConverter = deployed(web3, "LiquidityPoolV1Converter", converterBase._address);
 			await execute(liquidityV1PoolConverter.methods.setOracle(oracle._address));
 			console.log("Done with adding oracle");
+
+			console.log("Updating oracle ownership");
+			await execute(oracle.methods.transferOwnership(multiSigWallet._address));	
 		}
 
 		//adding the liquidity and thereby seeting the price
