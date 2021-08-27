@@ -119,23 +119,28 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
 };
 
 const deploy = async (web3, account, gasPrice, contractId, contractName, contractArgs) => {
-	if (getConfig()[contractId] === undefined) {
-		const abi = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".abi"), { encoding: "utf8" });
-		const bin = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".bin"), { encoding: "utf8" });
-		const contract = new web3.eth.Contract(JSON.parse(abi));
-		const options = { data: "0x" + bin, arguments: contractArgs };
+	if (getConfig()[contractId] === undefined || contractId === "Oracle") {
+		const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
+
+		const contract = new web3.eth.Contract(buildFile.abi);
+		const options = { data: buildFile.bytecode, arguments: contractArgs };
 		const transaction = contract.deploy(options);
 		const receipt = await send(web3, account, gasPrice, transaction);
 		const args = transaction.encodeABI().slice(options.data.length);
 		console.log(`${contractId} deployed at ${receipt.contractAddress}`);
-		setConfig({ [contractId]: { name: contractName, addr: receipt.contractAddress, args: args } });
+
+		let configName = contractId;
+		if (contractId === "Oracle") configName = `${contractId}${converterIndex++}`;
+
+		setConfig({ [configName]: { name: contractName, addr: receipt.contractAddress, args: args } });
+		return deployed(web3, contractName, receipt.contractAddress);
 	}
 	return deployed(web3, contractName, getConfig()[contractId].addr);
 };
 
 const deployed = (web3, contractName, contractAddr) => {
-	const abi = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".abi"), { encoding: "utf8" });
-	return new web3.eth.Contract(JSON.parse(abi), contractAddr);
+	const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
+	return new web3.eth.Contract(buildFile.abi, contractAddr);
 };
 
 const decimalToInteger = (value, decimals) => {
