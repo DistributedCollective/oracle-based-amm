@@ -8,7 +8,7 @@
         {
             "symbol": "FISH",
             "decimals": 18,
-            "address": ""
+            "address": "0xaa7038D80521351F243168FefE0352194e3f83C3"
         }
     ],
     "converters": [
@@ -32,5 +32,19 @@
         }
     ],
     "k": 6779,
-    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab",
+    "phase": 4,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "FISH": {
+        "name": "FISH",
+        "addr": "0xaa7038D80521351F243168FefE0352194e3f83C3"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0x179caA42B5024ec1C3D8513A262fC9986F565295",
+        "args": ""
+    }
 }
