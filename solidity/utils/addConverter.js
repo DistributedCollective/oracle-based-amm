@@ -8,7 +8,7 @@ const DATA_FILENAME = process.argv[4];
 const NODE_ADDRESS = process.argv[5];
 const PRIVATE_KEY = process.argv[6];
 
-const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
+const ARTIFACTS_DIR = path.resolve(__dirname, "../build/contracts");
 
 const MIN_GAS_LIMIT = 100000;
 
