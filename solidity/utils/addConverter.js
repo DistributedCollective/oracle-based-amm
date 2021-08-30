@@ -130,8 +130,11 @@ const deploy = async (web3, account, gasPrice, contractId, contractName, contrac
 		console.log(`${contractId} deployed at ${receipt.contractAddress}`);
 
 		let configName = contractId;
-		if (contractId === "Oracle") configName = `${contractId}${converterIndex++}`;
-
+		let converterIndex = 0;
+		//TODO: IMPORTANT - FIGURE OUT HOW TO GET CONVERTER INDEX! IT WON'T WORK WITH MUlTIPLE CONVERTERS!
+		//TODO: move oracle to "converters"
+		//if (contractId === "Oracle") configName = `${contractId}${converterIndex++}`;
+		if (contractId === "Oracle") configName = `${contractId}`;
 		setConfig({ [configName]: { name: contractName, addr: receipt.contractAddress, args: args } });
 		return deployed(web3, contractName, receipt.contractAddress);
 	}
@@ -178,6 +181,8 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
 	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
+	let multiSigWallet;
+	if (getData().multiSigWallet.addr !== "") multiSigWallet = deployed(web3, getData().multiSigWallet.name, getData().multiSigWallet.addr);
 
 	//this block is just relevant for v2 pools
 	let underlyingOracleAddress = [];
@@ -254,7 +259,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
 
 		// TODO: Remove next line, just here for checking which address is received from anchor. The last address shown from above anchor list should be shown.
-		console.log("Anchor Taken: ", anchor);
+		//console.log("Anchor Taken: ", anchor);
 
 		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
@@ -276,8 +281,12 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 			await execute(liquidityV1PoolConverter.methods.setOracle(oracle._address));
 			console.log("Done with adding oracle");
 
-			console.log("Updating oracle ownership");
-			await execute(oracle.methods.transferOwnership(multiSigWallet._address));
+			if (multiSigWallet !== undefined) {
+				console.log("Updating oracle ownership");
+				await execute(oracle.methods.transferOwnership(multiSigWallet._address));
+			} else {
+				console.log("Oracle owner is account: ", await oracle.methods.owner().call());
+			}
 		}
 		//adding the liquidity and thereby seeting the price
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
