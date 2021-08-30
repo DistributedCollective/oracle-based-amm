@@ -342,6 +342,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		addresses[converter.symbol] = anchor._address;
 	}
 
+	//TODO: add transfer ownership of converter to multisig
 	console.log("All done");
 
 	if (web3.currentProvider.constructor.name === "WebsocketProvider") {
