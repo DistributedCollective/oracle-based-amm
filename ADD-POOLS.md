@@ -97,7 +97,7 @@ testnet:
 
 mainnet:  
 
-```node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet.sovryn.app/rpc <private key>```
+```node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet2.sovryn.app/rpc <private key>```
 
 ```TODO: check if the following is for v2 pools only```
 
