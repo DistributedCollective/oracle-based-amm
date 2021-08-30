@@ -33,7 +33,7 @@
     ],
     "k": 6779,
     "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab",
-    "phase": 4,
+    "phase": 6,
     "(WR)BTC": {
         "name": "(WR)BTC",
         "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
@@ -46,5 +46,10 @@
         "name": "LiquidityPoolV1Converter",
         "addr": "0x179caA42B5024ec1C3D8513A262fC9986F565295",
         "args": ""
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0x498E4D1d39968b0BB5DECD52D71055529150ba74",
+        "args": "000000000000000000000000179caa42b5024ec1c3d8513a262fc9986f56529500000000000000000000000069fe5cec81d5ef92600c1a0db1f11986ab3758ab"
     }
 }
