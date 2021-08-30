@@ -15,8 +15,14 @@ import "../../../utility/interfaces/IOracle.sol";
 */
 contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     IEtherToken internal etherToken = IEtherToken(0xc0829421C1d260BD3cB3E0F06cfE2D52db2cE315);
-    uint256 private constant CONVERTER_TYPE = 1;
-    IOracle public oracle;
+	uint256 private constant CONVERTER_TYPE = 1;
+
+    ///@dev used to calculate 0.1% of the amount
+	uint256 public constant DENOMINATOR = 1000;
+	IOracle public oracle;
+
+    uint256 public token0Decimal;
+    uint256 public token1Decimal;
 
     /**
       * @dev triggered after a conversion with new price data
@@ -82,7 +88,15 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
     */
     function addReserve(IERC20Token _token, uint32 _weight) public {
         // verify that the converter doesn't have 2 reserves yet
-        require(reserveTokenCount() < 2, "ERR_INVALID_RESERVE_COUNT");
+        uint256 tokenCount = reserveTokenCount();
+        require(tokenCount < 2, "ERR_INVALID_RESERVE_COUNT");
+
+        if(tokenCount == 0) {
+            token0Decimal = IERC20Token(_token).decimals();
+        } else {
+            token1Decimal = IERC20Token(_token).decimals();
+        }
+        
         super.addReserve(_token, _weight);
     }
 
@@ -177,27 +191,42 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         return amount;
     }
 
-    function _write() internal {
-        uint256 price0 =
-            ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
-                reserveBalance(reserveTokens[0]),
-                reserves[reserveTokens[0]].weight,
-                reserveBalance(reserveTokens[1]),
-                reserves[reserveTokens[1]].weight,
-                1
-            );
+	function _write() internal {
+        IERC20Token token0 = IERC20Token(reserveTokens[0]);
+        IERC20Token token1 = IERC20Token(reserveTokens[1]);
 
-        uint256 price1 =
-            ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).crossReserveTargetAmount(
-                reserveBalance(reserveTokens[1]),
-                reserves[reserveTokens[1]].weight,
-                reserveBalance(reserveTokens[0]),
-                reserves[reserveTokens[0]].weight,
-                1
-            );
+        uint256 reserve0Balance = reserveBalance(token0);
+        uint256 reserve1Balance = reserveBalance(token1);
 
-        oracle.write(price0, price1);
-    }
+        uint32 reserve0Weight = reserves[token0].weight;
+        uint32 reserve1Weight = reserves[token1].weight;
+
+        uint256 partialReserves0 = reserve0Balance.div(DENOMINATOR);
+        uint256 partialReserves1 = reserve1Balance.div(DENOMINATOR);
+
+        ISovrynSwapFormula sovrynSwapFormula = ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)); 
+
+		uint256 price0 = sovrynSwapFormula.crossReserveTargetAmount(
+			reserve0Balance,
+			reserve0Weight,
+			reserve1Balance,
+			reserve1Weight,
+			partialReserves0
+		);
+
+		uint256 price1 = sovrynSwapFormula.crossReserveTargetAmount(
+			reserve1Balance,
+			reserve1Weight,
+			reserve0Balance,
+			reserve0Weight,
+			partialReserves1
+		);
+		
+		price0 = price0.mul(10**token0Decimal).div(partialReserves0);
+		price1 = price1.mul(10**token1Decimal).div(partialReserves1);
+
+		oracle.write(price0, price1);
+	}
 
     /**
       * @dev increases the pool's liquidity and mints new shares in the pool to the caller

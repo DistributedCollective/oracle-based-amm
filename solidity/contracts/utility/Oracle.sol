@@ -8,7 +8,7 @@ import "../converter/interfaces/ILiquidityPoolV1Converter.sol";
  * @dev Provides the off-chain rate between two tokens
  *
  * The oracle is used by liquidity v1 pool converter to update the Exponential Moving
- * Averages and other observations of pool tokens for each block having trades once. It is stored 
+ * Averages and other observations of pool tokens for each block having trades once. It is stored
  * at the beginning of each block.
  * EMA = k * currentPrice + (1 - k) * lastCumulativePrice
  * Were k is the weight given to more recent prices compared to the older ones.
@@ -123,7 +123,7 @@ contract Oracle is Owned {
 
 	/**
 	 * @dev returns the price of a reserve in base currency (assuming one of the reserves is always BTC)
-	 * This function is kept to comply with the chainlink interface 
+	 * This function is kept to comply with the chainlink interface
 	 * @return ema EMA of non-BTC token in pool
 	 */
 	function latestAnswer() external view returns (uint256 answer) {
