@@ -114,7 +114,7 @@
     },
     "multiSigWallet": {
         "name": "MultiSigWallet",
-        "addr": "",
+        "addr": "0x189ecD23E9e34CFC07bFC3b7f5711A23F43F8a57",
         "args": ""
     }
 }
