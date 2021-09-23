@@ -202,8 +202,8 @@ contract("SovrynSwapNetwork", (accounts) => {
 			const sovrynSwapNetwork1 = await SovrynSwapNetwork.new(contractRegistry.address);
 			await sovrynSwapNetwork1.registerEtherToken(etherToken.address, true);
 
-			const validEtherToken = await sovrynSwapNetwork1.etherTokens.call(etherToken.address);
-			expect(validEtherToken).to.be.true();
+			const validEtherToken = await sovrynSwapNetwork1.etherTokens(etherToken.address);
+			expect(validEtherToken).to.be.true;
 		});
 
 		it("should revert when attempting register ether token with invalid address", async () => {
@@ -226,11 +226,11 @@ contract("SovrynSwapNetwork", (accounts) => {
 			const sovrynSwapNetwork1 = await SovrynSwapNetwork.new(contractRegistry.address);
 			await sovrynSwapNetwork1.registerEtherToken(etherToken.address, true);
 			const validEtherToken = await sovrynSwapNetwork1.etherTokens.call(etherToken.address);
-			expect(validEtherToken).to.be.true();
+			expect(validEtherToken).to.be.true;
 
 			await sovrynSwapNetwork1.registerEtherToken(etherToken.address, false);
 			const validEtherToken2 = await sovrynSwapNetwork1.etherTokens.call(etherToken.address);
-			expect(validEtherToken2).to.be.false();
+			expect(validEtherToken2).to.be.false;
 		});
 
 		it("should revert when non owner attempting to unregister ether token", async () => {
@@ -240,7 +240,7 @@ contract("SovrynSwapNetwork", (accounts) => {
 			const sovrynSwapNetwork1 = await SovrynSwapNetwork.new(contractRegistry.address);
 			await sovrynSwapNetwork1.registerEtherToken(etherToken.address, true);
 			const validEtherToken = await sovrynSwapNetwork1.etherTokens.call(etherToken.address);
-			expect(validEtherToken).to.be.true();
+			expect(validEtherToken).to.be.true;
 
 			await expectRevert(sovrynSwapNetwork1.registerEtherToken(etherToken.address, false, { from: nonOwner }), "ERR_ACCESS_DENIED");
 		});
@@ -346,22 +346,22 @@ contract("SovrynSwapNetwork", (accounts) => {
 
 		it("verifies that isV28OrHigherConverter returns false for ConverterV27OrLowerWithoutFallback", async () => {
 			const converter = await ConverterV27OrLowerWithoutFallback.new();
-			expect(await network.isV28OrHigherConverterExternal.call(converter.address)).to.be.false();
+			expect(await network.isV28OrHigherConverterExternal.call(converter.address)).to.be.false;
 		});
 
 		it("verifies that isV28OrHigherConverter returns false for ConverterV27OrLowerWithFallback", async () => {
 			const converter = await ConverterV27OrLowerWithFallback.new();
-			expect(await network.isV28OrHigherConverterExternal.call(converter.address)).to.be.false();
+			expect(await network.isV28OrHigherConverterExternal.call(converter.address)).to.be.false;
 		});
 
 		it("verifies that isV28OrHigherConverter returns true for ConverterV28OrHigherWithoutFallback", async () => {
 			const converter = await ConverterV28OrHigherWithoutFallback.new();
-			expect(await network.isV28OrHigherConverterExternal.call(converter.address)).to.be.true();
+			expect(await network.isV28OrHigherConverterExternal.call(converter.address)).to.be.true;
 		});
 
 		it("verifies that isV28OrHigherConverter returns true for ConverterV28OrHigherWithFallback", async () => {
 			const converter = await ConverterV28OrHigherWithFallback.new();
-			expect(await network.isV28OrHigherConverterExternal.call(converter.address)).to.be.true();
+			expect(await network.isV28OrHigherConverterExternal.call(converter.address)).to.be.true;
 		});
 
 		for (const sourceSymbol in pathsTokens) {
@@ -553,7 +553,7 @@ contract("SovrynSwapNetwork", (accounts) => {
 			const conversionPath = await sovrynSwapNetwork.conversionPath.call(erc20Token2.address, ETH_RESERVE_ADDRESS);
 			const expectedPath = paths.ERC2.ETH;
 
-			expect(conversionPath).not.to.be.empty();
+			expect(conversionPath).not.to.be.empty;
 			expect(conversionPath).to.have.lengthOf(expectedPath.length);
 
 			for (let i = 0; i < conversionPath.length; i++) {
@@ -662,54 +662,11 @@ contract("SovrynSwapNetwork", (accounts) => {
 		});
 
 		// eslint-disable-next-line max-len
-		it("verifies that claimAndConvertFor transfers the converted amount correctly when converter from a new converter to an old one", async () => {
-			const value = new BN(1000);
-			await anchor4.approve(sovrynSwapNetwork.address, value, { from: sender });
-
-			const balanceBeforeTransfer = await erc20Token2.balanceOf.call(sender2);
-
-			const path = paths.SMART4.ERC2;
-			const returnAmount = await sovrynSwapNetwork.claimAndConvertFor.call(path, value, MIN_RETURN, sender2);
-			await sovrynSwapNetwork.claimAndConvertFor(path, value, MIN_RETURN, sender2);
-
-			const balanceAfterTransfer = await erc20Token2.balanceOf.call(sender2);
-			expect(balanceAfterTransfer).to.be.bignumber.equal(balanceBeforeTransfer.add(returnAmount));
-		});
-
-		// eslint-disable-next-line max-len
-		it("verifies that claimAndConvertFor transfers the converted amount correctly when converter from an old converter to a new one", async () => {
-			const value = new BN(1000);
-			await erc20Token2.approve(sovrynSwapNetwork.address, value, { from: sender });
-
-			const balanceBeforeTransfer = await anchor4.balanceOf.call(sender2);
-
-			const path = paths.ERC2.SMART4;
-			const returnAmount = await sovrynSwapNetwork.claimAndConvertFor.call(path, value, MIN_RETURN, sender2);
-			await sovrynSwapNetwork.claimAndConvertFor(path, value, MIN_RETURN, sender2);
-
-			const balanceAfterTransfer = await anchor4.balanceOf.call(sender2);
-			expect(balanceAfterTransfer).to.be.bignumber.equal(balanceBeforeTransfer.add(returnAmount));
-		});
-
 		it("should revert when calling claimAndConvertFor without approval", async () => {
 			const path = paths.ERC1.SMART4;
 			const value = new BN(1000);
 
 			await expectRevert.unspecified(sovrynSwapNetwork.claimAndConvertFor(path, value, MIN_RETURN, sender2));
-		});
-
-		it("verifies that claimAndConvert transfers the converted amount correctly", async () => {
-			const value = new BN(1000);
-			await erc20Token1.approve(sovrynSwapNetwork.address, value, { from: sender });
-
-			const balanceBeforeTransfer = await erc20Token2.balanceOf.call(sender);
-
-			const path = paths.ERC1.ERC2;
-			const returnAmount = await sovrynSwapNetwork.claimAndConvert.call(path, value, MIN_RETURN);
-			await sovrynSwapNetwork.claimAndConvert(path, value, MIN_RETURN);
-
-			const balanceAfterTransfer = await erc20Token2.balanceOf.call(sender);
-			expect(balanceAfterTransfer).to.be.bignumber.equal(balanceBeforeTransfer.add(returnAmount));
 		});
 
 		it("should revert when calling claimAndConvert without approval", async () => {
@@ -901,32 +858,6 @@ contract("SovrynSwapNetwork", (accounts) => {
 			const balanceBeforeTransfer = await bntToken.balanceOf.call(affiliate);
 
 			await sovrynSwapNetwork.convert2(path, value, MIN_RETURN, affiliate, AFFILIATE_FEE, { from: sender, value });
-
-			const balanceAfterTransfer = await bntToken.balanceOf.call(affiliate);
-			expect(balanceAfterTransfer).to.be.bignumber.gt(balanceBeforeTransfer);
-		});
-
-		it("verifies that claimAndConvert2 transfers the affiliate fee correctly", async () => {
-			const value = new BN(10000);
-			await erc20Token2.approve(sovrynSwapNetwork.address, value, { from: sender });
-
-			const balanceBeforeTransfer = await bntToken.balanceOf.call(affiliate);
-
-			const path = paths.ERC2.ETH;
-			await sovrynSwapNetwork.claimAndConvert2(path, value, MIN_RETURN, affiliate, AFFILIATE_FEE);
-
-			const balanceAfterTransfer = await bntToken.balanceOf.call(affiliate);
-			expect(balanceAfterTransfer).to.be.bignumber.gt(balanceBeforeTransfer);
-		});
-
-		it("verifies that claimAndConvertFor2 transfers the affiliate fee correctly", async () => {
-			const value = new BN(10000);
-			await erc20Token2.approve(sovrynSwapNetwork.address, value, { from: sender });
-
-			const balanceBeforeTransfer = await bntToken.balanceOf.call(affiliate);
-
-			const path = paths.ERC2.ETH;
-			await sovrynSwapNetwork.claimAndConvertFor2(path, value, MIN_RETURN, sender2, affiliate, AFFILIATE_FEE);
 
 			const balanceAfterTransfer = await bntToken.balanceOf.call(affiliate);
 			expect(balanceAfterTransfer).to.be.bignumber.gt(balanceBeforeTransfer);

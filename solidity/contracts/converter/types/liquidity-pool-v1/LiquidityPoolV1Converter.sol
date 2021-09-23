@@ -91,12 +91,18 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         uint256 tokenCount = reserveTokenCount();
         require(tokenCount < 2, "ERR_INVALID_RESERVE_COUNT");
 
-        if(tokenCount == 0) {
-            token0Decimal = IERC20Token(_token).decimals();
-        } else {
-            token1Decimal = IERC20Token(_token).decimals();
+        uint256 decimals = 18;
+
+        if(_token != ETH_RESERVE_ADDRESS) {
+            decimals = IERC20Token(_token).decimals();
         }
-        
+
+        if(tokenCount == 0) {
+            token0Decimal = decimals;
+        } else {
+            token1Decimal = decimals;
+        }
+
         super.addReserve(_token, _weight);
     }
 
