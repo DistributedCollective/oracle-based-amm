@@ -135,9 +135,10 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
             _amount
         );
 
-        // return the amount minus the conversion fee and the conversion fee
+        // return the amount minus the conversion fee, the conversion fee.
         uint256 fee = calculateFee(amount);
-        return (amount - fee, fee);
+
+        return (amount.sub(fee), fee);
     }
 
     /**
@@ -165,6 +166,10 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         // get expected target amount and fee
         (uint256 amount, uint256 fee) = targetAmountAndFee(_sourceToken, _targetToken, _amount);
 
+        // calculate protocol fee
+        uint256 calculatedProtocolFee = calculateProtocolFee(_amount);
+        amount = amount.sub(calculatedProtocolFee);
+
         // ensure that the trade gives something in return
         require(amount != 0, "ERR_ZERO_TARGET_AMOUNT");
 
@@ -189,7 +194,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
             safeTransfer(_targetToken, _beneficiary, amount);
 
         // dispatch the conversion event
-        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee);
+        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee, calculatedProtocolFee);
 
         // dispatch rate updates
         dispatchRateEvents(_sourceToken, _targetToken);

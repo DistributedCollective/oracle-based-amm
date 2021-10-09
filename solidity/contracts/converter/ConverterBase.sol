@@ -68,6 +68,8 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	// represented in ppm, 0...1000000 (0 = no fee, 100 = 0.01%, 1000000 = 100%)
 	uint32 public conversionFee = 0; // current conversion fee, represented in ppm, 0...maxConversionFee
 	bool public constant conversionsEnabled = true; // deprecated, backward compatibility
+	uint256 public protocolFee; // the x% of conversion amount as a protocol fee and will be stored in the converter contract
+	uint256 public protocolFeeTokensHeld; /// Total conversion fees (reserveTokens[1]) received and not withdrawn.
 
 	/**
 	 * @dev triggered when the converter is activated
@@ -94,7 +96,8 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 		address indexed _trader,
 		uint256 _amount,
 		uint256 _return,
-		int256 _conversionFee
+		int256 _conversionFee,
+		int256 _protocolFee
 	);
 
 	/**
@@ -116,6 +119,14 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 * @param  _newFee     new fee percentage, represented in ppm
 	 */
 	event ConversionFeeUpdate(uint32 _prevFee, uint32 _newFee);
+
+	/**
+	 * @dev triggered when the protocol fee sorage is set/updated
+	 *
+	 * @param _prevProtocolFee previous protocol fee percentage
+	 * @param _newProtocolFee new protocol fee percentage
+	 */
+	event ProtocolFeeUpdate(uint256 _prevProtocolFee, uint256 _newProtocolFee);
 
 	/**
 	 * @dev used by sub-contracts to initialize a new converter
@@ -235,6 +246,17 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 */
 	function setConversionWhitelist(IWhitelist _whitelist) public ownerOnly notThis(_whitelist) {
 		conversionWhitelist = _whitelist;
+	}
+
+	/**
+	 * @dev allows the owner to update the x% of protocol fee
+	 *
+	 * @param _protocolFee x% of protocol fee
+	 */
+	function setProtocolFee(uint256 _protocolFee) public ownerOnly() {
+		require(_protocolFee <= 1e20, "ERR_PROTOCOL_FEE_TOO_HIGH");
+		emit ProtocolFeeUpdate(protocolFee, _protocolFee);
+		protocolFee = _protocolFee;
 	}
 
 	/**
@@ -475,6 +497,19 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	}
 
 	/**
+	 * @dev returns the protocol fee for a given target amount
+	 *
+	 * @param _targetAmount target amount
+	 *
+	 * @return protocol fee
+	 */
+	function calculateProtocolFee(uint256 _targetAmount) internal view returns (uint256) {
+		uint256 calculatedProtocolFee = _targetAmount.mul(protocolFee).div(1e20);
+		protocolFeeTokensHeld = protocolFeeTokensHeld.add(calculatedProtocolFee);
+		return calculatedProtocolFee;
+	}
+
+	/**
 	 * @dev syncs the stored reserve balance for a given reserve with the real reserve balance
 	 *
 	 * @param _reserveToken    address of the reserve token
@@ -507,14 +542,15 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 		address _trader,
 		uint256 _amount,
 		uint256 _returnAmount,
-		uint256 _feeAmount
+		uint256 _feeAmount,
+		uint256 _protocolFeeAmount
 	) internal {
 		// fee amount is converted to 255 bits -
 		// negative amount means the fee is taken from the source token, positive amount means its taken from the target token
 		// currently the fee is always taken from the target token
 		// since we convert it to a signed number, we first ensure that it's capped at 255 bits to prevent overflow
 		assert(_feeAmount < 2**255);
-		emit Conversion(_sourceToken, _targetToken, _trader, _amount, _returnAmount, int256(_feeAmount));
+		emit Conversion(_sourceToken, _targetToken, _trader, _amount, _returnAmount, int256(_feeAmount), int256(_protocolFeeAmount));
 	}
 
 	/**

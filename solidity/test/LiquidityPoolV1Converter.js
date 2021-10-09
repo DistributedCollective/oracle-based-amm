@@ -15,13 +15,15 @@ const TestNonStandardToken = artifacts.require("TestNonStandardToken");
 const ConverterFactory = artifacts.require("ConverterFactory");
 const ConverterUpgrader = artifacts.require("ConverterUpgrader");
 const Oracle = artifacts.require("Oracle");
+const wei = web3.utils.toWei;
+const hunEth = new BN(wei("100", "ether"));
 
 contract("LiquidityPoolV1Converter", (accounts) => {
 	const createConverter = async (tokenAddress, registryAddress = contractRegistry.address, maxConversionFee = 0) => {
 		return LiquidityPoolV1Converter.new(tokenAddress, registryAddress, maxConversionFee);
 	};
 
-	const initConverter = async (activate, isETHReserve, maxConversionFee = 0) => {
+	const initConverter = async (activate, isETHReserve, maxConversionFee = 0, maxWeight = false) => {
 		token = await SmartToken.new("Token1", "TKN1", 2);
 		tokenAddress = token.address;
 
@@ -31,8 +33,16 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 		await converter.setOracle(oracleAddress);
 
-		await converter.addReserve(getReserve1Address(isETHReserve), 250000);
-		await converter.addReserve(reserveToken2.address, 150000);
+		if(maxWeight) {
+			/// Since we limited the converter to only have 2 reserve tokens
+			/// we need an option where those 2 reserve token have maximum weight.
+			await converter.addReserve(getReserve1Address(isETHReserve), 600000);
+			await converter.addReserve(reserveToken2.address, 400000);
+		} else {
+			await converter.addReserve(getReserve1Address(isETHReserve), 250000);
+			await converter.addReserve(reserveToken2.address, 150000);
+		}
+
 		await reserveToken2.transfer(converter.address, 8000);
 		await token.issue(sender, 20000);
 
@@ -209,11 +219,21 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 	for (let isETHReserve = 0; isETHReserve < 2; isETHReserve++) {
 		describe(`${isETHReserve === 0 ? "(with ERC20 reserves)" : "(with ETH reserve)"}:`, () => {
+			it("should revert if set protocol fee more than 100%", async() => {
+				const invalidProtocolFee = new BN(wei("101", "ether"));
+				const converter = await initConverter(true, isETHReserve, 5000);
+				await expectRevert(converter.setProtocolFee(invalidProtocolFee.toString()), "ERR_PROTOCOL_FEE_TOO_HIGH");
+			})
+
 			it("verifies that convert returns valid amount and fee after converting", async () => {
 				const converter = await initConverter(true, isETHReserve, 5000);
+				const protocolFeePercentage = new BN(wei("10", "ether")) // 10% protocol fee from the conversion amount
+
 				await converter.setConversionFee(3000);
+				await converter.setProtocolFee(protocolFeePercentage.toString());
 
 				const amount = new BN(500);
+				const totalProtocolFee = amount.mul(protocolFeePercentage).div(hunEth);
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -223,13 +243,17 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
+				const protocolTokenHeld = await converter.protocolFeeTokensHeld();
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount,
+					_toAmount: purchaseAmount.sub(totalProtocolFee),
 				});
+
+				expect((await converter.protocolFee()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
+				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.toString());
 			});
 
 			it("verifies the TokenRateUpdate event after conversion", async () => {
@@ -432,7 +456,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 			}
 
 			it("verifies that liquidate sends the correct reserve balance amounts to the caller", async () => {
-				const converter = await initConverter(false, isETHReserve);
+				const converter = await initConverter(false, isETHReserve, 0, true);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
@@ -463,7 +487,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 			});
 
 			it("verifies that liquidating a large amount sends the correct reserve balance amounts to the caller", async () => {
-				const converter = await initConverter(false, isETHReserve);
+				const converter = await initConverter(false, isETHReserve, 0, true);
 
 				await token.transferOwnership(converter.address);
 				await converter.acceptTokenOwnership();
