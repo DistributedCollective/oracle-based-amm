@@ -61,6 +61,7 @@ contract SovrynSwapNetwork is ISovrynSwapNetwork, TokenHolder, ContractRegistryC
 	uint256 public maxAffiliateFee = 30000; // maximum affiliate-fee
 
 	mapping(address => bool) public etherTokens; // list of all supported ether tokens
+	uint256 public protocolFee; // the x% of conversion amount as a protocol fee and will be stored in the converter contract
 
 	/**
 	 * @dev triggered when a conversion between two tokens occurs
@@ -82,12 +83,31 @@ contract SovrynSwapNetwork is ISovrynSwapNetwork, TokenHolder, ContractRegistryC
 	);
 
 	/**
+	 * @dev triggered when the protocol fee sorage is set/updated
+	 *
+	 * @param _prevProtocolFee previous protocol fee percentage
+	 * @param _newProtocolFee new protocol fee percentage
+	 */
+	event ProtocolFeeUpdate(uint256 _prevProtocolFee, uint256 _newProtocolFee);
+
+	/**
 	 * @dev initializes a new SovrynSwapNetwork instance
 	 *
 	 * @param _registry    address of a contract registry contract
 	 */
 	constructor(IContractRegistry _registry) public ContractRegistryClient(_registry) {
 		etherTokens[ETH_RESERVE_ADDRESS] = true;
+	}
+
+	/**
+	 * @dev allows the owner to update the x% of protocol fee
+	 *
+	 * @param _protocolFee x% of protocol fee
+	 */
+	function setProtocolFee(uint256 _protocolFee) public ownerOnly() {
+		require(_protocolFee <= 1e20, "ERR_PROTOCOL_FEE_TOO_HIGH");
+		emit ProtocolFeeUpdate(protocolFee, _protocolFee);
+		protocolFee = _protocolFee;
 	}
 
 	/**

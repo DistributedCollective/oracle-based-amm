@@ -167,7 +167,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         (uint256 amount, uint256 fee) = targetAmountAndFee(_sourceToken, _targetToken, _amount);
 
         // calculate protocol fee
-        uint256 calculatedProtocolFee = calculateProtocolFee(_amount);
+        uint256 calculatedProtocolFee = calculateProtocolFee(_targetToken, _amount);
         amount = amount.sub(calculatedProtocolFee);
 
         // ensure that the trade gives something in return

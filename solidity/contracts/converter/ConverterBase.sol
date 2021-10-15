@@ -39,7 +39,7 @@ import "../sovrynswapx/interfaces/ISovrynSwapX.sol";
  *
  * Note that converters don't currently support tokens with transfer fees.
  */
-contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistryClient, ReentrancyGuard {
+contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegistryClient, ReentrancyGuard {
 	using SafeMath for uint256;
 
 	uint32 internal constant WEIGHT_RESOLUTION = 1000000;
@@ -68,8 +68,9 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	// represented in ppm, 0...1000000 (0 = no fee, 100 = 0.01%, 1000000 = 100%)
 	uint32 public conversionFee = 0; // current conversion fee, represented in ppm, 0...maxConversionFee
 	bool public constant conversionsEnabled = true; // deprecated, backward compatibility
-	uint256 public protocolFee; // the x% of conversion amount as a protocol fee and will be stored in the converter contract
-	uint256 public protocolFeeTokensHeld; /// Total conversion fees (reserveTokens[1]) received and not withdrawn.
+	address public wrbtcAddress;
+	address public feesController;
+	mapping(address => uint256) public protocolFeeTokensHeld; /// Total conversion fees (reserveTokens[1]) received and not withdrawn.
 
 	/**
 	 * @dev triggered when the converter is activated
@@ -121,12 +122,39 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	event ConversionFeeUpdate(uint32 _prevFee, uint32 _newFee);
 
 	/**
-	 * @dev triggered when the protocol fee sorage is set/updated
+	 * @dev triggered when feesController / feeSharingProxy withdraw the collected protocol fees
 	 *
-	 * @param _prevProtocolFee previous protocol fee percentage
-	 * @param _newProtocolFee new protocol fee percentage
+	 * @param sender the feesController itself.
+	 * @param receiver the receipient of the token (feeSharingProxy).
+	 * @param protocolFeeAmount the total amount of protocol fee.
+	 * @param wRBTCConverted the total converted wrbtc from protocol fee token.
 	 */
-	event ProtocolFeeUpdate(uint256 _prevProtocolFee, uint256 _newProtocolFee);
+	event WithdrawFees(
+		address indexed sender,
+		address indexed receiver,
+		address token,
+		uint256 protocolFeeAmount,
+		uint256 wRBTCConverted
+	);
+
+	/**
+	 * @dev triggered when new feesController is set.
+	 *
+	 * @param sender the one who initiated the changes.
+	 * @param oldController old controller.
+	 * @param newController new controller.
+	 */
+	event SetFeesController(address indexed sender, address indexed oldController, address indexed newController);
+
+	/**
+	 * @dev triggered when wrbtc address is set.
+	 *
+	 * @param sender the one who initiated the changes.
+	 * @param oldWrbtcAddress old wrbtc address.
+	 * @param newWrbtcAddress new wrbtc address.
+	 *
+	 */
+	event SetWrbtcAddress(address indexed sender, address indexed oldWrbtcAddress, address indexed newWrbtcAddress);
 
 	/**
 	 * @dev used by sub-contracts to initialize a new converter
@@ -142,6 +170,14 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	) internal validAddress(_anchor) ContractRegistryClient(_registry) validConversionFee(_maxConversionFee) {
 		anchor = _anchor;
 		maxConversionFee = _maxConversionFee;
+	}
+
+	/**
+	 * @dev Throws if called by any account other than the owner.
+	 */
+	modifier onlyOwner() {
+		require(msg.sender == owner, "ERR_ACCESS_DENIED");
+		_;
 	}
 
 	// ensures that the converter is active
@@ -246,17 +282,6 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 */
 	function setConversionWhitelist(IWhitelist _whitelist) public ownerOnly notThis(_whitelist) {
 		conversionWhitelist = _whitelist;
-	}
-
-	/**
-	 * @dev allows the owner to update the x% of protocol fee
-	 *
-	 * @param _protocolFee x% of protocol fee
-	 */
-	function setProtocolFee(uint256 _protocolFee) public ownerOnly() {
-		require(_protocolFee <= 1e20, "ERR_PROTOCOL_FEE_TOO_HIGH");
-		emit ProtocolFeeUpdate(protocolFee, _protocolFee);
-		protocolFee = _protocolFee;
 	}
 
 	/**
@@ -501,12 +526,22 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 *
 	 * @param _targetAmount target amount
 	 *
-	 * @return protocol fee
+	 * @return calculated protocol fee
 	 */
-	function calculateProtocolFee(uint256 _targetAmount) internal view returns (uint256) {
-		uint256 calculatedProtocolFee = _targetAmount.mul(protocolFee).div(1e20);
-		protocolFeeTokensHeld = protocolFeeTokensHeld.add(calculatedProtocolFee);
+	function calculateProtocolFee(address _targetToken, uint256 _targetAmount) internal view returns (uint256) {
+		uint256 _protocolFee = getProtocolFeeFromSwapNetwork();
+		uint256 calculatedProtocolFee = _targetAmount.mul(_protocolFee).div(1e20);
+		protocolFeeTokensHeld[_targetToken] = protocolFeeTokensHeld[_targetToken].add(calculatedProtocolFee);
 		return calculatedProtocolFee;
+	}
+
+	/**
+	 * @dev get the protocol fee from the SovrynSwapNetwork using the registry.
+	 *
+	 * @return protocol fee.
+	 */
+	function getProtocolFeeFromSwapNetwork() public view returns (uint256) {
+		return IInternalSovrynSwapNetwork(addressOf(SOVRYNSWAP_NETWORK)).protocolFee();
 	}
 
 	/**
@@ -623,4 +658,98 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	) public view returns (uint256, uint256) {
 		return targetAmountAndFee(_sourceToken, _targetToken, _amount);
 	}
+
+	/**
+	 * @notice Set the feesController (The one who can withdraw / collect the protocolFee from this converter)
+	 *
+	 * @param newController new feesController
+	 */
+	function setFeesController(address newController) external onlyOwner {
+		require(newController != address(0), "ERR_ZERO_ADDRESS");
+		address oldController = feesController;
+		feesController = newController;
+
+		emit SetFeesController(msg.sender, oldController, newController);
+	}
+
+	/**
+	 * @notice Set the wrBTC contract address.
+	 *
+	 * @param newWrbtcAddress The address of the wrBTC contract.
+	 * */
+	function setWrbtcAddress(address newWrbtcAddress) external onlyOwner {
+		require(newWrbtcAddress != address(0), "ERR_ZERO_ADDRESS");
+		address oldwrbtcAddress = address(wrbtcAddress);
+		wrbtcAddress = newWrbtcAddress;
+
+		emit SetWrbtcAddress(msg.sender, oldwrbtcAddress, newWrbtcAddress);
+	}
+
+	/**
+	 * @notice The feesController calls this function to withdraw fees
+	 * from sources: protocolFeeTokensHeld.
+	 * The fees will be converted to wRBTC
+	 *
+	 * @param receiver address which will received the protocol fee (would be feesController/feeSharingProxy)
+	 *
+	 * @return The withdrawn total amount in wRBTC
+	 * */
+	function withdrawFees(address receiver) external returns (uint256) {
+		require(msg.sender == feesController, "unauthorized");
+
+		uint256 amountConvertedToWRBTC;
+		uint256 tempAmountConvertedToWRBTC;
+		IERC20Token _token;
+		uint256 _tokenAmount;
+		IInternalSovrynSwapNetwork sovrynSwapNetwork = IInternalSovrynSwapNetwork(addressOf(SOVRYNSWAP_NETWORK));
+
+		for (uint256 i = 0; i < reserveTokens.length; i++) {
+			_token = IERC20Token(reserveTokens[i]);
+			_tokenAmount = protocolFeeTokensHeld[address(_token)];
+			if(_tokenAmount <= 0) continue;
+
+			protocolFeeTokensHeld[address(_token)] = 0;
+
+			bool successOfApprove = _token.approve(addressOf(SOVRYNSWAP_NETWORK), _tokenAmount);
+			require(successOfApprove, "ERR_APPROVAL_FAILED");
+
+			IERC20Token[] memory path = sovrynSwapNetwork.conversionPath(_token, IERC20Token(wrbtcAddress));
+
+			uint256 minReturn = sovrynSwapNetwork.rateByPath(path, _tokenAmount).mul(995).div(1000);
+
+			tempAmountConvertedToWRBTC = sovrynSwapNetwork.convert(
+				path,
+				_tokenAmount,
+				minReturn
+			);
+
+			amountConvertedToWRBTC = amountConvertedToWRBTC.add(tempAmountConvertedToWRBTC);
+
+			emit WithdrawFees(msg.sender, receiver, _token, _tokenAmount, tempAmountConvertedToWRBTC);
+		}
+
+		safeTransfer(IERC20Token(wrbtcAddress), receiver, amountConvertedToWRBTC);
+
+		return amountConvertedToWRBTC;
+	}
+}
+
+interface IInternalSovrynSwapNetwork {
+	function conversionPath(
+		IERC20Token _sourceToken,
+		IERC20Token _targetToken
+	) external view returns (IERC20Token[] memory);
+
+	function rateByPath(
+		IERC20Token[] _path,
+		uint256 _amount
+	) external view returns (uint256);
+
+	function convert(
+		IERC20Token[] _path,
+		uint256 _amount,
+		uint256 _minReturn
+	) external payable returns (uint256);
+
+	function protocolFee() external view returns (uint256);
 }
