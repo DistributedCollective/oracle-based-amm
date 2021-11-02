@@ -69,6 +69,7 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	uint32 public conversionFee = 0; // current conversion fee, represented in ppm, 0...maxConversionFee
 	bool public constant conversionsEnabled = true; // deprecated, backward compatibility
 	address public wrbtcAddress;
+	address public sovTokenAddress;
 	address public feesController;
 	mapping(address => uint256) public protocolFeeTokensHeld; /// Total conversion fees (reserveTokens[1]) received and not withdrawn.
 
@@ -155,6 +156,16 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 *
 	 */
 	event SetWrbtcAddress(address indexed sender, address indexed oldWrbtcAddress, address indexed newWrbtcAddress);
+
+	/**
+	 * @dev triggered when wrbtc address is set.
+	 *
+	 * @param sender the one who initiated the changes.
+	 * @param oldSOVTokenAddress old wrbtc address.
+	 * @param newSOVTokenAddress new wrbtc address.
+	 *
+	 */
+	event SetSOVTokenAddress(address indexed sender, address indexed oldSOVTokenAddress, address indexed newSOVTokenAddress);
 
 	/**
 	 * @dev used by sub-contracts to initialize a new converter
@@ -686,6 +697,19 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	}
 
 	/**
+	 * @notice Set the SOVToken contract address.
+	 *
+	 * @param newSOVTokenAddress The address of the SOV Token contract.
+	 * */
+	function setSOVTokenAddress(address newSOVTokenAddress) external onlyOwner {
+		require(newSOVTokenAddress != address(0), "ERR_ZERO_ADDRESS");
+		address oldSOVTokenAddress = address(sovTokenAddress);
+		sovTokenAddress = newSOVTokenAddress;
+
+		emit SetSOVTokenAddress(msg.sender, oldSOVTokenAddress, newSOVTokenAddress);
+	}
+
+	/**
 	 * @notice The feesController calls this function to withdraw fees
 	 * from sources: protocolFeeTokensHeld.
 	 * The fees will be converted to wRBTC
@@ -710,20 +734,31 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 
 			protocolFeeTokensHeld[address(_token)] = 0;
 
-			bool successOfApprove = _token.approve(addressOf(SOVRYNSWAP_NETWORK), _tokenAmount);
-			require(successOfApprove, "ERR_APPROVAL_FAILED");
+			if (_token == sovTokenAddress) {
+				_token.approve(feesController, _tokenAmount);
+				IFeeSharingProxy(feesController).transferTokens(sovTokenAddress, uint96(_tokenAmount));
+				tempAmountConvertedToWRBTC = 0;
+			} else {
+				if (_token == wrbtcAddress) {
+					tempAmountConvertedToWRBTC = _tokenAmount;
+				} else {
+					bool successOfApprove = _token.approve(addressOf(SOVRYNSWAP_NETWORK), _tokenAmount);
+					require(successOfApprove, "ERR_APPROVAL_FAILED");
 
-			IERC20Token[] memory path = sovrynSwapNetwork.conversionPath(_token, IERC20Token(wrbtcAddress));
+					IERC20Token[] memory path = sovrynSwapNetwork.conversionPath(_token, IERC20Token(wrbtcAddress));
 
-			uint256 minReturn = sovrynSwapNetwork.rateByPath(path, _tokenAmount).mul(995).div(1000);
+					uint256 minReturn = sovrynSwapNetwork.rateByPath(path, _tokenAmount).mul(995).div(1000);
 
-			tempAmountConvertedToWRBTC = sovrynSwapNetwork.convert(
-				path,
-				_tokenAmount,
-				minReturn
-			);
+					tempAmountConvertedToWRBTC = sovrynSwapNetwork.convert(
+						path,
+						_tokenAmount,
+						minReturn
+					);
+				}
 
-			amountConvertedToWRBTC = amountConvertedToWRBTC.add(tempAmountConvertedToWRBTC);
+				amountConvertedToWRBTC = amountConvertedToWRBTC.add(tempAmountConvertedToWRBTC);	
+
+			}
 
 			emit WithdrawFees(msg.sender, receiver, _token, _tokenAmount, tempAmountConvertedToWRBTC);
 		}
@@ -752,4 +787,8 @@ interface IInternalSovrynSwapNetwork {
 	) external payable returns (uint256);
 
 	function protocolFee() external view returns (uint256);
+}
+
+interface IFeeSharingProxy {
+	function transferTokens(address _token, uint96 _amount) external;
 }

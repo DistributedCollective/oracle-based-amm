@@ -12,6 +12,7 @@ const SmartToken = artifacts.require("SmartToken");
 const SovrynSwapFormula = artifacts.require("SovrynSwapFormula");
 const ContractRegistry = artifacts.require("ContractRegistry");
 const ERC20Token = artifacts.require("ERC20Token");
+const FeeSharingProxy = artifacts.require("FeeSharingProxyMockup");
 const TestNonStandardToken = artifacts.require("TestNonStandardToken");
 const ConverterFactory = artifacts.require("ConverterFactory");
 const ConverterUpgrader = artifacts.require("ConverterUpgrader");
@@ -117,8 +118,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 		const factory = await ConverterFactory.new();
 		await contractRegistry.registerAddress(registry.CONVERTER_FACTORY, factory.address);
-
-		await factory.registerTypedConverterFactory((await LiquidityPoolV1ConverterFactory.new()).address);
 	});
 
 	beforeEach(async () => {
@@ -274,6 +273,14 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(await converter.wrbtcAddress()).to.equal(wrbtc.address);
 			})
 
+			it("set SOV token address in the converter", async () => {
+				const converter = await initConverter(true, 1, 5000);
+				const sov = await ERC20Token.new("SOV", "SOV", 18, 2000000000);
+				await expectRevert(converter.setSOVTokenAddress(ZERO_ADDRESS), "ERR_ZERO_ADDRESS");
+				await converter.setSOVTokenAddress(sov.address);
+				expect(await converter.sovTokenAddress()).to.equal(sov.address);
+			})
+
 			it("withdraw protocol fees from the converter", async () => {
 				const converter = await initConverter(true, isETHReserve, 5000);
 				const protocolFeePercentage = new BN(wei("10", "ether")) // 10% protocol fee from the conversion amount
@@ -335,6 +342,119 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					token: reserveToken2.address,
 					protocolFeeAmount: totalProtocolFee,
 					wRBTCConverted: new BN(mockConversionValue)
+				});
+			});
+
+			it("withdraw protocol fees from the converter (WRBTC)", async () => {
+				const converter = await initConverter(true, isETHReserve, 5000);
+				const protocolFeePercentage = new BN(wei("10", "ether")) // 10% protocol fee from the conversion amount
+				const feesController = accounts[7];
+
+				// consider reserve token as wrbtc
+				await converter.setWrbtcAddress(reserveToken2.address);
+
+				await converter.setConversionFee(3000);
+				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
+
+				const amount = new BN(500);
+				const totalProtocolFee = amount.mul(protocolFeePercentage).div(hunEth);
+				let value = 0;
+				if (isETHReserve) {
+					value = amount;
+				} else {
+					await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
+				}
+
+				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
+				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
+				expectEvent(res, "Conversion", {
+					_smartToken: token.address,
+					_fromToken: getReserve1Address(isETHReserve),
+					_toToken: reserveToken2.address,
+					_fromAmount: amount,
+					_toAmount: purchaseAmount.sub(totalProtocolFee),
+				});
+
+				expect((await converter.getProtocolFeeFromSwapNetwork()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
+				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.toString());
+
+				// withdraw protocol fee from the converter
+				await reserveToken2.transfer(sovrynSwapNetwork.address, amount)
+				await converter.setFeesController(feesController);
+				expect(await converter.feesController()).to.equal(feesController);
+
+				const previousWrbtcBalanceConverter = await reserveToken2.balanceOf(converter.address);
+				const previousWrbtcBalanceFeesController = await reserveToken2.balanceOf(feesController);
+
+				const resWithdrawFees = await converter.withdrawFees(feesController, {from: feesController});
+
+				const latestWrbtcBalanceConverter = await reserveToken2.balanceOf(converter.address);
+				const latestWrbtcBalanceFeesController = await reserveToken2.balanceOf(feesController);
+
+				expect(latestWrbtcBalanceConverter.toString()).to.equal( (previousWrbtcBalanceConverter.sub(new BN(protocolTokenHeld))).toString() )
+				expect(latestWrbtcBalanceFeesController.toString()).to.equal( (previousWrbtcBalanceFeesController.add(new BN(protocolTokenHeld))).toString() )
+				expect( (await converter.protocolFeeTokensHeld(reserveToken2.address)).toString() ).to.equal(new BN(0).toString());
+
+				expectEvent(resWithdrawFees, "WithdrawFees", {
+					sender: feesController,
+					receiver: feesController,
+					token: reserveToken2.address,
+					protocolFeeAmount: totalProtocolFee,
+					wRBTCConverted: new BN(protocolTokenHeld)
+				});
+			});
+
+			it("withdraw protocol fees from the converter (SOV)", async () => {
+				const converter = await initConverter(true, isETHReserve, 5000);
+				const protocolFeePercentage = new BN(wei("10", "ether")) // 10% protocol fee from the conversion amount
+				const feeSharingProxy = await FeeSharingProxy.new();
+				const feesController = feeSharingProxy.address;
+				const totalSupplyWrbtc = 2000000000;
+				const wrbtc = await ERC20Token.new("WRBTC", "WRBTC", 8, totalSupplyWrbtc);
+
+				await converter.setWrbtcAddress(wrbtc.address);
+				// consider reserve token as sov
+				await converter.setSOVTokenAddress(reserveToken2.address);
+
+				await converter.setConversionFee(3000);
+				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
+
+				const amount = new BN(500);
+				const totalProtocolFee = amount.mul(protocolFeePercentage).div(hunEth);
+				let value = 0;
+				if (isETHReserve) {
+					value = amount;
+				} else {
+					await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
+				}
+
+				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
+				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
+				expectEvent(res, "Conversion", {
+					_smartToken: token.address,
+					_fromToken: getReserve1Address(isETHReserve),
+					_toToken: reserveToken2.address,
+					_fromAmount: amount,
+					_toAmount: purchaseAmount.sub(totalProtocolFee),
+				});
+
+				expect((await converter.getProtocolFeeFromSwapNetwork()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
+				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.toString());
+
+				// withdraw protocol fee from the converter
+				await reserveToken2.transfer(sovrynSwapNetwork.address, amount)
+				await converter.setFeesController(feesController);
+				expect(await converter.feesController()).to.equal(feesController);
+
+				console.log("test");
+				const resWithdrawFees = await feeSharingProxy.withdrawFees(converter.address, feesController);
+
+				expectEvent(resWithdrawFees, "TokensTransferred", {
+					sender: converter.address,
+					token: reserveToken2.address,
+					amount: totalProtocolFee
 				});
 			});
 
