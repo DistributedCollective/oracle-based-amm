@@ -47,6 +47,9 @@ contract SovrynSwapNetwork is ISovrynSwapNetwork, TokenHolder, ContractRegistryC
 	uint256 private constant CONVERSION_FEE_RESOLUTION = 1000000;
 	uint256 private constant AFFILIATE_FEE_RESOLUTION = 1000000;
 	address private constant ETH_RESERVE_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
+	address public wrbtcAddress;
+	address public sovTokenAddress;
+	address public feesController;
 
 	struct ConversionStep {
 		IConverter converter;
@@ -91,12 +94,80 @@ contract SovrynSwapNetwork is ISovrynSwapNetwork, TokenHolder, ContractRegistryC
 	event ProtocolFeeUpdate(uint256 _prevProtocolFee, uint256 _newProtocolFee);
 
 	/**
+	 * @dev triggered when new feesController is set.
+	 *
+	 * @param sender the one who initiated the changes.
+	 * @param oldController old controller.
+	 * @param newController new controller.
+	 */
+	event SetFeesController(address indexed sender, address indexed oldController, address indexed newController);
+
+	/**
+	 * @dev triggered when wrbtc address is set.
+	 *
+	 * @param sender the one who initiated the changes.
+	 * @param oldWrbtcAddress old wrbtc address.
+	 * @param newWrbtcAddress new wrbtc address.
+	 *
+	 */
+	event SetWrbtcAddress(address indexed sender, address indexed oldWrbtcAddress, address indexed newWrbtcAddress);
+
+	/**
+	 * @dev triggered when wrbtc address is set.
+	 *
+	 * @param sender the one who initiated the changes.
+	 * @param oldSOVTokenAddress old wrbtc address.
+	 * @param newSOVTokenAddress new wrbtc address.
+	 *
+	 */
+	event SetSOVTokenAddress(address indexed sender, address indexed oldSOVTokenAddress, address indexed newSOVTokenAddress);
+
+	/**
 	 * @dev initializes a new SovrynSwapNetwork instance
 	 *
 	 * @param _registry    address of a contract registry contract
 	 */
 	constructor(IContractRegistry _registry) public ContractRegistryClient(_registry) {
 		etherTokens[ETH_RESERVE_ADDRESS] = true;
+	}
+
+	/**
+	 * @notice Set the feesController (The one who can withdraw / collect the protocolFee from this converter)
+	 *
+	 * @param newController new feesController
+	 */
+	function setFeesController(address newController) external ownerOnly() {
+		require(newController != address(0), "ERR_ZERO_ADDRESS");
+		address oldController = feesController;
+		feesController = newController;
+
+		emit SetFeesController(msg.sender, oldController, newController);
+	}
+
+	/**
+	 * @notice Set the wrBTC contract address.
+	 *
+	 * @param newWrbtcAddress The address of the wrBTC contract.
+	 * */
+	function setWrbtcAddress(address newWrbtcAddress) external ownerOnly() {
+		require(newWrbtcAddress != address(0), "ERR_ZERO_ADDRESS");
+		address oldwrbtcAddress = address(wrbtcAddress);
+		wrbtcAddress = newWrbtcAddress;
+
+		emit SetWrbtcAddress(msg.sender, oldwrbtcAddress, newWrbtcAddress);
+	}
+
+	/**
+	 * @notice Set the SOVToken contract address.
+	 *
+	 * @param newSOVTokenAddress The address of the SOV Token contract.
+	 * */
+	function setSOVTokenAddress(address newSOVTokenAddress) external ownerOnly() {
+		require(newSOVTokenAddress != address(0), "ERR_ZERO_ADDRESS");
+		address oldSOVTokenAddress = address(sovTokenAddress);
+		sovTokenAddress = newSOVTokenAddress;
+
+		emit SetSOVTokenAddress(msg.sender, oldSOVTokenAddress, newSOVTokenAddress);
 	}
 
 	/**

@@ -265,20 +265,22 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.toString());
 			});
 
-			it("set wrbtc address in the converter", async () => {
+			it("set wrbtc address in the swap network", async () => {
 				const converter = await initConverter(true, isETHReserve, 5000);
 				const wrbtc = await ERC20Token.new("WRBTC", "WRBTC", 8, 2000000000);
-				await expectRevert(converter.setWrbtcAddress(ZERO_ADDRESS), "ERR_ZERO_ADDRESS");
-				await converter.setWrbtcAddress(wrbtc.address);
-				expect(await converter.wrbtcAddress()).to.equal(wrbtc.address);
+				await expectRevert(sovrynSwapNetwork.setWrbtcAddress(ZERO_ADDRESS), "ERR_ZERO_ADDRESS");
+				await sovrynSwapNetwork.setWrbtcAddress(wrbtc.address);
+				expect(await sovrynSwapNetwork.wrbtcAddress()).to.equal(wrbtc.address);
+				expect(await converter.getWrbtcAddressFromSwapNetwork()).to.equal(wrbtc.address);
 			})
 
 			it("set SOV token address in the converter", async () => {
 				const converter = await initConverter(true, 1, 5000);
 				const sov = await ERC20Token.new("SOV", "SOV", 18, 2000000000);
-				await expectRevert(converter.setSOVTokenAddress(ZERO_ADDRESS), "ERR_ZERO_ADDRESS");
-				await converter.setSOVTokenAddress(sov.address);
-				expect(await converter.sovTokenAddress()).to.equal(sov.address);
+				await expectRevert(sovrynSwapNetwork.setSOVTokenAddress(ZERO_ADDRESS), "ERR_ZERO_ADDRESS");
+				await sovrynSwapNetwork.setSOVTokenAddress(sov.address);
+				expect(await sovrynSwapNetwork.sovTokenAddress()).to.equal(sov.address);
+				expect(await converter.getSOVTokenAddressFromSwapNetwork()).to.equal(sov.address);
 			})
 
 			it("withdraw protocol fees from the converter", async () => {
@@ -288,8 +290,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const totalSupplyWrbtc = 2000000000;
 				const wrbtc = await ERC20Token.new("WRBTC", "WRBTC", 8, totalSupplyWrbtc);
 				const mockConversionValue = 100;
-
-				await converter.setWrbtcAddress(wrbtc.address);
 
 				await converter.setConversionFee(3000);
 				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
@@ -321,8 +321,10 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				sovrynSwapNetwork = await SovrynSwapNetworkMockup.new(contractRegistry.address, mockConversionValue, wrbtc.address);
 				await wrbtc.transfer(sovrynSwapNetwork.address, totalSupplyWrbtc)
 				await contractRegistry.registerAddress(registry.SOVRYNSWAP_NETWORK, sovrynSwapNetwork.address);
-				await converter.setFeesController(feesController);
-				expect(await converter.feesController()).to.equal(feesController);
+				await sovrynSwapNetwork.setFeesController(feesController);
+				await sovrynSwapNetwork.setWrbtcAddress(wrbtc.address);
+				expect(await sovrynSwapNetwork.feesController()).to.equal(feesController);
+				expect(await converter.getFeesControllerFromSwapNetwork()).to.equal(feesController);
 
 				const previousWrbtcBalanceSovrynSwapNetwork = await wrbtc.balanceOf(sovrynSwapNetwork.address);
 				const previousWrbtcBalanceFeesController = await wrbtc.balanceOf(feesController);
@@ -351,7 +353,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const feesController = accounts[7];
 
 				// consider reserve token as wrbtc
-				await converter.setWrbtcAddress(reserveToken2.address);
+				await sovrynSwapNetwork.setWrbtcAddress(reserveToken2.address);
 
 				await converter.setConversionFee(3000);
 				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
@@ -381,8 +383,9 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 				// withdraw protocol fee from the converter
 				await reserveToken2.transfer(sovrynSwapNetwork.address, amount)
-				await converter.setFeesController(feesController);
-				expect(await converter.feesController()).to.equal(feesController);
+				await sovrynSwapNetwork.setFeesController(feesController);
+				expect(await sovrynSwapNetwork.feesController()).to.equal(feesController);
+				expect(await converter.getFeesControllerFromSwapNetwork()).to.equal(feesController);
 
 				const previousWrbtcBalanceConverter = await reserveToken2.balanceOf(converter.address);
 				const previousWrbtcBalanceFeesController = await reserveToken2.balanceOf(feesController);
@@ -413,9 +416,9 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const totalSupplyWrbtc = 2000000000;
 				const wrbtc = await ERC20Token.new("WRBTC", "WRBTC", 8, totalSupplyWrbtc);
 
-				await converter.setWrbtcAddress(wrbtc.address);
+				await sovrynSwapNetwork.setWrbtcAddress(wrbtc.address);
 				// consider reserve token as sov
-				await converter.setSOVTokenAddress(reserveToken2.address);
+				await sovrynSwapNetwork.setSOVTokenAddress(reserveToken2.address);
 
 				await converter.setConversionFee(3000);
 				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
@@ -445,10 +448,10 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 				// withdraw protocol fee from the converter
 				await reserveToken2.transfer(sovrynSwapNetwork.address, amount)
-				await converter.setFeesController(feesController);
-				expect(await converter.feesController()).to.equal(feesController);
+				await sovrynSwapNetwork.setFeesController(feesController);
+				expect(await sovrynSwapNetwork.feesController()).to.equal(feesController);
+				expect(await converter.getFeesControllerFromSwapNetwork()).to.equal(feesController);
 
-				console.log("test");
 				const resWithdrawFees = await feeSharingProxy.withdrawFees(converter.address, feesController);
 
 				expectEvent(resWithdrawFees, "TokensTransferred", {
