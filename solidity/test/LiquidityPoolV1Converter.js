@@ -242,7 +242,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
 
 				const amount = new BN(500);
-				const totalProtocolFee = amount.mul(protocolFeePercentage).div(hunEth);
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -253,6 +252,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
+				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(hunEth);
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
@@ -295,7 +295,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
 
 				const amount = new BN(500);
-				const totalProtocolFee = amount.mul(protocolFeePercentage).div(hunEth);
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -306,6 +305,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
+				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(hunEth);
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
@@ -357,7 +357,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
 
 				const amount = new BN(500);
-				const totalProtocolFee = amount.mul(protocolFeePercentage).div(hunEth);
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -368,6 +367,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
+				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(hunEth);
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
@@ -421,7 +421,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await sovrynSwapNetwork.setProtocolFee(protocolFeePercentage.toString());
 
 				const amount = new BN(500);
-				const totalProtocolFee = amount.mul(protocolFeePercentage).div(hunEth);
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -432,6 +431,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
+				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(hunEth);
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),

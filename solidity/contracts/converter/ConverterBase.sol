@@ -127,6 +127,7 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 *
 	 * @param sender the feesController itself.
 	 * @param receiver the receipient of the token (feeSharingProxy).
+	 * @param token address of the withdrawn token.
 	 * @param protocolFeeAmount the total amount of protocol fee.
 	 * @param wRBTCConverted the total converted wrbtc from protocol fee token.
 	 */
@@ -539,7 +540,7 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 *
 	 * @return calculated protocol fee
 	 */
-	function calculateProtocolFee(address _targetToken, uint256 _targetAmount) internal view returns (uint256) {
+	function calculateProtocolFee(address _targetToken, uint256 _targetAmount) internal returns (uint256) {
 		uint256 _protocolFee = getProtocolFeeFromSwapNetwork();
 		uint256 calculatedProtocolFee = _targetAmount.mul(_protocolFee).div(1e20);
 		protocolFeeTokensHeld[_targetToken] = protocolFeeTokensHeld[_targetToken].add(calculatedProtocolFee);
@@ -581,6 +582,8 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 * @param _trader          address of the caller who executed the conversion
 	 * @param _amount          amount purchased/sold (in the source token)
 	 * @param _returnAmount    amount returned (in the target token)
+	 * @param _feeAmount			 dedicated fee for converter
+	 * @param _protocolFeeAmount dedicated fee for sovryn protocol
 	 */
 	function dispatchConversionEvent(
 		IERC20Token _sourceToken,
@@ -721,13 +724,14 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	function withdrawFees(address receiver) external returns (uint256) {
 		require(msg.sender == feesController, "unauthorized");
 
-		uint256 amountConvertedToWRBTC;
-		uint256 tempAmountConvertedToWRBTC;
 		IERC20Token _token;
 		uint256 _tokenAmount;
 		IInternalSovrynSwapNetwork sovrynSwapNetwork = IInternalSovrynSwapNetwork(addressOf(SOVRYNSWAP_NETWORK));
 
 		for (uint256 i = 0; i < reserveTokens.length; i++) {
+			uint256 amountConvertedToWRBTC;
+			uint256 tempAmountConvertedToWRBTC;
+
 			_token = IERC20Token(reserveTokens[i]);
 			_tokenAmount = protocolFeeTokensHeld[address(_token)];
 			if(_tokenAmount <= 0) continue;
@@ -752,7 +756,7 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 					tempAmountConvertedToWRBTC = sovrynSwapNetwork.convert(
 						path,
 						_tokenAmount,
-						minReturn
+						1
 					);
 				}
 
