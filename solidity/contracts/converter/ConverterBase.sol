@@ -686,10 +686,11 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 * */
 	function withdrawFees(address receiver) external returns (uint256) {
 		// We got stack too deep issues here, so utilize struct here is one of the solution.
-		Settings memory settings;
-		settings.wrbtcAddress = getWrbtcAddressFromSwapNetwork();
-		settings.feesController = getFeesControllerFromSwapNetwork();
-		settings.sovTokenAddress = getSOVTokenAddressFromSwapNetwork();
+		Settings memory settings = Settings({
+			wrbtcAddress: getWrbtcAddressFromSwapNetwork(),
+			sovTokenAddress: getSOVTokenAddressFromSwapNetwork(),
+			feesController: getFeesControllerFromSwapNetwork()
+		});
 
 		require(msg.sender == settings.feesController, "unauthorized");
 
@@ -719,8 +720,6 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 					require(successOfApprove, "ERR_APPROVAL_FAILED");
 
 					IERC20Token[] memory path = sovrynSwapNetwork.conversionPath(_token, IERC20Token(settings.wrbtcAddress));
-
-					uint256 minReturn = sovrynSwapNetwork.rateByPath(path, _tokenAmount).mul(995).div(1000);
 
 					tempAmountConvertedToWRBTC = sovrynSwapNetwork.convert(
 						path,
