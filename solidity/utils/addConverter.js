@@ -181,6 +181,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
 	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
+	
 	let multiSigWallet;
 	if (getData().multiSigWallet.addr !== "") multiSigWallet = deployed(web3, getData().multiSigWallet.name, getData().multiSigWallet.addr);
 
