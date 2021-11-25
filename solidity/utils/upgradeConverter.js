@@ -295,7 +295,7 @@ const setupPool = async () => {
 		console.log("Accepting converter ownership");
 		await submitTransaction(newConverter.methods.acceptOwnership().encodeABI(), newConverter._address);
 
-		if (config.type === 1) {
+		if (config.type === 1 && process.argv[5] == 1) {
 			console.log("Deploying Oracle");
 			const oracle = await web3Func(deploy, "Oracle", "Oracle", [newConverter._address, config.btcAddress]);
 
@@ -320,12 +320,73 @@ const setupPool = async () => {
 	}
 };
 
-const run = async (toExecute) => {
+const deploySwapNetwork = async () => {
+	await initialiseWeb3();
+	const config = getConfig();
+
+	multiSigWallet = deployed(web3, config.multiSigWallet.name, config.multiSigWallet.addr);
+
+	console.log("Deploying Sovryn Swap Network");
+	const sovrynSwapNetwork = await web3Func(deploy, "SovrynSwapNetwork", "SovrynSwapNetwork", [config.contractRegistry.addr]);
+
+	// Replace sovryn swap network in contract registry
+	const contractRegistry = await deployed(web3, "ContractRegistry", config.contractRegistry.addr);
+	
+	const contractRegistryTxn = contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("SovrynSwapNetwork"), sovrynSwapNetwork._address).encodeABI();
+	await submitTransaction(contractRegistryTxn, config.contractRegistry.addr);
+
+	// Setting up
+	await execute(sovrynSwapNetwork.methods.setFeesController(config.feesController.addr))
+	await execute(sovrynSwapNetwork.methods.setWrbtcAddress(config.wrbtcAddress.addr))
+	await execute(sovrynSwapNetwork.methods.setSOVTokenAddress(config.sovAddress.addr))
+	await execute(sovrynSwapNetwork.methods.setProtocolFee("500000000000000000"))
+
+	// Transferring the ownership
+	await execute(sovrynSwapNetwork.methods.transferOwnership(config.multiSigWallet.addr));
+	await submitTransaction(sovrynSwapNetwork.methods.acceptOwnership().encodeABI(), sovrynSwapNetwork._address);
+
+
+	// // Set conversion fee
+	// for (let converter of config.converterContract.addr) {
+	// 	const oldConverter = deployed(web3, config.converterContract.name, converter);
+
+	// 	let multisigAddress =
+	// 		config.multiSigWallet.addr.substring(0, 2) === "0x"
+	// 			? config.multiSigWallet.addr.slice(2).toLowerCase()
+	// 			: config.multiSigWallet.addr.toLowerCase();
+
+	// 	let owner = (await oldConverter.methods.owner().call()).toString().toLowerCase();
+	// 	owner = owner.substring(0, 2) === "0x" ? owner.slice(2) : owner;
+
+	// 	if (owner !== multisigAddress) {
+	// 		console.log("Updating Owner");
+	// 		await execute(oldConverter.methods.transferOwnership(config.multiSigWallet.addr));
+	// 		await submitTransaction(oldConverter.methods.acceptOwnership().encodeABI(), converter);
+	// 	}
+
+	// 	// console.log(await oldConverter.methods.conversionFee().call());
+
+	// 	console.log("Upgrade converter fees: ", converter);
+	// 	await submitTransaction(oldConverter.methods.setConversionFee("2500").encodeABI(), converter);
+	// }
+
+	// // set protocol fee
+	// await submitTransaction(sovrynSwapNetwork.methods.setProtocolFee("50000000000000000").encodeABI(), sovrynSwapNetwork._address);
+}
+
+const run = async (toExecute, redeploySwapNetwork) => {
 	if (toExecute == 1) {
 		await upgrade();
 	} else {
 		await setupPool();
 	}
+
+	if(redeploySwapNetwork == 1) {
+		await deploySwapNetwork();
+	}
 };
 
-run(process.argv[3]);
+// argv[3] = config type
+// argv[4] = redeploy sovryn swap network
+// argv[5] = deploy oracle
+run(process.argv[3], process.argv[4]);
