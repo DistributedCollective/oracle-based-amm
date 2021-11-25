@@ -1,0 +1,36 @@
+{
+    "reserves": [
+        {
+            "symbol": "XUSD",
+            "decimals": 18,
+            "address": "0x849d38abd3962cb40d4887e4279ad0e4e5958e34"
+        },
+        {
+            "symbol": "BZX",
+            "decimals": 18,
+            "address": "0xe355c280131dfaf18bf1c3648aee3c396db6b5fd"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "XUSD/BZX",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "XUSD",
+                    "weight": "50%",
+                    "balance": "0"
+                },
+                {
+                    "symbol": "BZX",
+                    "weight": "50%",
+                    "balance": "0"
+                }
+            ]
+        }
+    ],
+    "k": 6779,
+    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+}
