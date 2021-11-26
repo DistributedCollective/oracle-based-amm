@@ -235,7 +235,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const invalidProtocolFee = new BN(wei("101", "ether"));
 				const converter = await initConverter(true, isETHReserve, 5000);
 				await expectRevert(swapSettings.setProtocolFee(invalidProtocolFee.toString()), "ERR_PROTOCOL_FEE_TOO_HIGH");
-				expect( (await converter.getProtocolFeeFromSwapNetwork()).toString() ).to.equal( (new BN(0)).toString());
+				expect( (await converter.getProtocolFeeFromSwapSettings()).toString() ).to.equal( (new BN(0)).toString());
 			})
 
 			it("verify the protocol fee after setting up", async() => {
@@ -243,7 +243,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const converter = await initConverter(true, isETHReserve, 5000);
 				await swapSettings.setProtocolFee(protocolFee.toString());
 				expect( (await swapSettings.protocolFee()).toString() ).to.equal(protocolFee.toString());
-				expect( (await converter.getProtocolFeeFromSwapNetwork()).toString()).to.equal(protocolFee.toString());
+				expect( (await converter.getProtocolFeeFromSwapSettings()).toString()).to.equal(protocolFee.toString());
 			})
 
 			it("verifies that convert returns valid amount and fee after converting", async () => {
@@ -273,7 +273,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					_toAmount: purchaseAmount.sub(totalProtocolFee),
 				});
 
-				expect((await converter.getProtocolFeeFromSwapNetwork()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
+				expect((await converter.getProtocolFeeFromSwapSettings()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
 				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.toString());
 			});
 
@@ -283,7 +283,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await expectRevert(swapSettings.setWrbtcAddress(ZERO_ADDRESS), "ERR_ZERO_ADDRESS");
 				await swapSettings.setWrbtcAddress(wrbtc.address);
 				expect(await swapSettings.wrbtcAddress()).to.equal(wrbtc.address);
-				expect(await converter.getWrbtcAddressFromSwapNetwork()).to.equal(wrbtc.address);
+				expect(await converter.getWrbtcAddressFromSwapSettings()).to.equal(wrbtc.address);
 			})
 
 			it("set SOV token address in the converter", async () => {
@@ -292,7 +292,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await expectRevert(swapSettings.setSOVTokenAddress(ZERO_ADDRESS), "ERR_ZERO_ADDRESS");
 				await swapSettings.setSOVTokenAddress(sov.address);
 				expect(await swapSettings.sovTokenAddress()).to.equal(sov.address);
-				expect(await converter.getSOVTokenAddressFromSwapNetwork()).to.equal(sov.address);
+				expect(await converter.getSOVTokenAddressFromSwapSettings()).to.equal(sov.address);
 			})
 
 			it("withdraw protocol fees from the converter", async () => {
@@ -326,7 +326,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					_toAmount: purchaseAmount.sub(totalProtocolFee),
 				});
 
-				expect((await converter.getProtocolFeeFromSwapNetwork()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
+				expect((await converter.getProtocolFeeFromSwapSettings()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
 				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.toString());
 
 				// withdraw protocol fee from the converter
@@ -336,7 +336,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await swapSettings.setFeesController(feesController);
 				await swapSettings.setWrbtcAddress(wrbtc.address);
 				expect(await swapSettings.feesController()).to.equal(feesController);
-				expect(await converter.getFeesControllerFromSwapNetwork()).to.equal(feesController);
+				expect(await converter.getFeesControllerFromSwapSettings()).to.equal(feesController);
 
 				const previousWrbtcBalanceSovrynSwapNetwork = await wrbtc.balanceOf(sovrynSwapNetwork.address);
 				const previousWrbtcBalanceFeesController = await wrbtc.balanceOf(feesController);
@@ -390,14 +390,14 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					_toAmount: purchaseAmount.sub(totalProtocolFee),
 				});
 
-				expect((await converter.getProtocolFeeFromSwapNetwork()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
+				expect((await converter.getProtocolFeeFromSwapSettings()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
 				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.toString());
 
 				// withdraw protocol fee from the converter
 				await reserveToken2.transfer(sovrynSwapNetwork.address, amount)
 				await swapSettings.setFeesController(feesController);
 				expect(await swapSettings.feesController()).to.equal(feesController);
-				expect(await converter.getFeesControllerFromSwapNetwork()).to.equal(feesController);
+				expect(await converter.getFeesControllerFromSwapSettings()).to.equal(feesController);
 
 				const previousWrbtcBalanceConverter = await reserveToken2.balanceOf(converter.address);
 				const previousWrbtcBalanceFeesController = await reserveToken2.balanceOf(feesController);
@@ -455,14 +455,14 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					_toAmount: purchaseAmount.sub(totalProtocolFee),
 				});
 
-				expect((await converter.getProtocolFeeFromSwapNetwork()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
+				expect((await converter.getProtocolFeeFromSwapSettings()).toString()).to.eql( (new BN(wei("10", "ether"))).toString() );
 				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.toString());
 
 				// withdraw protocol fee from the converter
 				await reserveToken2.transfer(sovrynSwapNetwork.address, amount)
 				await swapSettings.setFeesController(feesController);
 				expect(await swapSettings.feesController()).to.equal(feesController);
-				expect(await converter.getFeesControllerFromSwapNetwork()).to.equal(feesController);
+				expect(await converter.getFeesControllerFromSwapSettings()).to.equal(feesController);
 
 				const resWithdrawFees = await feeSharingProxy.withdrawFees(converter.address, feesController);
 

@@ -61,7 +61,6 @@ contract SovrynSwapNetwork is ISovrynSwapNetwork, TokenHolder, ContractRegistryC
 	uint256 public maxAffiliateFee = 30000; // maximum affiliate-fee
 
 	mapping(address => bool) public etherTokens; // list of all supported ether tokens
-	uint256 public protocolFee; // the x% of conversion amount as a protocol fee and will be stored in the converter contract
 
 	/**
 	 * @dev triggered when a conversion between two tokens occurs
