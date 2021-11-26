@@ -12,6 +12,7 @@ module.exports = {
 		SOVRYNSWAP_X: web3.utils.asciiToHex("SovrynSwapX"),
 		SOVRYNSWAP_X_UPGRADER: web3.utils.asciiToHex("SovrynSwapXUpgrader"),
 		CHAINLINK_ORACLE_WHITELIST: web3.utils.asciiToHex("ChainlinkOracleWhitelist"),
+		SWAP_SETTINGS: web3.utils.asciiToHex("SwapSettings")
 	},
 
 	ETH_RESERVE_ADDRESS: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",

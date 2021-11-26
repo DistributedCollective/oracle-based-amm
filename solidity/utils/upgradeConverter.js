@@ -320,31 +320,65 @@ const setupPool = async () => {
 	}
 };
 
-const deploySwapNetwork = async () => {
+const deploySwapSettings = async () => {
 	await initialiseWeb3();
 	const config = getConfig();
 
 	multiSigWallet = deployed(web3, config.multiSigWallet.name, config.multiSigWallet.addr);
 
-	console.log("Deploying Sovryn Swap Network");
-	const sovrynSwapNetwork = await web3Func(deploy, "SovrynSwapNetwork", "SovrynSwapNetwork", [config.contractRegistry.addr]);
+	console.log("Deploying Swap Settings");
+	const swapSettings = await web3Func(deploy, "SwapSettings", "SwapSettings", [
+		config.feesController.addr,
+		config.wrbtcAddress.addr,
+		config.sovAddress.addr,
+		"50000000000000000"
+	]);
 
-	// Replace sovryn swap network in contract registry
+	// Register swap settings in contract registry
 	const contractRegistry = await deployed(web3, "ContractRegistry", config.contractRegistry.addr);
 	
-	const contractRegistryTxn = contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("SovrynSwapNetwork"), sovrynSwapNetwork._address).encodeABI();
+	const contractRegistryTxn = contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("SwapSettings"), swapSettings._address).encodeABI();
 	await submitTransaction(contractRegistryTxn, config.contractRegistry.addr);
 
-	// Setting up
-	await execute(sovrynSwapNetwork.methods.setFeesController(config.feesController.addr))
-	await execute(sovrynSwapNetwork.methods.setWrbtcAddress(config.wrbtcAddress.addr))
-	await execute(sovrynSwapNetwork.methods.setSOVTokenAddress(config.sovAddress.addr))
-	await execute(sovrynSwapNetwork.methods.setProtocolFee("500000000000000000"))
+	// Transferring the ownership of swap settings
+	await execute(swapSettings.methods.transferOwnership(config.multiSigWallet.addr));
+	await submitTransaction(swapSettings.methods.acceptOwnership().encodeABI(), swapSettings._address);
 
-	// Transferring the ownership
-	await execute(sovrynSwapNetwork.methods.transferOwnership(config.multiSigWallet.addr));
-	await submitTransaction(sovrynSwapNetwork.methods.acceptOwnership().encodeABI(), sovrynSwapNetwork._address);
 
+	// TEST
+	// swapSettingsObj = await deployed(web3, "SwapSettings", config.SwapSettings.addr);
+	// console.log(await swapSettingsObj.methods.protocolFee().call());
+	// console.log(await swapSettingsObj.methods.wrbtcAddress().call());
+	// console.log(await swapSettingsObj.methods.sovTokenAddress().call());
+	// console.log(await swapSettingsObj.methods.feesController().call());
+
+	// // Get converter settings
+	// for (let converter of config.converterContract.addr) {
+	// 	const oldConverter = deployed(web3, config.converterContract.name, converter);
+
+	// 	let multisigAddress =
+	// 		config.multiSigWallet.addr.substring(0, 2) === "0x"
+	// 			? config.multiSigWallet.addr.slice(2).toLowerCase()
+	// 			: config.multiSigWallet.addr.toLowerCase();
+
+	// 	let owner = (await oldConverter.methods.owner().call()).toString().toLowerCase();
+	// 	owner = owner.substring(0, 2) === "0x" ? owner.slice(2) : owner;
+
+	// 	if (owner !== multisigAddress) {
+	// 		console.log("Updating Owner");
+	// 		await execute(oldConverter.methods.transferOwnership(config.multiSigWallet.addr));
+	// 		await submitTransaction(oldConverter.methods.acceptOwnership().encodeABI(), converter);
+	// 	}
+
+	// 	console.log("Protocol fee: ", converter);
+	// 	console.log("Protocol Fee: ", await oldConverter.methods.getProtocolFeeFromSwapSettings().call());
+	// 	console.log("Wrbtc: ", await oldConverter.methods.getWrbtcAddressFromSwapSettings().call());
+	// 	console.log("SOV: ", await oldConverter.methods.getSOVTokenAddressFromSwapSettings().call());
+	// 	console.log("FeesController: ", await oldConverter.methods.getFeesControllerFromSwapSettings().call());
+
+	// }
+
+	// END TEST
 
 	// // Set conversion fee
 	// for (let converter of config.converterContract.addr) {
@@ -374,15 +408,15 @@ const deploySwapNetwork = async () => {
 	// await submitTransaction(sovrynSwapNetwork.methods.setProtocolFee("50000000000000000").encodeABI(), sovrynSwapNetwork._address);
 }
 
-const run = async (toExecute, redeploySwapNetwork) => {
+const run = async (toExecute, toDeploySwapSettings) => {
 	if (toExecute == 1) {
 		await upgrade();
 	} else {
 		await setupPool();
 	}
 
-	if(redeploySwapNetwork == 1) {
-		await deploySwapNetwork();
+	if(toDeploySwapSettings == 1) {
+		await deploySwapSettings();
 	}
 };
 

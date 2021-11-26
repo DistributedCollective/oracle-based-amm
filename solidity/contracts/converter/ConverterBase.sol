@@ -39,7 +39,7 @@ import "../sovrynswapx/interfaces/ISovrynSwapX.sol";
  *
  * Note that converters don't currently support tokens with transfer fees.
  */
-contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegistryClient, ReentrancyGuard {
+contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistryClient, ReentrancyGuard {
 	using SafeMath for uint256;
 
 	uint32 internal constant WEIGHT_RESOLUTION = 1000000;
@@ -515,10 +515,14 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 * @return calculated protocol fee
 	 */
 	function calculateProtocolFee(address _targetToken, uint256 _targetAmount) internal returns (uint256) {
-		uint256 _protocolFee = getProtocolFeeFromSwapNetwork();
+		uint256 _protocolFee = getProtocolFeeFromSwapSettings();
 		uint256 calculatedProtocolFee = _targetAmount.mul(_protocolFee).div(1e20);
 		protocolFeeTokensHeld[_targetToken] = protocolFeeTokensHeld[_targetToken].add(calculatedProtocolFee);
 		return calculatedProtocolFee;
+	}
+
+	function swapSettingsContractName() public constant returns(bytes32) {
+		return "SwapSettings";
 	}
 
 	/**
@@ -526,8 +530,9 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 *
 	 * @return protocol fee.
 	 */
-	function getProtocolFeeFromSwapNetwork() public view returns (uint256) {
-		return IInternalSovrynSwapNetwork(addressOf(SOVRYNSWAP_NETWORK)).protocolFee();
+	function getProtocolFeeFromSwapSettings() public view returns (uint256) {
+		address swapSettingsAddress = IContractRegistry(registry).addressOf(swapSettingsContractName());
+		return ISwapSettings(swapSettingsAddress).protocolFee();
 	}
 
 	/**
@@ -535,8 +540,9 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 *
 	 * @return wrbtc address
 	 */
-	function getWrbtcAddressFromSwapNetwork() public view returns (address) {
-		return IInternalSovrynSwapNetwork(addressOf(SOVRYNSWAP_NETWORK)).wrbtcAddress();
+	function getWrbtcAddressFromSwapSettings() public view returns (address) {
+		address swapSettingsAddress = IContractRegistry(registry).addressOf(swapSettingsContractName());
+		return ISwapSettings(swapSettingsAddress).wrbtcAddress();
 	}
 
 	/**
@@ -544,8 +550,9 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 *
 	 * @return sov token address
 	 */
-	function getSOVTokenAddressFromSwapNetwork() public view returns (address) {
-		return IInternalSovrynSwapNetwork(addressOf(SOVRYNSWAP_NETWORK)).sovTokenAddress();
+	function getSOVTokenAddressFromSwapSettings() public view returns (address) {
+		address swapSettingsAddress = IContractRegistry(registry).addressOf(swapSettingsContractName());
+		return ISwapSettings(swapSettingsAddress).sovTokenAddress();
 	}
 
 	/**
@@ -553,8 +560,9 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	 *
 	 * @return feesController address (protocol feeSharingProxy) 
 	 */
-	function getFeesControllerFromSwapNetwork() public view returns (address) {
-		return IInternalSovrynSwapNetwork(addressOf(SOVRYNSWAP_NETWORK)).feesController();
+	function getFeesControllerFromSwapSettings() public view returns (address) {
+		address swapSettingsAddress = IContractRegistry(registry).addressOf(swapSettingsContractName());
+		return ISwapSettings(swapSettingsAddress).feesController();
 	}
 
 
@@ -687,9 +695,9 @@ contract ConverterBase is  IConverter, TokenHandler, TokenHolder, ContractRegist
 	function withdrawFees(address receiver) external returns (uint256) {
 		// We got stack too deep issues here, so utilize struct here is one of the solution.
 		Settings memory settings = Settings({
-			wrbtcAddress: getWrbtcAddressFromSwapNetwork(),
-			sovTokenAddress: getSOVTokenAddressFromSwapNetwork(),
-			feesController: getFeesControllerFromSwapNetwork()
+			wrbtcAddress: getWrbtcAddressFromSwapSettings(),
+			sovTokenAddress: getSOVTokenAddressFromSwapSettings(),
+			feesController: getFeesControllerFromSwapSettings()
 		});
 
 		require(msg.sender == settings.feesController, "unauthorized");
@@ -757,7 +765,9 @@ interface IInternalSovrynSwapNetwork {
 		uint256 _amount,
 		uint256 _minReturn
 	) external payable returns (uint256);
+}
 
+interface ISwapSettings {
 	function protocolFee() external view returns (uint256);
 
 	function wrbtcAddress() external view returns (address);
