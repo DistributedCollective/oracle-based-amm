@@ -236,8 +236,11 @@ const upgrade = async () => {
 		let registerFactoryTxn;
 		if (config.type === 1) {
 			console.log("Redeploying v1 factory contract");
+			console.log("000");
 			const liquidityPoolV1ConverterFactory = await web3Func(deploy, "liquidityPoolV1ConverterFactory", "LiquidityPoolV1ConverterFactory", []);
+			console.log("2");
 			registerFactoryTxn = converterFactory.methods.registerTypedConverterFactory(liquidityPoolV1ConverterFactory._address).encodeABI();
+			console.log("3");
 		} else if (config.type === 2) {
 			console.log("Redeploying v2 factory contract");
 			const liquidityPoolV2ConverterFactory = await web3Func(deploy, "liquidityPoolV2ConverterFactory", "LiquidityPoolV2ConverterFactory", []);
@@ -290,7 +293,9 @@ const setupPool = async () => {
 	const newConverters = await getConverters(upgrader);
 
 	for (let converter of config.converterContract.addr) {
+		console.log("test");
 		const newConverter = deployed(web3, `LiquidityPoolV${config.type}Converter`, newConverters[converter.toString().toLowerCase()]);
+		console.log("test2");
 		console.log("\nThe new converter address:", newConverter._address);
 		console.log("Accepting converter ownership");
 		await submitTransaction(newConverter.methods.acceptOwnership().encodeABI(), newConverter._address);
@@ -334,7 +339,7 @@ const deploySwapSettings = async () => {
 		"50000000000000000"
 	]);
 
-	// Register swap settings in contract registry
+	// // Register swap settings in contract registry
 	const contractRegistry = await deployed(web3, "ContractRegistry", config.contractRegistry.addr);
 	
 	const contractRegistryTxn = contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("SwapSettings"), swapSettings._address).encodeABI();
@@ -344,41 +349,6 @@ const deploySwapSettings = async () => {
 	await execute(swapSettings.methods.transferOwnership(config.multiSigWallet.addr));
 	await submitTransaction(swapSettings.methods.acceptOwnership().encodeABI(), swapSettings._address);
 
-
-	// TEST
-	// swapSettingsObj = await deployed(web3, "SwapSettings", config.SwapSettings.addr);
-	// console.log(await swapSettingsObj.methods.protocolFee().call());
-	// console.log(await swapSettingsObj.methods.wrbtcAddress().call());
-	// console.log(await swapSettingsObj.methods.sovTokenAddress().call());
-	// console.log(await swapSettingsObj.methods.feesController().call());
-
-	// // Get converter settings
-	// for (let converter of config.converterContract.addr) {
-	// 	const oldConverter = deployed(web3, config.converterContract.name, converter);
-
-	// 	let multisigAddress =
-	// 		config.multiSigWallet.addr.substring(0, 2) === "0x"
-	// 			? config.multiSigWallet.addr.slice(2).toLowerCase()
-	// 			: config.multiSigWallet.addr.toLowerCase();
-
-	// 	let owner = (await oldConverter.methods.owner().call()).toString().toLowerCase();
-	// 	owner = owner.substring(0, 2) === "0x" ? owner.slice(2) : owner;
-
-	// 	if (owner !== multisigAddress) {
-	// 		console.log("Updating Owner");
-	// 		await execute(oldConverter.methods.transferOwnership(config.multiSigWallet.addr));
-	// 		await submitTransaction(oldConverter.methods.acceptOwnership().encodeABI(), converter);
-	// 	}
-
-	// 	console.log("Protocol fee: ", converter);
-	// 	console.log("Protocol Fee: ", await oldConverter.methods.getProtocolFeeFromSwapSettings().call());
-	// 	console.log("Wrbtc: ", await oldConverter.methods.getWrbtcAddressFromSwapSettings().call());
-	// 	console.log("SOV: ", await oldConverter.methods.getSOVTokenAddressFromSwapSettings().call());
-	// 	console.log("FeesController: ", await oldConverter.methods.getFeesControllerFromSwapSettings().call());
-
-	// }
-
-	// END TEST
 
 	// // Set conversion fee
 	// for (let converter of config.converterContract.addr) {

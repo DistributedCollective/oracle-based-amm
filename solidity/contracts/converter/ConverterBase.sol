@@ -521,18 +521,13 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 		return calculatedProtocolFee;
 	}
 
-	function swapSettingsContractName() public constant returns(bytes32) {
-		return "SwapSettings";
-	}
-
 	/**
 	 * @dev get the protocol fee from the SovrynSwapNetwork using the registry.
 	 *
 	 * @return protocol fee.
 	 */
-	function getProtocolFeeFromSwapSettings() public view returns (uint256) {
-		address swapSettingsAddress = IContractRegistry(registry).addressOf(swapSettingsContractName());
-		return ISwapSettings(swapSettingsAddress).protocolFee();
+	function getProtocolFeeFromSwapSettings() internal view returns (uint256) {
+		return ISwapSettings(IContractRegistry(registry).addressOf(bytes32("SwapSettings"))).protocolFee();
 	}
 
 	/**
@@ -540,9 +535,8 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 *
 	 * @return wrbtc address
 	 */
-	function getWrbtcAddressFromSwapSettings() public view returns (address) {
-		address swapSettingsAddress = IContractRegistry(registry).addressOf(swapSettingsContractName());
-		return ISwapSettings(swapSettingsAddress).wrbtcAddress();
+	function getWrbtcAddressFromSwapSettings() internal view returns (address) {
+		return ISwapSettings(IContractRegistry(registry).addressOf(bytes32("SwapSettings"))).wrbtcAddress();
 	}
 
 	/**
@@ -550,9 +544,8 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 *
 	 * @return sov token address
 	 */
-	function getSOVTokenAddressFromSwapSettings() public view returns (address) {
-		address swapSettingsAddress = IContractRegistry(registry).addressOf(swapSettingsContractName());
-		return ISwapSettings(swapSettingsAddress).sovTokenAddress();
+	function getSOVTokenAddressFromSwapSettings() internal view returns (address) {
+		return ISwapSettings(IContractRegistry(registry).addressOf(bytes32("SwapSettings"))).sovTokenAddress();
 	}
 
 	/**
@@ -560,9 +553,8 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 *
 	 * @return feesController address (protocol feeSharingProxy) 
 	 */
-	function getFeesControllerFromSwapSettings() public view returns (address) {
-		address swapSettingsAddress = IContractRegistry(registry).addressOf(swapSettingsContractName());
-		return ISwapSettings(swapSettingsAddress).feesController();
+	function getFeesControllerFromSwapSettings() internal view returns (address) {
+		return ISwapSettings(IContractRegistry(registry).addressOf(bytes32("SwapSettings"))).feesController();
 	}
 
 
