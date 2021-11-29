@@ -665,6 +665,17 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	}
 
 	/**
+	 * @dev get how many protocol fees held in the converter.
+	 *
+	 * @param _token token fee.
+	 *
+	 * @return total protocol fees held.
+	 */
+	function getProtocolFeeTokensHeld(address _token) external view returns(uint256) {
+		return protocolFeeTokensHeld[_token];
+	}
+
+	/**
 	 * @dev deprecated, backward compatibility
 	 */
 	function getReturn(
