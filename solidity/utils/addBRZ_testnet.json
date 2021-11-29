@@ -21,12 +21,12 @@
                 {
                     "symbol": "XUSD",
                     "weight": "50%",
-                    "balance": "0"
+                    "balance": "90"
                 },
                 {
                     "symbol": "BRZ",
                     "weight": "50%",
-                    "balance": "0"
+                    "balance": "500"
                 }
             ]
         }
