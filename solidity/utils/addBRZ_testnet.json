@@ -3,7 +3,7 @@
         {
             "symbol": "XUSD",
             "decimals": 18,
-            "address": "0x849d38abd3962cb40d4887e4279ad0e4e5958e34"
+            "address": "0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1"
         },
         {
             "symbol": "BRZ",
@@ -21,17 +21,31 @@
                 {
                     "symbol": "XUSD",
                     "weight": "50%",
-                    "balance": "90"
+                    "balance": "18"
                 },
                 {
                     "symbol": "BRZ",
                     "weight": "50%",
-                    "balance": "500"
+                    "balance": "100"
                 }
             ]
         }
     ],
-    "ALERT": "THIS PAIR IS NOT wRBTC BASED, 'K' AND 'btcAddress below are not used",
+    "ALERT": "THIS PAIR IS NOT wRBTC BASED - NO INTERNAL ORACLE - 'K' AND 'btcAddress below are not used",
     "k": 6779,
-    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab",
+    "phase": 7,
+    "XUSD": {
+        "name": "XUSD",
+        "addr": "0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1"
+    },
+    "BRZ": {
+        "name": "BRZ",
+        "addr": "0xe355c280131dfaf18bf1c3648aee3c396db6b5fd"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0x6Ca500A8F39C452CE7533AA320c9b7752F04AA64",
+        "args": ""
+    }
 }
