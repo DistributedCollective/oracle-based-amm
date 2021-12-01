@@ -697,14 +697,7 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 * @return The withdrawn total amount in wRBTC
 	 * */
 	function withdrawFees(address receiver) external returns (uint256) {
-		// We got stack too deep issues here, so utilize struct here is one of the solution.
-		Settings memory settings = Settings({
-			wrbtcAddress: getWrbtcAddressFromSwapSettings(),
-			sovTokenAddress: getSOVTokenAddressFromSwapSettings(),
-			feesController: getFeesControllerFromSwapSettings()
-		});
-
-		require(msg.sender == settings.feesController, "unauthorized");
+		require(msg.sender == getFeesControllerFromSwapSettings(), "unauthorized");
 
 		IERC20Token _token;
 		uint256 _tokenAmount;
@@ -720,18 +713,18 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 
 			protocolFeeTokensHeld[address(_token)] = 0;
 
-			if (_token == settings.sovTokenAddress) {
-				_token.approve(settings.feesController, _tokenAmount);
-				IFeeSharingProxy(settings.feesController).transferTokens(settings.sovTokenAddress, uint96(_tokenAmount));
+			if (_token == getSOVTokenAddressFromSwapSettings()) {
+				_token.approve(getFeesControllerFromSwapSettings(), _tokenAmount);
+				IFeeSharingProxy(getFeesControllerFromSwapSettings()).transferTokens(getSOVTokenAddressFromSwapSettings(), uint96(_tokenAmount));
 				tempAmountConvertedToWRBTC = 0;
 			} else {
-				if (_token == settings.wrbtcAddress) {
+				if (_token == getWrbtcAddressFromSwapSettings()) {
 					tempAmountConvertedToWRBTC = _tokenAmount;
 				} else {
 					bool successOfApprove = _token.approve(addressOf(SOVRYNSWAP_NETWORK), _tokenAmount);
 					require(successOfApprove, "ERR_APPROVAL_FAILED");
 
-					IERC20Token[] memory path = sovrynSwapNetwork.conversionPath(_token, IERC20Token(settings.wrbtcAddress));
+					IERC20Token[] memory path = sovrynSwapNetwork.conversionPath(_token, IERC20Token(getWrbtcAddressFromSwapSettings()));
 
 					tempAmountConvertedToWRBTC = sovrynSwapNetwork.convert(
 						path,
@@ -747,7 +740,7 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 			emit WithdrawFees(msg.sender, receiver, _token, _tokenAmount, tempAmountConvertedToWRBTC);
 		}
 
-		safeTransfer(IERC20Token(settings.wrbtcAddress), receiver, amountConvertedToWRBTC);
+		safeTransfer(IERC20Token(getWrbtcAddressFromSwapSettings()), receiver, amountConvertedToWRBTC);
 
 		return amountConvertedToWRBTC;
 	}
