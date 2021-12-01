@@ -701,10 +701,10 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 
 		IERC20Token _token;
 		uint256 _tokenAmount;
+		uint256 amountConvertedToWRBTC;
 		IInternalSovrynSwapNetwork sovrynSwapNetwork = IInternalSovrynSwapNetwork(addressOf(SOVRYNSWAP_NETWORK));
 
 		for (uint256 i = 0; i < reserveTokens.length; i++) {
-			uint256 amountConvertedToWRBTC;
 			uint256 tempAmountConvertedToWRBTC;
 
 			_token = IERC20Token(reserveTokens[i]);
