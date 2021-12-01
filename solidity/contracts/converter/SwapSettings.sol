@@ -3,10 +3,11 @@ pragma solidity 0.4.26;
 import "../utility/Owned.sol";
 
 contract SwapSettings is Owned {
+  uint32 internal constant PROTOCOL_FEE_RESOLUTION = 1000000;
   address public wrbtcAddress;
 	address public sovTokenAddress;
 	address public feesController;
-  uint256 public protocolFee;
+  uint32 public protocolFee;
 
   /**
 	 * @dev triggered when the protocol fee sorage is set/updated
@@ -14,7 +15,7 @@ contract SwapSettings is Owned {
 	 * @param _prevProtocolFee previous protocol fee percentage
 	 * @param _newProtocolFee new protocol fee percentage
 	 */
-	event ProtocolFeeUpdate(uint256 _prevProtocolFee, uint256 _newProtocolFee);
+	event ProtocolFeeUpdate(uint32 _prevProtocolFee, uint32 _newProtocolFee);
 
 	/**
 	 * @dev triggered when new feesController is set.
@@ -45,11 +46,11 @@ contract SwapSettings is Owned {
 	 */
 	event SetSOVTokenAddress(address indexed sender, address indexed oldSOVTokenAddress, address indexed newSOVTokenAddress);
 
-  constructor(address _feesController, address _wrbtcAddress, address _sovTokenAddress, uint256 _protocolFee) public {
+  constructor(address _feesController, address _wrbtcAddress, address _sovTokenAddress, uint32 _protocolFee) public {
     require(_feesController != address(0), "ERR_ZERO_ADDRESS");
     require(_wrbtcAddress != address(0), "ERR_ZERO_ADDRESS");
     require(_sovTokenAddress != address(0), "ERR_ZERO_ADDRESS");
-    require(_protocolFee <= 1e20, "ERR_PROTOCOL_FEE_TOO_HIGH");
+    require(_protocolFee <= PROTOCOL_FEE_RESOLUTION, "ERR_PROTOCOL_FEE_TOO_HIGH");
 
     feesController = _feesController;
     wrbtcAddress = _wrbtcAddress;
@@ -106,8 +107,8 @@ contract SwapSettings is Owned {
 	 *
 	 * @param _protocolFee x% of protocol fee
 	 */
-	function setProtocolFee(uint256 _protocolFee) public ownerOnly() {
-		require(_protocolFee <= 1e20, "ERR_PROTOCOL_FEE_TOO_HIGH");
+	function setProtocolFee(uint32 _protocolFee) public ownerOnly() {
+    require(_protocolFee <= PROTOCOL_FEE_RESOLUTION, "ERR_PROTOCOL_FEE_TOO_HIGH");
 		emit ProtocolFeeUpdate(protocolFee, _protocolFee);
 		protocolFee = _protocolFee;
 	}

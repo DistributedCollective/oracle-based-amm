@@ -75,6 +75,7 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	uint32 public conversionFee = 0; // current conversion fee, represented in ppm, 0...maxConversionFee
 	bool public constant conversionsEnabled = true; // deprecated, backward compatibility
 	mapping(address => uint256) public protocolFeeTokensHeld; /// Total conversion fees (reserveTokens[1]) received and not withdrawn.
+	uint32 internal constant PROTOCOL_FEE_RESOLUTION = 1000000;
 
 	/**
 	 * @dev triggered when the converter is activated
@@ -516,7 +517,7 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 */
 	function calculateProtocolFee(address _targetToken, uint256 _targetAmount) internal returns (uint256) {
 		uint256 _protocolFee = getProtocolFeeFromSwapSettings();
-		uint256 calculatedProtocolFee = _targetAmount.mul(_protocolFee).div(1e20);
+		uint256 calculatedProtocolFee = _targetAmount.mul(_protocolFee).div(PROTOCOL_FEE_RESOLUTION);
 		protocolFeeTokensHeld[_targetToken] = protocolFeeTokensHeld[_targetToken].add(calculatedProtocolFee);
 		return calculatedProtocolFee;
 	}
