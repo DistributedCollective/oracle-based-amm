@@ -566,7 +566,7 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	 */
 	function syncReserveBalance(IERC20Token _reserveToken) internal validReserve(_reserveToken) {
 		if (_reserveToken == ETH_RESERVE_ADDRESS) reserves[_reserveToken].balance = address(this).balance;
-		else reserves[_reserveToken].balance = _reserveToken.balanceOf(this);
+		else reserves[_reserveToken].balance = _reserveToken.balanceOf(this).sub(protocolFeeTokensHeld[_reserveToken]);
 	}
 
 	/**
