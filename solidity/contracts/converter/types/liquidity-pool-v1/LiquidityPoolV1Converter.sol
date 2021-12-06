@@ -174,7 +174,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         if (_sourceToken == ETH_RESERVE_ADDRESS)
             require(msg.value == _amount, "ERR_ETH_AMOUNT_MISMATCH");
         else
-            require(msg.value == 0 && _sourceToken.balanceOf(this).sub(reserveBalance(_sourceToken).sub(protocolFeeTokensHeld[_sourceToken])) >= _amount, "ERR_INVALID_AMOUNT");
+            require(msg.value == 0 && _sourceToken.balanceOf(this).sub(reserveBalance(_sourceToken)).sub(protocolFeeTokensHeld[_sourceToken]) >= _amount, "ERR_INVALID_AMOUNT");
 
         // sync the reserve balances
         syncReserveBalance(_sourceToken);
