@@ -408,7 +408,7 @@ contract LiquidityPoolV2Converter is LiquidityPoolConverter {
         }
 
         // dispatch the conversion event
-        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee);
+        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee, 0);
 
         // dispatch rate updates for the pool / reserve tokens
         dispatchRateEvents(_sourceToken, _targetToken, reserves[_sourceToken].weight, reserves[_targetToken].weight);

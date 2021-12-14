@@ -146,7 +146,7 @@ contract LiquidityPoolV1ConverterMultiAsset is LiquidityPoolConverter {
             safeTransfer(_targetToken, _beneficiary, amount);
 
         // dispatch the conversion event
-        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee);
+        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee, 0);
 
         // dispatch rate updates
         dispatchRateEvents(_sourceToken, _targetToken);

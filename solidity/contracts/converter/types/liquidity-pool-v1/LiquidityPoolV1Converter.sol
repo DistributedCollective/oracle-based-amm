@@ -91,12 +91,18 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         uint256 tokenCount = reserveTokenCount();
         require(tokenCount < 2, "ERR_INVALID_RESERVE_COUNT");
 
-        if(tokenCount == 0) {
-            token0Decimal = IERC20Token(_token).decimals();
-        } else {
-            token1Decimal = IERC20Token(_token).decimals();
+        uint256 decimals = 18;
+
+        if(_token != ETH_RESERVE_ADDRESS) {
+            decimals = IERC20Token(_token).decimals();
         }
-        
+
+        if(tokenCount == 0) {
+            token0Decimal = decimals;
+        } else {
+            token1Decimal = decimals;
+        }
+
         super.addReserve(_token, _weight);
     }
 
@@ -129,9 +135,10 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
             _amount
         );
 
-        // return the amount minus the conversion fee and the conversion fee
+        // return the amount minus the conversion fee, the conversion fee.
         uint256 fee = calculateFee(amount);
-        return (amount - fee, fee);
+
+        return (amount.sub(fee), fee);
     }
 
     /**
@@ -159,9 +166,6 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         // get expected target amount and fee
         (uint256 amount, uint256 fee) = targetAmountAndFee(_sourceToken, _targetToken, _amount);
 
-        // ensure that the trade gives something in return
-        require(amount != 0, "ERR_ZERO_TARGET_AMOUNT");
-
         // ensure that the trade won't deplete the reserve balance
         uint256 targetReserveBalance = reserveBalance(_targetToken);
         assert(amount < targetReserveBalance);
@@ -170,11 +174,18 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
         if (_sourceToken == ETH_RESERVE_ADDRESS)
             require(msg.value == _amount, "ERR_ETH_AMOUNT_MISMATCH");
         else
-            require(msg.value == 0 && _sourceToken.balanceOf(this).sub(reserveBalance(_sourceToken)) >= _amount, "ERR_INVALID_AMOUNT");
+            require(msg.value == 0 && _sourceToken.balanceOf(this).sub(reserveBalance(_sourceToken)).sub(protocolFeeTokensHeld[_sourceToken]) >= _amount, "ERR_INVALID_AMOUNT");
 
         // sync the reserve balances
         syncReserveBalance(_sourceToken);
         reserves[_targetToken].balance = reserves[_targetToken].balance.sub(amount);
+
+        // calculate protocol fee
+        uint256 calculatedProtocolFee = calculateProtocolFee(_targetToken, amount);
+        amount = amount.sub(calculatedProtocolFee);
+
+        // ensure that the trade gives something in return
+        require(amount != 0, "ERR_ZERO_TARGET_AMOUNT");
 
         // transfer funds to the beneficiary in the to reserve token
         if (_targetToken == ETH_RESERVE_ADDRESS)
@@ -183,7 +194,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
             safeTransfer(_targetToken, _beneficiary, amount);
 
         // dispatch the conversion event
-        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee);
+        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee, calculatedProtocolFee);
 
         // dispatch rate updates
         dispatchRateEvents(_sourceToken, _targetToken);
