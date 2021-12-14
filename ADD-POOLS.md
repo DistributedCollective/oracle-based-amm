@@ -98,11 +98,13 @@ The configuration file is updated during the process, in order to allow resuming
                 }
             ]
    ```
-   * For WRBTC-paired tokens **WRBTC** amount for initial deposit is usually 0.01
+   * For WRBTC-paired tokens **WRBTC** amount for initial deposit is usually 0.01  
 
-To add converters to an existing swap network, use ```addConverter.js``` or ```addConverterNoOracle.js```.
+  ----
+4. To add converters to an existing swap network, use ```addConverter.js``` or ```addConverterNoOracle.js```  
+5. Register (whitelist) v1 converter in the feeSharingProxy: run [addWhitelistedConverterAddress](https://github.com/DistributedCollective/Sovryn-smart-contracts/blob/3e7f280e6e129946f070d4284884470ccf29861c/scripts/contractInteraction/protocol.py#L595) in [Sovryn-smart-contracts repo](https://github.com/DistributedCollective/Sovryn-smart-contracts)
 
-Example creation v1 pool WRBTC/ETH  
+### Example creation v1 pool WRBTC/ETH  
 
 Note: `data_testnet.json` and `data_mainnet.json` store contracts addresses participating in converter creation.
 
