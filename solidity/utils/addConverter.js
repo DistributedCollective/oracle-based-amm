@@ -181,7 +181,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
 	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
-	
+
 	let multiSigWallet;
 	if (getData().multiSigWallet.addr !== "") multiSigWallet = deployed(web3, getData().multiSigWallet.name, getData().multiSigWallet.addr);
 
@@ -260,7 +260,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
 
 		// TODO: Remove next line, just here for checking which address is received from anchor. The last address shown from above anchor list should be shown.
-		//console.log("Anchor Taken: ", anchor);
+		console.log("Anchor Taken: ", anchor);
 
 		const converterBase = deployed(web3, "ConverterBase", newConverter);
 

@@ -32,5 +32,24 @@
         }
     ],
     "k": 6779,
-    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab",
+    "phase": 6,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "MYNT": {
+        "name": "MYNT",
+        "addr": "0x139483e22575826183F5b56dd242f8f2C1AEf327"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0x9091948cc6407BFBFd02C6D752483663AAa3915B",
+        "args": ""
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0xee617fb27cD47644822d6c0a8f5F9E77E1E490A4",
+        "args": "0000000000000000000000009091948cc6407bfbfd02c6d752483663aaa3915b00000000000000000000000069fe5cec81d5ef92600c1a0db1f11986ab3758ab"
+    }
 }
