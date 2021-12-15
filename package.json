@@ -13,7 +13,7 @@
   "author": "Yudi Levi",
   "license": "SEE LICENSE IN LICENSE",
   "engines": {
-    "npm": "^3.0.0"
+    "npm": "^8.0.1"
   },
   "scripts": {
     "build": "truffle compile",
