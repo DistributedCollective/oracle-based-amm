@@ -23,6 +23,28 @@ contract("Oracle", (accounts) => {
     await setupOracle();
   });
 
+  it("should revert if set pool address with zero address", async() => {
+    await expectRevert(oracle.setLiquidityPool(ZERO_ADDRESS), "ERR_ZERO_POOL_ADDRESS");
+  })
+
+  it("should revert if set pool address with unauthorized owner", async() => {
+    await expectRevert(oracle.setLiquidityPool(ZERO_ADDRESS, {from: accounts[7]}), "ERR_ACCESS_DENIED");
+  })
+
+  it("set new liquidity pool address", async() => {
+    expect(await oracle.liquidityPool()).to.equal(accounts[1]);
+    const receipt = await oracle.setLiquidityPool(accounts[2]);
+    expect(await oracle.liquidityPool()).to.equal(accounts[2]);
+
+    expectEvent(receipt, "LiquidityPoolUpdate", {
+      sender: accounts[0],
+      oldLiquidityPool: pool,
+      newLiquidityPool: accounts[2]
+    })
+
+    await oracle.setLiquidityPool(pool);
+  })
+
   it("should revert if k value not set by owner", async () => {
     await expectRevert(oracle.setK(k, { from: accounts[2] }), "ERR_ACCESS_DENIED");
   });
