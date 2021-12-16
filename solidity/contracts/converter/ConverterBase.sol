@@ -509,15 +509,15 @@ contract ConverterBase is IConverter, TokenHandler, TokenHolder, ContractRegistr
 	}
 
 	/**
-	 * @dev returns the protocol fee for a given target amount
+	 * @dev We take x% of conversion fee as the protocol fee.
 	 *
-	 * @param _targetAmount target amount
+	 * @param _conversionFeeAmount Conversion fee amount.
 	 *
-	 * @return calculated protocol fee
+	 * @return calculated protocol fee.
 	 */
-	function calculateProtocolFee(address _targetToken, uint256 _targetAmount) internal returns (uint256) {
+	function calculateProtocolFee(address _targetToken, uint256 _conversionFeeAmount) internal returns (uint256) {
 		uint256 _protocolFee = getProtocolFeeFromSwapSettings();
-		uint256 calculatedProtocolFee = _targetAmount.mul(_protocolFee).div(PROTOCOL_FEE_RESOLUTION);
+		uint256 calculatedProtocolFee = _conversionFeeAmount.mul(_protocolFee).div(PROTOCOL_FEE_RESOLUTION);
 		protocolFeeTokensHeld[_targetToken] = protocolFeeTokensHeld[_targetToken].add(calculatedProtocolFee);
 		return calculatedProtocolFee;
 	}

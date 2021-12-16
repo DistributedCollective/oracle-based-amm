@@ -178,11 +178,12 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
         // sync the reserve balances
         syncReserveBalance(_sourceToken);
-        reserves[_targetToken].balance = reserves[_targetToken].balance.sub(amount);
 
-        // calculate protocol fee
-        uint256 calculatedProtocolFee = calculateProtocolFee(_targetToken, amount);
-        amount = amount.sub(calculatedProtocolFee);
+        // calculate protocol fee from the conversion fee only. So it would take x% of conversion fee as the protocol fee.
+        // Also we don't need to substract anything from the return amount.
+        uint256 calculatedProtocolFee = calculateProtocolFee(_targetToken, fee);
+        reserves[_targetToken].balance = reserves[_targetToken].balance.sub(amount).sub(calculatedProtocolFee);
+        // amount = amount.sub(calculatedProtocolFee);
 
         // ensure that the trade gives something in return
         require(amount != 0, "ERR_ZERO_TARGET_AMOUNT");

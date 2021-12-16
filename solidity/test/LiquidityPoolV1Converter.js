@@ -301,12 +301,12 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 
 			it("verifies that convert returns valid amount and fee after converting", async () => {
 				const converter = await initConverter(true, isETHReserve, 5000);
-				const protocolFeePercentage = new BN(wei("100", "kwei")) // 10% protocol fee from the conversion amount
+				const protocolFeePercentage = new BN(wei("100", "kwei")) // 16% protocol fee from the conversion amount
 
 				await converter.setConversionFee(3000);
 				await swapSettings.setProtocolFee(protocolFeePercentage.toString());
 
-				const amount = new BN(500);
+				const amount = new BN(wei("50000", "wei"));
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -314,16 +314,18 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
 				}
 
-				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount = targetAmountAndFee[0];
+				const conversionFeeAmount = targetAmountAndFee[1];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
-				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee = conversionFeeAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount.sub(totalProtocolFee),
+					_toAmount: purchaseAmount,
 				});
 
 				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("100", "kwei"))).toString() );
@@ -357,7 +359,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await converter.setConversionFee(3000);
 				await swapSettings.setProtocolFee(protocolFeePercentage.toString());
 
-				const amount = new BN(500);
+				const amount = new BN(wei("50000", "wei"));
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -365,16 +367,18 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
 				}
 
-				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount = targetAmountAndFee[0];
+				const conversionFeeAmount = targetAmountAndFee[1];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
-				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee = conversionFeeAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount.sub(totalProtocolFee),
+					_toAmount: purchaseAmount,
 				});
 
 				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("100", "kwei"))).toString() );
@@ -422,7 +426,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await converter.setConversionFee(3000);
 				await swapSettings.setProtocolFee(protocolFeePercentage.toString());
 
-				const amount = new BN(500);
+				const amount = new BN(wei("50000", "wei"));
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -447,10 +451,12 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				console.log("previous reserve balkance 1: ", previousToken1ReserveBalance.toString())
 				console.log("previous reserve balkance 2: ", previousToken2ReserveBalance.toString())
 
-				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount = targetAmountAndFee[0];
+				const conversionFeeAmount = targetAmountAndFee[1];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
-				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee = conversionFeeAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
 
 				const protocolFeesHeldAfterSwap1 = await converter.getProtocolFeeTokensHeld(reserveToken.address);
 				const protocolFeesHeldAfterSwap2 = await converter.getProtocolFeeTokensHeld(reserveToken2.address);
@@ -464,19 +470,16 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(protocolFeesHeldAfterSwap1.toString()).to.equal(new BN("0").toString());
 				expect(protocolFeesHeldAfterSwap2.toString()).to.equal(totalProtocolFee.toString());
 				expect(tokenReserveBalanceAfterSwap1.toString()).to.equal(new BN("5000").add(amount).toString());
-				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("8000").sub(purchaseAmount).toString());
+				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("8000").sub(purchaseAmount).sub(protocolFeesHeldAfterSwap2).toString());
 				expect(balanceToken2InFeesControllerAfterSwap.toString()).to.equal(new BN("0").toString())
 				expect(balanceToken2InConverterAfterSwap.sub(tokenReserveBalanceAfterSwap2).toString()).to.equal(totalProtocolFee.toString())
-
-				console.log("total amount: ", purchaseAmount.toString());
-				console.log("total amount: ", totalProtocolFee.toString());
 
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount.sub(totalProtocolFee),
+					_toAmount: purchaseAmount,
 				});
 
 				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("100", "kwei"))).toString() );
@@ -501,9 +504,6 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const balanceToken2InConverterAfterWithdrawal = await reserveToken2.balanceOf(converter.address);
 				const balanceToken2InFeesControllerAfterWithdrawal = await reserveToken2.balanceOf(feesController);
 
-				console.log(latestToken1ReserveBalance.toString());
-				console.log(latestToken2ReserveBalance.toString());
-
 				expect(latestToken1FeesHeldBalance.toString()).to.equal(new BN("0").toString());
 				expect(latestToken2FeesHeldBalance.toString()).to.equal(new BN("0").toString());
 
@@ -524,7 +524,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				/** TODO: SUPPORT ETH RESERVE TEST CASE */
 				if(isETHReserve) return;
 				const converter = await initConverter(true, isETHReserve, 5000);
-				const protocolFeePercentage = new BN(wei("100", "kwei")) // 10% protocol fee from the conversion amount
+				const protocolFeePercentage = new BN(wei("500", "kwei")) // 50% protocol fee from the conversion amount
 				const feesController = accounts[7];
 				const totalSupplyWrbtc = 2000000000;
 				const wrbtc = await ERC20Token.new("WRBTC", "WRBTC", 8, totalSupplyWrbtc);
@@ -532,7 +532,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await converter.setConversionFee(3000);
 				await swapSettings.setProtocolFee(protocolFeePercentage.toString());
 
-				const amount = new BN(500);
+				const amount = new BN(wei("5000", "wei"));
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -557,7 +557,9 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				console.log("previous reserve balkance 1: ", previousToken1ReserveBalance.toString())
 				console.log("previous reserve balkance 2: ", previousToken2ReserveBalance.toString())
 
-				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount = targetAmountAndFee[0];
+				const conversionFeeAmount = targetAmountAndFee[1];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 
 				/// Second swap
@@ -573,10 +575,12 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				// ERR_INVALID_AMOUNT CHECK
 				expect(balanceToken2InConverterAfterSwap.add(amount).sub(tokenReserveBalanceAfterSwap2).sub(protocolFeesHeldAfterSwap2).toString()).to.equal(amount.toString());
 				await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
-				const purchaseAmount2 = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee2 = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount2 = targetAmountAndFee2[0];
+				const conversionFeeAmount2 = targetAmountAndFee2[1];
 				const res2 = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
-				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
-				const totalProtocolFee2 = purchaseAmount2.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee = conversionFeeAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee2 = conversionFeeAmount2.mul(protocolFeePercentage).div(protocolFeeResolution);
 				let protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
 
 				protocolFeesHeldAfterSwap1 = await converter.getProtocolFeeTokensHeld(reserveToken.address);
@@ -591,7 +595,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(protocolFeesHeldAfterSwap1.toString()).to.equal(new BN("0").toString());
 				expect(protocolFeesHeldAfterSwap2.toString()).to.equal(totalProtocolFee.add(totalProtocolFee2).toString());
 				expect(tokenReserveBalanceAfterSwap1.toString()).to.equal(new BN("5000").add(amount).add(amount).toString());
-				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("8000").sub(purchaseAmount.add(purchaseAmount2)).toString());
+				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("8000").sub(purchaseAmount.add(purchaseAmount2).add(protocolFeesHeldAfterSwap1).add(protocolFeesHeldAfterSwap2)).toString());
 				expect(balanceToken2InFeesControllerAfterSwap.toString()).to.equal(new BN("0").toString())
 				expect(balanceToken2InConverterAfterSwap.sub(tokenReserveBalanceAfterSwap2).toString()).to.equal(totalProtocolFee.add(totalProtocolFee2).toString())
 
@@ -600,10 +604,10 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount.sub(totalProtocolFee),
+					_toAmount: purchaseAmount,
 				});
 
-				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("100", "kwei"))).toString() );
+				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("500", "kwei"))).toString() );
 				expect(protocolTokenHeld.toString()).to.eql(totalProtocolFee.add(totalProtocolFee2).toString());
 
 				// withdraw protocol fee from the converter
@@ -647,9 +651,11 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				// ERR_INVALID_AMOUNT CHECK
 				expect(balanceToken2InConverterAfterSwap.add(amount).sub(tokenReserveBalanceAfterSwap2).sub(protocolFeesHeldAfterSwap2).toString()).to.equal(amount.toString());
 				await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
-				const purchaseAmount3 = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee3 = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount3 = targetAmountAndFee3[0];
+				const conversionFeeAmount3 = targetAmountAndFee3[1];
 				const res3 = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
-				const totalProtocolFee3 = purchaseAmount3.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee3 = conversionFeeAmount3.mul(protocolFeePercentage).div(protocolFeeResolution);
 				protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
 				
 				tokenReserveBalanceAfterSwap1 = await converter.reserveBalance(reserveToken.address);
@@ -666,7 +672,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(protocolFeesHeldAfterSwap1.toString()).to.equal(new BN("0").toString());
 				expect(protocolFeesHeldAfterSwap2.toString()).to.equal(totalProtocolFee3.toString());
 				expect(tokenReserveBalanceAfterSwap1.toString()).to.equal(new BN("5000").add(amount.mul(new BN(3))).toString());
-				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("8000").sub(purchaseAmount.add(purchaseAmount2).add(purchaseAmount3)).toString());
+				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("8000").sub(purchaseAmount.add(purchaseAmount2).add(purchaseAmount3).add(totalProtocolFee).add(totalProtocolFee2).add(totalProtocolFee3)).toString());
 				expect(balanceToken2InConverterAfterSwap.sub(tokenReserveBalanceAfterSwap2).toString()).to.equal(totalProtocolFee3.toString())
 			});
 
@@ -685,7 +691,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await converter.setConversionFee(3000);
 				await swapSettings.setProtocolFee(protocolFeePercentage.toString());
 
-				const amount = new BN(500);
+				const amount = new BN(wei("50000", "wei"));
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -704,12 +710,14 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(await previousToken1ReserveBalance.toString()).to.equal(new BN("8000").toString());
 				expect(await previousToken2ReserveBalance.toString()).to.equal(new BN("5000").toString());
 
-				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount = targetAmountAndFee[0];
+				const conversionFeeAmount = targetAmountAndFee[1];
 				/** SWAP WRBTC TO TOKEN */
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld1 = await converter.protocolFeeTokensHeld(reserveToken.address);
 				const protocolTokenHeld2 = await converter.protocolFeeTokensHeld(reserveToken2.address);
-				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee = conversionFeeAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
 
 				const protocolFeesHeldAfterSwap1 = await converter.getProtocolFeeTokensHeld(reserveToken.address);
 				const protocolFeesHeldAfterSwap2 = await converter.getProtocolFeeTokensHeld(reserveToken2.address);
@@ -726,7 +734,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(protocolFeesHeldAfterSwap1.toString()).to.equal(new BN("0").toString());
 				expect(protocolFeesHeldAfterSwap2.toString()).to.equal(totalProtocolFee.toString());
 				expect(tokenReserveBalanceAfterSwap1.toString()).to.equal(new BN("8000").add(amount).toString());
-				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).toString());
+				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).sub(protocolFeesHeldAfterSwap2).toString());
 				expect(balanceToken2InFeesControllerAfterSwap.toString()).to.equal(new BN("0").toString())
 				expect(balanceToken2InConverterAfterSwap.sub(tokenReserveBalanceAfterSwap2).toString()).to.equal(totalProtocolFee.toString())
 				expect(balanceToken1InConverterAfterSwap.toString()).to.equal(new BN("8000").add(amount).toString())
@@ -736,7 +744,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount.sub(totalProtocolFee),
+					_toAmount: purchaseAmount,
 				});
 
 				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("100", "kwei"))).toString() );
@@ -814,13 +822,13 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const converter = await initConverter2(true, isETHReserve, 5000);
 				await converterRegistry.addConverter(converter.address);
 				await pathFinder.setAnchorToken(reserveToken.address);
-				const protocolFeePercentage = new BN(wei("100", "kwei")) // 10% protocol fee from the conversion amount
+				const protocolFeePercentage = new BN(wei("500", "kwei")) // 50% protocol fee from the conversion amount
 				const feesController = accounts[7];
 
 				await converter.setConversionFee(3000);
 				await swapSettings.setProtocolFee(protocolFeePercentage.toString());
 
-				const amount = new BN(500);
+				const amount = new BN(wei("50000", "wei"));
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -840,7 +848,9 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(await previousToken2ReserveBalance.toString()).to.equal(new BN("5000").toString());
 
 				// Purchase amount here is including the protocol fee
-				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount = targetAmountAndFee[0];
+				const conversionFeeAmount = targetAmountAndFee[1];
 				/** SWAP WRBTC TO TOKEN */
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 
@@ -860,10 +870,12 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				// ERR_INVALID_AMOUNT CHECK
 				expect(balanceToken2InConverterAfterSwap.add(amount).sub(tokenReserveBalanceAfterSwap2).sub(protocolFeesHeldAfterSwap2).toString()).to.equal(amount.toString());
 				await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
-				const purchaseAmount2 = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee2 = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount2 = targetAmountAndFee2[0];
+				const conversionFeeAmount2 = targetAmountAndFee2[1];
 				const res2 = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
-				let totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
-				let totalProtocolFee2 = purchaseAmount2.mul(protocolFeePercentage).div(protocolFeeResolution);
+				let totalProtocolFee = conversionFeeAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
+				let totalProtocolFee2 = conversionFeeAmount2.mul(protocolFeePercentage).div(protocolFeeResolution);
 				let protocolTokenHeld1 = await converter.protocolFeeTokensHeld(reserveToken.address);
 				let protocolTokenHeld2 = await converter.protocolFeeTokensHeld(reserveToken2.address);
 
@@ -882,7 +894,8 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				expect(protocolFeesHeldAfterSwap1.toString()).to.equal(new BN("0").toString());
 				expect(protocolFeesHeldAfterSwap2.toString()).to.equal(totalProtocolFee.add(totalProtocolFee2).toString());
 				expect(tokenReserveBalanceAfterSwap1.toString()).to.equal(new BN("8000").add(amount).add(amount).toString());
-				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).sub(purchaseAmount2).toString()); /// No need to sub by protocol fees held anymore since purchase amount already include the protocol fee
+				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).sub(purchaseAmount2).sub(protocolFeesHeldAfterSwap2).toString());
+				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).sub(purchaseAmount2).sub(totalProtocolFee).sub(totalProtocolFee2).toString());
 				expect(balanceToken2InFeesControllerAfterSwap.toString()).to.equal(new BN("0").toString())
 				expect(balanceToken2InConverterAfterSwap.sub(tokenReserveBalanceAfterSwap2).toString()).to.equal(totalProtocolFee.add(totalProtocolFee2).toString())
 				expect(balanceToken1InConverterAfterSwap.toString()).to.equal(new BN("8000").add(amount).add(amount).toString())
@@ -892,10 +905,10 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount.sub(totalProtocolFee),
+					_toAmount: purchaseAmount,
 				});
 
-				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("100", "kwei"))).toString() );
+				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("500", "kwei"))).toString() );
 				expect(protocolTokenHeld1.toString()).to.eql(new BN("0").toString());
 				expect(protocolTokenHeld2.toString()).to.eql(totalProtocolFee.add(totalProtocolFee2).toString());
 
@@ -922,6 +935,11 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				const balanceToken2InConverterAfterWithdrawal = await reserveToken2.balanceOf(converter.address);
 				const balanceToken2InFeesControllerAfterWithdrawal = await reserveToken2.balanceOf(feesController);
 
+				// try to get the rate for token -> wrbtc
+				const targetAmountForWithdrawal = (await converter.targetAmountAndFee.call(reserveToken2.address, getReserve1Address(isETHReserve), protocolFeesHeldAfterSwap2));
+				const feeConversionForWithdrawal = targetAmountForWithdrawal[1];
+				const protocolFeeCollectedWhenWhitdrawing = feeConversionForWithdrawal.mul(protocolFeePercentage).div(protocolFeeResolution);
+
 				expect(latestToken1FeesHeldBalance.toString()).to.equal(new BN("0").toString());
 				expect(latestToken2FeesHeldBalance.toString()).to.equal(new BN("0").toString());
 
@@ -944,7 +962,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 						expect(protocolFeeAmount.toString()).to.equal(totalProtocolFee.add(totalProtocolFee2).toString());	
 					} else if(i == 1) {
 						expect(token).to.equal(reserveToken.address);
-						expect(wRBTCConverted).to.equal( (new BN(decode[0].args["wRBTCConverted"]).mul(protocolFeePercentage).divRound(protocolFeeResolution)).toString() );
+						expect(wRBTCConverted).to.equal( protocolFeeCollectedWhenWhitdrawing.toString() );
 					}
 				}
 
@@ -961,13 +979,15 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					protocolFeeAmount: totalProtocolFee.add(totalProtocolFee2),
 				});
 
-				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).sub(purchaseAmount2).toString());
+				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).sub(purchaseAmount2).sub(protocolFeesHeldAfterSwap2).toString());
 
 				/// Third swap (#1 swap after withdrawal)
 				await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
-				const purchaseAmount3 = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee3 = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount3 = targetAmountAndFee3[0];
+				const conversionFeeAmount3 = targetAmountAndFee3[1];
 				const res3 = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
-				const totalProtocolFee3 = purchaseAmount3.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee3 = conversionFeeAmount3.mul(protocolFeePercentage).div(protocolFeeResolution);
 				protocolTokenHeld1 = await converter.protocolFeeTokensHeld(reserveToken.address);
 				protocolTokenHeld2 = await converter.protocolFeeTokensHeld(reserveToken2.address);
 
@@ -992,7 +1012,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				/// Total reserve balance at this state should be (amount * 3) - total wrbtc withdrawn
 				expect(tokenReserveBalanceAfterSwap1.toString()).to.equal(new BN("8000").add(amount.mul(new BN(3))).sub(totalWrbtcWithdrawn).toString());
 				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(balanceToken2InConverterAfterSwap.sub(protocolTokenHeld2).toString());
-				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).sub(purchaseAmount2).sub(purchaseAmount3).add(totalToken2Withdrawn).toString()); // Need to add by protocol fee #swap1 & #swap2 because we have withdrawan the protocol fee
+				expect(tokenReserveBalanceAfterSwap2.toString()).to.equal(new BN("5000").sub(purchaseAmount).sub(purchaseAmount2).sub(purchaseAmount3).sub(totalProtocolFee).sub(totalProtocolFee2).sub(totalProtocolFee3).add(totalToken2Withdrawn).toString()); // Need to add by protocol fee #swap1 & #swap2 because we have withdrawan the protocol fee
 				expect(balanceToken2InConverterAfterSwap.sub(tokenReserveBalanceAfterSwap2).add(totalToken2Withdrawn).toString()).to.equal(totalProtocolFee.add(totalProtocolFee2).add(totalProtocolFee3).toString())
 				expect(balanceToken1InConverterAfterSwap.toString()).to.equal(new BN("8000").add(amount.mul(new BN(3))).sub(totalWrbtcWithdrawn).toString())
 				expect(balanceToken1InFeesControllerAfterSwap.toString()).to.equal(totalWrbtcWithdrawn.toString())
@@ -1009,7 +1029,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await converter.setConversionFee(3000);
 				await swapSettings.setProtocolFee(protocolFeePercentage.toString());
 
-				const amount = new BN(500);
+				const amount = new BN(wei("50000", "wei"));
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -1017,16 +1037,18 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
 				}
 
-				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount = targetAmountAndFee[0];
+				const conversionFeeAmount = targetAmountAndFee[1];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
-				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee = conversionFeeAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount.sub(totalProtocolFee),
+					_toAmount: purchaseAmount,
 				});
 
 				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("100", "kwei"))).toString() );
@@ -1073,7 +1095,7 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 				await converter.setConversionFee(3000);
 				await swapSettings.setProtocolFee(protocolFeePercentage.toString());
 
-				const amount = new BN(500);
+				const amount = new BN(wei("50000", "wei"));
 				let value = 0;
 				if (isETHReserve) {
 					value = amount;
@@ -1081,16 +1103,18 @@ contract("LiquidityPoolV1Converter", (accounts) => {
 					await reserveToken.approve(sovrynSwapNetwork.address, amount, { from: sender });
 				}
 
-				const purchaseAmount = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount))[0];
+				const targetAmountAndFee = (await converter.targetAmountAndFee.call(getReserve1Address(isETHReserve), reserveToken2.address, amount));
+				const purchaseAmount = targetAmountAndFee[0];
+				const conversionFeeAmount = targetAmountAndFee[1];
 				const res = await convert([getReserve1Address(isETHReserve), tokenAddress, reserveToken2.address], amount, MIN_RETURN, { value });
 				const protocolTokenHeld = await converter.protocolFeeTokensHeld(reserveToken2.address);
-				const totalProtocolFee = purchaseAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
+				const totalProtocolFee = conversionFeeAmount.mul(protocolFeePercentage).div(protocolFeeResolution);
 				expectEvent(res, "Conversion", {
 					_smartToken: token.address,
 					_fromToken: getReserve1Address(isETHReserve),
 					_toToken: reserveToken2.address,
 					_fromAmount: amount,
-					_toAmount: purchaseAmount.sub(totalProtocolFee),
+					_toAmount: purchaseAmount,
 				});
 
 				expect((await swapSettings.protocolFee()).toString()).to.eql( (new BN(wei("100", "kwei"))).toString() );
