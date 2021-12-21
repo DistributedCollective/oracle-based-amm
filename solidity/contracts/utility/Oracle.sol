@@ -39,6 +39,7 @@ contract Oracle is Owned {
 	);
 
 	event KValueUpdate(uint256 _k);
+	event LiquidityPoolUpdate(address indexed sender, address oldLiquidityPool, address newLiquidityPool);
 
 	// ensures that the values are written by pool contract
 	modifier validPool() {
@@ -145,5 +146,13 @@ contract Oracle is Owned {
 		} else if (ILiquidityPoolV1Converter(liquidityPool).reserveTokens(1) == _baseToken) {
 			answer = ema1;
 		}
+	}
+
+	function setLiquidityPool(address _newLiquidityPool) external ownerOnly {
+		require(_newLiquidityPool != address(0), "ERR_ZERO_POOL_ADDRESS");
+
+		address oldLiquidityPool = liquidityPool;
+		liquidityPool = _newLiquidityPool;
+		emit LiquidityPoolUpdate(msg.sender, oldLiquidityPool, liquidityPool);
 	}
 }

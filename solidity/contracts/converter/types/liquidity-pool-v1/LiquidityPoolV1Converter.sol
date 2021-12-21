@@ -113,8 +113,8 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
       * @param _targetToken contract address of the target reserve token
       * @param _amount      amount of tokens received from the user
       *
-      * @return expected target amount
-      * @return expected fee
+      * @return expected target amount.
+      * @return total fee.
     */
     function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _amount)
         public
@@ -135,9 +135,10 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
             _amount
         );
 
-        // return the amount minus the conversion fee, the conversion fee.
+        /// @dev fee is the total fee
         uint256 fee = calculateFee(amount);
 
+        // return the amount minus the conversion fee, the conversion fee which is the total fee.
         return (amount.sub(fee), fee);
     }
 
@@ -163,7 +164,8 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 		//record oracle observations
         if(address(oracle) != address(0)) _write();
 
-        // get expected target amount and fee
+        /// get expected target amount, conversion fee.
+        /// @dev fee is the total fee.
         (uint256 amount, uint256 fee) = targetAmountAndFee(_sourceToken, _targetToken, _amount);
 
         // ensure that the trade won't deplete the reserve balance
@@ -178,11 +180,15 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 
         // sync the reserve balances
         syncReserveBalance(_sourceToken);
-        reserves[_targetToken].balance = reserves[_targetToken].balance.sub(amount);
 
-        // calculate protocol fee
-        uint256 calculatedProtocolFee = calculateProtocolFee(_targetToken, amount);
-        amount = amount.sub(calculatedProtocolFee);
+        /// @dev Protocol fee is just part of the fee above.
+        uint256 calculatedProtocolFee = calculateProtocolFee(fee);
+
+        /// Add the total helds token fee.
+        protocolFeeTokensHeld[_targetToken] = protocolFeeTokensHeld[_targetToken].add(calculatedProtocolFee);
+
+        /// Reserve balance needs to be substracted by the protocol fee.
+        reserves[_targetToken].balance = reserves[_targetToken].balance.sub(amount).sub(calculatedProtocolFee);
 
         // ensure that the trade gives something in return
         require(amount != 0, "ERR_ZERO_TARGET_AMOUNT");
@@ -194,7 +200,7 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
             safeTransfer(_targetToken, _beneficiary, amount);
 
         // dispatch the conversion event
-        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee, calculatedProtocolFee);
+        dispatchConversionEvent(_sourceToken, _targetToken, _trader, _amount, amount, fee.sub(calculatedProtocolFee), calculatedProtocolFee);
 
         // dispatch rate updates
         dispatchRateEvents(_sourceToken, _targetToken);
