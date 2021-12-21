@@ -105,7 +105,7 @@ The configuration file is updated during the process, in order to allow resuming
 5. Register (whitelist) v1 converter in the feeSharingProxy: run [addWhitelistedConverterAddress](https://github.com/DistributedCollective/Sovryn-smart-contracts/blob/3e7f280e6e129946f070d4284884470ccf29861c/scripts/contractInteraction/protocol.py#L595) in [Sovryn-smart-contracts repo](https://github.com/DistributedCollective/Sovryn-smart-contracts)  
 6. Add AMM pool token to liquidity mining in [Sovryn-smart-contracts repo](https://github.com/DistributedCollective/Sovryn-smart-contracts), [script](https://github.com/DistributedCollective/Sovryn-smart-contracts/blob/1ace05926612516913e17a38c4f55816fdb20749/scripts/contractInteraction/liquidity_mining.py#L94)
 
-### Example creation v1 pool WRBTC/ETH  
+### Example of v1 pool WRBTC/ETH creation  
 
 Note: `data_testnet.json` and `data_mainnet.json` store contracts addresses participating in converter creation.
 
