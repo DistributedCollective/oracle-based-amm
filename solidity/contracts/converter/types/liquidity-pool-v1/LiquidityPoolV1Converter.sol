@@ -58,19 +58,10 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 	}
 
 	/**
-	 * @dev returns bool msg.sender is owner
-	 * use to save on contract size
-	 */
-	function isOwner() internal view returns (bool) {
-		return msg.sender == owner;
-	}
-
-	/**
 	 * @dev set oracle contract address
 	 * can be called by owner of the contract only
 	 */
-	function setOracle(address _oracle) external {
-		require(isOwner(), "ERR_SET_ORACLE_ONLY_OWNER");
+	function setOracle(address _oracle) external onlyOwner {
 		oracle = IOracle(_oracle);
 	}
 
@@ -446,9 +437,8 @@ contract LiquidityPoolV1Converter is LiquidityPoolConverter {
 	 * @param _reserveTokens   address of each reserve token
 	 * @param _reserveAmounts  amount of each reserve token
 	 */
-	function addLiquidityToEmptyPool(IERC20Token[] memory _reserveTokens, uint256[] memory _reserveAmounts) private returns (uint256) {
+	function addLiquidityToEmptyPool(IERC20Token[] memory _reserveTokens, uint256[] memory _reserveAmounts) private onlyOwner returns (uint256) {
 		// calculate the geometric-mean of the reserve amounts approved by the user
-		require(isOwner(), "ERR_INIT_LIQUIDITY_ONLY_OWNER");
 		uint256 amount = geometricMean(_reserveAmounts);
 
 		// transfer each one of the reserve amounts from the user to the pool
