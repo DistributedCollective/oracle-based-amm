@@ -90,7 +90,7 @@ module.exports = {
 		grep: "^(?!.*; using Ganache).*",
 	},
 	docgen: {
-		path: "./docs",
+		path: "./docgen",
 		clear: true,
 	},
 };
