@@ -1,0 +1,8 @@
+{
+    "pathToRoot": "./solidity",
+    "inBuildPath": "contracts",
+    "outputPath": "./solidity/docs",
+    "noCompilation": true,
+    "compiler": "truffle compile",
+    "language": "en"
+}
