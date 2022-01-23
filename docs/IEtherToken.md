@@ -24,11 +24,6 @@ View Source: [contracts/token/interfaces/IEtherToken.sol](../solidity/contracts/
 function deposit() public payable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 

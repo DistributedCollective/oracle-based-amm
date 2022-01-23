@@ -32,11 +32,6 @@ function peek() external view
 returns(bytes32, bool)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 

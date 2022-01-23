@@ -87,32 +87,17 @@ event XTransferComplete(address  _to, uint256  _id);
 modifier reporterOnly() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ### xTransfersAllowed
 
 ```js
 modifier xTransfersAllowed() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ### reportingAllowed
 
 ```js
 modifier reportingAllowed() internal
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 ## Functions
 
@@ -145,11 +130,6 @@ modifier reportingAllowed() internal
 function _reporterOnly() internal view
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -168,11 +148,6 @@ function _reporterOnly() internal view {
 function _xTransfersAllowed() internal view
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -190,11 +165,6 @@ function _xTransfersAllowed() internal view {
 ```solidity
 function _reportingAllowed() internal view
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -686,11 +656,6 @@ function getCurrentLockLimit() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -715,11 +680,6 @@ method for calculating current release limit
 function getCurrentReleaseLimit() public view
 returns(uint256)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

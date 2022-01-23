@@ -54,11 +54,6 @@ function poolTokens() public view
 returns(contract ISmartToken[])
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -85,11 +80,6 @@ creates a new pool token and adds it to the list
 function createToken() public nonpayable ownerOnly 
 returns(contract ISmartToken)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

@@ -188,11 +188,6 @@ function getSmartTokenCount() external view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -211,11 +206,6 @@ function getSmartTokenCount() external view returns (uint256);
 function getSmartTokens() external view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -286,11 +276,6 @@ function getLiquidityPoolCount() external view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -309,11 +294,6 @@ function getLiquidityPoolCount() external view returns (uint256);
 function getLiquidityPools() external view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -384,11 +364,6 @@ function getConvertibleTokenCount() external view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -407,11 +382,6 @@ function getConvertibleTokenCount() external view returns (uint256);
 function getConvertibleTokens() external view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

@@ -51,11 +51,6 @@ function lastUpdateTime() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -106,11 +101,6 @@ function tokenAOracle() public view
 returns(contract IConsumerPriceOracle)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -129,11 +119,6 @@ function tokenAOracle() public view returns (IConsumerPriceOracle) {
 function tokenBOracle() public view
 returns(contract IConsumerPriceOracle)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

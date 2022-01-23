@@ -25,11 +25,6 @@ function poolTokens() public view
 returns(contract ISmartToken[])
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -48,11 +43,6 @@ function poolTokens() public view returns (ISmartToken[]);
 function createToken() public nonpayable
 returns(contract ISmartToken)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

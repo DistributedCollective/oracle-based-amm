@@ -81,11 +81,6 @@ event RequirementChange(uint256  required);
 modifier onlyWallet() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ### ownerDoesNotExist
 
 ```js
@@ -214,11 +209,6 @@ Fallback function allows to deposit ether.
 ```solidity
 function () external payable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -716,11 +706,6 @@ Get the list of owners.
 function getOwners() public view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

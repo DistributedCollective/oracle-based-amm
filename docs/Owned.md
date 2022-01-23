@@ -34,11 +34,6 @@ event OwnerUpdate(address indexed _prevOwner, address indexed _newOwner);
 modifier ownerOnly() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ## Functions
 
 - [_ownerOnly()](#_owneronly)
@@ -52,11 +47,6 @@ modifier ownerOnly() internal
 ```solidity
 function _ownerOnly() internal view
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -111,11 +101,6 @@ used by a new owner to accept an ownership transfer
 ```solidity
 function acceptOwnership() public nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

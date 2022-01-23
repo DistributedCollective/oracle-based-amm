@@ -35,11 +35,6 @@ function latestAnswer() external view
 returns(int256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -63,11 +58,6 @@ returns the trivial ETH/ETH update time.
 function latestTimestamp() external view
 returns(uint256)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

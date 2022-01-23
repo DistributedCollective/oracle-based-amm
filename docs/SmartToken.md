@@ -53,11 +53,6 @@ event Destruction(uint256  _amount);
 modifier transfersAllowed() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ## Functions
 
 - [_transfersAllowed()](#_transfersallowed)
@@ -74,11 +69,6 @@ modifier transfersAllowed() internal
 ```solidity
 function _transfersAllowed() internal view
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

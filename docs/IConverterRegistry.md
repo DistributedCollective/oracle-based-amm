@@ -36,11 +36,6 @@ function getAnchorCount() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -59,11 +54,6 @@ function getAnchorCount() public view returns (uint256);
 function getAnchors() public view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -134,11 +124,6 @@ function getLiquidityPoolCount() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -157,11 +142,6 @@ function getLiquidityPoolCount() public view returns (uint256);
 function getLiquidityPools() public view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -232,11 +212,6 @@ function getConvertibleTokenCount() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -255,11 +230,6 @@ function getConvertibleTokenCount() public view returns (uint256);
 function getConvertibleTokens() public view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

@@ -59,11 +59,6 @@ function converterType() public pure
 returns(uint16)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -93,11 +88,6 @@ note that prior to version 28, you should use 'acceptTokenOwnership' instead
 ```solidity
 function acceptAnchorOwnership() public nonpayable ownerOnly 
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

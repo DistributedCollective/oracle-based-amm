@@ -50,11 +50,6 @@ function converterType() external pure
 returns(uint16)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -78,11 +73,6 @@ note that prior to version 28, you should use 'acceptTokenOwnership' instead
 ```solidity
 function acceptAnchorOwnership() external nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -354,11 +344,6 @@ function token() external view
 returns(contract IConverterAnchor)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -375,11 +360,6 @@ function token() external view returns (IConverterAnchor);
 function reserveRatio() external view
 returns(uint32)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

@@ -30,11 +30,6 @@ event TxReroute(uint256 indexed _txId, bytes32  _toBlockchain, bytes32  _to);
 modifier reroutingAllowed() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ## Functions
 
 - [enableRerouting(bool _enable)](#enablererouting)
@@ -75,11 +70,6 @@ function enableRerouting(bool _enable) public ownerOnly {
 ```solidity
 function _reroutingAllowed() internal view
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

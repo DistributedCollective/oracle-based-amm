@@ -30,11 +30,6 @@ uint256 private state;
 modifier protected() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ## Functions
 
 - [_protected()](#_protected)
@@ -46,11 +41,6 @@ modifier protected() internal
 ```solidity
 function _protected() internal view
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

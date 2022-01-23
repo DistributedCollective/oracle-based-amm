@@ -50,11 +50,6 @@ event KValueUpdate(uint256  _k);
 modifier validPool() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ## Functions
 
 - [setK(uint256 _k)](#setk)
@@ -151,11 +146,6 @@ function read() external view
 returns(uint256, uint256, uint256, uint256, uint256, uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -188,11 +178,6 @@ This function is kept to comply with the chainlink interface
 function latestAnswer() external view
 returns(answer uint256)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

@@ -67,11 +67,6 @@ function primaryReserveToken() public view
 returns(contract IERC20Token)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -88,11 +83,6 @@ function primaryReserveToken() public view returns (IERC20Token);
 function priceOracle() public view
 returns(contract IPriceOracle)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

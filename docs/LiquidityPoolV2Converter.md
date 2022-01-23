@@ -177,11 +177,6 @@ function converterType() public pure
 returns(uint16)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -209,11 +204,6 @@ function isActive() public view
 returns(bool)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -238,11 +228,6 @@ returns the liquidity amplification factor in the pool
 function amplificationFactor() public pure
 returns(uint8)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -600,11 +585,6 @@ can only be called by the owner
 function disableMaxStakedBalances() public nonpayable ownerOnly 
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -755,11 +735,6 @@ function effectiveTokensRate() public view
 returns(uint256, uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -786,11 +761,6 @@ returns the effective reserve tokens weights
 function effectiveReserveWeights() public view
 returns(uint256, uint256)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1689,11 +1659,6 @@ might get too high for a block, so creating them on first activation
 function createPoolTokens() internal nonpayable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -1748,11 +1713,6 @@ returns the effective rate between the two reserve tokens
 function _effectiveTokensRate() private view
 returns(struct LiquidityPoolV2Converter.Fraction)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1833,11 +1793,6 @@ function handleRateChange() private nonpayable
 returns(bool, struct LiquidityPoolV2Converter.Fraction)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -1891,11 +1846,6 @@ reserve token balance to its staked balance
 ```solidity
 function rebalance() private nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -2164,11 +2114,6 @@ returns the current time
 function time() internal view
 returns(uint256)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

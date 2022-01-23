@@ -45,11 +45,6 @@ function converterType() public pure
 returns(uint16)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -66,11 +61,6 @@ function converterType() public pure returns (uint16);
 function anchor() public view
 returns(contract IConverterAnchor)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -92,11 +82,6 @@ function anchor() public view returns (IConverterAnchor) {
 function isActive() public view
 returns(bool)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -181,11 +166,6 @@ function conversionWhitelist() public view
 returns(contract IWhitelist)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -205,11 +185,6 @@ function conversionFee() public view
 returns(uint32)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -228,11 +203,6 @@ function conversionFee() public view returns (uint32) {
 function maxConversionFee() public view
 returns(uint32)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -279,11 +249,6 @@ function reserveBalance(IERC20Token _reserveToken) public view returns (uint256)
 function () external payable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -325,11 +290,6 @@ function transferAnchorOwnership(address _newOwner) public;
 ```solidity
 function acceptAnchorOwnership() public nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -477,11 +437,6 @@ function token() public view
 returns(contract IConverterAnchor)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -523,11 +478,6 @@ function transferTokenOwnership(address _newOwner) public;
 ```solidity
 function acceptTokenOwnership() public nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -631,11 +581,6 @@ function connectorTokens(uint256 _index) public view returns (IERC20Token);
 function connectorTokenCount() public view
 returns(uint16)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

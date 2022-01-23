@@ -65,11 +65,6 @@ function read() external nonpayable
 returns(ema0 uint256, ema1 uint256, blockNumber uint64, timestamp uint64, lastCumulativePrice0 uint256, lastCumulativePrice1 uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -95,11 +90,6 @@ function read()
 function latestAnswer() external view
 returns(uint256)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

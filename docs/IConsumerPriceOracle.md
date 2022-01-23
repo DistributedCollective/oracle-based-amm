@@ -22,11 +22,6 @@ function latestAnswer() external view
 returns(int256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -45,11 +40,6 @@ function latestAnswer() external view returns (int256);
 function latestTimestamp() external view
 returns(uint256)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

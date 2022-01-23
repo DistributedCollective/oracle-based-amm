@@ -56,11 +56,6 @@ deposit ether on behalf of the sender
 function deposit() public payable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -256,11 +251,6 @@ deposit ether in the account
 ```solidity
 function () external payable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

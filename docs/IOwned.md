@@ -21,11 +21,6 @@ function owner() public view
 returns(address)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -69,11 +64,6 @@ function transferOwnership(address _newOwner) public;
 ```solidity
 function acceptOwnership() public nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

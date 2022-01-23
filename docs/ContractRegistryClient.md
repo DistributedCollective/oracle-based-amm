@@ -110,11 +110,6 @@ updates to the new contract-registry
 function updateRegistry() public nonpayable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -150,11 +145,6 @@ restores the previous contract-registry
 ```solidity
 function restoreRegistry() public nonpayable ownerOnly 
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

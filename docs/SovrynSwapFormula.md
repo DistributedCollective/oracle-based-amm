@@ -85,11 +85,6 @@ uint256[128] private lambertArray;
 function initMaxExpArray() private nonpayable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -234,11 +229,6 @@ function initMaxExpArray() private {
 ```solidity
 function initLambertArray() private nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -386,11 +376,6 @@ should be executed after construction (too large for the constructor)
 ```solidity
 function init() public nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

@@ -59,11 +59,6 @@ note that prior to version 28, you should use 'acceptTokenOwnership' instead
 function acceptAnchorOwnership() public nonpayable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 

@@ -84,11 +84,6 @@ function setCallProtectedMethod(bool _callProtectedMethod) external {
 function run() public nonpayable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -106,11 +101,6 @@ function run() public {
 ```solidity
 function callback() external nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -140,11 +130,6 @@ function callback() external {
 function protectedMethod() external nonpayable protected 
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -163,11 +148,6 @@ function protectedMethod() external protected {
 function unprotectedMethod() external nonpayable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -185,11 +165,6 @@ function unprotectedMethod() external {
 ```solidity
 function run() private nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

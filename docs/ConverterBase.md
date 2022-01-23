@@ -114,32 +114,17 @@ Throws if called by any account other than the owner.
 modifier onlyOwner() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ### active
 
 ```js
 modifier active() internal
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 ### inactive
 
 ```js
 modifier inactive() internal
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 ### validReserve
 
@@ -238,11 +223,6 @@ modifier validReserveWeight(uint32 _weight) internal
 function _active() internal view
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -260,11 +240,6 @@ function _active() internal view {
 ```solidity
 function _inactive() internal view
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -361,11 +336,6 @@ can only be called if the converter has an ETH reserve
 function () external payable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -429,11 +399,6 @@ function isV28OrHigher() public pure
 returns(bool)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -490,11 +455,6 @@ returns true if the converter is active, false otherwise
 function isActive() public view
 returns(bool)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -554,11 +514,6 @@ note that prior to version 28, you should use 'acceptTokenOwnership' instead
 ```solidity
 function acceptAnchorOwnership() public nonpayable ownerOnly 
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -697,11 +652,6 @@ note that the owner needs to call acceptOwnership on the new converter after the
 function upgrade() public nonpayable ownerOnly 
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -731,11 +681,6 @@ note that prior to version 17, you should use 'connectorTokenCount' instead
 function reserveTokenCount() public view
 returns(uint16)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -876,11 +821,6 @@ checks whether or not the converter has an ETH reserve
 function hasETHReserve() public view
 returns(bool)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1069,11 +1009,6 @@ function getProtocolFeeFromSwapSettings() internal view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -1095,11 +1030,6 @@ get the wrbtc address from sovryn swap network
 function getWrbtcAddressFromSwapSettings() internal view
 returns(address)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1123,11 +1053,6 @@ function getSOVTokenAddressFromSwapSettings() internal view
 returns(address)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -1149,11 +1074,6 @@ get the feesController address from sovryn swap network
 function getFeesControllerFromSwapSettings() internal view
 returns(address)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1202,11 +1122,6 @@ syncs all stored reserve balances
 ```solidity
 function syncReserveBalances() internal nonpayable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1278,11 +1193,6 @@ function token() public view
 returns(contract IConverterAnchor)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -1332,11 +1242,6 @@ deprecated, backward compatibility
 ```solidity
 function acceptTokenOwnership() public nonpayable ownerOnly 
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1429,11 +1334,6 @@ deprecated, backward compatibility
 function connectorTokenCount() public view
 returns(uint16)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1710,11 +1610,6 @@ function protocolFee() external view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -1731,11 +1626,6 @@ function protocolFee() external view returns (uint256);
 function wrbtcAddress() external view
 returns(address)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1754,11 +1644,6 @@ function sovTokenAddress() external view
 returns(address)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -1775,11 +1660,6 @@ function sovTokenAddress() external view returns (address);
 function feesController() external view
 returns(address)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

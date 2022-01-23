@@ -296,11 +296,6 @@ function getAnchorCount() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -324,11 +319,6 @@ returns the list of converter anchors in the registry
 function getAnchors() public view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -422,11 +412,6 @@ function getLiquidityPoolCount() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -450,11 +435,6 @@ returns the list of liquidity pools in the registry
 function getLiquidityPools() public view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -548,11 +528,6 @@ function getConvertibleTokenCount() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -576,11 +551,6 @@ returns the list of convertible tokens in the registry
 function getConvertibleTokens() public view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -1349,11 +1319,6 @@ function getSmartTokenCount() public view
 returns(uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -1374,11 +1339,6 @@ deprecated, backward compatibility, use `getAnchors`
 function getSmartTokens() public view
 returns(address[])
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>

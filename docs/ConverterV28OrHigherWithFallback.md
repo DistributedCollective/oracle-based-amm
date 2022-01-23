@@ -106,11 +106,6 @@ function getReturn(
 function () external payable
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -127,11 +122,6 @@ function() external payable {}
 function isV28OrHigher() public pure
 returns(bool)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -151,11 +141,6 @@ function isV28OrHigher() public pure returns (bool) {
 function isV28OrHigher() public pure
 returns(bool)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -174,11 +159,6 @@ function isV28OrHigher() public pure returns (bool) {
 ```solidity
 function () external payable
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
@@ -224,11 +204,6 @@ function getReturnOld() external view
 returns(uint256, uint256)
 ```
 
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
 <details>
 	<summary><strong>Source Code</strong></summary>
 
@@ -247,11 +222,6 @@ function getReturnOld() external view returns (uint256, uint256) {
 function getReturnNew() external view
 returns(uint256, uint256)
 ```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
 
 <details>
 	<summary><strong>Source Code</strong></summary>
