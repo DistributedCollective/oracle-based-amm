@@ -15,7 +15,7 @@ View Source: [contracts/converter/types/liquidity-pool-v1/LiquidityPoolV1Convert
 
 > ### converterType
 
-⤾ overrides [ITypedConverterFactory.converterType](ITypedConverterFactory.md#.convertertype)
+⤾ overrides [ITypedConverterFactory.converterType](ITypedConverterFactory.md#convertertype)
 
 returns the converter type the factory is associated with
 
@@ -47,7 +47,7 @@ function converterType() public pure returns (uint16) {
 
 > ### createConverter
 
-⤾ overrides [ITypedConverterFactory.createConverter](ITypedConverterFactory.md#.createconverter)
+⤾ overrides [ITypedConverterFactory.createConverter](ITypedConverterFactory.md#createconverter)
 
 creates a new converter with the given arguments and transfers
 

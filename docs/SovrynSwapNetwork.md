@@ -1083,7 +1083,7 @@ function getReturnByPath(IERC20Token[] _path, uint256 _amount) public view retur
 
 > ### convert
 
-⤾ overrides [ISovrynSwapNetwork.convert](ISovrynSwapNetwork.md#.convert)
+⤾ overrides [ISovrynSwapNetwork.convert](ISovrynSwapNetwork.md#convert)
 
 ⤿ Overridden Implementation(s): [SovrynSwapNetworkMockup.convert](SovrynSwapNetworkMockup.md#convert)
 
@@ -1120,7 +1120,7 @@ function convert(
 
 > ### convert2
 
-⤾ overrides [ISovrynSwapNetwork.convert2](ISovrynSwapNetwork.md#.convert2)
+⤾ overrides [ISovrynSwapNetwork.convert2](ISovrynSwapNetwork.md#convert2)
 
 deprecated, backward compatibility
 
@@ -1159,7 +1159,7 @@ function convert2(
 
 > ### convertFor
 
-⤾ overrides [ISovrynSwapNetwork.convertFor](ISovrynSwapNetwork.md#.convertfor)
+⤾ overrides [ISovrynSwapNetwork.convertFor](ISovrynSwapNetwork.md#convertfor)
 
 deprecated, backward compatibility
 
@@ -1196,7 +1196,7 @@ function convertFor(
 
 > ### convertFor2
 
-⤾ overrides [ISovrynSwapNetwork.convertFor2](ISovrynSwapNetwork.md#.convertfor2)
+⤾ overrides [ISovrynSwapNetwork.convertFor2](ISovrynSwapNetwork.md#convertfor2)
 
 deprecated, backward compatibility
 
@@ -1237,7 +1237,7 @@ function convertFor2(
 
 > ### claimAndConvert
 
-⤾ overrides [ISovrynSwapNetwork.claimAndConvert](ISovrynSwapNetwork.md#.claimandconvert)
+⤾ overrides [ISovrynSwapNetwork.claimAndConvert](ISovrynSwapNetwork.md#claimandconvert)
 
 deprecated, backward compatibility
 
@@ -1272,7 +1272,7 @@ function claimAndConvert(
 
 > ### claimAndConvert2
 
-⤾ overrides [ISovrynSwapNetwork.claimAndConvert2](ISovrynSwapNetwork.md#.claimandconvert2)
+⤾ overrides [ISovrynSwapNetwork.claimAndConvert2](ISovrynSwapNetwork.md#claimandconvert2)
 
 deprecated, backward compatibility
 
@@ -1311,7 +1311,7 @@ function claimAndConvert2(
 
 > ### claimAndConvertFor
 
-⤾ overrides [ISovrynSwapNetwork.claimAndConvertFor](ISovrynSwapNetwork.md#.claimandconvertfor)
+⤾ overrides [ISovrynSwapNetwork.claimAndConvertFor](ISovrynSwapNetwork.md#claimandconvertfor)
 
 deprecated, backward compatibility
 
@@ -1348,7 +1348,7 @@ function claimAndConvertFor(
 
 > ### claimAndConvertFor2
 
-⤾ overrides [ISovrynSwapNetwork.claimAndConvertFor2](ISovrynSwapNetwork.md#.claimandconvertfor2)
+⤾ overrides [ISovrynSwapNetwork.claimAndConvertFor2](ISovrynSwapNetwork.md#claimandconvertfor2)
 
 deprecated, backward compatibility
 

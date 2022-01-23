@@ -23,7 +23,7 @@ uint256 public value;
 
 > ### bproUsdPrice
 
-⤾ overrides [IMoCState.bproUsdPrice](IMoCState.md#.bprousdprice)
+⤾ overrides [IMoCState.bproUsdPrice](IMoCState.md#bprousdprice)
 
 ```solidity
 function bproUsdPrice() public view

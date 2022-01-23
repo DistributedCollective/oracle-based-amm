@@ -64,7 +64,7 @@ function setReferenceRateUpdateTime(uint256 _referenceRateUpdateTime) public {
 
 > ### time
 
-⤾ overrides [LiquidityPoolV2Converter.time](LiquidityPoolV2Converter.md#.time)
+⤾ overrides [LiquidityPoolV2Converter.time](LiquidityPoolV2Converter.md#time)
 
 ```solidity
 function time() internal view

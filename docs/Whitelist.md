@@ -35,7 +35,7 @@ event AddressRemoval(address indexed _address);
 
 > ### isWhitelisted
 
-⤾ overrides [IWhitelist.isWhitelisted](IWhitelist.md#.iswhitelisted)
+⤾ overrides [IWhitelist.isWhitelisted](IWhitelist.md#iswhitelisted)
 
 returns true if a given address is whitelisted, false if not
 	 *

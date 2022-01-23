@@ -407,7 +407,7 @@ function init() public {
 
 > ### purchaseTargetAmount
 
-⤾ overrides [ISovrynSwapFormula.purchaseTargetAmount](ISovrynSwapFormula.md#.purchasetargetamount)
+⤾ overrides [ISovrynSwapFormula.purchaseTargetAmount](ISovrynSwapFormula.md#purchasetargetamount)
 
 given a token supply, reserve balance, weight and a deposit amount (in the reserve token),
 calculates the target amount for a given conversion (in the main token)
@@ -468,7 +468,7 @@ function purchaseTargetAmount(
 
 > ### saleTargetAmount
 
-⤾ overrides [ISovrynSwapFormula.saleTargetAmount](ISovrynSwapFormula.md#.saletargetamount)
+⤾ overrides [ISovrynSwapFormula.saleTargetAmount](ISovrynSwapFormula.md#saletargetamount)
 
 given a token supply, reserve balance, weight and a sell amount (in the main token),
 calculates the target amount for a given conversion (in the reserve token)
@@ -534,7 +534,7 @@ function saleTargetAmount(
 
 > ### crossReserveTargetAmount
 
-⤾ overrides [ISovrynSwapFormula.crossReserveTargetAmount](ISovrynSwapFormula.md#.crossreservetargetamount)
+⤾ overrides [ISovrynSwapFormula.crossReserveTargetAmount](ISovrynSwapFormula.md#crossreservetargetamount)
 
 given two reserve balances/weights and a sell amount (in the first reserve token),
 calculates the target amount for a conversion from the source reserve token to the target reserve token
@@ -597,7 +597,7 @@ function crossReserveTargetAmount(
 
 > ### fundCost
 
-⤾ overrides [ISovrynSwapFormula.fundCost](ISovrynSwapFormula.md#.fundcost)
+⤾ overrides [ISovrynSwapFormula.fundCost](ISovrynSwapFormula.md#fundcost)
 
 given a smart token supply, reserve balance, reserve ratio and an amount of requested smart tokens,
 calculates the amount of reserve tokens required for purchasing the given amount of smart tokens
@@ -658,7 +658,7 @@ function fundCost(
 
 > ### fundSupplyAmount
 
-⤾ overrides [ISovrynSwapFormula.fundSupplyAmount](ISovrynSwapFormula.md#.fundsupplyamount)
+⤾ overrides [ISovrynSwapFormula.fundSupplyAmount](ISovrynSwapFormula.md#fundsupplyamount)
 
 given a smart token supply, reserve balance, reserve ratio and an amount of reserve tokens to fund with,
 calculates the amount of smart tokens received for purchasing with the given amount of reserve tokens
@@ -719,7 +719,7 @@ function fundSupplyAmount(
 
 > ### liquidateReserveAmount
 
-⤾ overrides [ISovrynSwapFormula.liquidateReserveAmount](ISovrynSwapFormula.md#.liquidatereserveamount)
+⤾ overrides [ISovrynSwapFormula.liquidateReserveAmount](ISovrynSwapFormula.md#liquidatereserveamount)
 
 given a smart token supply, reserve balance, reserve ratio and an amount of smart tokens to liquidate,
 calculates the amount of reserve tokens received for selling the given amount of smart tokens
@@ -785,7 +785,7 @@ function liquidateReserveAmount(
 
 > ### balancedWeights
 
-⤾ overrides [ISovrynSwapFormula.balancedWeights](ISovrynSwapFormula.md#.balancedweights)
+⤾ overrides [ISovrynSwapFormula.balancedWeights](ISovrynSwapFormula.md#balancedweights)
 
 The arbitrage incentive is to convert to the point where the on-chain price is equal to the off-chain price.
 We want this operation to also impact the primary reserve balance becoming equal to the primary reserve staked balance.

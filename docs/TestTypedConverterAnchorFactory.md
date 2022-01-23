@@ -23,7 +23,7 @@ string public name;
 
 > ### converterType
 
-⤾ overrides [ITypedConverterAnchorFactory.converterType](ITypedConverterAnchorFactory.md#.convertertype)
+⤾ overrides [ITypedConverterAnchorFactory.converterType](ITypedConverterAnchorFactory.md#convertertype)
 
 ```solidity
 function converterType() public pure
@@ -49,7 +49,7 @@ function converterType() public pure returns (uint16) {
 
 > ### createAnchor
 
-⤾ overrides [ITypedConverterAnchorFactory.createAnchor](ITypedConverterAnchorFactory.md#.createanchor)
+⤾ overrides [ITypedConverterAnchorFactory.createAnchor](ITypedConverterAnchorFactory.md#createanchor)
 
 ```solidity
 function createAnchor(string , string _symbol, uint8 _decimals) public nonpayable

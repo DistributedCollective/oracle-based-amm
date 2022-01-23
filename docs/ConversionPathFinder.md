@@ -74,7 +74,7 @@ function setAnchorToken(address _anchorToken) public ownerOnly {
 
 > ### findPath
 
-⤾ overrides [IConversionPathFinder.findPath](IConversionPathFinder.md#.findpath)
+⤾ overrides [IConversionPathFinder.findPath](IConversionPathFinder.md#findpath)
 
 generates a conversion path between a given pair of tokens in the SovrynSwap Network
 	 *

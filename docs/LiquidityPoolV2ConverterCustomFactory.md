@@ -15,7 +15,7 @@ View Source: [contracts/converter/types/liquidity-pool-v2/LiquidityPoolV2Convert
 
 > ### converterType
 
-⤾ overrides [ITypedConverterCustomFactory.converterType](ITypedConverterCustomFactory.md#.convertertype)
+⤾ overrides [ITypedConverterCustomFactory.converterType](ITypedConverterCustomFactory.md#convertertype)
 
 returns the converter type the factory is associated with
 

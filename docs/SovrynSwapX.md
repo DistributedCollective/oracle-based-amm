@@ -509,7 +509,7 @@ function xTransfer(
 
 > ### xTransfer
 
-⤾ overrides [ISovrynSwapX.xTransfer](ISovrynSwapX.md#.xtransfer)
+⤾ overrides [ISovrynSwapX.xTransfer](ISovrynSwapX.md#xtransfer)
 
 claims tokens from msg.sender to be converted to tokens on another blockchain
 	 *
@@ -637,7 +637,7 @@ function reportTx(
 
 > ### getXTransferAmount
 
-⤾ overrides [ISovrynSwapX.getXTransferAmount](ISovrynSwapX.md#.getxtransferamount)
+⤾ overrides [ISovrynSwapX.getXTransferAmount](ISovrynSwapX.md#getxtransferamount)
 
 gets x transfer amount by xTransferId (not txId)
 	 *

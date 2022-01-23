@@ -83,7 +83,7 @@ function itemCount() public view returns (uint256) {
 
 > ### addressOf
 
-⤾ overrides [IContractRegistry.addressOf](IContractRegistry.md#.addressof)
+⤾ overrides [IContractRegistry.addressOf](IContractRegistry.md#addressof)
 
 returns the address associated with the given contract name
 	 *
@@ -290,7 +290,7 @@ function stringToBytes32(string memory _string) private pure returns (bytes32) {
 
 > ### getAddress
 
-⤾ overrides [IContractRegistry.getAddress](IContractRegistry.md#.getaddress)
+⤾ overrides [IContractRegistry.getAddress](IContractRegistry.md#getaddress)
 
 deprecated, backward compatibility
 

@@ -69,7 +69,7 @@ event ConverterUpgrade(address indexed _oldConverter, address indexed _newConver
 
 > ### upgrade
 
-⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#.upgrade)
+⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#upgrade)
 
 upgrades an old converter to the latest version
 will throw if ownership wasn't transferred to the upgrader before calling this function.
@@ -102,7 +102,7 @@ function upgrade(bytes32 _version) public {
 
 > ### upgrade
 
-⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#.upgrade)
+⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#upgrade)
 
 upgrades an old converter to the latest version
 will throw if ownership wasn't transferred to the upgrader before calling this function.

@@ -15,7 +15,7 @@ View Source: [contracts/utility/interfaces/ITokenHolder.sol](../solidity/contrac
 
 > ### withdrawTokens
 
-⤾ overrides [IConverter.withdrawTokens](IConverter.md#.withdrawtokens)
+⤾ overrides [IConverter.withdrawTokens](IConverter.md#withdrawtokens)
 
 ⤿ Overridden Implementation(s): [ConverterBase.withdrawTokens](ConverterBase.md#withdrawtokens),[IFeeSharingProxy.withdrawTokens](IFeeSharingProxy.md#withdrawtokens),[IInternalSovrynSwapNetwork.withdrawTokens](IInternalSovrynSwapNetwork.md#withdrawtokens),[ISwapSettings.withdrawTokens](ISwapSettings.md#withdrawtokens),[TokenHolder.withdrawTokens](TokenHolder.md#withdrawtokens)
 

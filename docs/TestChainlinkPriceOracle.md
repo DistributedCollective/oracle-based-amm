@@ -74,7 +74,7 @@ function setTimestamp(uint256 _timestamp) public {
 
 > ### latestAnswer
 
-⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#.latestanswer)
+⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#latestanswer)
 
 ```solidity
 function latestAnswer() external view
@@ -100,7 +100,7 @@ function latestAnswer() external view returns (int256) {
 
 > ### latestTimestamp
 
-⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#.latesttimestamp)
+⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#latesttimestamp)
 
 ```solidity
 function latestTimestamp() external view

@@ -25,7 +25,7 @@ bool public has;
 
 > ### peek
 
-⤾ overrides [MocBTCToUSDOracle.peek](MocBTCToUSDOracle.md#.peek)
+⤾ overrides [MocBTCToUSDOracle.peek](MocBTCToUSDOracle.md#peek)
 
 ```solidity
 function peek() external view

@@ -119,7 +119,7 @@ function registerTypedConverterCustomFactory(ITypedConverterCustomFactory _facto
 
 > ### createAnchor
 
-⤾ overrides [IConverterFactory.createAnchor](IConverterFactory.md#.createanchor)
+⤾ overrides [IConverterFactory.createAnchor](IConverterFactory.md#createanchor)
 
 ⤿ Overridden Implementation(s): [TestConverterFactory.createAnchor](TestConverterFactory.md#createanchor)
 
@@ -177,7 +177,7 @@ function createAnchor(
 
 > ### createConverter
 
-⤾ overrides [IConverterFactory.createConverter](IConverterFactory.md#.createconverter)
+⤾ overrides [IConverterFactory.createConverter](IConverterFactory.md#createconverter)
 
 ⤿ Overridden Implementation(s): [TestConverterFactory.createConverter](TestConverterFactory.md#createconverter)
 

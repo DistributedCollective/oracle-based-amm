@@ -166,7 +166,7 @@ function _validPoolToken(ISmartToken _address) internal view {
 
 > ### converterType
 
-⤾ overrides [IConverter.converterType](IConverter.md#.convertertype)
+⤾ overrides [IConverter.converterType](IConverter.md#convertertype)
 
 returns the converter type
 
@@ -198,7 +198,7 @@ function converterType() public pure returns (uint16) {
 
 > ### isActive
 
-⤾ overrides [ConverterBase.isActive](ConverterBase.md#.isactive)
+⤾ overrides [ConverterBase.isActive](ConverterBase.md#isactive)
 
 returns true if the converter is active, false otherwise
 
@@ -705,7 +705,7 @@ function liquidationLimit(ISmartToken _poolToken) public view returns (uint256) 
 
 > ### addReserve
 
-⤾ overrides [ConverterBase.addReserve](ConverterBase.md#.addreserve)
+⤾ overrides [ConverterBase.addReserve](ConverterBase.md#addreserve)
 
 defines a new reserve token for the converter
 
@@ -818,7 +818,7 @@ function effectiveReserveWeights() public view returns (uint256, uint256) {
 
 > ### targetAmountAndFee
 
-⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#.targetamountandfee)
+⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#targetamountandfee)
 
 returns the expected target amount of converting one reserve to another along with the fee
 
@@ -929,7 +929,7 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
 
 > ### doConvert
 
-⤾ overrides [ConverterBase.doConvert](ConverterBase.md#.doconvert)
+⤾ overrides [ConverterBase.doConvert](ConverterBase.md#doconvert)
 
 converts a specific amount of source tokens to target tokens
 

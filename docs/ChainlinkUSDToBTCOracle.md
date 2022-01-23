@@ -25,7 +25,7 @@ int256 private constant USD_RATE;
 
 > ### latestAnswer
 
-⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#.latestanswer)
+⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#latestanswer)
 
 returns the USD/BTC rate.
 	 *
@@ -54,7 +54,7 @@ function latestAnswer() external view returns (int256) {
 
 > ### latestTimestamp
 
-⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#.latesttimestamp)
+⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#latesttimestamp)
 
 returns the USD/BTC update time.
 	 *

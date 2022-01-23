@@ -24,7 +24,7 @@ contract IConverterAnchor public createdAnchor;
 
 > ### createAnchor
 
-⤾ overrides [ConverterFactory.createAnchor](ConverterFactory.md#.createanchor)
+⤾ overrides [ConverterFactory.createAnchor](ConverterFactory.md#createanchor)
 
 ```solidity
 function createAnchor(uint16 _converterType, string _name, string _symbol, uint8 _decimals) public nonpayable
@@ -61,7 +61,7 @@ function createAnchor(
 
 > ### createConverter
 
-⤾ overrides [ConverterFactory.createConverter](ConverterFactory.md#.createconverter)
+⤾ overrides [ConverterFactory.createConverter](ConverterFactory.md#createconverter)
 
 ```solidity
 function createConverter(uint16 _type, IConverterAnchor _anchor, IContractRegistry _registry, uint32 _maxConversionFee) public nonpayable

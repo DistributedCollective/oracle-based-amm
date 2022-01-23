@@ -23,7 +23,7 @@ see https://github.com/ethereum/solidity/issues/4116
 
 > ### withdrawTokens
 
-⤾ overrides [ITokenHolder.withdrawTokens](ITokenHolder.md#.withdrawtokens)
+⤾ overrides [ITokenHolder.withdrawTokens](ITokenHolder.md#withdrawtokens)
 
 ⤿ Overridden Implementation(s): [ConverterBase.withdrawTokens](ConverterBase.md#withdrawtokens),[IFeeSharingProxy.withdrawTokens](IFeeSharingProxy.md#withdrawtokens),[IInternalSovrynSwapNetwork.withdrawTokens](IInternalSovrynSwapNetwork.md#withdrawtokens),[ISwapSettings.withdrawTokens](ISwapSettings.md#withdrawtokens)
 

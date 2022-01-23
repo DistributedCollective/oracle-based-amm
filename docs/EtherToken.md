@@ -48,7 +48,7 @@ event Destruction(uint256  _amount);
 
 > ### deposit
 
-⤾ overrides [IEtherToken.deposit](IEtherToken.md#.deposit)
+⤾ overrides [IEtherToken.deposit](IEtherToken.md#deposit)
 
 deposit ether on behalf of the sender
 
@@ -75,7 +75,7 @@ function deposit() public payable {
 
 > ### withdraw
 
-⤾ overrides [IEtherToken.withdraw](IEtherToken.md#.withdraw)
+⤾ overrides [IEtherToken.withdraw](IEtherToken.md#withdraw)
 
 withdraw ether to the sender's account
 	 *
@@ -104,7 +104,7 @@ function withdraw(uint256 _amount) public {
 
 > ### depositTo
 
-⤾ overrides [IEtherToken.depositTo](IEtherToken.md#.depositto)
+⤾ overrides [IEtherToken.depositTo](IEtherToken.md#depositto)
 
 deposit ether to be entitled for a given account
 	 *
@@ -137,7 +137,7 @@ function depositTo(address _to) public payable notThis(_to) {
 
 > ### withdrawTo
 
-⤾ overrides [IEtherToken.withdrawTo](IEtherToken.md#.withdrawto)
+⤾ overrides [IEtherToken.withdrawTo](IEtherToken.md#withdrawto)
 
 withdraw ether entitled by the sender to a given account
 	 *
@@ -172,7 +172,7 @@ function withdrawTo(address _to, uint256 _amount) public notThis(_to) {
 
 > ### transfer
 
-⤾ overrides [ERC20Token.transfer](ERC20Token.md#.transfer)
+⤾ overrides [ERC20Token.transfer](ERC20Token.md#transfer)
 
 send coins
 throws on any error rather then return a false flag to minimize user errors
@@ -209,7 +209,7 @@ function transfer(address _to, uint256 _value) public notThis(_to) returns (bool
 
 > ### transferFrom
 
-⤾ overrides [ERC20Token.transferFrom](ERC20Token.md#.transferfrom)
+⤾ overrides [ERC20Token.transferFrom](ERC20Token.md#transferfrom)
 
 an account/contract attempts to get the coins
 throws on any error rather then return a false flag to minimize user errors

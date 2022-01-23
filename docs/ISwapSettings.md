@@ -381,7 +381,7 @@ function() external payable {
 
 > ### withdrawETH
 
-⤾ overrides [IConverter.withdrawETH](IConverter.md#.withdraweth)
+⤾ overrides [IConverter.withdrawETH](IConverter.md#withdraweth)
 
 withdraws ether
 can only be called by the owner if the converter is inactive or by upgrader contract
@@ -447,7 +447,7 @@ function isV28OrHigher() public pure returns (bool) {
 
 > ### setConversionWhitelist
 
-⤾ overrides [IConverter.setConversionWhitelist](IConverter.md#.setconversionwhitelist)
+⤾ overrides [IConverter.setConversionWhitelist](IConverter.md#setconversionwhitelist)
 
 allows the owner to update & enable the conversion whitelist contract address
 when set, only addresses that are whitelisted are actually allowed to use the converter
@@ -478,7 +478,7 @@ function setConversionWhitelist(IWhitelist _whitelist) public ownerOnly notThis(
 
 > ### isActive
 
-⤾ overrides [IConverter.isActive](IConverter.md#.isactive)
+⤾ overrides [IConverter.isActive](IConverter.md#isactive)
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV2Converter.isActive](LiquidityPoolV2Converter.md#isactive)
 
@@ -509,7 +509,7 @@ function isActive() public view returns (bool) {
 
 > ### transferAnchorOwnership
 
-⤾ overrides [IConverter.transferAnchorOwnership](IConverter.md#.transferanchorownership)
+⤾ overrides [IConverter.transferAnchorOwnership](IConverter.md#transferanchorownership)
 
 transfers the anchor ownership
 the new owner needs to accept the transfer
@@ -541,7 +541,7 @@ function transferAnchorOwnership(address _newOwner) public ownerOnly only(CONVER
 
 > ### acceptAnchorOwnership
 
-⤾ overrides [IConverter.acceptAnchorOwnership](IConverter.md#.acceptanchorownership)
+⤾ overrides [IConverter.acceptAnchorOwnership](IConverter.md#acceptanchorownership)
 
 ⤿ Overridden Implementation(s): [LiquidityPoolConverter.acceptAnchorOwnership](LiquidityPoolConverter.md#acceptanchorownership),[LiquidityPoolV1Converter.acceptAnchorOwnership](LiquidityPoolV1Converter.md#acceptanchorownership),[LiquidityPoolV1ConverterMultiAsset.acceptAnchorOwnership](LiquidityPoolV1ConverterMultiAsset.md#acceptanchorownership),[LiquidTokenConverter.acceptAnchorOwnership](LiquidTokenConverter.md#acceptanchorownership)
 
@@ -610,7 +610,7 @@ function withdrawFromAnchor(
 
 > ### setConversionFee
 
-⤾ overrides [IConverter.setConversionFee](IConverter.md#.setconversionfee)
+⤾ overrides [IConverter.setConversionFee](IConverter.md#setconversionfee)
 
 updates the current conversion fee
 can only be called by the contract owner
@@ -642,7 +642,7 @@ function setConversionFee(uint32 _conversionFee) public ownerOnly {
 
 > ### withdrawTokens
 
-⤾ overrides [TokenHolder.withdrawTokens](TokenHolder.md#.withdrawtokens)
+⤾ overrides [TokenHolder.withdrawTokens](TokenHolder.md#withdrawtokens)
 
 withdraws tokens held by the converter and sends them to an account
 can only be called by the owner
@@ -750,7 +750,7 @@ function reserveTokenCount() public view returns (uint16) {
 
 > ### addReserve
 
-⤾ overrides [IConverter.addReserve](IConverter.md#.addreserve)
+⤾ overrides [IConverter.addReserve](IConverter.md#addreserve)
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV1Converter.addReserve](LiquidityPoolV1Converter.md#addreserve),[LiquidityPoolV2Converter.addReserve](LiquidityPoolV2Converter.md#addreserve),[LiquidTokenConverter.addReserve](LiquidTokenConverter.md#addreserve)
 
@@ -833,7 +833,7 @@ function reserveWeight(IERC20Token _reserveToken) public view validReserve(_rese
 
 > ### reserveBalance
 
-⤾ overrides [IConverter.reserveBalance](IConverter.md#.reservebalance)
+⤾ overrides [IConverter.reserveBalance](IConverter.md#reservebalance)
 
 returns the reserve's balance
 note that prior to version 17, you should use 'getConnectorBalance' instead
@@ -895,7 +895,7 @@ function hasETHReserve() public view returns (bool) {
 
 > ### convert
 
-⤾ overrides [IConverter.convert](IConverter.md#.convert)
+⤾ overrides [IConverter.convert](IConverter.md#convert)
 
 converts a specific amount of source tokens to target tokens
 can only be called by the SovrynSwap network contract
@@ -1268,7 +1268,7 @@ function dispatchConversionEvent(
 
 > ### token
 
-⤾ overrides [IConverter.token](IConverter.md#.token)
+⤾ overrides [IConverter.token](IConverter.md#token)
 
 deprecated since version 28, backward compatibility - use only for earlier versions
 
@@ -1296,7 +1296,7 @@ function token() public view returns (IConverterAnchor) {
 
 > ### transferTokenOwnership
 
-⤾ overrides [IConverter.transferTokenOwnership](IConverter.md#.transfertokenownership)
+⤾ overrides [IConverter.transferTokenOwnership](IConverter.md#transfertokenownership)
 
 deprecated, backward compatibility
 
@@ -1324,7 +1324,7 @@ function transferTokenOwnership(address _newOwner) public ownerOnly {
 
 > ### acceptTokenOwnership
 
-⤾ overrides [IConverter.acceptTokenOwnership](IConverter.md#.accepttokenownership)
+⤾ overrides [IConverter.acceptTokenOwnership](IConverter.md#accepttokenownership)
 
 deprecated, backward compatibility
 
@@ -1351,7 +1351,7 @@ function acceptTokenOwnership() public ownerOnly {
 
 > ### connectors
 
-⤾ overrides [IConverter.connectors](IConverter.md#.connectors)
+⤾ overrides [IConverter.connectors](IConverter.md#connectors)
 
 deprecated, backward compatibility
 
@@ -1391,7 +1391,7 @@ function connectors(address _address)
 
 > ### connectorTokens
 
-⤾ overrides [IConverter.connectorTokens](IConverter.md#.connectortokens)
+⤾ overrides [IConverter.connectorTokens](IConverter.md#connectortokens)
 
 deprecated, backward compatibility
 
@@ -1420,7 +1420,7 @@ function connectorTokens(uint256 _index) public view returns (IERC20Token) {
 
 > ### connectorTokenCount
 
-⤾ overrides [IConverter.connectorTokenCount](IConverter.md#.connectortokencount)
+⤾ overrides [IConverter.connectorTokenCount](IConverter.md#connectortokencount)
 
 deprecated, backward compatibility
 
@@ -1448,7 +1448,7 @@ function connectorTokenCount() public view returns (uint16) {
 
 > ### getConnectorBalance
 
-⤾ overrides [IConverter.getConnectorBalance](IConverter.md#.getconnectorbalance)
+⤾ overrides [IConverter.getConnectorBalance](IConverter.md#getconnectorbalance)
 
 deprecated, backward compatibility
 

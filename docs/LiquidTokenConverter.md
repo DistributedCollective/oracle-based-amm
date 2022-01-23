@@ -48,7 +48,7 @@ constructor(ISmartToken _token, IContractRegistry _registry, uint32 _maxConversi
 
 > ### converterType
 
-⤾ overrides [IConverter.converterType](IConverter.md#.convertertype)
+⤾ overrides [IConverter.converterType](IConverter.md#convertertype)
 
 returns the converter type
 
@@ -80,7 +80,7 @@ function converterType() public pure returns (uint16) {
 
 > ### acceptAnchorOwnership
 
-⤾ overrides [ConverterBase.acceptAnchorOwnership](ConverterBase.md#.acceptanchorownership)
+⤾ overrides [ConverterBase.acceptAnchorOwnership](ConverterBase.md#acceptanchorownership)
 
 accepts ownership of the anchor after an ownership transfer
 
@@ -117,7 +117,7 @@ function acceptAnchorOwnership() public ownerOnly {
 
 > ### addReserve
 
-⤾ overrides [ConverterBase.addReserve](ConverterBase.md#.addreserve)
+⤾ overrides [ConverterBase.addReserve](ConverterBase.md#addreserve)
 
 defines the reserve token for the converter
 
@@ -158,7 +158,7 @@ function addReserve(IERC20Token _token, uint32 _weight) public {
 
 > ### targetAmountAndFee
 
-⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#.targetamountandfee)
+⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#targetamountandfee)
 
 returns the expected target amount of converting the source token to the
 
@@ -209,7 +209,7 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
 
 > ### doConvert
 
-⤾ overrides [ConverterBase.doConvert](ConverterBase.md#.doconvert)
+⤾ overrides [ConverterBase.doConvert](ConverterBase.md#doconvert)
 
 converts between the liquid token and its reserve
 

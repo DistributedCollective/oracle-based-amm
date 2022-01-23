@@ -72,7 +72,7 @@ function _ownerOnly() internal view {
 
 > ### transferOwnership
 
-⤾ overrides [IOwned.transferOwnership](IOwned.md#.transferownership)
+⤾ overrides [IOwned.transferOwnership](IOwned.md#transferownership)
 
 allows transferring the contract ownership
 the new owner still needs to accept the transfer
@@ -104,7 +104,7 @@ function transferOwnership(address _newOwner) public ownerOnly {
 
 > ### acceptOwnership
 
-⤾ overrides [IOwned.acceptOwnership](IOwned.md#.acceptownership)
+⤾ overrides [IOwned.acceptOwnership](IOwned.md#acceptownership)
 
 used by a new owner to accept an ownership transfer
 

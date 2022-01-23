@@ -34,7 +34,7 @@ contract IConverter public createdConverter;
 
 > ### newConverter
 
-⤾ overrides [ConverterRegistry.newConverter](ConverterRegistry.md#.newconverter)
+⤾ overrides [ConverterRegistry.newConverter](ConverterRegistry.md#newconverter)
 
 ```solidity
 function newConverter(uint16 _type, string _name, string _symbol, uint8 _decimals, uint32 _maxConversionFee, IERC20Token[] _reserveTokens, uint32[] _reserveWeights) public nonpayable

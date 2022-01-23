@@ -78,7 +78,7 @@ event PriceDataUpdate(address indexed _connectorToken, uint256  _tokenSupply, ui
 
 > ### converterType
 
-⤾ overrides [IConverter.converterType](IConverter.md#.convertertype)
+⤾ overrides [IConverter.converterType](IConverter.md#convertertype)
 
 returns the converter type
 
@@ -110,7 +110,7 @@ function converterType() public pure returns (uint16) {
 
 > ### acceptAnchorOwnership
 
-⤾ overrides [LiquidityPoolConverter.acceptAnchorOwnership](LiquidityPoolConverter.md#.acceptanchorownership)
+⤾ overrides [LiquidityPoolConverter.acceptAnchorOwnership](LiquidityPoolConverter.md#acceptanchorownership)
 
 accepts ownership of the anchor after an ownership transfer
 
@@ -147,7 +147,7 @@ function acceptAnchorOwnership() public ownerOnly {
 
 > ### targetAmountAndFee
 
-⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#.targetamountandfee)
+⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#targetamountandfee)
 
 returns the expected target amount of converting one reserve to another along with the fee
 
@@ -222,7 +222,7 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
 
 > ### doConvert
 
-⤾ overrides [ConverterBase.doConvert](ConverterBase.md#.doconvert)
+⤾ overrides [ConverterBase.doConvert](ConverterBase.md#doconvert)
 
 converts a specific amount of source tokens to target tokens
 

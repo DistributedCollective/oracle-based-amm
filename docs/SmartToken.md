@@ -94,7 +94,7 @@ function _transfersAllowed() internal view {
 
 > ### disableTransfers
 
-⤾ overrides [ISmartToken.disableTransfers](ISmartToken.md#.disabletransfers)
+⤾ overrides [ISmartToken.disableTransfers](ISmartToken.md#disabletransfers)
 
 disables/enables transfers
 can only be called by the contract owner
@@ -124,7 +124,7 @@ function disableTransfers(bool _disable) public ownerOnly {
 
 > ### issue
 
-⤾ overrides [ISmartToken.issue](ISmartToken.md#.issue)
+⤾ overrides [ISmartToken.issue](ISmartToken.md#issue)
 
 increases the token supply and sends the new tokens to the given account
 can only be called by the contract owner
@@ -159,7 +159,7 @@ function issue(address _to, uint256 _amount) public ownerOnly validAddress(_to) 
 
 > ### destroy
 
-⤾ overrides [ISmartToken.destroy](ISmartToken.md#.destroy)
+⤾ overrides [ISmartToken.destroy](ISmartToken.md#destroy)
 
 removes tokens from the given account and decreases the token supply
 can only be called by the contract owner
@@ -194,7 +194,7 @@ function destroy(address _from, uint256 _amount) public ownerOnly {
 
 > ### transfer
 
-⤾ overrides [ERC20Token.transfer](ERC20Token.md#.transfer)
+⤾ overrides [ERC20Token.transfer](ERC20Token.md#transfer)
 
 send coins
 throws on any error rather then return a false flag to minimize user errors
@@ -232,7 +232,7 @@ function transfer(address _to, uint256 _value) public transfersAllowed returns (
 
 > ### transferFrom
 
-⤾ overrides [ERC20Token.transferFrom](ERC20Token.md#.transferfrom)
+⤾ overrides [ERC20Token.transferFrom](ERC20Token.md#transferfrom)
 
 an account/contract attempts to get the coins
 throws on any error rather then return a false flag to minimize user errors
