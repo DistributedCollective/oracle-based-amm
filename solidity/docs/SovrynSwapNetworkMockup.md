@@ -1,0 +1,211 @@
+# SovrynSwapNetworkMockup.sol
+
+View Source: [contracts/mockup/SovrynSwapNetworkMockup.sol](../contracts/mockup/SovrynSwapNetworkMockup.sol)
+
+**↗ Extends: [SovrynSwapNetwork](SovrynSwapNetwork.md)**
+
+**SovrynSwapNetworkMockup**
+
+## Constructor
+
+```js
+constructor(IContractRegistry _registry) public
+```
+
+**Arguments**
+
+## Contract Members
+**Constants & Variables**
+
+```js
+//public members
+uint256 public mockConversionValue;
+
+//internal members
+contract IERC20Token internal wrbtcToken;
+
+```
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _registry | IContractRegistry |  | 
+
+## Functions
+
+- [conversionPath(IERC20Token _sourceToken, IERC20Token _targetToken)](#conversionpath)
+- [rateByPath(IERC20Token[] _path, uint256 _amount)](#ratebypath)
+- [convert(IERC20Token[] _path, uint256 _amount, uint256 _minReturn)](#convert)
+- [setMockConversionValue(uint256 _conversionValue)](#setmockconversionvalue)
+
+### conversionPath
+
+undefined
+
+```js
+function conversionPath(IERC20Token _sourceToken, IERC20Token _targetToken) public view
+returns(address[])
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _sourceToken | IERC20Token |  | 
+| _targetToken | IERC20Token |  | 
+
+### rateByPath
+
+undefined
+
+```js
+function rateByPath(IERC20Token[] _path, uint256 _amount) public view
+returns(uint256)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _path | IERC20Token[] |  | 
+| _amount | uint256 |  | 
+
+### convert
+
+undefined
+
+used by converter withdraw fee function.
+This function will act as token/WRBTC converter, and then directly send WRBTC (with total of mockConversionValue) into the caller.
+
+```js
+function convert(IERC20Token[] _path, uint256 _amount, uint256 _minReturn) public payable
+returns(uint256)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _path | IERC20Token[] |  | 
+| _amount | uint256 |  | 
+| _minReturn | uint256 |  | 
+
+### setMockConversionValue
+
+```js
+function setMockConversionValue(uint256 _conversionValue) public nonpayable
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _conversionValue | uint256 |  | 
+
+## Contracts
+
+* [BProOracle](BProOracle.md)
+* [ChainlinkBTCToUSDOracle](ChainlinkBTCToUSDOracle.md)
+* [ChainlinkETHToETHOracle](ChainlinkETHToETHOracle.md)
+* [ChainlinkUSDToBTCOracle](ChainlinkUSDToBTCOracle.md)
+* [ContractRegistry](ContractRegistry.md)
+* [ContractRegistryClient](ContractRegistryClient.md)
+* [ConversionPathFinder](ConversionPathFinder.md)
+* [ConverterBase](ConverterBase.md)
+* [ConverterFactory](ConverterFactory.md)
+* [ConverterRegistry](ConverterRegistry.md)
+* [ConverterRegistryData](ConverterRegistryData.md)
+* [ConverterUpgrader](ConverterUpgrader.md)
+* [ConverterV27OrLowerWithFallback](ConverterV27OrLowerWithFallback.md)
+* [ConverterV27OrLowerWithoutFallback](ConverterV27OrLowerWithoutFallback.md)
+* [ConverterV28OrHigherWithFallback](ConverterV28OrHigherWithFallback.md)
+* [ConverterV28OrHigherWithoutFallback](ConverterV28OrHigherWithoutFallback.md)
+* [ERC20Token](ERC20Token.md)
+* [EtherToken](EtherToken.md)
+* [FeeSharingProxyMockup](FeeSharingProxyMockup.md)
+* [IConsumerPriceOracle](IConsumerPriceOracle.md)
+* [IContractRegistry](IContractRegistry.md)
+* [IConversionPathFinder](IConversionPathFinder.md)
+* [IConverter](IConverter.md)
+* [IConverterAnchor](IConverterAnchor.md)
+* [IConverterFactory](IConverterFactory.md)
+* [IConverterMockup](IConverterMockup.md)
+* [IConverterRegistry](IConverterRegistry.md)
+* [IConverterRegistryData](IConverterRegistryData.md)
+* [IConverterUpgrader](IConverterUpgrader.md)
+* [IERC20Token](IERC20Token.md)
+* [IEtherToken](IEtherToken.md)
+* [IFeeSharingProxy](IFeeSharingProxy.md)
+* [IInternalSovrynSwapNetwork](IInternalSovrynSwapNetwork.md)
+* [ILegacyConverter](ILegacyConverter.md)
+* [ILiquidityPoolV1Converter](ILiquidityPoolV1Converter.md)
+* [ILiquidityPoolV2Converter](ILiquidityPoolV2Converter.md)
+* [IMoCState](IMoCState.md)
+* [IOracle](IOracle.md)
+* [IOwned](IOwned.md)
+* [IPoolTokensContainer](IPoolTokensContainer.md)
+* [IPriceOracle](IPriceOracle.md)
+* [ISmartToken](ISmartToken.md)
+* [ISovrynSwapFormula](ISovrynSwapFormula.md)
+* [ISovrynSwapNetwork](ISovrynSwapNetwork.md)
+* [ISovrynSwapX](ISovrynSwapX.md)
+* [ISovrynSwapXUpgrader](ISovrynSwapXUpgrader.md)
+* [ISwapSettings](ISwapSettings.md)
+* [ITokenHolder](ITokenHolder.md)
+* [ITypedConverterAnchorFactory](ITypedConverterAnchorFactory.md)
+* [ITypedConverterCustomFactory](ITypedConverterCustomFactory.md)
+* [ITypedConverterFactory](ITypedConverterFactory.md)
+* [IWhitelist](IWhitelist.md)
+* [LiquidityPoolConverter](LiquidityPoolConverter.md)
+* [LiquidityPoolV1Converter](LiquidityPoolV1Converter.md)
+* [LiquidityPoolV1ConverterFactory](LiquidityPoolV1ConverterFactory.md)
+* [LiquidityPoolV1ConverterMultiAsset](LiquidityPoolV1ConverterMultiAsset.md)
+* [LiquidityPoolV2Converter](LiquidityPoolV2Converter.md)
+* [LiquidityPoolV2ConverterAnchorFactory](LiquidityPoolV2ConverterAnchorFactory.md)
+* [LiquidityPoolV2ConverterCustomFactory](LiquidityPoolV2ConverterCustomFactory.md)
+* [LiquidityPoolV2ConverterFactory](LiquidityPoolV2ConverterFactory.md)
+* [LiquidTokenConverter](LiquidTokenConverter.md)
+* [LiquidTokenConverterFactory](LiquidTokenConverterFactory.md)
+* [Medianizer](Medianizer.md)
+* [MocBTCToBTCOracle](MocBTCToBTCOracle.md)
+* [MocBTCToUSDOracle](MocBTCToUSDOracle.md)
+* [MoCMedianizerMock](MoCMedianizerMock.md)
+* [MoCStateMock](MoCStateMock.md)
+* [MocUSDToBTCOracle](MocUSDToBTCOracle.md)
+* [MultiSigWallet](MultiSigWallet.md)
+* [NewConverter](NewConverter.md)
+* [NonStandardToken](NonStandardToken.md)
+* [NonStandardTokenDetailed](NonStandardTokenDetailed.md)
+* [OldConverter](OldConverter.md)
+* [Oracle](Oracle.md)
+* [Owned](Owned.md)
+* [PoolTokensContainer](PoolTokensContainer.md)
+* [PriceOracle](PriceOracle.md)
+* [ReentrancyGuard](ReentrancyGuard.md)
+* [SafeMath](SafeMath.md)
+* [SmartToken](SmartToken.md)
+* [SovrynSwapFormula](SovrynSwapFormula.md)
+* [SovrynSwapNetwork](SovrynSwapNetwork.md)
+* [SovrynSwapNetworkMockup](SovrynSwapNetworkMockup.md)
+* [SovrynSwapX](SovrynSwapX.md)
+* [SwapSettings](SwapSettings.md)
+* [TestChainlinkPriceOracle](TestChainlinkPriceOracle.md)
+* [TestContractRegistryClient](TestContractRegistryClient.md)
+* [TestConverterFactory](TestConverterFactory.md)
+* [TestConverterRegistry](TestConverterRegistry.md)
+* [TestLiquidityPoolConverter](TestLiquidityPoolConverter.md)
+* [TestLiquidityPoolV2Converter](TestLiquidityPoolV2Converter.md)
+* [TestNonStandardToken](TestNonStandardToken.md)
+* [TestNonStandardTokenWithoutDecimals](TestNonStandardTokenWithoutDecimals.md)
+* [TestReentrancyGuard](TestReentrancyGuard.md)
+* [TestReentrancyGuardAttacker](TestReentrancyGuardAttacker.md)
+* [TestSafeMath](TestSafeMath.md)
+* [TestSovrynSwapFormula](TestSovrynSwapFormula.md)
+* [TestSovrynSwapNetwork](TestSovrynSwapNetwork.md)
+* [TestStandardToken](TestStandardToken.md)
+* [TestTokenHandler](TestTokenHandler.md)
+* [TestTypedConverterAnchorFactory](TestTypedConverterAnchorFactory.md)
+* [TokenHandler](TokenHandler.md)
+* [TokenHolder](TokenHolder.md)
+* [Utils](Utils.md)
+* [Whitelist](Whitelist.md)
+* [XTransferRerouter](XTransferRerouter.md)
