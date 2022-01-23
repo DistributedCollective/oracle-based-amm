@@ -39,9 +39,9 @@ contract ISmartToken[] private _poolTokens;
 - [burn(ISmartToken _token, address _from, uint256 _amount)](#burn)
 - [concatStrDigit(string _str, uint8 _digit)](#concatstrdigit)
 
-> ### function poolTokens
+> ### poolTokens
 
-⤾ overrides [IPoolTokensContainer.poolTokens](IPoolTokensContainer.md#pooltokens)
+⤾ overrides [IPoolTokensContainer.poolTokens](IPoolTokensContainer.md#.pooltokens)
 
 returns the list of pool tokens
 
@@ -69,9 +69,9 @@ function poolTokens() public view returns (ISmartToken[] memory) {
 ```
 </details>
 
-> ### function createToken
+> ### createToken
 
-⤾ overrides [IPoolTokensContainer.createToken](IPoolTokensContainer.md#createtoken)
+⤾ overrides [IPoolTokensContainer.createToken](IPoolTokensContainer.md#.createtoken)
 
 creates a new pool token and adds it to the list
 
@@ -111,9 +111,9 @@ function createToken() public ownerOnly returns (ISmartToken) {
 ```
 </details>
 
-> ### function mint
+> ### mint
 
-⤾ overrides [IPoolTokensContainer.mint](IPoolTokensContainer.md#mint)
+⤾ overrides [IPoolTokensContainer.mint](IPoolTokensContainer.md#.mint)
 
 increases the pool token supply and sends the new tokens to the given account
 
@@ -145,9 +145,9 @@ function mint(ISmartToken _token, address _to, uint256 _amount) public ownerOnly
 ```
 </details>
 
-> ### function burn
+> ### burn
 
-⤾ overrides [IPoolTokensContainer.burn](IPoolTokensContainer.md#burn)
+⤾ overrides [IPoolTokensContainer.burn](IPoolTokensContainer.md#.burn)
 
 removes tokens from the given account and decreases the pool token supply
 
@@ -179,7 +179,7 @@ function burn(ISmartToken _token, address _from, uint256 _amount) public ownerOn
 ```
 </details>
 
-> ### function concatStrDigit
+> ### concatStrDigit
 
 concatenates a string and a digit (single only) and returns the result string
 

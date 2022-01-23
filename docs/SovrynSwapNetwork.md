@@ -90,7 +90,7 @@ event Conversion(address indexed _smartToken, address indexed _fromToken, addres
 - [claimAndConvertFor(IERC20Token[] _path, uint256 _amount, uint256 _minReturn, address _beneficiary)](#claimandconvertfor)
 - [claimAndConvertFor2(IERC20Token[] _path, uint256 _amount, uint256 _minReturn, address _beneficiary, address _affiliateAccount, uint256 _affiliateFee)](#claimandconvertfor2)
 
-> ### function change
+> ### change
 
 ```solidity
 function change(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _amount, uint256 _minReturn) public nonpayable
@@ -119,7 +119,7 @@ function change(
 ```
 </details>
 
-> ### function setMaxAffiliateFee
+> ### setMaxAffiliateFee
 
 allows the owner to update the maximum affiliate-fee
 	 *
@@ -145,7 +145,7 @@ function setMaxAffiliateFee(uint256 _maxAffiliateFee) public ownerOnly {
 ```
 </details>
 
-> ### function registerEtherToken
+> ### registerEtherToken
 
 allows the owner to register/unregister ether tokens
 	 *
@@ -171,7 +171,7 @@ function registerEtherToken(IEtherToken _token, bool _register) public ownerOnly
 ```
 </details>
 
-> ### function conversionPath
+> ### conversionPath
 
 ⤿ Overridden Implementation(s): [SovrynSwapNetworkMockup.conversionPath](SovrynSwapNetworkMockup.md#conversionpath)
 
@@ -206,7 +206,7 @@ function conversionPath(IERC20Token _sourceToken, IERC20Token _targetToken) publ
 ```
 </details>
 
-> ### function rateByPath
+> ### rateByPath
 
 ⤿ Overridden Implementation(s): [SovrynSwapNetworkMockup.rateByPath](SovrynSwapNetworkMockup.md#ratebypath)
 
@@ -299,7 +299,7 @@ function rateByPath(IERC20Token[] _path, uint256 _amount) public view returns (u
 ```
 </details>
 
-> ### function convertByPath
+> ### convertByPath
 
 converts the token to any other token in the sovrynSwap network by following
 a predefined conversion path and transfers the result tokens to a target account
@@ -370,7 +370,7 @@ function convertByPath(
 ```
 </details>
 
-> ### function xConvert
+> ### xConvert
 
 converts any other token to BNT in the sovrynSwap network by following
 a predefined conversion path and transfers the result to an account on a different blockchain
@@ -414,7 +414,7 @@ function xConvert(
 ```
 </details>
 
-> ### function xConvert2
+> ### xConvert2
 
 converts any other token to BNT in the sovrynSwap network by following
 a predefined conversion path and transfers the result to an account on a different blockchain
@@ -477,7 +477,7 @@ function xConvert2(
 ```
 </details>
 
-> ### function completeXConversion
+> ### completeXConversion
 
 allows a user to convert a token that was sent from another blockchain into any other
 token on the SovrynSwapNetwork
@@ -528,7 +528,7 @@ function completeXConversion(
 ```
 </details>
 
-> ### function doConversion
+> ### doConversion
 
 executes the actual conversion by following the conversion path
 	 *
@@ -616,7 +616,7 @@ function doConversion(
 ```
 </details>
 
-> ### function handleSourceToken
+> ### handleSourceToken
 
 validates msg.value and prepares the conversion source token for the conversion
 	 *
@@ -675,7 +675,7 @@ function handleSourceToken(
 ```
 </details>
 
-> ### function handleTargetToken
+> ### handleTargetToken
 
 handles the conversion target token if the network still holds it at the end of the conversion
 	 *
@@ -724,7 +724,7 @@ function handleTargetToken(
 ```
 </details>
 
-> ### function createConversionData
+> ### createConversionData
 
 creates a memory cache of all conversion steps data to minimize logic and external calls during conversions
 	 *
@@ -835,7 +835,7 @@ function createConversionData(
 ```
 </details>
 
-> ### function ensureAllowance
+> ### ensureAllowance
 
 utility, checks whether allowance for the given spender exists and approves one if it doesn't.
 Note that we use the non standard erc-20 interface in which `approve` has no return value so that
@@ -872,7 +872,7 @@ function ensureAllowance(
 ```
 </details>
 
-> ### function getConverterEtherTokenAddress
+> ### getConverterEtherTokenAddress
 
 ```solidity
 function getConverterEtherTokenAddress(IConverter _converter) private view
@@ -901,7 +901,7 @@ function getConverterEtherTokenAddress(IConverter _converter) private view retur
 ```
 </details>
 
-> ### function getConverterTokenAddress
+> ### getConverterTokenAddress
 
 ```solidity
 function getConverterTokenAddress(IConverter _converter, IERC20Token _token) private view
@@ -929,7 +929,7 @@ function getConverterTokenAddress(IConverter _converter, IERC20Token _token) pri
 ```
 </details>
 
-> ### function getReturn
+> ### getReturn
 
 ```solidity
 function getReturn(address _dest, address _sourceToken, address _targetToken, uint256 _amount) internal view
@@ -977,7 +977,7 @@ function getReturn(
 ```
 </details>
 
-> ### function isV28OrHigherConverter
+> ### isV28OrHigherConverter
 
 ```solidity
 function isV28OrHigherConverter(IConverter _converter) internal view
@@ -1015,7 +1015,7 @@ function isV28OrHigherConverter(IConverter _converter) internal view returns (bo
 ```
 </details>
 
-> ### function getReturnByPath
+> ### getReturnByPath
 
 deprecated, backward compatibility
 
@@ -1041,9 +1041,9 @@ function getReturnByPath(IERC20Token[] _path, uint256 _amount) public view retur
 ```
 </details>
 
-> ### function convert
+> ### convert
 
-⤾ overrides [ISovrynSwapNetwork.convert](ISovrynSwapNetwork.md#convert)
+⤾ overrides [ISovrynSwapNetwork.convert](ISovrynSwapNetwork.md#.convert)
 
 ⤿ Overridden Implementation(s): [SovrynSwapNetworkMockup.convert](SovrynSwapNetworkMockup.md#convert)
 
@@ -1076,9 +1076,9 @@ function convert(
 ```
 </details>
 
-> ### function convert2
+> ### convert2
 
-⤾ overrides [ISovrynSwapNetwork.convert2](ISovrynSwapNetwork.md#convert2)
+⤾ overrides [ISovrynSwapNetwork.convert2](ISovrynSwapNetwork.md#.convert2)
 
 deprecated, backward compatibility
 
@@ -1113,9 +1113,9 @@ function convert2(
 ```
 </details>
 
-> ### function convertFor
+> ### convertFor
 
-⤾ overrides [ISovrynSwapNetwork.convertFor](ISovrynSwapNetwork.md#convertfor)
+⤾ overrides [ISovrynSwapNetwork.convertFor](ISovrynSwapNetwork.md#.convertfor)
 
 deprecated, backward compatibility
 
@@ -1148,9 +1148,9 @@ function convertFor(
 ```
 </details>
 
-> ### function convertFor2
+> ### convertFor2
 
-⤾ overrides [ISovrynSwapNetwork.convertFor2](ISovrynSwapNetwork.md#convertfor2)
+⤾ overrides [ISovrynSwapNetwork.convertFor2](ISovrynSwapNetwork.md#.convertfor2)
 
 deprecated, backward compatibility
 
@@ -1187,9 +1187,9 @@ function convertFor2(
 ```
 </details>
 
-> ### function claimAndConvert
+> ### claimAndConvert
 
-⤾ overrides [ISovrynSwapNetwork.claimAndConvert](ISovrynSwapNetwork.md#claimandconvert)
+⤾ overrides [ISovrynSwapNetwork.claimAndConvert](ISovrynSwapNetwork.md#.claimandconvert)
 
 deprecated, backward compatibility
 
@@ -1220,9 +1220,9 @@ function claimAndConvert(
 ```
 </details>
 
-> ### function claimAndConvert2
+> ### claimAndConvert2
 
-⤾ overrides [ISovrynSwapNetwork.claimAndConvert2](ISovrynSwapNetwork.md#claimandconvert2)
+⤾ overrides [ISovrynSwapNetwork.claimAndConvert2](ISovrynSwapNetwork.md#.claimandconvert2)
 
 deprecated, backward compatibility
 
@@ -1257,9 +1257,9 @@ function claimAndConvert2(
 ```
 </details>
 
-> ### function claimAndConvertFor
+> ### claimAndConvertFor
 
-⤾ overrides [ISovrynSwapNetwork.claimAndConvertFor](ISovrynSwapNetwork.md#claimandconvertfor)
+⤾ overrides [ISovrynSwapNetwork.claimAndConvertFor](ISovrynSwapNetwork.md#.claimandconvertfor)
 
 deprecated, backward compatibility
 
@@ -1292,9 +1292,9 @@ function claimAndConvertFor(
 ```
 </details>
 
-> ### function claimAndConvertFor2
+> ### claimAndConvertFor2
 
-⤾ overrides [ISovrynSwapNetwork.claimAndConvertFor2](ISovrynSwapNetwork.md#claimandconvertfor2)
+⤾ overrides [ISovrynSwapNetwork.claimAndConvertFor2](ISovrynSwapNetwork.md#.claimandconvertfor2)
 
 deprecated, backward compatibility
 

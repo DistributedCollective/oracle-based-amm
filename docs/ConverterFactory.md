@@ -31,7 +31,7 @@ event NewConverter(uint16 indexed _type, address indexed _converter, address ind
 - [createAnchor(uint16 _converterType, string _name, string _symbol, uint8 _decimals)](#createanchor)
 - [createConverter(uint16 _type, IConverterAnchor _anchor, IContractRegistry _registry, uint32 _maxConversionFee)](#createconverter)
 
-> ### function registerTypedConverterFactory
+> ### registerTypedConverterFactory
 
 initializes the factory with a specific typed converter factory
 can only be called by the owner
@@ -57,7 +57,7 @@ function registerTypedConverterFactory(ITypedConverterFactory _factory) public o
 ```
 </details>
 
-> ### function registerTypedConverterAnchorFactory
+> ### registerTypedConverterAnchorFactory
 
 initializes the factory with a specific typed converter anchor factory
 can only be called by the owner
@@ -83,7 +83,7 @@ function registerTypedConverterAnchorFactory(ITypedConverterAnchorFactory _facto
 ```
 </details>
 
-> ### function registerTypedConverterCustomFactory
+> ### registerTypedConverterCustomFactory
 
 initializes the factory with a specific typed converter custom factory
 can only be called by the owner
@@ -109,9 +109,9 @@ function registerTypedConverterCustomFactory(ITypedConverterCustomFactory _facto
 ```
 </details>
 
-> ### function createAnchor
+> ### createAnchor
 
-⤾ overrides [IConverterFactory.createAnchor](IConverterFactory.md#createanchor)
+⤾ overrides [IConverterFactory.createAnchor](IConverterFactory.md#.createanchor)
 
 ⤿ Overridden Implementation(s): [TestConverterFactory.createAnchor](TestConverterFactory.md#createanchor)
 
@@ -165,9 +165,9 @@ function createAnchor(
 ```
 </details>
 
-> ### function createConverter
+> ### createConverter
 
-⤾ overrides [IConverterFactory.createConverter](IConverterFactory.md#createconverter)
+⤾ overrides [IConverterFactory.createConverter](IConverterFactory.md#.createconverter)
 
 ⤿ Overridden Implementation(s): [TestConverterFactory.createConverter](TestConverterFactory.md#createconverter)
 

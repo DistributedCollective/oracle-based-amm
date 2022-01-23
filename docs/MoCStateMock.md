@@ -19,9 +19,9 @@ uint256 public value;
 - [bproUsdPrice()](#bprousdprice)
 - [setValue(uint256 _value)](#setvalue)
 
-> ### function bproUsdPrice
+> ### bproUsdPrice
 
-⤾ overrides [IMoCState.bproUsdPrice](IMoCState.md#bprousdprice)
+⤾ overrides [IMoCState.bproUsdPrice](IMoCState.md#.bprousdprice)
 
 ```solidity
 function bproUsdPrice() public view
@@ -43,7 +43,7 @@ function bproUsdPrice() public view returns (uint256) {
 ```
 </details>
 
-> ### function setValue
+> ### setValue
 
 ```solidity
 function setValue(uint256 _value) public nonpayable

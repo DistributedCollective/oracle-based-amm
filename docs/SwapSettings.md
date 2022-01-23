@@ -37,7 +37,7 @@ event SetSOVTokenAddress(address indexed sender, address indexed oldSOVTokenAddr
 - [setSOVTokenAddress(address newSOVTokenAddress)](#setsovtokenaddress)
 - [setProtocolFee(uint32 _protocolFee)](#setprotocolfee)
 
-> ### function setFeesController
+> ### setFeesController
 
 Set the feesController (The one who can withdraw / collect the protocolFee from this converter)
 	 *
@@ -66,7 +66,7 @@ function setFeesController(address newController) external ownerOnly() {
 ```
 </details>
 
-> ### function setWrbtcAddress
+> ### setWrbtcAddress
 
 Set the wrBTC contract address.
 	 *
@@ -95,7 +95,7 @@ function setWrbtcAddress(address newWrbtcAddress) external ownerOnly() {
 ```
 </details>
 
-> ### function setSOVTokenAddress
+> ### setSOVTokenAddress
 
 Set the SOVToken contract address.
 	 *
@@ -124,7 +124,7 @@ function setSOVTokenAddress(address newSOVTokenAddress) external ownerOnly() {
 ```
 </details>
 
-> ### function setProtocolFee
+> ### setProtocolFee
 
 allows the owner to update the x% of protocol fee
 	 *

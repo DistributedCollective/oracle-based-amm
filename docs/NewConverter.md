@@ -22,15 +22,15 @@ contract NewConverter private newConverter;
 
 - [getReturn(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _amount)](#getreturn)
 - [getReturn(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _amount)](#getreturn)
-- [constructor()](#)
+- [constructor()](#constructor)
 - [isV28OrHigher()](#isv28orhigher)
 - [isV28OrHigher()](#isv28orhigher)
-- [constructor()](#)
+- [constructor()](#constructor)
 - [isV28OrHigherConverterExternal(IConverter _converter)](#isv28orhigherconverterexternal)
 - [getReturnOld()](#getreturnold)
 - [getReturnNew()](#getreturnnew)
 
-> ### function getReturn
+> ### getReturn
 
 ```solidity
 function getReturn(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _amount) external view
@@ -62,7 +62,7 @@ function getReturn(
 ```
 </details>
 
-> ### function getReturn
+> ### getReturn
 
 ```solidity
 function getReturn(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _amount) external view
@@ -94,7 +94,7 @@ function getReturn(
 ```
 </details>
 
-> ### function 
+> ### constructor
 
 ```solidity
 function () external payable
@@ -113,7 +113,7 @@ function() external payable {}
 ```
 </details>
 
-> ### function isV28OrHigher
+> ### isV28OrHigher
 
 ```solidity
 function isV28OrHigher() public pure
@@ -135,7 +135,7 @@ function isV28OrHigher() public pure returns (bool) {
 ```
 </details>
 
-> ### function isV28OrHigher
+> ### isV28OrHigher
 
 ```solidity
 function isV28OrHigher() public pure
@@ -157,7 +157,7 @@ function isV28OrHigher() public pure returns (bool) {
 ```
 </details>
 
-> ### function 
+> ### constructor
 
 ```solidity
 function () external payable
@@ -178,7 +178,7 @@ function() external payable {
 ```
 </details>
 
-> ### function isV28OrHigherConverterExternal
+> ### isV28OrHigherConverterExternal
 
 ```solidity
 function isV28OrHigherConverterExternal(IConverter _converter) external view
@@ -201,7 +201,7 @@ function isV28OrHigherConverterExternal(IConverter _converter) external view ret
 ```
 </details>
 
-> ### function getReturnOld
+> ### getReturnOld
 
 ```solidity
 function getReturnOld() external view
@@ -223,7 +223,7 @@ function getReturnOld() external view returns (uint256, uint256) {
 ```
 </details>
 
-> ### function getReturnNew
+> ### getReturnNew
 
 ```solidity
 function getReturnNew() external view

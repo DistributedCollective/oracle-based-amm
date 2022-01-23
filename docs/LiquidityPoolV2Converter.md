@@ -136,7 +136,7 @@ modifier validPoolToken(ISmartToken _address) internal
 - [reduceRate(uint256 _n, uint256 _d)](#reducerate)
 - [reduceFactors(uint256 _max, uint256 _min)](#reducefactors)
 
-> ### function _validPoolToken
+> ### _validPoolToken
 
 ```solidity
 function _validPoolToken(ISmartToken _address) internal view
@@ -160,9 +160,9 @@ function _validPoolToken(ISmartToken _address) internal view {
 ```
 </details>
 
-> ### function converterType
+> ### converterType
 
-⤾ overrides [IConverter.converterType](IConverter.md#convertertype)
+⤾ overrides [IConverter.converterType](IConverter.md#.convertertype)
 
 returns the converter type
 
@@ -190,9 +190,9 @@ function converterType() public pure returns (uint16) {
 ```
 </details>
 
-> ### function isActive
+> ### isActive
 
-⤾ overrides [ConverterBase.isActive](ConverterBase.md#isactive)
+⤾ overrides [ConverterBase.isActive](ConverterBase.md#.isactive)
 
 returns true if the converter is active, false otherwise
 
@@ -220,7 +220,7 @@ function isActive() public view returns (bool) {
 ```
 </details>
 
-> ### function amplificationFactor
+> ### amplificationFactor
 
 returns the liquidity amplification factor in the pool
 
@@ -248,7 +248,7 @@ function amplificationFactor() public pure returns (uint8) {
 ```
 </details>
 
-> ### function activate
+> ### activate
 
 sets the pool's primary reserve token / price oracles and activates the pool
 
@@ -368,7 +368,7 @@ function activate(IERC20Token _primaryReserveToken, IConsumerPriceOracle _primar
 ```
 </details>
 
-> ### function setDynamicFeeFactor
+> ### setDynamicFeeFactor
 
 updates the current dynamic fee factor
 
@@ -402,7 +402,7 @@ function setDynamicFeeFactor(uint256 _dynamicFeeFactor) public ownerOnly {
 ```
 </details>
 
-> ### function reserveStakedBalance
+> ### reserveStakedBalance
 
 returns the staked balance of a given reserve token
 
@@ -445,7 +445,7 @@ function reserveStakedBalance(IERC20Token _reserveToken)
 ```
 </details>
 
-> ### function reserveAmplifiedBalance
+> ### reserveAmplifiedBalance
 
 returns the amplified balance of a given reserve token
 
@@ -488,7 +488,7 @@ function reserveAmplifiedBalance(IERC20Token _reserveToken)
 ```
 </details>
 
-> ### function setReserveStakedBalance
+> ### setReserveStakedBalance
 
 sets the reserve's staked balance
 
@@ -529,7 +529,7 @@ function setReserveStakedBalance(IERC20Token _reserveToken, uint256 _balance)
 ```
 </details>
 
-> ### function setMaxStakedBalances
+> ### setMaxStakedBalances
 
 sets the max staked balance for both reserves
 
@@ -564,7 +564,7 @@ function setMaxStakedBalances(uint256 _reserve1MaxStakedBalance, uint256 _reserv
 ```
 </details>
 
-> ### function disableMaxStakedBalances
+> ### disableMaxStakedBalances
 
 disables the max staked balance mechanism
 
@@ -595,7 +595,7 @@ function disableMaxStakedBalances() public ownerOnly {
 ```
 </details>
 
-> ### function poolToken
+> ### poolToken
 
 returns the pool token address by the reserve token address
 
@@ -628,7 +628,7 @@ function poolToken(IERC20Token _reserveToken) public view returns (ISmartToken) 
 ```
 </details>
 
-> ### function liquidationLimit
+> ### liquidationLimit
 
 returns the maximum number of pool tokens that can currently be liquidated
 
@@ -675,9 +675,9 @@ function liquidationLimit(ISmartToken _poolToken) public view returns (uint256) 
 ```
 </details>
 
-> ### function addReserve
+> ### addReserve
 
-⤾ overrides [ConverterBase.addReserve](ConverterBase.md#addreserve)
+⤾ overrides [ConverterBase.addReserve](ConverterBase.md#.addreserve)
 
 defines a new reserve token for the converter
 
@@ -714,7 +714,7 @@ function addReserve(IERC20Token _token, uint32 _weight) public {
 ```
 </details>
 
-> ### function effectiveTokensRate
+> ### effectiveTokensRate
 
 returns the effective rate of 1 primary token in secondary tokens
 
@@ -744,7 +744,7 @@ function effectiveTokensRate() public view returns (uint256, uint256) {
 ```
 </details>
 
-> ### function effectiveReserveWeights
+> ### effectiveReserveWeights
 
 returns the effective reserve tokens weights
 
@@ -782,9 +782,9 @@ function effectiveReserveWeights() public view returns (uint256, uint256) {
 ```
 </details>
 
-> ### function targetAmountAndFee
+> ### targetAmountAndFee
 
-⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#targetamountandfee)
+⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#.targetamountandfee)
 
 returns the expected target amount of converting one reserve to another along with the fee
 
@@ -891,9 +891,9 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
 ```
 </details>
 
-> ### function doConvert
+> ### doConvert
 
-⤾ overrides [ConverterBase.doConvert](ConverterBase.md#doconvert)
+⤾ overrides [ConverterBase.doConvert](ConverterBase.md#.doconvert)
 
 converts a specific amount of source tokens to target tokens
 
@@ -972,7 +972,7 @@ function doConvert(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _
 ```
 </details>
 
-> ### function doConvert
+> ### doConvert
 
 converts a specific amount of source tokens to target tokens
 
@@ -1055,7 +1055,7 @@ function doConvert(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _
 ```
 </details>
 
-> ### function addLiquidity
+> ### addLiquidity
 
 increases the pool's liquidity and mints new shares in the pool to the caller
 
@@ -1192,7 +1192,7 @@ function addLiquidity(IERC20Token _reserveToken, uint256 _amount, uint256 _minRe
 ```
 </details>
 
-> ### function removeLiquidity
+> ### removeLiquidity
 
 decreases the pool's liquidity and burns the caller's shares in the pool
 
@@ -1303,7 +1303,7 @@ function removeLiquidity(ISmartToken _poolToken, uint256 _amount, uint256 _minRe
 ```
 </details>
 
-> ### function removeLiquidityReturnAndFee
+> ### removeLiquidityReturnAndFee
 
 calculates the amount of reserve tokens entitled for a given amount of pool tokens
 
@@ -1367,7 +1367,7 @@ function removeLiquidityReturnAndFee(ISmartToken _poolToken, uint256 _amount)
 ```
 </details>
 
-> ### function targetAmountAndFees
+> ### targetAmountAndFees
 
 returns the expected target amount of converting one reserve to another along with the fees
 
@@ -1463,7 +1463,7 @@ function targetAmountAndFees(
 ```
 </details>
 
-> ### function calculateDynamicFee
+> ### calculateDynamicFee
 
 returns the dynamic fee for a given target amount
 
@@ -1556,7 +1556,7 @@ function calculateDynamicFee(
 ```
 </details>
 
-> ### function calculateFeeToEquilibrium
+> ### calculateFeeToEquilibrium
 
 returns the relative fee required for mitigating the secondary reserve distance from equilibrium
 
@@ -1625,7 +1625,7 @@ function calculateFeeToEquilibrium(
 ```
 </details>
 
-> ### function createPoolTokens
+> ### createPoolTokens
 
 creates the converter's pool tokens
 
@@ -1684,7 +1684,7 @@ function createPoolTokens() internal {
 ```
 </details>
 
-> ### function _effectiveTokensRate
+> ### _effectiveTokensRate
 
 returns the effective rate between the two reserve tokens
 
@@ -1764,7 +1764,7 @@ function _effectiveTokensRate() private view returns (Fraction memory) {
 ```
 </details>
 
-> ### function handleRateChange
+> ### handleRateChange
 
 checks if the rate has changed and if so, rebalances the weights
 
@@ -1824,7 +1824,7 @@ function handleRateChange() private returns (bool, Fraction memory) {
 ```
 </details>
 
-> ### function rebalance
+> ### rebalance
 
 updates the pool's reserve weights with new values in order to push the current primary
 
@@ -1859,7 +1859,7 @@ function rebalance() private {
 ```
 </details>
 
-> ### function effectiveReserveWeights
+> ### effectiveReserveWeights
 
 returns the effective reserve weights based on the staked balance, current balance and oracle price
 
@@ -1914,7 +1914,7 @@ function effectiveReserveWeights(Fraction memory _rate) private view returns (ui
 ```
 </details>
 
-> ### function tokensRate
+> ### tokensRate
 
 calculates and returns the rate between two reserve tokens
 
@@ -1970,7 +1970,7 @@ function tokensRate(IERC20Token _token1, IERC20Token _token2, uint32 _token1Weig
 ```
 </details>
 
-> ### function dispatchRateEvents
+> ### dispatchRateEvents
 
 dispatches rate events for both reserve tokens and for the target pool token
 
@@ -2015,7 +2015,7 @@ function dispatchRateEvents(IERC20Token _sourceToken, IERC20Token _targetToken, 
 ```
 </details>
 
-> ### function dispatchTokenRateUpdateEvent
+> ### dispatchTokenRateUpdateEvent
 
 dispatches token rate update event
 
@@ -2052,7 +2052,7 @@ function dispatchTokenRateUpdateEvent(IERC20Token _token1, IERC20Token _token2, 
 ```
 </details>
 
-> ### function dispatchPoolTokenRateUpdateEvent
+> ### dispatchPoolTokenRateUpdateEvent
 
 dispatches the `TokenRateUpdate` for the pool token
 
@@ -2084,7 +2084,7 @@ function dispatchPoolTokenRateUpdateEvent(ISmartToken _poolToken, uint256 _poolT
 ```
 </details>
 
-> ### function time
+> ### time
 
 ⤿ Overridden Implementation(s): [TestLiquidityPoolV2Converter.time](TestLiquidityPoolV2Converter.md#time)
 
@@ -2112,7 +2112,7 @@ function time() internal view returns (uint256) {
 ```
 </details>
 
-> ### function reduceRate
+> ### reduceRate
 
 reduces the numerator and denominator while maintaining the ratio between them as accurately as possible
 
@@ -2148,7 +2148,7 @@ function reduceRate(uint256 _n, uint256 _d) internal pure returns (Fraction memo
 ```
 </details>
 
-> ### function reduceFactors
+> ### reduceFactors
 
 reduces the factors while maintaining the ratio between them as accurately as possible
 

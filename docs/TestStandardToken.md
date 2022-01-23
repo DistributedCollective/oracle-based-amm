@@ -48,7 +48,7 @@ event Approval(address indexed _owner, address indexed _spender, uint256  _value
 - [transfer(address _to, uint256 _value)](#transfer)
 - [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
 
-> ### function _transfer
+> ### _transfer
 
 send coins
 throws on any error rather then return a false flag to minimize user errors
@@ -81,7 +81,7 @@ function _transfer(address _to, uint256 _value) internal validAddress(_to) {
 ```
 </details>
 
-> ### function _transferFrom
+> ### _transferFrom
 
 an account/contract attempts to get the coins
 throws on any error rather then return a false flag to minimize user errors
@@ -120,7 +120,7 @@ function _transferFrom(
 ```
 </details>
 
-> ### function _approve
+> ### _approve
 
 allow another account/contract to spend some tokens on your behalf
 throws on any error rather then return a false flag to minimize user errors
@@ -158,7 +158,7 @@ function _approve(address _spender, uint256 _value) internal validAddress(_spend
 ```
 </details>
 
-> ### function set
+> ### set
 
 ```solidity
 function set(bool _ok) public nonpayable
@@ -180,7 +180,7 @@ function set(bool _ok) public {
 ```
 </details>
 
-> ### function approve
+> ### approve
 
 ```solidity
 function approve(address _spender, uint256 _value) public nonpayable
@@ -204,7 +204,7 @@ function approve(address _spender, uint256 _value) public {
 ```
 </details>
 
-> ### function transfer
+> ### transfer
 
 ```solidity
 function transfer(address _to, uint256 _value) public nonpayable
@@ -228,7 +228,7 @@ function transfer(address _to, uint256 _value) public {
 ```
 </details>
 
-> ### function transferFrom
+> ### transferFrom
 
 ```solidity
 function transferFrom(address _from, address _to, uint256 _value) public nonpayable
@@ -257,7 +257,7 @@ function transferFrom(
 ```
 </details>
 
-> ### function approve
+> ### approve
 
 ```solidity
 function approve(address _spender, uint256 _value) public nonpayable
@@ -280,7 +280,7 @@ function approve(address _spender, uint256 _value) public {
 ```
 </details>
 
-> ### function transfer
+> ### transfer
 
 ```solidity
 function transfer(address _to, uint256 _value) public nonpayable
@@ -303,7 +303,7 @@ function transfer(address _to, uint256 _value) public {
 ```
 </details>
 
-> ### function transferFrom
+> ### transferFrom
 
 ```solidity
 function transferFrom(address _from, address _to, uint256 _value) public nonpayable
@@ -331,7 +331,7 @@ function transferFrom(
 ```
 </details>
 
-> ### function set
+> ### set
 
 ```solidity
 function set(bool _ok, bool _ret) public nonpayable
@@ -355,7 +355,7 @@ function set(bool _ok, bool _ret) public {
 ```
 </details>
 
-> ### function approve
+> ### approve
 
 ```solidity
 function approve(address _spender, uint256 _value) public nonpayable
@@ -381,7 +381,7 @@ function approve(address _spender, uint256 _value) public returns (bool) {
 ```
 </details>
 
-> ### function transfer
+> ### transfer
 
 ```solidity
 function transfer(address _to, uint256 _value) public nonpayable
@@ -407,7 +407,7 @@ function transfer(address _to, uint256 _value) public returns (bool) {
 ```
 </details>
 
-> ### function transferFrom
+> ### transferFrom
 
 ```solidity
 function transferFrom(address _from, address _to, uint256 _value) public nonpayable

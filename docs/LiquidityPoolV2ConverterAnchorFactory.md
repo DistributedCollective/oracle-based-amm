@@ -11,9 +11,9 @@ View Source: [contracts/converter/types/liquidity-pool-v2/LiquidityPoolV2Convert
 - [converterType()](#convertertype)
 - [createAnchor(string _name, string _symbol, uint8 _decimals)](#createanchor)
 
-> ### function converterType
+> ### converterType
 
-⤾ overrides [ITypedConverterAnchorFactory.converterType](ITypedConverterAnchorFactory.md#convertertype)
+⤾ overrides [ITypedConverterAnchorFactory.converterType](ITypedConverterAnchorFactory.md#.convertertype)
 
 returns the converter type the factory is associated with
 
@@ -41,9 +41,9 @@ function converterType() public pure returns (uint16) {
 ```
 </details>
 
-> ### function createAnchor
+> ### createAnchor
 
-⤾ overrides [ITypedConverterAnchorFactory.createAnchor](ITypedConverterAnchorFactory.md#createanchor)
+⤾ overrides [ITypedConverterAnchorFactory.createAnchor](ITypedConverterAnchorFactory.md#.createanchor)
 
 creates a new converter anchor with the given arguments and transfers
 

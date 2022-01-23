@@ -74,9 +74,9 @@ event PriceDataUpdate(address indexed _connectorToken, uint256  _tokenSupply, ui
 - [dispatchRateEvents(IERC20Token _sourceToken, IERC20Token _targetToken)](#dispatchrateevents)
 - [dispatchPoolTokenRateEvent(uint256 _poolTokenSupply, IERC20Token _reserveToken, uint256 _reserveBalance, uint32 _reserveWeight)](#dispatchpooltokenrateevent)
 
-> ### function converterType
+> ### converterType
 
-⤾ overrides [IConverter.converterType](IConverter.md#convertertype)
+⤾ overrides [IConverter.converterType](IConverter.md#.convertertype)
 
 returns the converter type
 
@@ -104,9 +104,9 @@ function converterType() public pure returns (uint16) {
 ```
 </details>
 
-> ### function acceptAnchorOwnership
+> ### acceptAnchorOwnership
 
-⤾ overrides [LiquidityPoolConverter.acceptAnchorOwnership](LiquidityPoolConverter.md#acceptanchorownership)
+⤾ overrides [LiquidityPoolConverter.acceptAnchorOwnership](LiquidityPoolConverter.md#.acceptanchorownership)
 
 accepts ownership of the anchor after an ownership transfer
 
@@ -139,9 +139,9 @@ function acceptAnchorOwnership() public ownerOnly {
 ```
 </details>
 
-> ### function targetAmountAndFee
+> ### targetAmountAndFee
 
-⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#targetamountandfee)
+⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#.targetamountandfee)
 
 returns the expected target amount of converting one reserve to another along with the fee
 
@@ -212,9 +212,9 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
 ```
 </details>
 
-> ### function doConvert
+> ### doConvert
 
-⤾ overrides [ConverterBase.doConvert](ConverterBase.md#doconvert)
+⤾ overrides [ConverterBase.doConvert](ConverterBase.md#.doconvert)
 
 converts a specific amount of source tokens to target tokens
 
@@ -307,7 +307,7 @@ function doConvert(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _
 ```
 </details>
 
-> ### function addLiquidity
+> ### addLiquidity
 
 increases the pool's liquidity and mints new shares in the pool to the caller
 
@@ -381,7 +381,7 @@ function addLiquidity(IERC20Token[] memory _reserveTokens, uint256[] memory _res
 ```
 </details>
 
-> ### function removeLiquidity
+> ### removeLiquidity
 
 decreases the pool's liquidity and burns the caller's shares in the pool
 
@@ -435,7 +435,7 @@ function removeLiquidity(uint256 _amount, IERC20Token[] memory _reserveTokens, u
 ```
 </details>
 
-> ### function fund
+> ### fund
 
 increases the pool's liquidity and mints new shares in the pool to the caller
 
@@ -541,7 +541,7 @@ function fund(uint256 _amount) external payable protected {
 ```
 </details>
 
-> ### function liquidate
+> ### liquidate
 
 decreases the pool's liquidity and burns the caller's shares in the pool
 
@@ -587,7 +587,7 @@ function liquidate(uint256 _amount) external protected {
 ```
 </details>
 
-> ### function verifyLiquidityInput
+> ### verifyLiquidityInput
 
 verifies that a given array of tokens is identical to the converter's array of reserve tokens
 
@@ -655,7 +655,7 @@ function verifyLiquidityInput(IERC20Token[] memory _reserveTokens, uint256[] mem
 ```
 </details>
 
-> ### function addLiquidityToPool
+> ### addLiquidityToPool
 
 adds liquidity (reserve) to the pool
 
@@ -696,7 +696,7 @@ function addLiquidityToPool(IERC20Token[] memory _reserveTokens, uint256[] memor
 ```
 </details>
 
-> ### function addLiquidityToEmptyPool
+> ### addLiquidityToEmptyPool
 
 adds liquidity (reserve) to the pool when it's empty
 
@@ -756,7 +756,7 @@ function addLiquidityToEmptyPool(IERC20Token[] memory _reserveTokens, uint256[] 
 ```
 </details>
 
-> ### function addLiquidityToNonEmptyPool
+> ### addLiquidityToNonEmptyPool
 
 adds liquidity (reserve) to the pool when it's not empty
 
@@ -839,7 +839,7 @@ function addLiquidityToNonEmptyPool(IERC20Token[] memory _reserveTokens, uint256
 ```
 </details>
 
-> ### function removeLiquidityFromPool
+> ### removeLiquidityFromPool
 
 removes liquidity (reserve) from the pool
 
@@ -912,7 +912,7 @@ function removeLiquidityFromPool(IERC20Token[] memory _reserveTokens, uint256[] 
 ```
 </details>
 
-> ### function getMinShare
+> ### getMinShare
 
 ```solidity
 function getMinShare(ISovrynSwapFormula formula, uint256 _totalSupply, IERC20Token[] _reserveTokens, uint256[] _reserveAmounts) private view
@@ -950,7 +950,7 @@ function getMinShare(ISovrynSwapFormula formula, uint256 _totalSupply, IERC20Tok
 ```
 </details>
 
-> ### function decimalLength
+> ### decimalLength
 
 calculates the number of decimal digits in a given value
 
@@ -989,7 +989,7 @@ function decimalLength(uint256 _x) public pure returns (uint256) {
 ```
 </details>
 
-> ### function roundDiv
+> ### roundDiv
 
 calculates the nearest integer to a given quotient
 
@@ -1023,7 +1023,7 @@ function roundDiv(uint256 _n, uint256 _d) public pure returns (uint256) {
 ```
 </details>
 
-> ### function geometricMean
+> ### geometricMean
 
 calculates the average number of decimal digits in a given list of values
 
@@ -1064,7 +1064,7 @@ function geometricMean(uint256[] memory _values) public pure returns (uint256) {
 ```
 </details>
 
-> ### function dispatchRateEvents
+> ### dispatchRateEvents
 
 dispatches rate events for both reserves / pool tokens
 
@@ -1123,7 +1123,7 @@ function dispatchRateEvents(IERC20Token _sourceToken, IERC20Token _targetToken) 
 ```
 </details>
 
-> ### function dispatchPoolTokenRateEvent
+> ### dispatchPoolTokenRateEvent
 
 dispatches the `TokenRateUpdate` for the pool token
 

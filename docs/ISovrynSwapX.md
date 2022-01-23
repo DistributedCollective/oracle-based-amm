@@ -12,7 +12,7 @@ View Source: [contracts/sovrynswapx/interfaces/ISovrynSwapX.sol](../solidity/con
 - [xTransfer(bytes32 _toBlockchain, bytes32 _to, uint256 _amount, uint256 _id)](#xtransfer)
 - [getXTransferAmount(uint256 _xTransferId, address _for)](#getxtransferamount)
 
-> ### function token
+> ### token
 
 ```solidity
 function token() public view
@@ -34,7 +34,7 @@ function token() public view returns (IERC20Token) {
 ```
 </details>
 
-> ### function xTransfer
+> ### xTransfer
 
 ⤿ Overridden Implementation(s): [SovrynSwapX.xTransfer](SovrynSwapX.md#xtransfer)
 
@@ -64,7 +64,7 @@ function xTransfer(
 ```
 </details>
 
-> ### function getXTransferAmount
+> ### getXTransferAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapX.getXTransferAmount](SovrynSwapX.md#getxtransferamount)
 

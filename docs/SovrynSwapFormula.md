@@ -77,7 +77,7 @@ uint256[128] private lambertArray;
 - [crossReserveRate(uint256 _sourceReserveBalance, uint32 _sourceReserveWeight, uint256 _targetReserveBalance, uint32 _targetReserveWeight, uint256 _amount)](#crossreserverate)
 - [liquidateRate(uint256 _supply, uint256 _reserveBalance, uint32 _reserveRatio, uint256 _amount)](#liquidaterate)
 
-> ### function initMaxExpArray
+> ### initMaxExpArray
 
 ```solidity
 function initMaxExpArray() private nonpayable
@@ -225,7 +225,7 @@ function initMaxExpArray() private {
 ```
 </details>
 
-> ### function initLambertArray
+> ### initLambertArray
 
 ```solidity
 function initLambertArray() private nonpayable
@@ -373,7 +373,7 @@ function initLambertArray() private {
 ```
 </details>
 
-> ### function init
+> ### init
 
 should be executed after construction (too large for the constructor)
 
@@ -397,9 +397,9 @@ function init() public {
 ```
 </details>
 
-> ### function purchaseTargetAmount
+> ### purchaseTargetAmount
 
-⤾ overrides [ISovrynSwapFormula.purchaseTargetAmount](ISovrynSwapFormula.md#purchasetargetamount)
+⤾ overrides [ISovrynSwapFormula.purchaseTargetAmount](ISovrynSwapFormula.md#.purchasetargetamount)
 
 given a token supply, reserve balance, weight and a deposit amount (in the reserve token),
 calculates the target amount for a given conversion (in the main token)
@@ -456,9 +456,9 @@ function purchaseTargetAmount(
 ```
 </details>
 
-> ### function saleTargetAmount
+> ### saleTargetAmount
 
-⤾ overrides [ISovrynSwapFormula.saleTargetAmount](ISovrynSwapFormula.md#saletargetamount)
+⤾ overrides [ISovrynSwapFormula.saleTargetAmount](ISovrynSwapFormula.md#.saletargetamount)
 
 given a token supply, reserve balance, weight and a sell amount (in the main token),
 calculates the target amount for a given conversion (in the reserve token)
@@ -520,9 +520,9 @@ function saleTargetAmount(
 ```
 </details>
 
-> ### function crossReserveTargetAmount
+> ### crossReserveTargetAmount
 
-⤾ overrides [ISovrynSwapFormula.crossReserveTargetAmount](ISovrynSwapFormula.md#crossreservetargetamount)
+⤾ overrides [ISovrynSwapFormula.crossReserveTargetAmount](ISovrynSwapFormula.md#.crossreservetargetamount)
 
 given two reserve balances/weights and a sell amount (in the first reserve token),
 calculates the target amount for a conversion from the source reserve token to the target reserve token
@@ -581,9 +581,9 @@ function crossReserveTargetAmount(
 ```
 </details>
 
-> ### function fundCost
+> ### fundCost
 
-⤾ overrides [ISovrynSwapFormula.fundCost](ISovrynSwapFormula.md#fundcost)
+⤾ overrides [ISovrynSwapFormula.fundCost](ISovrynSwapFormula.md#.fundcost)
 
 given a smart token supply, reserve balance, reserve ratio and an amount of requested smart tokens,
 calculates the amount of reserve tokens required for purchasing the given amount of smart tokens
@@ -640,9 +640,9 @@ function fundCost(
 ```
 </details>
 
-> ### function fundSupplyAmount
+> ### fundSupplyAmount
 
-⤾ overrides [ISovrynSwapFormula.fundSupplyAmount](ISovrynSwapFormula.md#fundsupplyamount)
+⤾ overrides [ISovrynSwapFormula.fundSupplyAmount](ISovrynSwapFormula.md#.fundsupplyamount)
 
 given a smart token supply, reserve balance, reserve ratio and an amount of reserve tokens to fund with,
 calculates the amount of smart tokens received for purchasing with the given amount of reserve tokens
@@ -699,9 +699,9 @@ function fundSupplyAmount(
 ```
 </details>
 
-> ### function liquidateReserveAmount
+> ### liquidateReserveAmount
 
-⤾ overrides [ISovrynSwapFormula.liquidateReserveAmount](ISovrynSwapFormula.md#liquidatereserveamount)
+⤾ overrides [ISovrynSwapFormula.liquidateReserveAmount](ISovrynSwapFormula.md#.liquidatereserveamount)
 
 given a smart token supply, reserve balance, reserve ratio and an amount of smart tokens to liquidate,
 calculates the amount of reserve tokens received for selling the given amount of smart tokens
@@ -763,9 +763,9 @@ function liquidateReserveAmount(
 ```
 </details>
 
-> ### function balancedWeights
+> ### balancedWeights
 
-⤾ overrides [ISovrynSwapFormula.balancedWeights](ISovrynSwapFormula.md#balancedweights)
+⤾ overrides [ISovrynSwapFormula.balancedWeights](ISovrynSwapFormula.md#.balancedweights)
 
 The arbitrage incentive is to convert to the point where the on-chain price is equal to the off-chain price.
 We want this operation to also impact the primary reserve balance becoming equal to the primary reserve staked balance.
@@ -841,7 +841,7 @@ function balancedWeights(
 ```
 </details>
 
-> ### function power
+> ### power
 
 General Description:
     Determine a value of precision.
@@ -904,7 +904,7 @@ function power(
 ```
 </details>
 
-> ### function generalLog
+> ### generalLog
 
 computes log(x / FIXED_1) * FIXED_1.
 This functions assumes that "x >= FIXED_1", because the output would be negative otherwise.
@@ -950,7 +950,7 @@ function generalLog(uint256 x) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function floorLog2
+> ### floorLog2
 
 computes the largest integer smaller than or equal to the binary logarithm of the input.
 
@@ -993,7 +993,7 @@ function floorLog2(uint256 _n) internal pure returns (uint8) {
 ```
 </details>
 
-> ### function findPositionInMaxExpArray
+> ### findPositionInMaxExpArray
 
 the global "maxExpArray" is sorted in descending order, and therefore the following statements are equivalent:
 - This function finds the position of [the smallest value in "maxExpArray" larger than or equal to "x"]
@@ -1032,7 +1032,7 @@ function findPositionInMaxExpArray(uint256 _x) internal view returns (uint8) {
 ```
 </details>
 
-> ### function generalExp
+> ### generalExp
 
 this function can be auto-generated by the script 'PrintFunctionGeneralExp.py'.
 it approximates "e ^ x" via maclaurin summation: "(x^0)/0! + (x^1)/1! + ... + (x^n)/n!".
@@ -1130,7 +1130,7 @@ function generalExp(uint256 _x, uint8 _precision) internal pure returns (uint256
 ```
 </details>
 
-> ### function optimalLog
+> ### optimalLog
 
 computes log(x / FIXED_1) * FIXED_1
 Input range: FIXED_1 <= x <= OPT_LOG_MAX_VAL - 1
@@ -1220,7 +1220,7 @@ function optimalLog(uint256 x) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function optimalExp
+> ### optimalExp
 
 computes e ^ (x / FIXED_1) * FIXED_1
 input range: 0 <= x <= OPT_EXP_MAX_VAL - 1
@@ -1307,7 +1307,7 @@ function optimalExp(uint256 x) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function lowerStake
+> ### lowerStake
 
 computes W(x / FIXED_1) / (x / FIXED_1) * FIXED_1
 
@@ -1335,7 +1335,7 @@ function lowerStake(uint256 _x) internal view returns (uint256) {
 ```
 </details>
 
-> ### function higherStake
+> ### higherStake
 
 computes W(-x / FIXED_1) / (-x / FIXED_1) * FIXED_1
 
@@ -1361,7 +1361,7 @@ function higherStake(uint256 _x) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function lambertPos1
+> ### lambertPos1
 
 computes W(x / FIXED_1) / (x / FIXED_1) * FIXED_1
 input range: 1 <= x <= 1 / e * FIXED_1
@@ -1456,7 +1456,7 @@ function lambertPos1(uint256 _x) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function lambertPos2
+> ### lambertPos2
 
 computes W(x / FIXED_1) / (x / FIXED_1) * FIXED_1
 input range: LAMBERT_CONV_RADIUS + 1 <= x <= LAMBERT_POS2_MAXVAL
@@ -1488,7 +1488,7 @@ function lambertPos2(uint256 _x) internal view returns (uint256) {
 ```
 </details>
 
-> ### function lambertPos3
+> ### lambertPos3
 
 computes W(x / FIXED_1) / (x / FIXED_1) * FIXED_1
 input range: LAMBERT_POS2_MAXVAL + 1 <= x <= LAMBERT_POS3_MAXVAL
@@ -1516,7 +1516,7 @@ function lambertPos3(uint256 _x) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function lambertNeg1
+> ### lambertNeg1
 
 computes W(-x / FIXED_1) / (-x / FIXED_1) * FIXED_1
 input range: 1 <= x <= 1 / e * FIXED_1
@@ -1611,7 +1611,7 @@ function lambertNeg1(uint256 _x) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function balancedWeightsByStake
+> ### balancedWeightsByStake
 
 computes the weights based on "W(log(hi / lo) * tq / rp) * tq / rp", where "W" is a variation of the Lambert W function.
 
@@ -1651,7 +1651,7 @@ function balancedWeightsByStake(
 ```
 </details>
 
-> ### function safeFactors
+> ### safeFactors
 
 reduces "a" and "b" while maintaining their ratio.
 
@@ -1682,7 +1682,7 @@ function safeFactors(uint256 _a, uint256 _b) internal pure returns (uint256, uin
 ```
 </details>
 
-> ### function normalizedWeights
+> ### normalizedWeights
 
 computes "MAX_WEIGHT * a / (a + b)" and "MAX_WEIGHT * b / (a + b)".
 
@@ -1710,7 +1710,7 @@ function normalizedWeights(uint256 _a, uint256 _b) internal pure returns (uint32
 ```
 </details>
 
-> ### function accurateWeights
+> ### accurateWeights
 
 computes "MAX_WEIGHT * a / (a + b)" and "MAX_WEIGHT * b / (a + b)", assuming that "a <= b".
 
@@ -1743,7 +1743,7 @@ function accurateWeights(uint256 _a, uint256 _b) internal pure returns (uint32, 
 ```
 </details>
 
-> ### function roundDiv
+> ### roundDiv
 
 computes the nearest integer to a given quotient without overflowing or underflowing.
 
@@ -1769,7 +1769,7 @@ function roundDiv(uint256 _n, uint256 _d) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function calculatePurchaseReturn
+> ### calculatePurchaseReturn
 
 deprecated, backward compatibility
 
@@ -1802,7 +1802,7 @@ function calculatePurchaseReturn(
 ```
 </details>
 
-> ### function calculateSaleReturn
+> ### calculateSaleReturn
 
 deprecated, backward compatibility
 
@@ -1835,7 +1835,7 @@ function calculateSaleReturn(
 ```
 </details>
 
-> ### function calculateCrossReserveReturn
+> ### calculateCrossReserveReturn
 
 deprecated, backward compatibility
 
@@ -1870,7 +1870,7 @@ function calculateCrossReserveReturn(
 ```
 </details>
 
-> ### function calculateCrossConnectorReturn
+> ### calculateCrossConnectorReturn
 
 deprecated, backward compatibility
 
@@ -1905,7 +1905,7 @@ function calculateCrossConnectorReturn(
 ```
 </details>
 
-> ### function calculateFundCost
+> ### calculateFundCost
 
 deprecated, backward compatibility
 
@@ -1938,7 +1938,7 @@ function calculateFundCost(
 ```
 </details>
 
-> ### function calculateLiquidateReturn
+> ### calculateLiquidateReturn
 
 deprecated, backward compatibility
 
@@ -1971,7 +1971,7 @@ function calculateLiquidateReturn(
 ```
 </details>
 
-> ### function purchaseRate
+> ### purchaseRate
 
 deprecated, backward compatibility
 
@@ -2004,7 +2004,7 @@ function purchaseRate(
 ```
 </details>
 
-> ### function saleRate
+> ### saleRate
 
 deprecated, backward compatibility
 
@@ -2037,7 +2037,7 @@ function saleRate(
 ```
 </details>
 
-> ### function crossReserveRate
+> ### crossReserveRate
 
 deprecated, backward compatibility
 
@@ -2072,7 +2072,7 @@ function crossReserveRate(
 ```
 </details>
 
-> ### function liquidateRate
+> ### liquidateRate
 
 deprecated, backward compatibility
 

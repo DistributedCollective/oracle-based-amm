@@ -39,7 +39,7 @@ modifier protected() internal
 
 - [_protected()](#_protected)
 
-> ### function _protected
+> ### _protected
 
 ```solidity
 function _protected() internal view

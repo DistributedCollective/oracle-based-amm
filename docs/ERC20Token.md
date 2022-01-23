@@ -35,9 +35,9 @@ event Approval(address indexed _owner, address indexed _spender, uint256  _value
 - [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
 - [approve(address _spender, uint256 _value)](#approve)
 
-> ### function transfer
+> ### transfer
 
-⤾ overrides [IERC20Token.transfer](IERC20Token.md#transfer)
+⤾ overrides [IERC20Token.transfer](IERC20Token.md#.transfer)
 
 ⤿ Overridden Implementation(s): [EtherToken.transfer](EtherToken.md#transfer),[SmartToken.transfer](SmartToken.md#transfer)
 
@@ -74,9 +74,9 @@ function transfer(address _to, uint256 _value) public validAddress(_to) returns 
 ```
 </details>
 
-> ### function transferFrom
+> ### transferFrom
 
-⤾ overrides [IERC20Token.transferFrom](IERC20Token.md#transferfrom)
+⤾ overrides [IERC20Token.transferFrom](IERC20Token.md#.transferfrom)
 
 ⤿ Overridden Implementation(s): [EtherToken.transferFrom](EtherToken.md#transferfrom),[SmartToken.transferFrom](SmartToken.md#transferfrom)
 
@@ -119,9 +119,9 @@ function transferFrom(
 ```
 </details>
 
-> ### function approve
+> ### approve
 
-⤾ overrides [IERC20Token.approve](IERC20Token.md#approve)
+⤾ overrides [IERC20Token.approve](IERC20Token.md#.approve)
 
 allows another account/contract to transfers tokens on behalf of the caller
 throws on any error rather then return a false flag to minimize user errors

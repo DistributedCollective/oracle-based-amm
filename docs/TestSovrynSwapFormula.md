@@ -19,7 +19,7 @@ View Source: [contracts/helpers/TestSovrynSwapFormula.sol](../solidity/contracts
 - [accurateWeightsTest(uint256 _a, uint256 _b)](#accurateweightstest)
 - [roundDivTest(uint256 _n, uint256 _d)](#rounddivtest)
 
-> ### function powerTest
+> ### powerTest
 
 ```solidity
 function powerTest(uint256 _baseN, uint256 _baseD, uint32 _expN, uint32 _expD) external view
@@ -50,7 +50,7 @@ function powerTest(
 ```
 </details>
 
-> ### function generalLogTest
+> ### generalLogTest
 
 ```solidity
 function generalLogTest(uint256 x) external pure
@@ -73,7 +73,7 @@ function generalLogTest(uint256 x) external pure returns (uint256) {
 ```
 </details>
 
-> ### function floorLog2Test
+> ### floorLog2Test
 
 ```solidity
 function floorLog2Test(uint256 _n) external pure
@@ -96,7 +96,7 @@ function floorLog2Test(uint256 _n) external pure returns (uint8) {
 ```
 </details>
 
-> ### function findPositionInMaxExpArrayTest
+> ### findPositionInMaxExpArrayTest
 
 ```solidity
 function findPositionInMaxExpArrayTest(uint256 _x) external view
@@ -119,7 +119,7 @@ function findPositionInMaxExpArrayTest(uint256 _x) external view returns (uint8)
 ```
 </details>
 
-> ### function generalExpTest
+> ### generalExpTest
 
 ```solidity
 function generalExpTest(uint256 _x, uint8 _precision) external pure
@@ -143,7 +143,7 @@ function generalExpTest(uint256 _x, uint8 _precision) external pure returns (uin
 ```
 </details>
 
-> ### function optimalLogTest
+> ### optimalLogTest
 
 ```solidity
 function optimalLogTest(uint256 x) external pure
@@ -166,7 +166,7 @@ function optimalLogTest(uint256 x) external pure returns (uint256) {
 ```
 </details>
 
-> ### function optimalExpTest
+> ### optimalExpTest
 
 ```solidity
 function optimalExpTest(uint256 x) external pure
@@ -189,7 +189,7 @@ function optimalExpTest(uint256 x) external pure returns (uint256) {
 ```
 </details>
 
-> ### function normalizedWeightsTest
+> ### normalizedWeightsTest
 
 ```solidity
 function normalizedWeightsTest(uint256 _a, uint256 _b) external pure
@@ -213,7 +213,7 @@ function normalizedWeightsTest(uint256 _a, uint256 _b) external pure returns (ui
 ```
 </details>
 
-> ### function accurateWeightsTest
+> ### accurateWeightsTest
 
 ```solidity
 function accurateWeightsTest(uint256 _a, uint256 _b) external pure
@@ -237,7 +237,7 @@ function accurateWeightsTest(uint256 _a, uint256 _b) external pure returns (uint
 ```
 </details>
 
-> ### function roundDivTest
+> ### roundDivTest
 
 ```solidity
 function roundDivTest(uint256 _n, uint256 _d) external pure

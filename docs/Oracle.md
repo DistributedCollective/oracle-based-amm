@@ -63,7 +63,7 @@ modifier validPool() internal
 - [latestAnswer()](#latestanswer)
 - [latestPrice(address _baseToken)](#latestprice)
 
-> ### function setK
+> ### setK
 
 Used to set the value of k
 
@@ -89,7 +89,7 @@ function setK(uint256 _k) external ownerOnly {
 ```
 </details>
 
-> ### function write
+> ### write
 
 Used to write new price observations
 only valid liquidity pool contract can call this function
@@ -136,7 +136,7 @@ function write(uint256 _price0, uint256 _price1) external validPool {
 ```
 </details>
 
-> ### function read
+> ### read
 
 used to read the latest observations recorded
 
@@ -171,7 +171,7 @@ function read()
 ```
 </details>
 
-> ### function latestAnswer
+> ### latestAnswer
 
 returns the price of a reserve in base currency (assuming one of the reserves is always BTC)
 This function is kept to comply with the chainlink interface
@@ -200,7 +200,7 @@ function latestAnswer() external view returns (uint256 answer) {
 ```
 </details>
 
-> ### function latestPrice
+> ### latestPrice
 
 returns the price of a reserve in base currency
 

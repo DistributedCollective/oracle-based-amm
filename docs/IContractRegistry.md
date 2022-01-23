@@ -11,7 +11,7 @@ View Source: [contracts/utility/interfaces/IContractRegistry.sol](../solidity/co
 - [addressOf(bytes32 _contractName)](#addressof)
 - [getAddress(bytes32 _contractName)](#getaddress)
 
-> ### function addressOf
+> ### addressOf
 
 ⤿ Overridden Implementation(s): [ContractRegistry.addressOf](ContractRegistry.md#addressof)
 
@@ -34,7 +34,7 @@ function addressOf(bytes32 _contractName) public view returns (address);
 ```
 </details>
 
-> ### function getAddress
+> ### getAddress
 
 ⤿ Overridden Implementation(s): [ContractRegistry.getAddress](ContractRegistry.md#getaddress)
 

@@ -76,7 +76,7 @@ modifier only(bytes32 _contractName) internal
 - [restrictRegistryUpdate(bool _onlyOwnerCanUpdateRegistry)](#restrictregistryupdate)
 - [addressOf(bytes32 _contractName)](#addressof)
 
-> ### function _only
+> ### _only
 
 ```solidity
 function _only(bytes32 _contractName) internal view
@@ -98,7 +98,7 @@ function _only(bytes32 _contractName) internal view {
 ```
 </details>
 
-> ### function updateRegistry
+> ### updateRegistry
 
 updates to the new contract-registry
 
@@ -137,7 +137,7 @@ function updateRegistry() public {
 ```
 </details>
 
-> ### function restoreRegistry
+> ### restoreRegistry
 
 restores the previous contract-registry
 
@@ -161,7 +161,7 @@ function restoreRegistry() public ownerOnly {
 ```
 </details>
 
-> ### function restrictRegistryUpdate
+> ### restrictRegistryUpdate
 
 restricts the permission to update the contract-registry
 	 *
@@ -187,7 +187,7 @@ function restrictRegistryUpdate(bool _onlyOwnerCanUpdateRegistry) public ownerOn
 ```
 </details>
 
-> ### function addressOf
+> ### addressOf
 
 returns the address associated with the given contract name
 	 *

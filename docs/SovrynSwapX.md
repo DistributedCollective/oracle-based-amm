@@ -137,7 +137,7 @@ modifier reportingAllowed() internal
 - [lockTokens(uint256 _amount)](#locktokens)
 - [releaseTokens(address _to, uint256 _amount)](#releasetokens)
 
-> ### function _reporterOnly
+> ### _reporterOnly
 
 ```solidity
 function _reporterOnly() internal view
@@ -158,7 +158,7 @@ function _reporterOnly() internal view {
 ```
 </details>
 
-> ### function _xTransfersAllowed
+> ### _xTransfersAllowed
 
 ```solidity
 function _xTransfersAllowed() internal view
@@ -179,7 +179,7 @@ function _xTransfersAllowed() internal view {
 ```
 </details>
 
-> ### function _reportingAllowed
+> ### _reportingAllowed
 
 ```solidity
 function _reportingAllowed() internal view
@@ -200,7 +200,7 @@ function _reportingAllowed() internal view {
 ```
 </details>
 
-> ### function setMaxLockLimit
+> ### setMaxLockLimit
 
 setter
 	 *
@@ -225,7 +225,7 @@ function setMaxLockLimit(uint256 _maxLockLimit) public ownerOnly greaterThanZero
 ```
 </details>
 
-> ### function setMaxReleaseLimit
+> ### setMaxReleaseLimit
 
 setter
 	 *
@@ -250,7 +250,7 @@ function setMaxReleaseLimit(uint256 _maxReleaseLimit) public ownerOnly greaterTh
 ```
 </details>
 
-> ### function setMinLimit
+> ### setMinLimit
 
 setter
 	 *
@@ -278,7 +278,7 @@ function setMinLimit(uint256 _minLimit) public ownerOnly greaterThanZero(_minLim
 ```
 </details>
 
-> ### function setLimitIncPerBlock
+> ### setLimitIncPerBlock
 
 setter
 	 *
@@ -303,7 +303,7 @@ function setLimitIncPerBlock(uint256 _limitIncPerBlock) public ownerOnly greater
 ```
 </details>
 
-> ### function setMinRequiredReports
+> ### setMinRequiredReports
 
 setter
 	 *
@@ -328,7 +328,7 @@ function setMinRequiredReports(uint8 _minRequiredReports) public ownerOnly great
 ```
 </details>
 
-> ### function setReporter
+> ### setReporter
 
 allows the owner to set/remove reporters
 	 *
@@ -354,7 +354,7 @@ function setReporter(address _reporter, bool _active) public ownerOnly {
 ```
 </details>
 
-> ### function enableXTransfers
+> ### enableXTransfers
 
 allows the owner enable/disable the xTransfer method
 	 *
@@ -379,7 +379,7 @@ function enableXTransfers(bool _enable) public ownerOnly {
 ```
 </details>
 
-> ### function enableReporting
+> ### enableReporting
 
 allows the owner enable/disable the reportTransaction method
 	 *
@@ -404,7 +404,7 @@ function enableReporting(bool _enable) public ownerOnly {
 ```
 </details>
 
-> ### function upgrade
+> ### upgrade
 
 upgrades the contract to the latest version
 can only be called by the owner
@@ -435,7 +435,7 @@ function upgrade(address[] _reporters) public ownerOnly {
 ```
 </details>
 
-> ### function xTransfer
+> ### xTransfer
 
 claims tokens from msg.sender to be converted to tokens on another blockchain
 	 *
@@ -479,9 +479,9 @@ function xTransfer(
 ```
 </details>
 
-> ### function xTransfer
+> ### xTransfer
 
-⤾ overrides [ISovrynSwapX.xTransfer](ISovrynSwapX.md#xtransfer)
+⤾ overrides [ISovrynSwapX.xTransfer](ISovrynSwapX.md#.xtransfer)
 
 claims tokens from msg.sender to be converted to tokens on another blockchain
 	 *
@@ -527,7 +527,7 @@ function xTransfer(
 ```
 </details>
 
-> ### function reportTx
+> ### reportTx
 
 allows reporter to report transaction which occured on another blockchain
 	 *
@@ -603,9 +603,9 @@ function reportTx(
 ```
 </details>
 
-> ### function getXTransferAmount
+> ### getXTransferAmount
 
-⤾ overrides [ISovrynSwapX.getXTransferAmount](ISovrynSwapX.md#getxtransferamount)
+⤾ overrides [ISovrynSwapX.getXTransferAmount](ISovrynSwapX.md#.getxtransferamount)
 
 gets x transfer amount by xTransferId (not txId)
 	 *
@@ -642,7 +642,7 @@ function getXTransferAmount(uint256 _xTransferId, address _for) public view retu
 ```
 </details>
 
-> ### function getCurrentLockLimit
+> ### getCurrentLockLimit
 
 method for calculating current lock limit
 	 *
@@ -670,7 +670,7 @@ function getCurrentLockLimit() public view returns (uint256) {
 ```
 </details>
 
-> ### function getCurrentReleaseLimit
+> ### getCurrentReleaseLimit
 
 method for calculating current release limit
 	 *
@@ -698,7 +698,7 @@ function getCurrentReleaseLimit() public view returns (uint256) {
 ```
 </details>
 
-> ### function lockTokens
+> ### lockTokens
 
 claims and locks tokens from msg.sender to be converted to tokens on another blockchain
 	 *
@@ -724,7 +724,7 @@ function lockTokens(uint256 _amount) private {
 ```
 </details>
 
-> ### function releaseTokens
+> ### releaseTokens
 
 private method to release tokens held by the contract
 	 *

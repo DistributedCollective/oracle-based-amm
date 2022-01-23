@@ -183,7 +183,7 @@ modifier validReserveWeight(uint32 _weight) internal
 - [_validReserve(IERC20Token _address)](#_validreserve)
 - [_validConversionFee(uint32 _conversionFee)](#_validconversionfee)
 - [_validReserveWeight(uint32 _weight)](#_validreserveweight)
-- [constructor()](#)
+- [constructor()](#constructor)
 - [withdrawETH(address _to)](#withdraweth)
 - [isV28OrHigher()](#isv28orhigher)
 - [setConversionWhitelist(IWhitelist _whitelist)](#setconversionwhitelist)
@@ -229,7 +229,7 @@ modifier validReserveWeight(uint32 _weight) internal
 - [feesController()](#feescontroller)
 - [transferTokens(address _token, uint96 _amount)](#transfertokens)
 
-> ### function _active
+> ### _active
 
 ```solidity
 function _active() internal view
@@ -250,7 +250,7 @@ function _active() internal view {
 ```
 </details>
 
-> ### function _inactive
+> ### _inactive
 
 ```solidity
 function _inactive() internal view
@@ -271,7 +271,7 @@ function _inactive() internal view {
 ```
 </details>
 
-> ### function _validReserve
+> ### _validReserve
 
 ```solidity
 function _validReserve(IERC20Token _address) internal view
@@ -293,7 +293,7 @@ function _validReserve(IERC20Token _address) internal view {
 ```
 </details>
 
-> ### function _validConversionFee
+> ### _validConversionFee
 
 ```solidity
 function _validConversionFee(uint32 _conversionFee) internal pure
@@ -315,7 +315,7 @@ function _validConversionFee(uint32 _conversionFee) internal pure {
 ```
 </details>
 
-> ### function _validReserveWeight
+> ### _validReserveWeight
 
 ```solidity
 function _validReserveWeight(uint32 _weight) internal pure
@@ -337,9 +337,9 @@ function _validReserveWeight(uint32 _weight) internal pure {
 ```
 </details>
 
-> ### function 
+> ### constructor
 
-⤾ overrides [IConverter.](IConverter.md#)
+⤾ overrides [IConverter constructor](IConverter.md#constructor)
 
 deposits ether
 can only be called if the converter has an ETH reserve
@@ -365,9 +365,9 @@ function() external payable {
 ```
 </details>
 
-> ### function withdrawETH
+> ### withdrawETH
 
-⤾ overrides [IConverter.withdrawETH](IConverter.md#withdraweth)
+⤾ overrides [IConverter.withdrawETH](IConverter.md#.withdraweth)
 
 withdraws ether
 can only be called by the owner if the converter is inactive or by upgrader contract
@@ -402,7 +402,7 @@ function withdrawETH(address _to) public protected ownerOnly validReserve(IERC20
 ```
 </details>
 
-> ### function isV28OrHigher
+> ### isV28OrHigher
 
 checks whether or not the converter version is 28 or higher
 	 *
@@ -427,9 +427,9 @@ function isV28OrHigher() public pure returns (bool) {
 ```
 </details>
 
-> ### function setConversionWhitelist
+> ### setConversionWhitelist
 
-⤾ overrides [IConverter.setConversionWhitelist](IConverter.md#setconversionwhitelist)
+⤾ overrides [IConverter.setConversionWhitelist](IConverter.md#.setconversionwhitelist)
 
 allows the owner to update & enable the conversion whitelist contract address
 when set, only addresses that are whitelisted are actually allowed to use the converter
@@ -456,9 +456,9 @@ function setConversionWhitelist(IWhitelist _whitelist) public ownerOnly notThis(
 ```
 </details>
 
-> ### function isActive
+> ### isActive
 
-⤾ overrides [IConverter.isActive](IConverter.md#isactive)
+⤾ overrides [IConverter.isActive](IConverter.md#.isactive)
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV2Converter.isActive](LiquidityPoolV2Converter.md#isactive)
 
@@ -485,9 +485,9 @@ function isActive() public view returns (bool) {
 ```
 </details>
 
-> ### function transferAnchorOwnership
+> ### transferAnchorOwnership
 
-⤾ overrides [IConverter.transferAnchorOwnership](IConverter.md#transferanchorownership)
+⤾ overrides [IConverter.transferAnchorOwnership](IConverter.md#.transferanchorownership)
 
 transfers the anchor ownership
 the new owner needs to accept the transfer
@@ -515,9 +515,9 @@ function transferAnchorOwnership(address _newOwner) public ownerOnly only(CONVER
 ```
 </details>
 
-> ### function acceptAnchorOwnership
+> ### acceptAnchorOwnership
 
-⤾ overrides [IConverter.acceptAnchorOwnership](IConverter.md#acceptanchorownership)
+⤾ overrides [IConverter.acceptAnchorOwnership](IConverter.md#.acceptanchorownership)
 
 ⤿ Overridden Implementation(s): [LiquidityPoolConverter.acceptAnchorOwnership](LiquidityPoolConverter.md#acceptanchorownership),[LiquidityPoolV1Converter.acceptAnchorOwnership](LiquidityPoolV1Converter.md#acceptanchorownership),[LiquidityPoolV1ConverterMultiAsset.acceptAnchorOwnership](LiquidityPoolV1ConverterMultiAsset.md#acceptanchorownership),[LiquidTokenConverter.acceptAnchorOwnership](LiquidTokenConverter.md#acceptanchorownership)
 
@@ -548,7 +548,7 @@ function acceptAnchorOwnership() public ownerOnly {
 ```
 </details>
 
-> ### function withdrawFromAnchor
+> ### withdrawFromAnchor
 
 withdraws tokens held by the anchor and sends them to an account
 can only be called by the owner
@@ -580,9 +580,9 @@ function withdrawFromAnchor(
 ```
 </details>
 
-> ### function setConversionFee
+> ### setConversionFee
 
-⤾ overrides [IConverter.setConversionFee](IConverter.md#setconversionfee)
+⤾ overrides [IConverter.setConversionFee](IConverter.md#.setconversionfee)
 
 updates the current conversion fee
 can only be called by the contract owner
@@ -610,9 +610,9 @@ function setConversionFee(uint32 _conversionFee) public ownerOnly {
 ```
 </details>
 
-> ### function withdrawTokens
+> ### withdrawTokens
 
-⤾ overrides [TokenHolder.withdrawTokens](TokenHolder.md#withdrawtokens)
+⤾ overrides [TokenHolder.withdrawTokens](TokenHolder.md#.withdrawtokens)
 
 withdraws tokens held by the converter and sends them to an account
 can only be called by the owner
@@ -654,7 +654,7 @@ function withdrawTokens(
 ```
 </details>
 
-> ### function upgrade
+> ### upgrade
 
 upgrades the converter to the latest version
 can only be called by the owner
@@ -686,7 +686,7 @@ function upgrade() public ownerOnly {
 ```
 </details>
 
-> ### function reserveTokenCount
+> ### reserveTokenCount
 
 returns the number of reserve tokens defined
 note that prior to version 17, you should use 'connectorTokenCount' instead
@@ -712,9 +712,9 @@ function reserveTokenCount() public view returns (uint16) {
 ```
 </details>
 
-> ### function addReserve
+> ### addReserve
 
-⤾ overrides [IConverter.addReserve](IConverter.md#addreserve)
+⤾ overrides [IConverter.addReserve](IConverter.md#.addreserve)
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV1Converter.addReserve](LiquidityPoolV1Converter.md#addreserve),[LiquidityPoolV2Converter.addReserve](LiquidityPoolV2Converter.md#addreserve),[LiquidTokenConverter.addReserve](LiquidTokenConverter.md#addreserve)
 
@@ -760,7 +760,7 @@ function addReserve(IERC20Token _token, uint32 _weight)
 ```
 </details>
 
-> ### function reserveWeight
+> ### reserveWeight
 
 returns the reserve's weight
 added in version 28
@@ -791,9 +791,9 @@ function reserveWeight(IERC20Token _reserveToken) public view validReserve(_rese
 ```
 </details>
 
-> ### function reserveBalance
+> ### reserveBalance
 
-⤾ overrides [IConverter.reserveBalance](IConverter.md#reservebalance)
+⤾ overrides [IConverter.reserveBalance](IConverter.md#.reservebalance)
 
 returns the reserve's balance
 note that prior to version 17, you should use 'getConnectorBalance' instead
@@ -824,7 +824,7 @@ function reserveBalance(IERC20Token _reserveToken) public view validReserve(_res
 ```
 </details>
 
-> ### function hasETHReserve
+> ### hasETHReserve
 
 checks whether or not the converter has an ETH reserve
 	 *
@@ -849,9 +849,9 @@ function hasETHReserve() public view returns (bool) {
 ```
 </details>
 
-> ### function convert
+> ### convert
 
-⤾ overrides [IConverter.convert](IConverter.md#convert)
+⤾ overrides [IConverter.convert](IConverter.md#.convert)
 
 converts a specific amount of source tokens to target tokens
 can only be called by the SovrynSwap network contract
@@ -901,7 +901,7 @@ function convert(
 ```
 </details>
 
-> ### function doConvert
+> ### doConvert
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV1Converter.doConvert](LiquidityPoolV1Converter.md#doconvert),[LiquidityPoolV1ConverterMultiAsset.doConvert](LiquidityPoolV1ConverterMultiAsset.md#doconvert),[LiquidityPoolV2Converter.doConvert](LiquidityPoolV2Converter.md#doconvert),[LiquidTokenConverter.doConvert](LiquidTokenConverter.md#doconvert)
 
@@ -942,7 +942,7 @@ function doConvert(
 ```
 </details>
 
-> ### function calculateFee
+> ### calculateFee
 
 returns the conversion fee for a given target amount
 	 *
@@ -972,7 +972,7 @@ function calculateFee(uint256 _targetAmount) internal view returns (uint256) {
 ```
 </details>
 
-> ### function calculateProtocolFee
+> ### calculateProtocolFee
 
 returns the protocol fee for a given target amount
 	 *
@@ -1006,7 +1006,7 @@ function calculateProtocolFee(address _targetToken, uint256 _targetAmount) inter
 ```
 </details>
 
-> ### function getProtocolFeeFromSwapSettings
+> ### getProtocolFeeFromSwapSettings
 
 get the protocol fee from the SovrynSwapNetwork using the registry.
 	 *
@@ -1031,7 +1031,7 @@ function getProtocolFeeFromSwapSettings() internal view returns (uint256) {
 ```
 </details>
 
-> ### function getWrbtcAddressFromSwapSettings
+> ### getWrbtcAddressFromSwapSettings
 
 get the wrbtc address from sovryn swap network
 	 *
@@ -1056,7 +1056,7 @@ function getWrbtcAddressFromSwapSettings() internal view returns (address) {
 ```
 </details>
 
-> ### function getSOVTokenAddressFromSwapSettings
+> ### getSOVTokenAddressFromSwapSettings
 
 get the sov token address from sovryn swap network
 	 *
@@ -1081,7 +1081,7 @@ function getSOVTokenAddressFromSwapSettings() internal view returns (address) {
 ```
 </details>
 
-> ### function getFeesControllerFromSwapSettings
+> ### getFeesControllerFromSwapSettings
 
 get the feesController address from sovryn swap network
 	 *
@@ -1106,7 +1106,7 @@ function getFeesControllerFromSwapSettings() internal view returns (address) {
 ```
 </details>
 
-> ### function syncReserveBalance
+> ### syncReserveBalance
 
 syncs the stored reserve balance for a given reserve with the real reserve balance
 	 *
@@ -1132,7 +1132,7 @@ function syncReserveBalance(IERC20Token _reserveToken) internal validReserve(_re
 ```
 </details>
 
-> ### function syncReserveBalances
+> ### syncReserveBalances
 
 syncs all stored reserve balances
 
@@ -1156,7 +1156,7 @@ function syncReserveBalances() internal {
 ```
 </details>
 
-> ### function dispatchConversionEvent
+> ### dispatchConversionEvent
 
 helper, dispatches the Conversion event
 	 *
@@ -1200,9 +1200,9 @@ function dispatchConversionEvent(
 ```
 </details>
 
-> ### function token
+> ### token
 
-⤾ overrides [IConverter.token](IConverter.md#token)
+⤾ overrides [IConverter.token](IConverter.md#.token)
 
 deprecated since version 28, backward compatibility - use only for earlier versions
 
@@ -1226,9 +1226,9 @@ function token() public view returns (IConverterAnchor) {
 ```
 </details>
 
-> ### function transferTokenOwnership
+> ### transferTokenOwnership
 
-⤾ overrides [IConverter.transferTokenOwnership](IConverter.md#transfertokenownership)
+⤾ overrides [IConverter.transferTokenOwnership](IConverter.md#.transfertokenownership)
 
 deprecated, backward compatibility
 
@@ -1252,9 +1252,9 @@ function transferTokenOwnership(address _newOwner) public ownerOnly {
 ```
 </details>
 
-> ### function acceptTokenOwnership
+> ### acceptTokenOwnership
 
-⤾ overrides [IConverter.acceptTokenOwnership](IConverter.md#accepttokenownership)
+⤾ overrides [IConverter.acceptTokenOwnership](IConverter.md#.accepttokenownership)
 
 deprecated, backward compatibility
 
@@ -1277,9 +1277,9 @@ function acceptTokenOwnership() public ownerOnly {
 ```
 </details>
 
-> ### function connectors
+> ### connectors
 
-⤾ overrides [IConverter.connectors](IConverter.md#connectors)
+⤾ overrides [IConverter.connectors](IConverter.md#.connectors)
 
 deprecated, backward compatibility
 
@@ -1315,9 +1315,9 @@ function connectors(address _address)
 ```
 </details>
 
-> ### function connectorTokens
+> ### connectorTokens
 
-⤾ overrides [IConverter.connectorTokens](IConverter.md#connectortokens)
+⤾ overrides [IConverter.connectorTokens](IConverter.md#.connectortokens)
 
 deprecated, backward compatibility
 
@@ -1342,9 +1342,9 @@ function connectorTokens(uint256 _index) public view returns (IERC20Token) {
 ```
 </details>
 
-> ### function connectorTokenCount
+> ### connectorTokenCount
 
-⤾ overrides [IConverter.connectorTokenCount](IConverter.md#connectortokencount)
+⤾ overrides [IConverter.connectorTokenCount](IConverter.md#.connectortokencount)
 
 deprecated, backward compatibility
 
@@ -1368,9 +1368,9 @@ function connectorTokenCount() public view returns (uint16) {
 ```
 </details>
 
-> ### function getConnectorBalance
+> ### getConnectorBalance
 
-⤾ overrides [IConverter.getConnectorBalance](IConverter.md#getconnectorbalance)
+⤾ overrides [IConverter.getConnectorBalance](IConverter.md#.getconnectorbalance)
 
 deprecated, backward compatibility
 
@@ -1395,7 +1395,7 @@ function getConnectorBalance(IERC20Token _connectorToken) public view returns (u
 ```
 </details>
 
-> ### function getProtocolFeeTokensHeld
+> ### getProtocolFeeTokensHeld
 
 get how many protocol fees held in the converter.
 	 *
@@ -1425,7 +1425,7 @@ function getProtocolFeeTokensHeld(address _token) external view returns(uint256)
 ```
 </details>
 
-> ### function getReturn
+> ### getReturn
 
 deprecated, backward compatibility
 
@@ -1456,7 +1456,7 @@ function getReturn(
 ```
 </details>
 
-> ### function withdrawFees
+> ### withdrawFees
 
 The feesController calls this function to withdraw fees
 from sources: protocolFeeTokensHeld.
@@ -1533,7 +1533,7 @@ function withdrawFees(address receiver) external returns (uint256) {
 ```
 </details>
 
-> ### function conversionPath
+> ### conversionPath
 
 ```solidity
 function conversionPath(IERC20Token _sourceToken, IERC20Token _targetToken) external view
@@ -1558,7 +1558,7 @@ function conversionPath(
 ```
 </details>
 
-> ### function rateByPath
+> ### rateByPath
 
 ```solidity
 function rateByPath(IERC20Token[] _path, uint256 _amount) external view
@@ -1583,7 +1583,7 @@ function rateByPath(
 ```
 </details>
 
-> ### function convert
+> ### convert
 
 ```solidity
 function convert(IERC20Token[] _path, uint256 _amount, uint256 _minReturn) external payable
@@ -1610,7 +1610,7 @@ function convert(
 ```
 </details>
 
-> ### function protocolFee
+> ### protocolFee
 
 ```solidity
 function protocolFee() external view
@@ -1630,7 +1630,7 @@ function protocolFee() external view returns (uint256);
 ```
 </details>
 
-> ### function wrbtcAddress
+> ### wrbtcAddress
 
 ```solidity
 function wrbtcAddress() external view
@@ -1650,7 +1650,7 @@ function wrbtcAddress() external view returns (address);
 ```
 </details>
 
-> ### function sovTokenAddress
+> ### sovTokenAddress
 
 ```solidity
 function sovTokenAddress() external view
@@ -1670,7 +1670,7 @@ function sovTokenAddress() external view returns (address);
 ```
 </details>
 
-> ### function feesController
+> ### feesController
 
 ```solidity
 function feesController() external view
@@ -1690,7 +1690,7 @@ function feesController() external view returns (address);
 ```
 </details>
 
-> ### function transferTokens
+> ### transferTokens
 
 ```solidity
 function transferTokens(address _token, uint96 _amount) external nonpayable

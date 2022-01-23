@@ -16,7 +16,7 @@ event TokensTransferred(address indexed sender, address indexed token, uint256  
 - [withdrawFees(address _converter, address _receiver)](#withdrawfees)
 - [withdrawFees(address receiver)](#withdrawfees)
 
-> ### function transferTokens
+> ### transferTokens
 
 ```solidity
 function transferTokens(address _token, uint96 _amount) public nonpayable
@@ -39,7 +39,7 @@ function transferTokens(address _token, uint96 _amount) public {
 ```
 </details>
 
-> ### function withdrawFees
+> ### withdrawFees
 
 ```solidity
 function withdrawFees(address _converter, address _receiver) public nonpayable
@@ -62,7 +62,7 @@ function withdrawFees(address _converter, address _receiver) public {
 ```
 </details>
 
-> ### function withdrawFees
+> ### withdrawFees
 
 ```solidity
 function withdrawFees(address receiver) public nonpayable

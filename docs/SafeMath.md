@@ -13,7 +13,7 @@ Library for basic math operations with overflow/underflow protection
 - [mul(uint256 _x, uint256 _y)](#mul)
 - [div(uint256 _x, uint256 _y)](#div)
 
-> ### function add
+> ### add
 
 returns the sum of _x and _y, reverts if the calculation overflows
 	 *
@@ -46,7 +46,7 @@ function add(uint256 _x, uint256 _y) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function sub
+> ### sub
 
 returns the difference of _x minus _y, reverts if the calculation underflows
 	 *
@@ -78,7 +78,7 @@ function sub(uint256 _x, uint256 _y) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function mul
+> ### mul
 
 returns the product of multiplying _x by _y, reverts if the calculation overflows
 	 *
@@ -114,7 +114,7 @@ function mul(uint256 _x, uint256 _y) internal pure returns (uint256) {
 ```
 </details>
 
-> ### function div
+> ### div
 
 Integer division of two numbers truncating the quotient, reverts on division by zero.
 	 *

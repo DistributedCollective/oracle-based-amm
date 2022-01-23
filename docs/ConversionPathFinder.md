@@ -43,7 +43,7 @@ address public anchorToken;
 - [getExtendedArray(address _item0, address _item1, address[] _array)](#getextendedarray)
 - [getPartialArray(address[] _array, uint256 _length)](#getpartialarray)
 
-> ### function setAnchorToken
+> ### setAnchorToken
 
 updates the anchor token
 	 *
@@ -68,9 +68,9 @@ function setAnchorToken(address _anchorToken) public ownerOnly {
 ```
 </details>
 
-> ### function findPath
+> ### findPath
 
-⤾ overrides [IConversionPathFinder.findPath](IConversionPathFinder.md#findpath)
+⤾ overrides [IConversionPathFinder.findPath](IConversionPathFinder.md#.findpath)
 
 generates a conversion path between a given pair of tokens in the SovrynSwap Network
 	 *
@@ -104,7 +104,7 @@ function findPath(address _sourceToken, address _targetToken) public view return
 ```
 </details>
 
-> ### function getPath
+> ### getPath
 
 generates a conversion path between a given token and the anchor token
 	 *
@@ -153,7 +153,7 @@ function getPath(address _token, IConverterRegistry _converterRegistry) private 
 ```
 </details>
 
-> ### function getShortestPath
+> ### getShortestPath
 
 merges two paths with a common suffix into one
 	 *
@@ -207,7 +207,7 @@ function getShortestPath(address[] memory _sourcePath, address[] memory _targetP
 ```
 </details>
 
-> ### function getInitialArray
+> ### getInitialArray
 
 creates a new array containing a single item
 	 *
@@ -239,7 +239,7 @@ function getInitialArray(address _item) private pure returns (address[] memory) 
 ```
 </details>
 
-> ### function getExtendedArray
+> ### getExtendedArray
 
 prepends two items to the beginning of an array
 	 *
@@ -279,7 +279,7 @@ function getExtendedArray(
 ```
 </details>
 
-> ### function getPartialArray
+> ### getPartialArray
 
 extracts the prefix of a given array
 	 *

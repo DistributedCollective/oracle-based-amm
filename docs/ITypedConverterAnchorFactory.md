@@ -11,7 +11,7 @@ View Source: [contracts/converter/interfaces/ITypedConverterAnchorFactory.sol](.
 - [converterType()](#convertertype)
 - [createAnchor(string _name, string _symbol, uint8 _decimals)](#createanchor)
 
-> ### function converterType
+> ### converterType
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV2ConverterAnchorFactory.converterType](LiquidityPoolV2ConverterAnchorFactory.md#convertertype),[TestTypedConverterAnchorFactory.converterType](TestTypedConverterAnchorFactory.md#convertertype)
 
@@ -33,7 +33,7 @@ function converterType() public pure returns (uint16);
 ```
 </details>
 
-> ### function createAnchor
+> ### createAnchor
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV2ConverterAnchorFactory.createAnchor](LiquidityPoolV2ConverterAnchorFactory.md#createanchor),[TestTypedConverterAnchorFactory.createAnchor](TestTypedConverterAnchorFactory.md#createanchor)
 

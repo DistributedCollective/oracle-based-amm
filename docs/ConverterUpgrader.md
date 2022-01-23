@@ -65,9 +65,9 @@ event ConverterUpgrade(address indexed _oldConverter, address indexed _newConver
 - [handleTypeSpecificData(IConverter _oldConverter, IConverter _newConverter, bool _activate)](#handletypespecificdata)
 - [isV28OrHigherConverter(IConverter _converter)](#isv28orhigherconverter)
 
-> ### function upgrade
+> ### upgrade
 
-⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#upgrade)
+⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#.upgrade)
 
 upgrades an old converter to the latest version
 will throw if ownership wasn't transferred to the upgrader before calling this function.
@@ -96,9 +96,9 @@ function upgrade(bytes32 _version) public {
 ```
 </details>
 
-> ### function upgrade
+> ### upgrade
 
-⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#upgrade)
+⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#.upgrade)
 
 upgrades an old converter to the latest version
 will throw if ownership wasn't transferred to the upgrader before calling this function.
@@ -127,7 +127,7 @@ function upgrade(uint16 _version) public {
 ```
 </details>
 
-> ### function upgradeOld
+> ### upgradeOld
 
 upgrades an old converter to the latest version
 will throw if ownership wasn't transferred to the upgrader before calling this function.
@@ -179,7 +179,7 @@ function upgradeOld(IConverter _converter, bytes32 _version) public {
 ```
 </details>
 
-> ### function acceptConverterOwnership
+> ### acceptConverterOwnership
 
 the first step when upgrading a converter is to transfer the ownership to the local contract.
 the upgrader contract then needs to accept the ownership transfer before initiating
@@ -208,7 +208,7 @@ function acceptConverterOwnership(IConverter _oldConverter) private {
 ```
 </details>
 
-> ### function createConverter
+> ### createConverter
 
 creates a new converter with same basic data as the original old converter
 the newly created converter will have no reserves at this step.
@@ -255,7 +255,7 @@ function createConverter(IConverter _oldConverter) private returns (IConverter) 
 ```
 </details>
 
-> ### function copyReserves
+> ### copyReserves
 
 copies the reserves from the old converter to the new one.
 note that this will not work for an unlimited number of reserves due to block gas limit constraints.
@@ -300,7 +300,7 @@ function copyReserves(IConverter _oldConverter, IConverter _newConverter) privat
 ```
 </details>
 
-> ### function copyConversionFee
+> ### copyConversionFee
 
 copies the conversion fee from the old converter to the new one
 	 *
@@ -327,7 +327,7 @@ function copyConversionFee(IConverter _oldConverter, IConverter _newConverter) p
 ```
 </details>
 
-> ### function transferReserveBalances
+> ### transferReserveBalances
 
 transfers the balance of each reserve in the old converter to the new one.
 note that the function assumes that the new converter already has the exact same number of
@@ -376,7 +376,7 @@ function transferReserveBalances(IConverter _oldConverter, IConverter _newConver
 ```
 </details>
 
-> ### function handleTypeSpecificData
+> ### handleTypeSpecificData
 
 handles upgrading custom (type specific) data from the old converter to the new one
 	 *
@@ -433,7 +433,7 @@ function handleTypeSpecificData(
 ```
 </details>
 
-> ### function isV28OrHigherConverter
+> ### isV28OrHigherConverter
 
 ```solidity
 function isV28OrHigherConverter(IConverter _converter) internal view

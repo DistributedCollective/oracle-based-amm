@@ -21,9 +21,9 @@ bool public has;
 - [setValue(uint256 _value)](#setvalue)
 - [setHas(bool _has)](#sethas)
 
-> ### function peek
+> ### peek
 
-⤾ overrides [MocBTCToUSDOracle.peek](MocBTCToUSDOracle.md#peek)
+⤾ overrides [MocBTCToUSDOracle.peek](MocBTCToUSDOracle.md#.peek)
 
 ```solidity
 function peek() external view
@@ -45,7 +45,7 @@ function peek() external view returns (bytes32, bool) {
 ```
 </details>
 
-> ### function setValue
+> ### setValue
 
 ```solidity
 function setValue(uint256 _value) public nonpayable
@@ -67,7 +67,7 @@ function setValue(uint256 _value) public {
 ```
 </details>
 
-> ### function setHas
+> ### setHas
 
 ```solidity
 function setHas(bool _has) public nonpayable

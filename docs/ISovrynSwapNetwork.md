@@ -17,7 +17,7 @@ View Source: [contracts/ISovrynSwapNetwork.sol](../solidity/contracts/ISovrynSwa
 - [convertFor(IERC20Token[] _path, uint256 _amount, uint256 _minReturn, address _for)](#convertfor)
 - [claimAndConvertFor(IERC20Token[] _path, uint256 _amount, uint256 _minReturn, address _for)](#claimandconvertfor)
 
-> ### function convert2
+> ### convert2
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.convert2](ILegacyConverter.md#convert2),[SovrynSwapNetwork.convert2](SovrynSwapNetwork.md#convert2)
 
@@ -50,7 +50,7 @@ function convert2(
 ```
 </details>
 
-> ### function claimAndConvert2
+> ### claimAndConvert2
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.claimAndConvert2](ILegacyConverter.md#claimandconvert2),[SovrynSwapNetwork.claimAndConvert2](SovrynSwapNetwork.md#claimandconvert2)
 
@@ -83,7 +83,7 @@ function claimAndConvert2(
 ```
 </details>
 
-> ### function convertFor2
+> ### convertFor2
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.convertFor2](ILegacyConverter.md#convertfor2),[SovrynSwapNetwork.convertFor2](SovrynSwapNetwork.md#convertfor2)
 
@@ -118,7 +118,7 @@ function convertFor2(
 ```
 </details>
 
-> ### function claimAndConvertFor2
+> ### claimAndConvertFor2
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.claimAndConvertFor2](ILegacyConverter.md#claimandconvertfor2),[SovrynSwapNetwork.claimAndConvertFor2](SovrynSwapNetwork.md#claimandconvertfor2)
 
@@ -153,7 +153,7 @@ function claimAndConvertFor2(
 ```
 </details>
 
-> ### function convert
+> ### convert
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.convert](ILegacyConverter.md#convert),[SovrynSwapNetwork.convert](SovrynSwapNetwork.md#convert),[SovrynSwapNetworkMockup.convert](SovrynSwapNetworkMockup.md#convert)
 
@@ -182,7 +182,7 @@ function convert(
 ```
 </details>
 
-> ### function claimAndConvert
+> ### claimAndConvert
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.claimAndConvert](ILegacyConverter.md#claimandconvert),[SovrynSwapNetwork.claimAndConvert](SovrynSwapNetwork.md#claimandconvert)
 
@@ -211,7 +211,7 @@ function claimAndConvert(
 ```
 </details>
 
-> ### function convertFor
+> ### convertFor
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.convertFor](ILegacyConverter.md#convertfor),[SovrynSwapNetwork.convertFor](SovrynSwapNetwork.md#convertfor)
 
@@ -242,7 +242,7 @@ function convertFor(
 ```
 </details>
 
-> ### function claimAndConvertFor
+> ### claimAndConvertFor
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.claimAndConvertFor](ILegacyConverter.md#claimandconvertfor),[SovrynSwapNetwork.claimAndConvertFor](SovrynSwapNetwork.md#claimandconvertfor)
 

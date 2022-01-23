@@ -11,7 +11,7 @@ View Source: [contracts/utility/interfaces/IConsumerPriceOracle.sol](../solidity
 - [latestAnswer()](#latestanswer)
 - [latestTimestamp()](#latesttimestamp)
 
-> ### function latestAnswer
+> ### latestAnswer
 
 ⤿ Overridden Implementation(s): [BProOracle.latestAnswer](BProOracle.md#latestanswer),[ChainlinkBTCToUSDOracle.latestAnswer](ChainlinkBTCToUSDOracle.md#latestanswer),[ChainlinkETHToETHOracle.latestAnswer](ChainlinkETHToETHOracle.md#latestanswer),[ChainlinkUSDToBTCOracle.latestAnswer](ChainlinkUSDToBTCOracle.md#latestanswer),[Medianizer.latestAnswer](Medianizer.md#latestanswer),[MocBTCToBTCOracle.latestAnswer](MocBTCToBTCOracle.md#latestanswer),[MocBTCToUSDOracle.latestAnswer](MocBTCToUSDOracle.md#latestanswer),[MocUSDToBTCOracle.latestAnswer](MocUSDToBTCOracle.md#latestanswer),[TestChainlinkPriceOracle.latestAnswer](TestChainlinkPriceOracle.md#latestanswer)
 
@@ -33,7 +33,7 @@ function latestAnswer() external view returns (int256);
 ```
 </details>
 
-> ### function latestTimestamp
+> ### latestTimestamp
 
 ⤿ Overridden Implementation(s): [BProOracle.latestTimestamp](BProOracle.md#latesttimestamp),[ChainlinkBTCToUSDOracle.latestTimestamp](ChainlinkBTCToUSDOracle.md#latesttimestamp),[ChainlinkETHToETHOracle.latestTimestamp](ChainlinkETHToETHOracle.md#latesttimestamp),[ChainlinkUSDToBTCOracle.latestTimestamp](ChainlinkUSDToBTCOracle.md#latesttimestamp),[Medianizer.latestTimestamp](Medianizer.md#latesttimestamp),[MocBTCToBTCOracle.latestTimestamp](MocBTCToBTCOracle.md#latesttimestamp),[MocBTCToUSDOracle.latestTimestamp](MocBTCToUSDOracle.md#latesttimestamp),[MocUSDToBTCOracle.latestTimestamp](MocUSDToBTCOracle.md#latesttimestamp),[TestChainlinkPriceOracle.latestTimestamp](TestChainlinkPriceOracle.md#latesttimestamp)
 

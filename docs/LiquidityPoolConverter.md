@@ -42,9 +42,9 @@ event LiquidityRemoved(address indexed _provider, address indexed _reserveToken,
 
 - [acceptAnchorOwnership()](#acceptanchorownership)
 
-> ### function acceptAnchorOwnership
+> ### acceptAnchorOwnership
 
-⤾ overrides [ConverterBase.acceptAnchorOwnership](ConverterBase.md#acceptanchorownership)
+⤾ overrides [ConverterBase.acceptAnchorOwnership](ConverterBase.md#.acceptanchorownership)
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV1Converter.acceptAnchorOwnership](LiquidityPoolV1Converter.md#acceptanchorownership),[LiquidityPoolV1ConverterMultiAsset.acceptAnchorOwnership](LiquidityPoolV1ConverterMultiAsset.md#acceptanchorownership)
 

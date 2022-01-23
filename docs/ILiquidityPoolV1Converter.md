@@ -37,7 +37,7 @@ event PriceDataUpdate(address indexed _connectorToken, uint256  _tokenSupply, ui
 - [reserves(address )](#reserves)
 - [reserveTokens(uint256 index)](#reservetokens)
 
-> ### function converterType
+> ### converterType
 
 returns the converter type
 
@@ -61,7 +61,7 @@ function converterType() external pure returns (uint16);
 ```
 </details>
 
-> ### function acceptAnchorOwnership
+> ### acceptAnchorOwnership
 
 accepts ownership of the anchor after an ownership transfer
 
@@ -88,7 +88,7 @@ function acceptAnchorOwnership() external;
 ```
 </details>
 
-> ### function targetAmountAndFee
+> ### targetAmountAndFee
 
 returns the expected target amount of converting one reserve to another along with the fee
 
@@ -119,7 +119,7 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
 ```
 </details>
 
-> ### function addLiquidity
+> ### addLiquidity
 
 increases the pool's liquidity and mints new shares in the pool to the caller
 
@@ -147,7 +147,7 @@ function addLiquidity(IERC20Token[] _reserveTokens, uint256[] _reserveAmounts, u
 ```
 </details>
 
-> ### function removeLiquidity
+> ### removeLiquidity
 
 decreases the pool's liquidity and burns the caller's shares in the pool
 
@@ -175,7 +175,7 @@ function removeLiquidity(uint256 _amount, IERC20Token[] _reserveTokens, uint256[
 ```
 </details>
 
-> ### function fund
+> ### fund
 
 increases the pool's liquidity and mints new shares in the pool to the caller
 
@@ -205,7 +205,7 @@ function fund(uint256 _amount) external payable;
 ```
 </details>
 
-> ### function liquidate
+> ### liquidate
 
 decreases the pool's liquidity and burns the caller's shares in the pool
 
@@ -235,7 +235,7 @@ function liquidate(uint256 _amount) external;
 ```
 </details>
 
-> ### function decimalLength
+> ### decimalLength
 
 calculates the number of decimal digits in a given value
 
@@ -264,7 +264,7 @@ function decimalLength(uint256 _x) external pure returns (uint256);
 ```
 </details>
 
-> ### function roundDiv
+> ### roundDiv
 
 calculates the nearest integer to a given quotient
 
@@ -294,7 +294,7 @@ function roundDiv(uint256 _n, uint256 _d) external pure returns (uint256);
 ```
 </details>
 
-> ### function geometricMean
+> ### geometricMean
 
 calculates the average number of decimal digits in a given list of values
 
@@ -323,7 +323,7 @@ function geometricMean(uint256[] _values) external pure returns (uint256);
 ```
 </details>
 
-> ### function token
+> ### token
 
 deprecated since version 28, backward compatibility - use only for earlier versions
 
@@ -345,7 +345,7 @@ function token() external view returns (IConverterAnchor);
 ```
 </details>
 
-> ### function reserveRatio
+> ### reserveRatio
 
 ```solidity
 function reserveRatio() external view
@@ -365,7 +365,7 @@ function reserveRatio() external view returns (uint32);
 ```
 </details>
 
-> ### function reserves
+> ### reserves
 
 ```solidity
 function reserves(address ) external view
@@ -386,7 +386,7 @@ function reserves(address) external view returns (uint256, uint32, bool, bool, b
 ```
 </details>
 
-> ### function reserveTokens
+> ### reserveTokens
 
 ```solidity
 function reserveTokens(uint256 index) external view

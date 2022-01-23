@@ -22,7 +22,7 @@ uint256 private timestamp;
 - [latestAnswer()](#latestanswer)
 - [latestTimestamp()](#latesttimestamp)
 
-> ### function setAnswer
+> ### setAnswer
 
 ```solidity
 function setAnswer(int256 _answer) public nonpayable
@@ -44,7 +44,7 @@ function setAnswer(int256 _answer) public {
 ```
 </details>
 
-> ### function setTimestamp
+> ### setTimestamp
 
 ```solidity
 function setTimestamp(uint256 _timestamp) public nonpayable
@@ -66,9 +66,9 @@ function setTimestamp(uint256 _timestamp) public {
 ```
 </details>
 
-> ### function latestAnswer
+> ### latestAnswer
 
-⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#latestanswer)
+⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#.latestanswer)
 
 ```solidity
 function latestAnswer() external view
@@ -90,9 +90,9 @@ function latestAnswer() external view returns (int256) {
 ```
 </details>
 
-> ### function latestTimestamp
+> ### latestTimestamp
 
-⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#latesttimestamp)
+⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#.latesttimestamp)
 
 ```solidity
 function latestTimestamp() external view

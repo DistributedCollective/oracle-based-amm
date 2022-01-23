@@ -13,7 +13,7 @@ View Source: [contracts/token/interfaces/ISmartToken.sol](../solidity/contracts/
 - [issue(address _to, uint256 _amount)](#issue)
 - [destroy(address _from, uint256 _amount)](#destroy)
 
-> ### function disableTransfers
+> ### disableTransfers
 
 ⤿ Overridden Implementation(s): [SmartToken.disableTransfers](SmartToken.md#disabletransfers)
 
@@ -35,7 +35,7 @@ function disableTransfers(bool _disable) public;
 ```
 </details>
 
-> ### function issue
+> ### issue
 
 ⤿ Overridden Implementation(s): [SmartToken.issue](SmartToken.md#issue)
 
@@ -58,7 +58,7 @@ function issue(address _to, uint256 _amount) public;
 ```
 </details>
 
-> ### function destroy
+> ### destroy
 
 ⤿ Overridden Implementation(s): [SmartToken.destroy](SmartToken.md#destroy)
 

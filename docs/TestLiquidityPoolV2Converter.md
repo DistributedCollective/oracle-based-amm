@@ -36,7 +36,7 @@ uint256 public currentTime;
 - [calculateFeeToEquilibriumTest(uint256 _primaryReserveStaked, uint256 _secondaryReserveStaked, uint256 _primaryReserveWeight, uint256 _secondaryReserveWeight, uint256 _primaryReserveRate, uint256 _secondaryReserveRate, uint256 _dynamicFeeFactor)](#calculatefeetoequilibriumtest)
 - [setReserveWeight(IERC20Token _reserveToken, uint32 _weight)](#setreserveweight)
 
-> ### function setReferenceRateUpdateTime
+> ### setReferenceRateUpdateTime
 
 ```solidity
 function setReferenceRateUpdateTime(uint256 _referenceRateUpdateTime) public nonpayable
@@ -58,9 +58,9 @@ function setReferenceRateUpdateTime(uint256 _referenceRateUpdateTime) public {
 ```
 </details>
 
-> ### function time
+> ### time
 
-⤾ overrides [LiquidityPoolV2Converter.time](LiquidityPoolV2Converter.md#time)
+⤾ overrides [LiquidityPoolV2Converter.time](LiquidityPoolV2Converter.md#.time)
 
 ```solidity
 function time() internal view
@@ -82,7 +82,7 @@ function time() internal view returns (uint256) {
 ```
 </details>
 
-> ### function setTime
+> ### setTime
 
 ```solidity
 function setTime(uint256 _currentTime) public nonpayable
@@ -104,7 +104,7 @@ function setTime(uint256 _currentTime) public {
 ```
 </details>
 
-> ### function calculateFeeToEquilibriumTest
+> ### calculateFeeToEquilibriumTest
 
 ```solidity
 function calculateFeeToEquilibriumTest(uint256 _primaryReserveStaked, uint256 _secondaryReserveStaked, uint256 _primaryReserveWeight, uint256 _secondaryReserveWeight, uint256 _primaryReserveRate, uint256 _secondaryReserveRate, uint256 _dynamicFeeFactor) external pure
@@ -150,7 +150,7 @@ function calculateFeeToEquilibriumTest(
 ```
 </details>
 
-> ### function setReserveWeight
+> ### setReserveWeight
 
 ```solidity
 function setReserveWeight(IERC20Token _reserveToken, uint32 _weight) public nonpayable validReserve 

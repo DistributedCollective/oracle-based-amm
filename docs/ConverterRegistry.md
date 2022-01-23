@@ -106,7 +106,7 @@ event SmartTokenRemoved(address indexed _smartToken);
 - [getConvertersBySmartTokens(address[] _smartTokens)](#getconvertersbysmarttokens)
 - [getLiquidityPoolByReserveConfig(IERC20Token[] _reserveTokens, uint32[] _reserveWeights)](#getliquiditypoolbyreserveconfig)
 
-> ### function newConverter
+> ### newConverter
 
 ⤿ Overridden Implementation(s): [TestConverterRegistry.newConverter](TestConverterRegistry.md#newconverter)
 
@@ -163,7 +163,7 @@ function newConverter(
 ```
 </details>
 
-> ### function setupConverter
+> ### setupConverter
 
 completes the configuration for a converter
 	 *
@@ -219,7 +219,7 @@ function setupConverter(
 ```
 </details>
 
-> ### function addConverter
+> ### addConverter
 
 adds an existing converter to the registry
 can only be called by the owner
@@ -246,7 +246,7 @@ function addConverter(IConverter _converter) public ownerOnly {
 ```
 </details>
 
-> ### function removeConverter
+> ### removeConverter
 
 removes a converter from the registry
 anyone can remove an existing converter from the registry, as long as the converter is invalid
@@ -274,9 +274,9 @@ function removeConverter(IConverter _converter) public {
 ```
 </details>
 
-> ### function getAnchorCount
+> ### getAnchorCount
 
-⤾ overrides [IConverterRegistry.getAnchorCount](IConverterRegistry.md#getanchorcount)
+⤾ overrides [IConverterRegistry.getAnchorCount](IConverterRegistry.md#.getanchorcount)
 
 returns the number of converter anchors in the registry
 	 *
@@ -301,9 +301,9 @@ function getAnchorCount() public view returns (uint256) {
 ```
 </details>
 
-> ### function getAnchors
+> ### getAnchors
 
-⤾ overrides [IConverterRegistry.getAnchors](IConverterRegistry.md#getanchors)
+⤾ overrides [IConverterRegistry.getAnchors](IConverterRegistry.md#.getanchors)
 
 returns the list of converter anchors in the registry
 	 *
@@ -328,9 +328,9 @@ function getAnchors() public view returns (address[]) {
 ```
 </details>
 
-> ### function getAnchor
+> ### getAnchor
 
-⤾ overrides [IConverterRegistry.getAnchor](IConverterRegistry.md#getanchor)
+⤾ overrides [IConverterRegistry.getAnchor](IConverterRegistry.md#.getanchor)
 
 returns the converter anchor at a given index
 	 *
@@ -360,9 +360,9 @@ function getAnchor(uint256 _index) public view returns (address) {
 ```
 </details>
 
-> ### function isAnchor
+> ### isAnchor
 
-⤾ overrides [IConverterRegistry.isAnchor](IConverterRegistry.md#isanchor)
+⤾ overrides [IConverterRegistry.isAnchor](IConverterRegistry.md#.isanchor)
 
 checks whether or not a given value is a converter anchor
 	 *
@@ -392,9 +392,9 @@ function isAnchor(address _value) public view returns (bool) {
 ```
 </details>
 
-> ### function getLiquidityPoolCount
+> ### getLiquidityPoolCount
 
-⤾ overrides [IConverterRegistry.getLiquidityPoolCount](IConverterRegistry.md#getliquiditypoolcount)
+⤾ overrides [IConverterRegistry.getLiquidityPoolCount](IConverterRegistry.md#.getliquiditypoolcount)
 
 returns the number of liquidity pools in the registry
 	 *
@@ -419,9 +419,9 @@ function getLiquidityPoolCount() public view returns (uint256) {
 ```
 </details>
 
-> ### function getLiquidityPools
+> ### getLiquidityPools
 
-⤾ overrides [IConverterRegistry.getLiquidityPools](IConverterRegistry.md#getliquiditypools)
+⤾ overrides [IConverterRegistry.getLiquidityPools](IConverterRegistry.md#.getliquiditypools)
 
 returns the list of liquidity pools in the registry
 	 *
@@ -446,9 +446,9 @@ function getLiquidityPools() public view returns (address[]) {
 ```
 </details>
 
-> ### function getLiquidityPool
+> ### getLiquidityPool
 
-⤾ overrides [IConverterRegistry.getLiquidityPool](IConverterRegistry.md#getliquiditypool)
+⤾ overrides [IConverterRegistry.getLiquidityPool](IConverterRegistry.md#.getliquiditypool)
 
 returns the liquidity pool at a given index
 	 *
@@ -478,9 +478,9 @@ function getLiquidityPool(uint256 _index) public view returns (address) {
 ```
 </details>
 
-> ### function isLiquidityPool
+> ### isLiquidityPool
 
-⤾ overrides [IConverterRegistry.isLiquidityPool](IConverterRegistry.md#isliquiditypool)
+⤾ overrides [IConverterRegistry.isLiquidityPool](IConverterRegistry.md#.isliquiditypool)
 
 checks whether or not a given value is a liquidity pool
 	 *
@@ -510,9 +510,9 @@ function isLiquidityPool(address _value) public view returns (bool) {
 ```
 </details>
 
-> ### function getConvertibleTokenCount
+> ### getConvertibleTokenCount
 
-⤾ overrides [IConverterRegistry.getConvertibleTokenCount](IConverterRegistry.md#getconvertibletokencount)
+⤾ overrides [IConverterRegistry.getConvertibleTokenCount](IConverterRegistry.md#.getconvertibletokencount)
 
 returns the number of convertible tokens in the registry
 	 *
@@ -537,9 +537,9 @@ function getConvertibleTokenCount() public view returns (uint256) {
 ```
 </details>
 
-> ### function getConvertibleTokens
+> ### getConvertibleTokens
 
-⤾ overrides [IConverterRegistry.getConvertibleTokens](IConverterRegistry.md#getconvertibletokens)
+⤾ overrides [IConverterRegistry.getConvertibleTokens](IConverterRegistry.md#.getconvertibletokens)
 
 returns the list of convertible tokens in the registry
 	 *
@@ -564,9 +564,9 @@ function getConvertibleTokens() public view returns (address[]) {
 ```
 </details>
 
-> ### function getConvertibleToken
+> ### getConvertibleToken
 
-⤾ overrides [IConverterRegistry.getConvertibleToken](IConverterRegistry.md#getconvertibletoken)
+⤾ overrides [IConverterRegistry.getConvertibleToken](IConverterRegistry.md#.getconvertibletoken)
 
 returns the convertible token at a given index
 	 *
@@ -596,9 +596,9 @@ function getConvertibleToken(uint256 _index) public view returns (address) {
 ```
 </details>
 
-> ### function isConvertibleToken
+> ### isConvertibleToken
 
-⤾ overrides [IConverterRegistry.isConvertibleToken](IConverterRegistry.md#isconvertibletoken)
+⤾ overrides [IConverterRegistry.isConvertibleToken](IConverterRegistry.md#.isconvertibletoken)
 
 checks whether or not a given value is a convertible token
 	 *
@@ -628,9 +628,9 @@ function isConvertibleToken(address _value) public view returns (bool) {
 ```
 </details>
 
-> ### function getConvertibleTokenAnchorCount
+> ### getConvertibleTokenAnchorCount
 
-⤾ overrides [IConverterRegistry.getConvertibleTokenAnchorCount](IConverterRegistry.md#getconvertibletokenanchorcount)
+⤾ overrides [IConverterRegistry.getConvertibleTokenAnchorCount](IConverterRegistry.md#.getconvertibletokenanchorcount)
 
 returns the number of converter anchors associated with a given convertible token
 	 *
@@ -660,9 +660,9 @@ function getConvertibleTokenAnchorCount(address _convertibleToken) public view r
 ```
 </details>
 
-> ### function getConvertibleTokenAnchors
+> ### getConvertibleTokenAnchors
 
-⤾ overrides [IConverterRegistry.getConvertibleTokenAnchors](IConverterRegistry.md#getconvertibletokenanchors)
+⤾ overrides [IConverterRegistry.getConvertibleTokenAnchors](IConverterRegistry.md#.getconvertibletokenanchors)
 
 returns the list of converter anchors associated with a given convertible token
 	 *
@@ -692,9 +692,9 @@ function getConvertibleTokenAnchors(address _convertibleToken) public view retur
 ```
 </details>
 
-> ### function getConvertibleTokenAnchor
+> ### getConvertibleTokenAnchor
 
-⤾ overrides [IConverterRegistry.getConvertibleTokenAnchor](IConverterRegistry.md#getconvertibletokenanchor)
+⤾ overrides [IConverterRegistry.getConvertibleTokenAnchor](IConverterRegistry.md#.getconvertibletokenanchor)
 
 returns the converter anchor associated with a given convertible token at a given index
 	 *
@@ -725,9 +725,9 @@ function getConvertibleTokenAnchor(address _convertibleToken, uint256 _index) pu
 ```
 </details>
 
-> ### function isConvertibleTokenAnchor
+> ### isConvertibleTokenAnchor
 
-⤾ overrides [IConverterRegistry.isConvertibleTokenAnchor](IConverterRegistry.md#isconvertibletokenanchor)
+⤾ overrides [IConverterRegistry.isConvertibleTokenAnchor](IConverterRegistry.md#.isconvertibletokenanchor)
 
 checks whether or not a given value is a converter anchor of a given convertible token
 	 *
@@ -758,7 +758,7 @@ function isConvertibleTokenAnchor(address _convertibleToken, address _value) pub
 ```
 </details>
 
-> ### function getConvertersByAnchors
+> ### getConvertersByAnchors
 
 returns a list of converters for a given list of anchors
 this is a utility function that can be used to reduce the number of calls to the contract
@@ -793,7 +793,7 @@ function getConvertersByAnchors(address[] _anchors) public view returns (address
 ```
 </details>
 
-> ### function isConverterValid
+> ### isConverterValid
 
 checks whether or not a given converter is valid
 	 *
@@ -824,7 +824,7 @@ function isConverterValid(IConverter _converter) public view returns (bool) {
 ```
 </details>
 
-> ### function isSimilarLiquidityPoolRegistered
+> ### isSimilarLiquidityPoolRegistered
 
 checks if a liquidity pool with given configuration is already registered
 	 *
@@ -866,7 +866,7 @@ function isSimilarLiquidityPoolRegistered(IConverter _converter) public view ret
 ```
 </details>
 
-> ### function getLiquidityPoolByConfig
+> ### getLiquidityPoolByConfig
 
 searches for a liquidity pool with specific configuration
 	 *
@@ -914,7 +914,7 @@ function getLiquidityPoolByConfig(
 ```
 </details>
 
-> ### function addAnchor
+> ### addAnchor
 
 adds a converter anchor to the registry
 	 *
@@ -942,7 +942,7 @@ function addAnchor(IConverterRegistryData _converterRegistryData, address _ancho
 ```
 </details>
 
-> ### function removeAnchor
+> ### removeAnchor
 
 removes a converter anchor from the registry
 	 *
@@ -970,7 +970,7 @@ function removeAnchor(IConverterRegistryData _converterRegistryData, address _an
 ```
 </details>
 
-> ### function addLiquidityPool
+> ### addLiquidityPool
 
 adds a liquidity pool to the registry
 	 *
@@ -997,7 +997,7 @@ function addLiquidityPool(IConverterRegistryData _converterRegistryData, address
 ```
 </details>
 
-> ### function removeLiquidityPool
+> ### removeLiquidityPool
 
 removes a liquidity pool from the registry
 	 *
@@ -1024,7 +1024,7 @@ function removeLiquidityPool(IConverterRegistryData _converterRegistryData, addr
 ```
 </details>
 
-> ### function addConvertibleToken
+> ### addConvertibleToken
 
 adds a convertible token to the registry
 	 *
@@ -1056,7 +1056,7 @@ function addConvertibleToken(
 ```
 </details>
 
-> ### function removeConvertibleToken
+> ### removeConvertibleToken
 
 removes a convertible token from the registry
 	 *
@@ -1088,7 +1088,7 @@ function removeConvertibleToken(
 ```
 </details>
 
-> ### function addConverterInternal
+> ### addConverterInternal
 
 ```solidity
 function addConverterInternal(IConverter _converter) private nonpayable
@@ -1120,7 +1120,7 @@ function addConverterInternal(IConverter _converter) private {
 ```
 </details>
 
-> ### function removeConverterInternal
+> ### removeConverterInternal
 
 ```solidity
 function removeConverterInternal(IConverter _converter) private nonpayable
@@ -1152,7 +1152,7 @@ function removeConverterInternal(IConverter _converter) private {
 ```
 </details>
 
-> ### function getLeastFrequentTokenAnchors
+> ### getLeastFrequentTokenAnchors
 
 ```solidity
 function getLeastFrequentTokenAnchors(IERC20Token[] _reserveTokens) private view
@@ -1188,7 +1188,7 @@ function getLeastFrequentTokenAnchors(IERC20Token[] memory _reserveTokens) priva
 ```
 </details>
 
-> ### function isConverterReserveConfigEqual
+> ### isConverterReserveConfigEqual
 
 ```solidity
 function isConverterReserveConfigEqual(IConverter _converter, uint16 _type, IERC20Token[] _reserveTokens, uint32[] _reserveWeights) private view
@@ -1227,7 +1227,7 @@ function isConverterReserveConfigEqual(
 ```
 </details>
 
-> ### function getReserveWeight
+> ### getReserveWeight
 
 ```solidity
 function getReserveWeight(address _converter, address _reserveToken) private view
@@ -1268,7 +1268,7 @@ function getReserveWeight(address _converter, address _reserveToken) private vie
 ```
 </details>
 
-> ### function getSmartTokenCount
+> ### getSmartTokenCount
 
 deprecated, backward compatibility, use `getAnchorCount`
 
@@ -1292,7 +1292,7 @@ function getSmartTokenCount() public view returns (uint256) {
 ```
 </details>
 
-> ### function getSmartTokens
+> ### getSmartTokens
 
 deprecated, backward compatibility, use `getAnchors`
 
@@ -1316,7 +1316,7 @@ function getSmartTokens() public view returns (address[]) {
 ```
 </details>
 
-> ### function getSmartToken
+> ### getSmartToken
 
 deprecated, backward compatibility, use `getAnchor`
 
@@ -1341,7 +1341,7 @@ function getSmartToken(uint256 _index) public view returns (address) {
 ```
 </details>
 
-> ### function isSmartToken
+> ### isSmartToken
 
 deprecated, backward compatibility, use `isAnchor`
 
@@ -1366,7 +1366,7 @@ function isSmartToken(address _value) public view returns (bool) {
 ```
 </details>
 
-> ### function getConvertibleTokenSmartTokenCount
+> ### getConvertibleTokenSmartTokenCount
 
 deprecated, backward compatibility, use `getConvertibleTokenAnchorCount`
 
@@ -1391,7 +1391,7 @@ function getConvertibleTokenSmartTokenCount(address _convertibleToken) public vi
 ```
 </details>
 
-> ### function getConvertibleTokenSmartTokens
+> ### getConvertibleTokenSmartTokens
 
 deprecated, backward compatibility, use `getConvertibleTokenAnchors`
 
@@ -1416,7 +1416,7 @@ function getConvertibleTokenSmartTokens(address _convertibleToken) public view r
 ```
 </details>
 
-> ### function getConvertibleTokenSmartToken
+> ### getConvertibleTokenSmartToken
 
 deprecated, backward compatibility, use `getConvertibleTokenAnchor`
 
@@ -1442,7 +1442,7 @@ function getConvertibleTokenSmartToken(address _convertibleToken, uint256 _index
 ```
 </details>
 
-> ### function isConvertibleTokenSmartToken
+> ### isConvertibleTokenSmartToken
 
 deprecated, backward compatibility, use `isConvertibleTokenAnchor`
 
@@ -1468,7 +1468,7 @@ function isConvertibleTokenSmartToken(address _convertibleToken, address _value)
 ```
 </details>
 
-> ### function getConvertersBySmartTokens
+> ### getConvertersBySmartTokens
 
 deprecated, backward compatibility, use `getConvertersByAnchors`
 
@@ -1493,7 +1493,7 @@ function getConvertersBySmartTokens(address[] _smartTokens) public view returns 
 ```
 </details>
 
-> ### function getLiquidityPoolByReserveConfig
+> ### getLiquidityPoolByReserveConfig
 
 deprecated, backward compatibility, use `getLiquidityPoolByConfig`
 

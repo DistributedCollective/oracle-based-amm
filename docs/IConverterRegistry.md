@@ -25,7 +25,7 @@ View Source: [contracts/converter/interfaces/IConverterRegistry.sol](../solidity
 - [getConvertibleTokenAnchor(address _convertibleToken, uint256 _index)](#getconvertibletokenanchor)
 - [isConvertibleTokenAnchor(address _convertibleToken, address _value)](#isconvertibletokenanchor)
 
-> ### function getAnchorCount
+> ### getAnchorCount
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getAnchorCount](ConverterRegistry.md#getanchorcount)
 
@@ -47,7 +47,7 @@ function getAnchorCount() public view returns (uint256);
 ```
 </details>
 
-> ### function getAnchors
+> ### getAnchors
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getAnchors](ConverterRegistry.md#getanchors)
 
@@ -69,7 +69,7 @@ function getAnchors() public view returns (address[]);
 ```
 </details>
 
-> ### function getAnchor
+> ### getAnchor
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getAnchor](ConverterRegistry.md#getanchor)
 
@@ -92,7 +92,7 @@ function getAnchor(uint256 _index) public view returns (address);
 ```
 </details>
 
-> ### function isAnchor
+> ### isAnchor
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.isAnchor](ConverterRegistry.md#isanchor)
 
@@ -115,7 +115,7 @@ function isAnchor(address _value) public view returns (bool);
 ```
 </details>
 
-> ### function getLiquidityPoolCount
+> ### getLiquidityPoolCount
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getLiquidityPoolCount](ConverterRegistry.md#getliquiditypoolcount)
 
@@ -137,7 +137,7 @@ function getLiquidityPoolCount() public view returns (uint256);
 ```
 </details>
 
-> ### function getLiquidityPools
+> ### getLiquidityPools
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getLiquidityPools](ConverterRegistry.md#getliquiditypools)
 
@@ -159,7 +159,7 @@ function getLiquidityPools() public view returns (address[]);
 ```
 </details>
 
-> ### function getLiquidityPool
+> ### getLiquidityPool
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getLiquidityPool](ConverterRegistry.md#getliquiditypool)
 
@@ -182,7 +182,7 @@ function getLiquidityPool(uint256 _index) public view returns (address);
 ```
 </details>
 
-> ### function isLiquidityPool
+> ### isLiquidityPool
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.isLiquidityPool](ConverterRegistry.md#isliquiditypool)
 
@@ -205,7 +205,7 @@ function isLiquidityPool(address _value) public view returns (bool);
 ```
 </details>
 
-> ### function getConvertibleTokenCount
+> ### getConvertibleTokenCount
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getConvertibleTokenCount](ConverterRegistry.md#getconvertibletokencount)
 
@@ -227,7 +227,7 @@ function getConvertibleTokenCount() public view returns (uint256);
 ```
 </details>
 
-> ### function getConvertibleTokens
+> ### getConvertibleTokens
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getConvertibleTokens](ConverterRegistry.md#getconvertibletokens)
 
@@ -249,7 +249,7 @@ function getConvertibleTokens() public view returns (address[]);
 ```
 </details>
 
-> ### function getConvertibleToken
+> ### getConvertibleToken
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getConvertibleToken](ConverterRegistry.md#getconvertibletoken)
 
@@ -272,7 +272,7 @@ function getConvertibleToken(uint256 _index) public view returns (address);
 ```
 </details>
 
-> ### function isConvertibleToken
+> ### isConvertibleToken
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.isConvertibleToken](ConverterRegistry.md#isconvertibletoken)
 
@@ -295,7 +295,7 @@ function isConvertibleToken(address _value) public view returns (bool);
 ```
 </details>
 
-> ### function getConvertibleTokenAnchorCount
+> ### getConvertibleTokenAnchorCount
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getConvertibleTokenAnchorCount](ConverterRegistry.md#getconvertibletokenanchorcount)
 
@@ -318,7 +318,7 @@ function getConvertibleTokenAnchorCount(address _convertibleToken) public view r
 ```
 </details>
 
-> ### function getConvertibleTokenAnchors
+> ### getConvertibleTokenAnchors
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getConvertibleTokenAnchors](ConverterRegistry.md#getconvertibletokenanchors)
 
@@ -341,7 +341,7 @@ function getConvertibleTokenAnchors(address _convertibleToken) public view retur
 ```
 </details>
 
-> ### function getConvertibleTokenAnchor
+> ### getConvertibleTokenAnchor
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.getConvertibleTokenAnchor](ConverterRegistry.md#getconvertibletokenanchor)
 
@@ -365,7 +365,7 @@ function getConvertibleTokenAnchor(address _convertibleToken, uint256 _index) pu
 ```
 </details>
 
-> ### function isConvertibleTokenAnchor
+> ### isConvertibleTokenAnchor
 
 ⤿ Overridden Implementation(s): [ConverterRegistry.isConvertibleTokenAnchor](ConverterRegistry.md#isconvertibletokenanchor)
 

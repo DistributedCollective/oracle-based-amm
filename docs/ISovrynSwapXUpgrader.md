@@ -8,7 +8,7 @@ View Source: [contracts/sovrynswapx/interfaces/ISovrynSwapXUpgrader.sol](../soli
 
 - [upgrade(uint16 _version, address[] _reporters)](#upgrade)
 
-> ### function upgrade
+> ### upgrade
 
 ```solidity
 function upgrade(uint16 _version, address[] _reporters) public nonpayable

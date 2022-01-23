@@ -24,7 +24,7 @@ constructor(ISmartToken _token, IContractRegistry _registry, uint32 _maxConversi
 
 - [setEtherToken(IEtherToken _etherToken)](#setethertoken)
 
-> ### function setEtherToken
+> ### setEtherToken
 
 ```solidity
 function setEtherToken(IEtherToken _etherToken) public nonpayable

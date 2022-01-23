@@ -86,7 +86,7 @@ modifier supportedTokens(IERC20Token _tokenA, IERC20Token _tokenB) internal
 - [latestRateAndUpdateTime(IERC20Token _tokenA, IERC20Token _tokenB)](#latestrateandupdatetime)
 - [decimals(IERC20Token _token)](#decimals)
 
-> ### function _validUniqueAddresses
+> ### _validUniqueAddresses
 
 ```solidity
 function _validUniqueAddresses(address _address1, address _address2) internal pure
@@ -111,7 +111,7 @@ function _validUniqueAddresses(address _address1, address _address2) internal pu
 ```
 </details>
 
-> ### function _supportedTokens
+> ### _supportedTokens
 
 ```solidity
 function _supportedTokens(IERC20Token _tokenA, IERC20Token _tokenB) internal view
@@ -135,9 +135,9 @@ function _supportedTokens(IERC20Token _tokenA, IERC20Token _tokenB) internal vie
 ```
 </details>
 
-> ### function latestRate
+> ### latestRate
 
-⤾ overrides [IPriceOracle.latestRate](IPriceOracle.md#latestrate)
+⤾ overrides [IPriceOracle.latestRate](IPriceOracle.md#.latestrate)
 
 returns the latest known rate between the two given tokens
 for a given pair of tokens A and B, returns the rate of A / B
@@ -193,9 +193,9 @@ function latestRate(IERC20Token _tokenA, IERC20Token _tokenB) public view suppor
 ```
 </details>
 
-> ### function lastUpdateTime
+> ### lastUpdateTime
 
-⤾ overrides [IPriceOracle.lastUpdateTime](IPriceOracle.md#lastupdatetime)
+⤾ overrides [IPriceOracle.lastUpdateTime](IPriceOracle.md#.lastupdatetime)
 
 returns the timestamp of the last price update
 	 *
@@ -224,9 +224,9 @@ function lastUpdateTime() public view returns (uint256) {
 ```
 </details>
 
-> ### function latestRateAndUpdateTime
+> ### latestRateAndUpdateTime
 
-⤾ overrides [IPriceOracle.latestRateAndUpdateTime](IPriceOracle.md#latestrateandupdatetime)
+⤾ overrides [IPriceOracle.latestRateAndUpdateTime](IPriceOracle.md#.latestrateandupdatetime)
 
 returns both the rate and the timestamp of the last update in a single call (gas optimization)
 	 *
@@ -267,7 +267,7 @@ function latestRateAndUpdateTime(IERC20Token _tokenA, IERC20Token _tokenB)
 ```
 </details>
 
-> ### function decimals
+> ### decimals
 
 returns the decimals of a given token
 

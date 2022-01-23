@@ -23,7 +23,7 @@ bytes4 private constant TRANSFER_FROM_FUNC_SELECTOR;
 - [safeTransferFrom(IERC20Token _token, address _from, address _to, uint256 _value)](#safetransferfrom)
 - [execute(IERC20Token _token, bytes _data)](#execute)
 
-> ### function safeApprove
+> ### safeApprove
 
 executes the ERC20 token's `approve` function and reverts upon failure
 the main purpose of this function is to prevent a non standard ERC20 token
@@ -56,7 +56,7 @@ function safeApprove(
 ```
 </details>
 
-> ### function safeTransfer
+> ### safeTransfer
 
 executes the ERC20 token's `transfer` function and reverts upon failure
 the main purpose of this function is to prevent a non standard ERC20 token
@@ -89,7 +89,7 @@ function safeTransfer(
 ```
 </details>
 
-> ### function safeTransferFrom
+> ### safeTransferFrom
 
 executes the ERC20 token's `transferFrom` function and reverts upon failure
 the main purpose of this function is to prevent a non standard ERC20 token
@@ -124,7 +124,7 @@ function safeTransferFrom(
 ```
 </details>
 
-> ### function execute
+> ### execute
 
 executes a function on the ERC20 token and reverts upon failure
 the main purpose of this function is to prevent a non standard ERC20 token

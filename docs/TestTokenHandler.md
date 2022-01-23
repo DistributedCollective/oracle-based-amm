@@ -12,7 +12,7 @@ View Source: [contracts/helpers/TestTokenHandler.sol](../solidity/contracts/help
 - [testSafeTransfer(IERC20Token _token, address _to, uint256 _value)](#testsafetransfer)
 - [testSafeTransferFrom(IERC20Token _token, address _from, address _to, uint256 _value)](#testsafetransferfrom)
 
-> ### function testSafeApprove
+> ### testSafeApprove
 
 ```solidity
 function testSafeApprove(IERC20Token _token, address _spender, uint256 _value) public nonpayable
@@ -40,7 +40,7 @@ function testSafeApprove(
 ```
 </details>
 
-> ### function testSafeTransfer
+> ### testSafeTransfer
 
 ```solidity
 function testSafeTransfer(IERC20Token _token, address _to, uint256 _value) public nonpayable
@@ -68,7 +68,7 @@ function testSafeTransfer(
 ```
 </details>
 
-> ### function testSafeTransferFrom
+> ### testSafeTransferFrom
 
 ```solidity
 function testSafeTransferFrom(IERC20Token _token, address _from, address _to, uint256 _value) public nonpayable

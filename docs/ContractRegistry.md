@@ -52,7 +52,7 @@ event AddressUpdate(bytes32 indexed _contractName, address  _contractAddress);
 - [stringToBytes32(string _string)](#stringtobytes32)
 - [getAddress(bytes32 _contractName)](#getaddress)
 
-> ### function itemCount
+> ### itemCount
 
 returns the number of items in the registry
 	 *
@@ -77,9 +77,9 @@ function itemCount() public view returns (uint256) {
 ```
 </details>
 
-> ### function addressOf
+> ### addressOf
 
-⤾ overrides [IContractRegistry.addressOf](IContractRegistry.md#addressof)
+⤾ overrides [IContractRegistry.addressOf](IContractRegistry.md#.addressof)
 
 returns the address associated with the given contract name
 	 *
@@ -109,7 +109,7 @@ function addressOf(bytes32 _contractName) public view returns (address) {
 ```
 </details>
 
-> ### function registerAddress
+> ### registerAddress
 
 registers a new address for the contract name in the registry
 	 *
@@ -153,7 +153,7 @@ function registerAddress(bytes32 _contractName, address _contractAddress) public
 ```
 </details>
 
-> ### function unregisterAddress
+> ### unregisterAddress
 
 removes an existing contract address from the registry
 	 *
@@ -203,7 +203,7 @@ function unregisterAddress(bytes32 _contractName) public ownerOnly {
 ```
 </details>
 
-> ### function bytes32ToString
+> ### bytes32ToString
 
 utility, converts bytes32 to a string
 note that the bytes32 argument is assumed to be UTF8 encoded ASCII string
@@ -239,7 +239,7 @@ function bytes32ToString(bytes32 _bytes) private pure returns (string) {
 ```
 </details>
 
-> ### function stringToBytes32
+> ### stringToBytes32
 
 utility, converts string to bytes32
 note that the bytes32 argument is assumed to be UTF8 encoded ASCII string
@@ -274,9 +274,9 @@ function stringToBytes32(string memory _string) private pure returns (bytes32) {
 ```
 </details>
 
-> ### function getAddress
+> ### getAddress
 
-⤾ overrides [IContractRegistry.getAddress](IContractRegistry.md#getaddress)
+⤾ overrides [IContractRegistry.getAddress](IContractRegistry.md#.getaddress)
 
 deprecated, backward compatibility
 

@@ -11,9 +11,9 @@ View Source: [contracts/utility/interfaces/ITokenHolder.sol](../solidity/contrac
 
 - [withdrawTokens(IERC20Token _token, address _to, uint256 _amount)](#withdrawtokens)
 
-> ### function withdrawTokens
+> ### withdrawTokens
 
-⤾ overrides [IConverter.withdrawTokens](IConverter.md#withdrawtokens)
+⤾ overrides [IConverter.withdrawTokens](IConverter.md#.withdrawtokens)
 
 ⤿ Overridden Implementation(s): [ConverterBase.withdrawTokens](ConverterBase.md#withdrawtokens),[IFeeSharingProxy.withdrawTokens](IFeeSharingProxy.md#withdrawtokens),[IInternalSovrynSwapNetwork.withdrawTokens](IInternalSovrynSwapNetwork.md#withdrawtokens),[ISwapSettings.withdrawTokens](ISwapSettings.md#withdrawtokens),[TokenHolder.withdrawTokens](TokenHolder.md#withdrawtokens)
 

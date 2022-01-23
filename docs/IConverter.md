@@ -18,7 +18,7 @@ View Source: [contracts/converter/interfaces/IConverter.sol](../solidity/contrac
 - [conversionFee()](#conversionfee)
 - [maxConversionFee()](#maxconversionfee)
 - [reserveBalance(IERC20Token _reserveToken)](#reservebalance)
-- [constructor()](#)
+- [constructor()](#constructor)
 - [transferAnchorOwnership(address _newOwner)](#transferanchorownership)
 - [acceptAnchorOwnership()](#acceptanchorownership)
 - [setConversionFee(uint32 _conversionFee)](#setconversionfee)
@@ -34,7 +34,7 @@ View Source: [contracts/converter/interfaces/IConverter.sol](../solidity/contrac
 - [connectorTokens(uint256 _index)](#connectortokens)
 - [connectorTokenCount()](#connectortokencount)
 
-> ### function converterType
+> ### converterType
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV1Converter.converterType](LiquidityPoolV1Converter.md#convertertype),[LiquidityPoolV1ConverterMultiAsset.converterType](LiquidityPoolV1ConverterMultiAsset.md#convertertype),[LiquidityPoolV2Converter.converterType](LiquidityPoolV2Converter.md#convertertype),[LiquidTokenConverter.converterType](LiquidTokenConverter.md#convertertype)
 
@@ -56,7 +56,7 @@ function converterType() public pure returns (uint16);
 ```
 </details>
 
-> ### function anchor
+> ### anchor
 
 ```solidity
 function anchor() public view
@@ -78,7 +78,7 @@ function anchor() public view returns (IConverterAnchor) {
 ```
 </details>
 
-> ### function isActive
+> ### isActive
 
 ⤿ Overridden Implementation(s): [ConverterBase.isActive](ConverterBase.md#isactive),[IFeeSharingProxy.isActive](IFeeSharingProxy.md#isactive),[IInternalSovrynSwapNetwork.isActive](IInternalSovrynSwapNetwork.md#isactive),[ISwapSettings.isActive](ISwapSettings.md#isactive),[LiquidityPoolV2Converter.isActive](LiquidityPoolV2Converter.md#isactive)
 
@@ -100,7 +100,7 @@ function isActive() public view returns (bool);
 ```
 </details>
 
-> ### function targetAmountAndFee
+> ### targetAmountAndFee
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV1Converter.targetAmountAndFee](LiquidityPoolV1Converter.md#targetamountandfee),[LiquidityPoolV1ConverterMultiAsset.targetAmountAndFee](LiquidityPoolV1ConverterMultiAsset.md#targetamountandfee),[LiquidityPoolV2Converter.targetAmountAndFee](LiquidityPoolV2Converter.md#targetamountandfee),[LiquidTokenConverter.targetAmountAndFee](LiquidTokenConverter.md#targetamountandfee)
 
@@ -129,7 +129,7 @@ function targetAmountAndFee(
 ```
 </details>
 
-> ### function convert
+> ### convert
 
 ⤿ Overridden Implementation(s): [ConverterBase.convert](ConverterBase.md#convert),[IFeeSharingProxy.convert](IFeeSharingProxy.md#convert),[IInternalSovrynSwapNetwork.convert](IInternalSovrynSwapNetwork.md#convert),[ISwapSettings.convert](ISwapSettings.md#convert)
 
@@ -162,7 +162,7 @@ function convert(
 ```
 </details>
 
-> ### function conversionWhitelist
+> ### conversionWhitelist
 
 ```solidity
 function conversionWhitelist() public view
@@ -184,7 +184,7 @@ function conversionWhitelist() public view returns (IWhitelist) {
 ```
 </details>
 
-> ### function conversionFee
+> ### conversionFee
 
 ```solidity
 function conversionFee() public view
@@ -206,7 +206,7 @@ function conversionFee() public view returns (uint32) {
 ```
 </details>
 
-> ### function maxConversionFee
+> ### maxConversionFee
 
 ```solidity
 function maxConversionFee() public view
@@ -228,7 +228,7 @@ function maxConversionFee() public view returns (uint32) {
 ```
 </details>
 
-> ### function reserveBalance
+> ### reserveBalance
 
 ⤿ Overridden Implementation(s): [ConverterBase.reserveBalance](ConverterBase.md#reservebalance),[IFeeSharingProxy.reserveBalance](IFeeSharingProxy.md#reservebalance),[IInternalSovrynSwapNetwork.reserveBalance](IInternalSovrynSwapNetwork.md#reservebalance),[ISwapSettings.reserveBalance](ISwapSettings.md#reservebalance)
 
@@ -251,7 +251,7 @@ function reserveBalance(IERC20Token _reserveToken) public view returns (uint256)
 ```
 </details>
 
-> ### function 
+> ### constructor
 
 ⤿ Overridden Implementation(s): [ConverterBase.](ConverterBase.md#),[IFeeSharingProxy.](IFeeSharingProxy.md#),[IInternalSovrynSwapNetwork.](IInternalSovrynSwapNetwork.md#),[ISwapSettings.](ISwapSettings.md#)
 
@@ -272,7 +272,7 @@ function() external payable;
 ```
 </details>
 
-> ### function transferAnchorOwnership
+> ### transferAnchorOwnership
 
 ⤿ Overridden Implementation(s): [ConverterBase.transferAnchorOwnership](ConverterBase.md#transferanchorownership),[IFeeSharingProxy.transferAnchorOwnership](IFeeSharingProxy.md#transferanchorownership),[IInternalSovrynSwapNetwork.transferAnchorOwnership](IInternalSovrynSwapNetwork.md#transferanchorownership),[ISwapSettings.transferAnchorOwnership](ISwapSettings.md#transferanchorownership)
 
@@ -294,7 +294,7 @@ function transferAnchorOwnership(address _newOwner) public;
 ```
 </details>
 
-> ### function acceptAnchorOwnership
+> ### acceptAnchorOwnership
 
 ⤿ Overridden Implementation(s): [ConverterBase.acceptAnchorOwnership](ConverterBase.md#acceptanchorownership),[IFeeSharingProxy.acceptAnchorOwnership](IFeeSharingProxy.md#acceptanchorownership),[IInternalSovrynSwapNetwork.acceptAnchorOwnership](IInternalSovrynSwapNetwork.md#acceptanchorownership),[ISwapSettings.acceptAnchorOwnership](ISwapSettings.md#acceptanchorownership),[LiquidityPoolConverter.acceptAnchorOwnership](LiquidityPoolConverter.md#acceptanchorownership),[LiquidityPoolV1Converter.acceptAnchorOwnership](LiquidityPoolV1Converter.md#acceptanchorownership),[LiquidityPoolV1ConverterMultiAsset.acceptAnchorOwnership](LiquidityPoolV1ConverterMultiAsset.md#acceptanchorownership),[LiquidTokenConverter.acceptAnchorOwnership](LiquidTokenConverter.md#acceptanchorownership)
 
@@ -315,7 +315,7 @@ function acceptAnchorOwnership() public;
 ```
 </details>
 
-> ### function setConversionFee
+> ### setConversionFee
 
 ⤿ Overridden Implementation(s): [ConverterBase.setConversionFee](ConverterBase.md#setconversionfee),[IFeeSharingProxy.setConversionFee](IFeeSharingProxy.md#setconversionfee),[IInternalSovrynSwapNetwork.setConversionFee](IInternalSovrynSwapNetwork.md#setconversionfee),[ISwapSettings.setConversionFee](ISwapSettings.md#setconversionfee)
 
@@ -337,7 +337,7 @@ function setConversionFee(uint32 _conversionFee) public;
 ```
 </details>
 
-> ### function setConversionWhitelist
+> ### setConversionWhitelist
 
 ⤿ Overridden Implementation(s): [ConverterBase.setConversionWhitelist](ConverterBase.md#setconversionwhitelist),[IFeeSharingProxy.setConversionWhitelist](IFeeSharingProxy.md#setconversionwhitelist),[IInternalSovrynSwapNetwork.setConversionWhitelist](IInternalSovrynSwapNetwork.md#setconversionwhitelist),[ISwapSettings.setConversionWhitelist](ISwapSettings.md#setconversionwhitelist)
 
@@ -359,7 +359,7 @@ function setConversionWhitelist(IWhitelist _whitelist) public;
 ```
 </details>
 
-> ### function withdrawTokens
+> ### withdrawTokens
 
 ⤿ Overridden Implementation(s): [ConverterBase.withdrawTokens](ConverterBase.md#withdrawtokens),[IFeeSharingProxy.withdrawTokens](IFeeSharingProxy.md#withdrawtokens),[IInternalSovrynSwapNetwork.withdrawTokens](IInternalSovrynSwapNetwork.md#withdrawtokens),[ISwapSettings.withdrawTokens](ISwapSettings.md#withdrawtokens),[ITokenHolder.withdrawTokens](ITokenHolder.md#withdrawtokens),[TokenHolder.withdrawTokens](TokenHolder.md#withdrawtokens)
 
@@ -387,7 +387,7 @@ function withdrawTokens(
 ```
 </details>
 
-> ### function withdrawETH
+> ### withdrawETH
 
 ⤿ Overridden Implementation(s): [ConverterBase.withdrawETH](ConverterBase.md#withdraweth),[IFeeSharingProxy.withdrawETH](IFeeSharingProxy.md#withdraweth),[IInternalSovrynSwapNetwork.withdrawETH](IInternalSovrynSwapNetwork.md#withdraweth),[ISwapSettings.withdrawETH](ISwapSettings.md#withdraweth)
 
@@ -409,7 +409,7 @@ function withdrawETH(address _to) public;
 ```
 </details>
 
-> ### function addReserve
+> ### addReserve
 
 ⤿ Overridden Implementation(s): [ConverterBase.addReserve](ConverterBase.md#addreserve),[IFeeSharingProxy.addReserve](IFeeSharingProxy.md#addreserve),[IInternalSovrynSwapNetwork.addReserve](IInternalSovrynSwapNetwork.md#addreserve),[ISwapSettings.addReserve](ISwapSettings.md#addreserve),[LiquidityPoolV1Converter.addReserve](LiquidityPoolV1Converter.md#addreserve),[LiquidityPoolV2Converter.addReserve](LiquidityPoolV2Converter.md#addreserve),[LiquidTokenConverter.addReserve](LiquidTokenConverter.md#addreserve)
 
@@ -432,7 +432,7 @@ function addReserve(IERC20Token _token, uint32 _ratio) public;
 ```
 </details>
 
-> ### function token
+> ### token
 
 ⤿ Overridden Implementation(s): [ConverterBase.token](ConverterBase.md#token),[IFeeSharingProxy.token](IFeeSharingProxy.md#token),[IInternalSovrynSwapNetwork.token](IInternalSovrynSwapNetwork.md#token),[ISwapSettings.token](ISwapSettings.md#token)
 
@@ -454,7 +454,7 @@ function token() public view returns (IConverterAnchor);
 ```
 </details>
 
-> ### function transferTokenOwnership
+> ### transferTokenOwnership
 
 ⤿ Overridden Implementation(s): [ConverterBase.transferTokenOwnership](ConverterBase.md#transfertokenownership),[IFeeSharingProxy.transferTokenOwnership](IFeeSharingProxy.md#transfertokenownership),[IInternalSovrynSwapNetwork.transferTokenOwnership](IInternalSovrynSwapNetwork.md#transfertokenownership),[ISwapSettings.transferTokenOwnership](ISwapSettings.md#transfertokenownership)
 
@@ -476,7 +476,7 @@ function transferTokenOwnership(address _newOwner) public;
 ```
 </details>
 
-> ### function acceptTokenOwnership
+> ### acceptTokenOwnership
 
 ⤿ Overridden Implementation(s): [ConverterBase.acceptTokenOwnership](ConverterBase.md#accepttokenownership),[IFeeSharingProxy.acceptTokenOwnership](IFeeSharingProxy.md#accepttokenownership),[IInternalSovrynSwapNetwork.acceptTokenOwnership](IInternalSovrynSwapNetwork.md#accepttokenownership),[ISwapSettings.acceptTokenOwnership](ISwapSettings.md#accepttokenownership)
 
@@ -497,7 +497,7 @@ function acceptTokenOwnership() public;
 ```
 </details>
 
-> ### function connectors
+> ### connectors
 
 ⤿ Overridden Implementation(s): [ConverterBase.connectors](ConverterBase.md#connectors),[IFeeSharingProxy.connectors](IFeeSharingProxy.md#connectors),[IInternalSovrynSwapNetwork.connectors](IInternalSovrynSwapNetwork.md#connectors),[ISwapSettings.connectors](ISwapSettings.md#connectors)
 
@@ -529,7 +529,7 @@ function connectors(address _address)
 ```
 </details>
 
-> ### function getConnectorBalance
+> ### getConnectorBalance
 
 ⤿ Overridden Implementation(s): [ConverterBase.getConnectorBalance](ConverterBase.md#getconnectorbalance),[IFeeSharingProxy.getConnectorBalance](IFeeSharingProxy.md#getconnectorbalance),[IInternalSovrynSwapNetwork.getConnectorBalance](IInternalSovrynSwapNetwork.md#getconnectorbalance),[ISwapSettings.getConnectorBalance](ISwapSettings.md#getconnectorbalance)
 
@@ -552,7 +552,7 @@ function getConnectorBalance(IERC20Token _connectorToken) public view returns (u
 ```
 </details>
 
-> ### function connectorTokens
+> ### connectorTokens
 
 ⤿ Overridden Implementation(s): [ConverterBase.connectorTokens](ConverterBase.md#connectortokens),[IFeeSharingProxy.connectorTokens](IFeeSharingProxy.md#connectortokens),[IInternalSovrynSwapNetwork.connectorTokens](IInternalSovrynSwapNetwork.md#connectortokens),[ISwapSettings.connectorTokens](ISwapSettings.md#connectortokens)
 
@@ -575,7 +575,7 @@ function connectorTokens(uint256 _index) public view returns (IERC20Token);
 ```
 </details>
 
-> ### function connectorTokenCount
+> ### connectorTokenCount
 
 ⤿ Overridden Implementation(s): [ConverterBase.connectorTokenCount](ConverterBase.md#connectortokencount),[IFeeSharingProxy.connectorTokenCount](IFeeSharingProxy.md#connectortokencount),[IInternalSovrynSwapNetwork.connectorTokenCount](IInternalSovrynSwapNetwork.md#connectortokencount),[ISwapSettings.connectorTokenCount](ISwapSettings.md#connectortokencount)
 

@@ -16,7 +16,7 @@ View Source: [contracts/converter/interfaces/ISovrynSwapFormula.sol](../solidity
 - [liquidateReserveAmount(uint256 _supply, uint256 _reserveBalance, uint32 _reserveRatio, uint256 _amount)](#liquidatereserveamount)
 - [balancedWeights(uint256 _primaryReserveStakedBalance, uint256 _primaryReserveBalance, uint256 _secondaryReserveBalance, uint256 _reserveRateNumerator, uint256 _reserveRateDenominator)](#balancedweights)
 
-> ### function purchaseTargetAmount
+> ### purchaseTargetAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.purchaseTargetAmount](SovrynSwapFormula.md#purchasetargetamount)
 
@@ -47,7 +47,7 @@ function purchaseTargetAmount(
 ```
 </details>
 
-> ### function saleTargetAmount
+> ### saleTargetAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.saleTargetAmount](SovrynSwapFormula.md#saletargetamount)
 
@@ -78,7 +78,7 @@ function saleTargetAmount(
 ```
 </details>
 
-> ### function crossReserveTargetAmount
+> ### crossReserveTargetAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.crossReserveTargetAmount](SovrynSwapFormula.md#crossreservetargetamount)
 
@@ -111,7 +111,7 @@ function crossReserveTargetAmount(
 ```
 </details>
 
-> ### function fundCost
+> ### fundCost
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.fundCost](SovrynSwapFormula.md#fundcost)
 
@@ -142,7 +142,7 @@ function fundCost(
 ```
 </details>
 
-> ### function fundSupplyAmount
+> ### fundSupplyAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.fundSupplyAmount](SovrynSwapFormula.md#fundsupplyamount)
 
@@ -173,7 +173,7 @@ function fundSupplyAmount(
 ```
 </details>
 
-> ### function liquidateReserveAmount
+> ### liquidateReserveAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.liquidateReserveAmount](SovrynSwapFormula.md#liquidatereserveamount)
 
@@ -204,7 +204,7 @@ function liquidateReserveAmount(
 ```
 </details>
 
-> ### function balancedWeights
+> ### balancedWeights
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.balancedWeights](SovrynSwapFormula.md#balancedweights)
 

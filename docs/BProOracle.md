@@ -26,9 +26,9 @@ event SetMoCStateAddress(address indexed mocStateAddress, address  changerAddres
 - [latestTimestamp()](#latesttimestamp)
 - [setMoCStateAddress(address _mocStateAddress)](#setmocstateaddress)
 
-> ### function latestAnswer
+> ### latestAnswer
 
-⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#latestanswer)
+⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#.latestanswer)
 
 BPro USD PRICE
 
@@ -53,9 +53,9 @@ function latestAnswer() external view returns (int256) {
 ```
 </details>
 
-> ### function latestTimestamp
+> ### latestTimestamp
 
-⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#latesttimestamp)
+⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#.latesttimestamp)
 
 returns the update time.
 	 *
@@ -80,7 +80,7 @@ function latestTimestamp() external view returns (uint256) {
 ```
 </details>
 
-> ### function setMoCStateAddress
+> ### setMoCStateAddress
 
 set MoC state address
 	 *

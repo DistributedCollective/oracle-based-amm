@@ -14,7 +14,7 @@ View Source: [contracts/converter/types/liquidity-pool-v2/interfaces/IPoolTokens
 - [mint(ISmartToken _token, address _to, uint256 _amount)](#mint)
 - [burn(ISmartToken _token, address _from, uint256 _amount)](#burn)
 
-> ### function poolTokens
+> ### poolTokens
 
 ⤿ Overridden Implementation(s): [PoolTokensContainer.poolTokens](PoolTokensContainer.md#pooltokens)
 
@@ -36,7 +36,7 @@ function poolTokens() public view returns (ISmartToken[]);
 ```
 </details>
 
-> ### function createToken
+> ### createToken
 
 ⤿ Overridden Implementation(s): [PoolTokensContainer.createToken](PoolTokensContainer.md#createtoken)
 
@@ -58,7 +58,7 @@ function createToken() public returns (ISmartToken);
 ```
 </details>
 
-> ### function mint
+> ### mint
 
 ⤿ Overridden Implementation(s): [PoolTokensContainer.mint](PoolTokensContainer.md#mint)
 
@@ -82,7 +82,7 @@ function mint(ISmartToken _token, address _to, uint256 _amount) public;
 ```
 </details>
 
-> ### function burn
+> ### burn
 
 ⤿ Overridden Implementation(s): [PoolTokensContainer.burn](PoolTokensContainer.md#burn)
 

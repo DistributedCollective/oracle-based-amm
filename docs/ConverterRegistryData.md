@@ -103,9 +103,9 @@ struct ConverterRegistryData.Lists private convertibleTokens;
 - [addItem(struct ConverterRegistryData.Items _items, address _value)](#additem)
 - [removeItem(struct ConverterRegistryData.Items _items, address _value)](#removeitem)
 
-> ### function addSmartToken
+> ### addSmartToken
 
-⤾ overrides [IConverterRegistryData.addSmartToken](IConverterRegistryData.md#addsmarttoken)
+⤾ overrides [IConverterRegistryData.addSmartToken](IConverterRegistryData.md#.addsmarttoken)
 
 adds a smart token
 	 *
@@ -130,9 +130,9 @@ function addSmartToken(address _smartToken) external only(CONVERTER_REGISTRY) {
 ```
 </details>
 
-> ### function removeSmartToken
+> ### removeSmartToken
 
-⤾ overrides [IConverterRegistryData.removeSmartToken](IConverterRegistryData.md#removesmarttoken)
+⤾ overrides [IConverterRegistryData.removeSmartToken](IConverterRegistryData.md#.removesmarttoken)
 
 removes a smart token
 	 *
@@ -157,9 +157,9 @@ function removeSmartToken(address _smartToken) external only(CONVERTER_REGISTRY)
 ```
 </details>
 
-> ### function addLiquidityPool
+> ### addLiquidityPool
 
-⤾ overrides [IConverterRegistryData.addLiquidityPool](IConverterRegistryData.md#addliquiditypool)
+⤾ overrides [IConverterRegistryData.addLiquidityPool](IConverterRegistryData.md#.addliquiditypool)
 
 adds a liquidity pool
 	 *
@@ -184,9 +184,9 @@ function addLiquidityPool(address _liquidityPool) external only(CONVERTER_REGIST
 ```
 </details>
 
-> ### function removeLiquidityPool
+> ### removeLiquidityPool
 
-⤾ overrides [IConverterRegistryData.removeLiquidityPool](IConverterRegistryData.md#removeliquiditypool)
+⤾ overrides [IConverterRegistryData.removeLiquidityPool](IConverterRegistryData.md#.removeliquiditypool)
 
 removes a liquidity pool
 	 *
@@ -211,9 +211,9 @@ function removeLiquidityPool(address _liquidityPool) external only(CONVERTER_REG
 ```
 </details>
 
-> ### function addConvertibleToken
+> ### addConvertibleToken
 
-⤾ overrides [IConverterRegistryData.addConvertibleToken](IConverterRegistryData.md#addconvertibletoken)
+⤾ overrides [IConverterRegistryData.addConvertibleToken](IConverterRegistryData.md#.addconvertibletoken)
 
 adds a convertible token
 	 *
@@ -243,9 +243,9 @@ function addConvertibleToken(address _convertibleToken, address _smartToken) ext
 ```
 </details>
 
-> ### function removeConvertibleToken
+> ### removeConvertibleToken
 
-⤾ overrides [IConverterRegistryData.removeConvertibleToken](IConverterRegistryData.md#removeconvertibletoken)
+⤾ overrides [IConverterRegistryData.removeConvertibleToken](IConverterRegistryData.md#.removeconvertibletoken)
 
 removes a convertible token
 	 *
@@ -279,9 +279,9 @@ function removeConvertibleToken(address _convertibleToken, address _smartToken) 
 ```
 </details>
 
-> ### function getSmartTokenCount
+> ### getSmartTokenCount
 
-⤾ overrides [IConverterRegistryData.getSmartTokenCount](IConverterRegistryData.md#getsmarttokencount)
+⤾ overrides [IConverterRegistryData.getSmartTokenCount](IConverterRegistryData.md#.getsmarttokencount)
 
 returns the number of smart tokens
 	 *
@@ -306,9 +306,9 @@ function getSmartTokenCount() external view returns (uint256) {
 ```
 </details>
 
-> ### function getSmartTokens
+> ### getSmartTokens
 
-⤾ overrides [IConverterRegistryData.getSmartTokens](IConverterRegistryData.md#getsmarttokens)
+⤾ overrides [IConverterRegistryData.getSmartTokens](IConverterRegistryData.md#.getsmarttokens)
 
 returns the list of smart tokens
 	 *
@@ -333,9 +333,9 @@ function getSmartTokens() external view returns (address[]) {
 ```
 </details>
 
-> ### function getSmartToken
+> ### getSmartToken
 
-⤾ overrides [IConverterRegistryData.getSmartToken](IConverterRegistryData.md#getsmarttoken)
+⤾ overrides [IConverterRegistryData.getSmartToken](IConverterRegistryData.md#.getsmarttoken)
 
 returns the smart token at a given index
 	 *
@@ -365,9 +365,9 @@ function getSmartToken(uint256 _index) external view returns (address) {
 ```
 </details>
 
-> ### function isSmartToken
+> ### isSmartToken
 
-⤾ overrides [IConverterRegistryData.isSmartToken](IConverterRegistryData.md#issmarttoken)
+⤾ overrides [IConverterRegistryData.isSmartToken](IConverterRegistryData.md#.issmarttoken)
 
 checks whether or not a given value is a smart token
 	 *
@@ -397,9 +397,9 @@ function isSmartToken(address _value) external view returns (bool) {
 ```
 </details>
 
-> ### function getLiquidityPoolCount
+> ### getLiquidityPoolCount
 
-⤾ overrides [IConverterRegistryData.getLiquidityPoolCount](IConverterRegistryData.md#getliquiditypoolcount)
+⤾ overrides [IConverterRegistryData.getLiquidityPoolCount](IConverterRegistryData.md#.getliquiditypoolcount)
 
 returns the number of liquidity pools
 	 *
@@ -424,9 +424,9 @@ function getLiquidityPoolCount() external view returns (uint256) {
 ```
 </details>
 
-> ### function getLiquidityPools
+> ### getLiquidityPools
 
-⤾ overrides [IConverterRegistryData.getLiquidityPools](IConverterRegistryData.md#getliquiditypools)
+⤾ overrides [IConverterRegistryData.getLiquidityPools](IConverterRegistryData.md#.getliquiditypools)
 
 returns the list of liquidity pools
 	 *
@@ -451,9 +451,9 @@ function getLiquidityPools() external view returns (address[]) {
 ```
 </details>
 
-> ### function getLiquidityPool
+> ### getLiquidityPool
 
-⤾ overrides [IConverterRegistryData.getLiquidityPool](IConverterRegistryData.md#getliquiditypool)
+⤾ overrides [IConverterRegistryData.getLiquidityPool](IConverterRegistryData.md#.getliquiditypool)
 
 returns the liquidity pool at a given index
 	 *
@@ -483,9 +483,9 @@ function getLiquidityPool(uint256 _index) external view returns (address) {
 ```
 </details>
 
-> ### function isLiquidityPool
+> ### isLiquidityPool
 
-⤾ overrides [IConverterRegistryData.isLiquidityPool](IConverterRegistryData.md#isliquiditypool)
+⤾ overrides [IConverterRegistryData.isLiquidityPool](IConverterRegistryData.md#.isliquiditypool)
 
 checks whether or not a given value is a liquidity pool
 	 *
@@ -515,9 +515,9 @@ function isLiquidityPool(address _value) external view returns (bool) {
 ```
 </details>
 
-> ### function getConvertibleTokenCount
+> ### getConvertibleTokenCount
 
-⤾ overrides [IConverterRegistryData.getConvertibleTokenCount](IConverterRegistryData.md#getconvertibletokencount)
+⤾ overrides [IConverterRegistryData.getConvertibleTokenCount](IConverterRegistryData.md#.getconvertibletokencount)
 
 returns the number of convertible tokens
 	 *
@@ -542,9 +542,9 @@ function getConvertibleTokenCount() external view returns (uint256) {
 ```
 </details>
 
-> ### function getConvertibleTokens
+> ### getConvertibleTokens
 
-⤾ overrides [IConverterRegistryData.getConvertibleTokens](IConverterRegistryData.md#getconvertibletokens)
+⤾ overrides [IConverterRegistryData.getConvertibleTokens](IConverterRegistryData.md#.getconvertibletokens)
 
 returns the list of convertible tokens
 	 *
@@ -569,9 +569,9 @@ function getConvertibleTokens() external view returns (address[]) {
 ```
 </details>
 
-> ### function getConvertibleToken
+> ### getConvertibleToken
 
-⤾ overrides [IConverterRegistryData.getConvertibleToken](IConverterRegistryData.md#getconvertibletoken)
+⤾ overrides [IConverterRegistryData.getConvertibleToken](IConverterRegistryData.md#.getconvertibletoken)
 
 returns the convertible token at a given index
 	 *
@@ -601,9 +601,9 @@ function getConvertibleToken(uint256 _index) external view returns (address) {
 ```
 </details>
 
-> ### function isConvertibleToken
+> ### isConvertibleToken
 
-⤾ overrides [IConverterRegistryData.isConvertibleToken](IConverterRegistryData.md#isconvertibletoken)
+⤾ overrides [IConverterRegistryData.isConvertibleToken](IConverterRegistryData.md#.isconvertibletoken)
 
 checks whether or not a given value is a convertible token
 	 *
@@ -633,9 +633,9 @@ function isConvertibleToken(address _value) external view returns (bool) {
 ```
 </details>
 
-> ### function getConvertibleTokenSmartTokenCount
+> ### getConvertibleTokenSmartTokenCount
 
-⤾ overrides [IConverterRegistryData.getConvertibleTokenSmartTokenCount](IConverterRegistryData.md#getconvertibletokensmarttokencount)
+⤾ overrides [IConverterRegistryData.getConvertibleTokenSmartTokenCount](IConverterRegistryData.md#.getconvertibletokensmarttokencount)
 
 returns the number of smart tokens associated with a given convertible token
 	 *
@@ -665,9 +665,9 @@ function getConvertibleTokenSmartTokenCount(address _convertibleToken) external 
 ```
 </details>
 
-> ### function getConvertibleTokenSmartTokens
+> ### getConvertibleTokenSmartTokens
 
-⤾ overrides [IConverterRegistryData.getConvertibleTokenSmartTokens](IConverterRegistryData.md#getconvertibletokensmarttokens)
+⤾ overrides [IConverterRegistryData.getConvertibleTokenSmartTokens](IConverterRegistryData.md#.getconvertibletokensmarttokens)
 
 returns the list of smart tokens associated with a given convertible token
 	 *
@@ -697,9 +697,9 @@ function getConvertibleTokenSmartTokens(address _convertibleToken) external view
 ```
 </details>
 
-> ### function getConvertibleTokenSmartToken
+> ### getConvertibleTokenSmartToken
 
-⤾ overrides [IConverterRegistryData.getConvertibleTokenSmartToken](IConverterRegistryData.md#getconvertibletokensmarttoken)
+⤾ overrides [IConverterRegistryData.getConvertibleTokenSmartToken](IConverterRegistryData.md#.getconvertibletokensmarttoken)
 
 returns the smart token associated with a given convertible token at a given index
 	 *
@@ -730,9 +730,9 @@ function getConvertibleTokenSmartToken(address _convertibleToken, uint256 _index
 ```
 </details>
 
-> ### function isConvertibleTokenSmartToken
+> ### isConvertibleTokenSmartToken
 
-⤾ overrides [IConverterRegistryData.isConvertibleTokenSmartToken](IConverterRegistryData.md#isconvertibletokensmarttoken)
+⤾ overrides [IConverterRegistryData.isConvertibleTokenSmartToken](IConverterRegistryData.md#.isconvertibletokensmarttoken)
 
 checks whether or not a given value is a smart token of a given convertible token
 	 *
@@ -763,7 +763,7 @@ function isConvertibleTokenSmartToken(address _convertibleToken, address _value)
 ```
 </details>
 
-> ### function addItem
+> ### addItem
 
 adds an item to a list of items
 	 *
@@ -793,7 +793,7 @@ function addItem(Items storage _items, address _value) internal validAddress(_va
 ```
 </details>
 
-> ### function removeItem
+> ### removeItem
 
 removes an item from a list of items
 	 *

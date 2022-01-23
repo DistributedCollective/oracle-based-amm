@@ -14,7 +14,7 @@ View Source: [contracts/utility/interfaces/IPriceOracle.sol](../solidity/contrac
 - [tokenAOracle()](#tokenaoracle)
 - [tokenBOracle()](#tokenboracle)
 
-> ### function latestRate
+> ### latestRate
 
 ⤿ Overridden Implementation(s): [PriceOracle.latestRate](PriceOracle.md#latestrate)
 
@@ -38,7 +38,7 @@ function latestRate(IERC20Token _tokenA, IERC20Token _tokenB) public view return
 ```
 </details>
 
-> ### function lastUpdateTime
+> ### lastUpdateTime
 
 ⤿ Overridden Implementation(s): [PriceOracle.lastUpdateTime](PriceOracle.md#lastupdatetime)
 
@@ -60,7 +60,7 @@ function lastUpdateTime() public view returns (uint256);
 ```
 </details>
 
-> ### function latestRateAndUpdateTime
+> ### latestRateAndUpdateTime
 
 ⤿ Overridden Implementation(s): [PriceOracle.latestRateAndUpdateTime](PriceOracle.md#latestrateandupdatetime)
 
@@ -91,7 +91,7 @@ function latestRateAndUpdateTime(IERC20Token _tokenA, IERC20Token _tokenB)
 ```
 </details>
 
-> ### function tokenAOracle
+> ### tokenAOracle
 
 ```solidity
 function tokenAOracle() public view
@@ -113,7 +113,7 @@ function tokenAOracle() public view returns (IConsumerPriceOracle) {
 ```
 </details>
 
-> ### function tokenBOracle
+> ### tokenBOracle
 
 ```solidity
 function tokenBOracle() public view

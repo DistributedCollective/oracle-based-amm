@@ -12,7 +12,7 @@ View Source: [contracts/converter/types/liquidity-pool-v2/interfaces/ILiquidityP
 - [priceOracle()](#priceoracle)
 - [activate(IERC20Token _primaryReserveToken, IConsumerPriceOracle _primaryReserveOracle, IConsumerPriceOracle _secondaryReserveOracle)](#activate)
 
-> ### function reserveStakedBalance
+> ### reserveStakedBalance
 
 ```solidity
 function reserveStakedBalance(IERC20Token _reserveToken) public view
@@ -33,7 +33,7 @@ function reserveStakedBalance(IERC20Token _reserveToken) public view returns (ui
 ```
 </details>
 
-> ### function setReserveStakedBalance
+> ### setReserveStakedBalance
 
 ```solidity
 function setReserveStakedBalance(IERC20Token _reserveToken, uint256 _balance) public nonpayable
@@ -54,7 +54,7 @@ function setReserveStakedBalance(IERC20Token _reserveToken, uint256 _balance) pu
 ```
 </details>
 
-> ### function primaryReserveToken
+> ### primaryReserveToken
 
 ```solidity
 function primaryReserveToken() public view
@@ -74,7 +74,7 @@ function primaryReserveToken() public view returns (IERC20Token);
 ```
 </details>
 
-> ### function priceOracle
+> ### priceOracle
 
 ```solidity
 function priceOracle() public view
@@ -94,7 +94,7 @@ function priceOracle() public view returns (IPriceOracle);
 ```
 </details>
 
-> ### function activate
+> ### activate
 
 ```solidity
 function activate(IERC20Token _primaryReserveToken, IConsumerPriceOracle _primaryReserveOracle, IConsumerPriceOracle _secondaryReserveOracle) public nonpayable

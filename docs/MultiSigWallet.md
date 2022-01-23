@@ -187,7 +187,7 @@ modifier validRequirement(uint256 ownerCount, uint256 _required) internal
 
 ## Functions
 
-- [constructor()](#)
+- [constructor()](#constructor)
 - [addOwner(address owner)](#addowner)
 - [removeOwner(address owner)](#removeowner)
 - [replaceOwner(address owner, address newOwner)](#replaceowner)
@@ -205,7 +205,7 @@ modifier validRequirement(uint256 ownerCount, uint256 _required) internal
 - [getConfirmations(uint256 transactionId)](#getconfirmations)
 - [getTransactionIds(uint256 from, uint256 to, bool pending, bool executed)](#gettransactionids)
 
-> ### function 
+> ### constructor
 
 Fallback function allows to deposit ether.
 
@@ -228,7 +228,7 @@ function() external payable {
 ```
 </details>
 
-> ### function addOwner
+> ### addOwner
 
 Allows to add a new owner. Transaction has to be sent by wallet.
 
@@ -260,7 +260,7 @@ function addOwner(address owner)
 ```
 </details>
 
-> ### function removeOwner
+> ### removeOwner
 
 Allows to remove an owner. Transaction has to be sent by wallet.
 
@@ -292,7 +292,7 @@ function removeOwner(address owner) public onlyWallet ownerExists(owner) {
 ```
 </details>
 
-> ### function replaceOwner
+> ### replaceOwner
 
 Allows to replace an owner with a new owner. Transaction has
   to be sent by wallet.
@@ -327,7 +327,7 @@ function replaceOwner(address owner, address newOwner) public onlyWallet ownerEx
 ```
 </details>
 
-> ### function changeRequirement
+> ### changeRequirement
 
 Allows to change the number of required confirmations.
 Transaction has to be sent by wallet.
@@ -354,7 +354,7 @@ function changeRequirement(uint256 _required) public onlyWallet validRequirement
 ```
 </details>
 
-> ### function submitTransaction
+> ### submitTransaction
 
 Allows an owner to submit and confirm a transaction.
 	 *
@@ -391,7 +391,7 @@ function submitTransaction(
 ```
 </details>
 
-> ### function confirmTransaction
+> ### confirmTransaction
 
 Allows an owner to confirm a transaction.
 
@@ -422,7 +422,7 @@ function confirmTransaction(uint256 transactionId)
 ```
 </details>
 
-> ### function revokeConfirmation
+> ### revokeConfirmation
 
 Allows an owner to revoke a confirmation for a transaction.
 
@@ -452,7 +452,7 @@ function revokeConfirmation(uint256 transactionId)
 ```
 </details>
 
-> ### function executeTransaction
+> ### executeTransaction
 
 Allows anyone to execute a confirmed transaction.
 
@@ -489,7 +489,7 @@ function executeTransaction(uint256 transactionId)
 ```
 </details>
 
-> ### function external_call
+> ### external_call
 
 Low level transaction execution.
 	 *
@@ -543,7 +543,7 @@ function external_call(
 ```
 </details>
 
-> ### function isConfirmed
+> ### isConfirmed
 
 Returns the confirmation status of a transaction.
 
@@ -578,7 +578,7 @@ function isConfirmed(uint256 transactionId) public view returns (bool) {
 ```
 </details>
 
-> ### function addTransaction
+> ### addTransaction
 
 Adds a new transaction to the transaction mapping,
   if transaction does not exist yet.
@@ -618,7 +618,7 @@ function addTransaction(
 ```
 </details>
 
-> ### function getConfirmationCount
+> ### getConfirmationCount
 
 Get the number of confirmations of a transaction.
 
@@ -647,7 +647,7 @@ function getConfirmationCount(uint256 transactionId) public view returns (uint25
 ```
 </details>
 
-> ### function getTransactionCount
+> ### getTransactionCount
 
 Get the total number of transactions after filers are applied.
 
@@ -678,7 +678,7 @@ function getTransactionCount(bool pending, bool executed) public view returns (u
 ```
 </details>
 
-> ### function getOwners
+> ### getOwners
 
 Get the list of owners.
 
@@ -702,7 +702,7 @@ function getOwners() public view returns (address[] memory) {
 ```
 </details>
 
-> ### function getConfirmations
+> ### getConfirmations
 
 Get the array with owner addresses, which confirmed transaction.
 
@@ -740,7 +740,7 @@ function getConfirmations(uint256 transactionId) public view returns (address[] 
 ```
 </details>
 
-> ### function getTransactionIds
+> ### getTransactionIds
 
 Get the list of transaction IDs in defined range.
 	 *

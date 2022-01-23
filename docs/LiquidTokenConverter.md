@@ -44,9 +44,9 @@ constructor(ISmartToken _token, IContractRegistry _registry, uint32 _maxConversi
 - [buy(uint256 _amount, address _trader, address _beneficiary)](#buy)
 - [sell(uint256 _amount, address _trader, address _beneficiary)](#sell)
 
-> ### function converterType
+> ### converterType
 
-⤾ overrides [IConverter.converterType](IConverter.md#convertertype)
+⤾ overrides [IConverter.converterType](IConverter.md#.convertertype)
 
 returns the converter type
 
@@ -74,9 +74,9 @@ function converterType() public pure returns (uint16) {
 ```
 </details>
 
-> ### function acceptAnchorOwnership
+> ### acceptAnchorOwnership
 
-⤾ overrides [ConverterBase.acceptAnchorOwnership](ConverterBase.md#acceptanchorownership)
+⤾ overrides [ConverterBase.acceptAnchorOwnership](ConverterBase.md#.acceptanchorownership)
 
 accepts ownership of the anchor after an ownership transfer
 
@@ -109,9 +109,9 @@ function acceptAnchorOwnership() public ownerOnly {
 ```
 </details>
 
-> ### function addReserve
+> ### addReserve
 
-⤾ overrides [ConverterBase.addReserve](ConverterBase.md#addreserve)
+⤾ overrides [ConverterBase.addReserve](ConverterBase.md#.addreserve)
 
 defines the reserve token for the converter
 
@@ -148,9 +148,9 @@ function addReserve(IERC20Token _token, uint32 _weight) public {
 ```
 </details>
 
-> ### function targetAmountAndFee
+> ### targetAmountAndFee
 
-⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#targetamountandfee)
+⤾ overrides [IConverter.targetAmountAndFee](IConverter.md#.targetamountandfee)
 
 returns the expected target amount of converting the source token to the
 
@@ -197,9 +197,9 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
 ```
 </details>
 
-> ### function doConvert
+> ### doConvert
 
-⤾ overrides [ConverterBase.doConvert](ConverterBase.md#doconvert)
+⤾ overrides [ConverterBase.doConvert](ConverterBase.md#.doconvert)
 
 converts between the liquid token and its reserve
 
@@ -280,7 +280,7 @@ function doConvert(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _
 ```
 </details>
 
-> ### function purchaseTargetAmount
+> ### purchaseTargetAmount
 
 returns the expected target amount of buying with a given amount of tokens
 
@@ -349,7 +349,7 @@ function purchaseTargetAmount(uint256 _amount)
 ```
 </details>
 
-> ### function saleTargetAmount
+> ### saleTargetAmount
 
 returns the expected target amount of selling a given amount of tokens
 
@@ -418,7 +418,7 @@ function saleTargetAmount(uint256 _amount)
 ```
 </details>
 
-> ### function buy
+> ### buy
 
 buys the liquid token by depositing in its reserve
 
@@ -485,7 +485,7 @@ function buy(uint256 _amount, address _trader, address _beneficiary) internal re
 ```
 </details>
 
-> ### function sell
+> ### sell
 
 sells the liquid token by withdrawing from its reserve
 

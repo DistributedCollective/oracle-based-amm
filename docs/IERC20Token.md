@@ -18,7 +18,7 @@ View Source: [contracts/token/interfaces/IERC20Token.sol](../solidity/contracts/
 - [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
 - [approve(address _spender, uint256 _value)](#approve)
 
-> ### function name
+> ### name
 
 ```solidity
 function name() public view
@@ -40,7 +40,7 @@ function name() public view returns (string) {
 ```
 </details>
 
-> ### function symbol
+> ### symbol
 
 ```solidity
 function symbol() public view
@@ -62,7 +62,7 @@ function symbol() public view returns (string) {
 ```
 </details>
 
-> ### function decimals
+> ### decimals
 
 ```solidity
 function decimals() public view
@@ -84,7 +84,7 @@ function decimals() public view returns (uint8) {
 ```
 </details>
 
-> ### function totalSupply
+> ### totalSupply
 
 ```solidity
 function totalSupply() public view
@@ -106,7 +106,7 @@ function totalSupply() public view returns (uint256) {
 ```
 </details>
 
-> ### function balanceOf
+> ### balanceOf
 
 ```solidity
 function balanceOf(address _owner) public view
@@ -130,7 +130,7 @@ function balanceOf(address _owner) public view returns (uint256) {
 ```
 </details>
 
-> ### function allowance
+> ### allowance
 
 ```solidity
 function allowance(address _owner, address _spender) public view
@@ -156,7 +156,7 @@ function allowance(address _owner, address _spender) public view returns (uint25
 ```
 </details>
 
-> ### function transfer
+> ### transfer
 
 ⤿ Overridden Implementation(s): [ERC20Token.transfer](ERC20Token.md#transfer),[EtherToken.transfer](EtherToken.md#transfer),[SmartToken.transfer](SmartToken.md#transfer)
 
@@ -180,7 +180,7 @@ function transfer(address _to, uint256 _value) public returns (bool success);
 ```
 </details>
 
-> ### function transferFrom
+> ### transferFrom
 
 ⤿ Overridden Implementation(s): [ERC20Token.transferFrom](ERC20Token.md#transferfrom),[EtherToken.transferFrom](EtherToken.md#transferfrom),[SmartToken.transferFrom](SmartToken.md#transferfrom)
 
@@ -209,7 +209,7 @@ function transferFrom(
 ```
 </details>
 
-> ### function approve
+> ### approve
 
 ⤿ Overridden Implementation(s): [ERC20Token.approve](ERC20Token.md#approve)
 

@@ -41,7 +41,7 @@ modifier reroutingAllowed() internal
 - [_reroutingAllowed()](#_reroutingallowed)
 - [rerouteTx(uint256 _txId, bytes32 _blockchain, bytes32 _to)](#reroutetx)
 
-> ### function enableRerouting
+> ### enableRerouting
 
 allows the owner to disable/enable rerouting
 	 *
@@ -66,7 +66,7 @@ function enableRerouting(bool _enable) public ownerOnly {
 ```
 </details>
 
-> ### function _reroutingAllowed
+> ### _reroutingAllowed
 
 ```solidity
 function _reroutingAllowed() internal view
@@ -87,7 +87,7 @@ function _reroutingAllowed() internal view {
 ```
 </details>
 
-> ### function rerouteTx
+> ### rerouteTx
 
 allows a user to reroute a transaction to a new blockchain/target address
 	 *

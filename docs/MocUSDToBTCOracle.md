@@ -28,7 +28,7 @@ event SetMoCOracleAddress(address indexed mocOracleAddress, address  changerAddr
 - [latestTimestamp()](#latesttimestamp)
 - [setMoCOracleAddress(address _mocOracleAddress)](#setmocoracleaddress)
 
-> ### function peek
+> ### peek
 
 ```solidity
 function peek() external view
@@ -48,9 +48,9 @@ function peek() external view returns (bytes32, bool);
 ```
 </details>
 
-> ### function latestAnswer
+> ### latestAnswer
 
-⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#latestanswer)
+⤾ overrides [IConsumerPriceOracle.latestAnswer](IConsumerPriceOracle.md#.latestanswer)
 
 returns the USD/BTC rate.
 	 *
@@ -78,9 +78,9 @@ function latestAnswer() external view returns (int256) {
 ```
 </details>
 
-> ### function latestTimestamp
+> ### latestTimestamp
 
-⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#latesttimestamp)
+⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#.latesttimestamp)
 
 returns the USD/BTC update time.
 	 *
@@ -105,7 +105,7 @@ function latestTimestamp() external view returns (uint256) {
 ```
 </details>
 
-> ### function setMoCOracleAddress
+> ### setMoCOracleAddress
 
 set MoC oracle address
 	 *
