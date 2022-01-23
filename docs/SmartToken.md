@@ -67,6 +67,8 @@ modifier transfersAllowed() internal
 - [transfer(address _to, uint256 _value)](#transfer)
 - [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
 
+---    
+
 > ### _transfersAllowed
 
 ```solidity
@@ -87,6 +89,8 @@ function _transfersAllowed() internal view {
 	}
 ```
 </details>
+
+---    
 
 > ### disableTransfers
 
@@ -115,6 +119,8 @@ function disableTransfers(bool _disable) public ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### issue
 
@@ -149,6 +155,8 @@ function issue(address _to, uint256 _amount) public ownerOnly validAddress(_to) 
 ```
 </details>
 
+---    
+
 > ### destroy
 
 ⤾ overrides [ISmartToken.destroy](ISmartToken.md#.destroy)
@@ -181,6 +189,8 @@ function destroy(address _from, uint256 _amount) public ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### transfer
 
@@ -217,6 +227,8 @@ function transfer(address _to, uint256 _value) public transfersAllowed returns (
 	}
 ```
 </details>
+
+---    
 
 > ### transferFrom
 

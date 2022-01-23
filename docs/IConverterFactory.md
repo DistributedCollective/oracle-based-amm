@@ -12,6 +12,8 @@ View Source: [contracts/converter/interfaces/IConverterFactory.sol](../solidity/
 - [createConverter(uint16 _type, IConverterAnchor _anchor, IContractRegistry _registry, uint32 _maxConversionFee)](#createconverter)
 - [customFactories(uint16 _type)](#customfactories)
 
+---    
+
 > ### createAnchor
 
 ⤿ Overridden Implementation(s): [ConverterFactory.createAnchor](ConverterFactory.md#createanchor),[TestConverterFactory.createAnchor](TestConverterFactory.md#createanchor)
@@ -43,6 +45,8 @@ function createAnchor(
 ```
 </details>
 
+---    
+
 > ### createConverter
 
 ⤿ Overridden Implementation(s): [ConverterFactory.createConverter](ConverterFactory.md#createconverter),[TestConverterFactory.createConverter](TestConverterFactory.md#createconverter)
@@ -73,6 +77,8 @@ function createConverter(
 	) public returns (IConverter);
 ```
 </details>
+
+---    
 
 > ### customFactories
 

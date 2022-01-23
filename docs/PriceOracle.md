@@ -86,6 +86,8 @@ modifier supportedTokens(IERC20Token _tokenA, IERC20Token _tokenB) internal
 - [latestRateAndUpdateTime(IERC20Token _tokenA, IERC20Token _tokenB)](#latestrateandupdatetime)
 - [decimals(IERC20Token _token)](#decimals)
 
+---    
+
 > ### _validUniqueAddresses
 
 ```solidity
@@ -111,6 +113,8 @@ function _validUniqueAddresses(address _address1, address _address2) internal pu
 ```
 </details>
 
+---    
+
 > ### _supportedTokens
 
 ```solidity
@@ -134,6 +138,8 @@ function _supportedTokens(IERC20Token _tokenA, IERC20Token _tokenB) internal vie
 	}
 ```
 </details>
+
+---    
 
 > ### latestRate
 
@@ -193,6 +199,8 @@ function latestRate(IERC20Token _tokenA, IERC20Token _tokenB) public view suppor
 ```
 </details>
 
+---    
+
 > ### lastUpdateTime
 
 ⤾ overrides [IPriceOracle.lastUpdateTime](IPriceOracle.md#.lastupdatetime)
@@ -223,6 +231,8 @@ function lastUpdateTime() public view returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### latestRateAndUpdateTime
 
@@ -266,6 +276,8 @@ function latestRateAndUpdateTime(IERC20Token _tokenA, IERC20Token _tokenB)
 	}
 ```
 </details>
+
+---    
 
 > ### decimals
 

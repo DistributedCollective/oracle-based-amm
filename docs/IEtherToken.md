@@ -14,6 +14,8 @@ View Source: [contracts/token/interfaces/IEtherToken.sol](../solidity/contracts/
 - [depositTo(address _to)](#depositto)
 - [withdrawTo(address _to, uint256 _amount)](#withdrawto)
 
+---    
+
 > ### deposit
 
 ⤿ Overridden Implementation(s): [EtherToken.deposit](EtherToken.md#deposit)
@@ -34,6 +36,8 @@ function deposit() public payable
 function deposit() public payable;
 ```
 </details>
+
+---    
 
 > ### withdraw
 
@@ -57,6 +61,8 @@ function withdraw(uint256 _amount) public;
 ```
 </details>
 
+---    
+
 > ### depositTo
 
 ⤿ Overridden Implementation(s): [EtherToken.depositTo](EtherToken.md#depositto)
@@ -78,6 +84,8 @@ function depositTo(address _to) public payable
 function depositTo(address _to) public payable;
 ```
 </details>
+
+---    
 
 > ### withdrawTo
 

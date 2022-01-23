@@ -11,6 +11,8 @@ View Source: [contracts/utility/interfaces/IOracle.sol](../solidity/contracts/ut
 - [read()](#read)
 - [latestAnswer()](#latestanswer)
 
+---    
+
 > ### setK
 
 ```solidity
@@ -30,6 +32,8 @@ function setK(uint256 _k) external nonpayable
 function setK(uint256 _k) external;
 ```
 </details>
+
+---    
 
 > ### write
 
@@ -51,6 +55,8 @@ function write(uint256 price0, uint256 price1) external nonpayable
 function write(uint256 price0, uint256 price1) external;
 ```
 </details>
+
+---    
 
 > ### read
 
@@ -80,6 +86,8 @@ function read()
 		);
 ```
 </details>
+
+---    
 
 > ### latestAnswer
 

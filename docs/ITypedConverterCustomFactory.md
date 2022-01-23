@@ -10,6 +10,8 @@ View Source: [contracts/converter/interfaces/ITypedConverterCustomFactory.sol](.
 
 - [converterType()](#convertertype)
 
+---    
+
 > ### converterType
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV2ConverterCustomFactory.converterType](LiquidityPoolV2ConverterCustomFactory.md#convertertype)

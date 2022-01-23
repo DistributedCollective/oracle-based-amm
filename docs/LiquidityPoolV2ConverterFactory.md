@@ -11,6 +11,8 @@ View Source: [contracts/converter/types/liquidity-pool-v2/LiquidityPoolV2Convert
 - [converterType()](#convertertype)
 - [createConverter(IConverterAnchor _anchor, IContractRegistry _registry, uint32 _maxConversionFee)](#createconverter)
 
+---    
+
 > ### converterType
 
 ⤾ overrides [ITypedConverterFactory.converterType](ITypedConverterFactory.md#.convertertype)
@@ -40,6 +42,8 @@ function converterType() public pure returns (uint16) {
     }
 ```
 </details>
+
+---    
 
 > ### createConverter
 

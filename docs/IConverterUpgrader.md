@@ -11,6 +11,8 @@ View Source: [contracts/converter/interfaces/IConverterUpgrader.sol](../solidity
 - [upgrade(bytes32 _version)](#upgrade)
 - [upgrade(uint16 _version)](#upgrade)
 
+---    
+
 > ### upgrade
 
 ⤿ Overridden Implementation(s): [ConverterUpgrader.upgrade](ConverterUpgrader.md#upgrade)
@@ -32,6 +34,8 @@ function upgrade(bytes32 _version) public nonpayable
 function upgrade(bytes32 _version) public;
 ```
 </details>
+
+---    
 
 > ### upgrade
 

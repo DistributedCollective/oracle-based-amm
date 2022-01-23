@@ -10,6 +10,8 @@ View Source: [contracts/IConversionPathFinder.sol](../solidity/contracts/IConver
 
 - [findPath(address _sourceToken, address _targetToken)](#findpath)
 
+---    
+
 > ### findPath
 
 ⤿ Overridden Implementation(s): [ConversionPathFinder.findPath](ConversionPathFinder.md#findpath)

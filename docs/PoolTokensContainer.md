@@ -39,6 +39,8 @@ contract ISmartToken[] private _poolTokens;
 - [burn(ISmartToken _token, address _from, uint256 _amount)](#burn)
 - [concatStrDigit(string _str, uint8 _digit)](#concatstrdigit)
 
+---    
+
 > ### poolTokens
 
 ⤾ overrides [IPoolTokensContainer.poolTokens](IPoolTokensContainer.md#.pooltokens)
@@ -68,6 +70,8 @@ function poolTokens() public view returns (ISmartToken[] memory) {
     }
 ```
 </details>
+
+---    
 
 > ### createToken
 
@@ -111,6 +115,8 @@ function createToken() public ownerOnly returns (ISmartToken) {
 ```
 </details>
 
+---    
+
 > ### mint
 
 ⤾ overrides [IPoolTokensContainer.mint](IPoolTokensContainer.md#.mint)
@@ -145,6 +151,8 @@ function mint(ISmartToken _token, address _to, uint256 _amount) public ownerOnly
 ```
 </details>
 
+---    
+
 > ### burn
 
 ⤾ overrides [IPoolTokensContainer.burn](IPoolTokensContainer.md#.burn)
@@ -178,6 +186,8 @@ function burn(ISmartToken _token, address _from, uint256 _amount) public ownerOn
     }
 ```
 </details>
+
+---    
 
 > ### concatStrDigit
 

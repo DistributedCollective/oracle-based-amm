@@ -16,6 +16,8 @@ View Source: [contracts/converter/interfaces/ISovrynSwapFormula.sol](../solidity
 - [liquidateReserveAmount(uint256 _supply, uint256 _reserveBalance, uint32 _reserveRatio, uint256 _amount)](#liquidatereserveamount)
 - [balancedWeights(uint256 _primaryReserveStakedBalance, uint256 _primaryReserveBalance, uint256 _secondaryReserveBalance, uint256 _reserveRateNumerator, uint256 _reserveRateDenominator)](#balancedweights)
 
+---    
+
 > ### purchaseTargetAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.purchaseTargetAmount](SovrynSwapFormula.md#purchasetargetamount)
@@ -47,6 +49,8 @@ function purchaseTargetAmount(
 ```
 </details>
 
+---    
+
 > ### saleTargetAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.saleTargetAmount](SovrynSwapFormula.md#saletargetamount)
@@ -77,6 +81,8 @@ function saleTargetAmount(
 	) public view returns (uint256);
 ```
 </details>
+
+---    
 
 > ### crossReserveTargetAmount
 
@@ -111,6 +117,8 @@ function crossReserveTargetAmount(
 ```
 </details>
 
+---    
+
 > ### fundCost
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.fundCost](SovrynSwapFormula.md#fundcost)
@@ -141,6 +149,8 @@ function fundCost(
 	) public view returns (uint256);
 ```
 </details>
+
+---    
 
 > ### fundSupplyAmount
 
@@ -173,6 +183,8 @@ function fundSupplyAmount(
 ```
 </details>
 
+---    
+
 > ### liquidateReserveAmount
 
 ⤿ Overridden Implementation(s): [SovrynSwapFormula.liquidateReserveAmount](SovrynSwapFormula.md#liquidatereserveamount)
@@ -203,6 +215,8 @@ function liquidateReserveAmount(
 	) public view returns (uint256);
 ```
 </details>
+
+---    
 
 > ### balancedWeights
 

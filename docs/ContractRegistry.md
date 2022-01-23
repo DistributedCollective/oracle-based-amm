@@ -52,6 +52,8 @@ event AddressUpdate(bytes32 indexed _contractName, address  _contractAddress);
 - [stringToBytes32(string _string)](#stringtobytes32)
 - [getAddress(bytes32 _contractName)](#getaddress)
 
+---    
+
 > ### itemCount
 
 returns the number of items in the registry
@@ -76,6 +78,8 @@ function itemCount() public view returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### addressOf
 
@@ -108,6 +112,8 @@ function addressOf(bytes32 _contractName) public view returns (address) {
 	}
 ```
 </details>
+
+---    
 
 > ### registerAddress
 
@@ -152,6 +158,8 @@ function registerAddress(bytes32 _contractName, address _contractAddress) public
 	}
 ```
 </details>
+
+---    
 
 > ### unregisterAddress
 
@@ -203,6 +211,8 @@ function unregisterAddress(bytes32 _contractName) public ownerOnly {
 ```
 </details>
 
+---    
+
 > ### bytes32ToString
 
 utility, converts bytes32 to a string
@@ -239,6 +249,8 @@ function bytes32ToString(bytes32 _bytes) private pure returns (string) {
 ```
 </details>
 
+---    
+
 > ### stringToBytes32
 
 utility, converts string to bytes32
@@ -273,6 +285,8 @@ function stringToBytes32(string memory _string) private pure returns (bytes32) {
 	}
 ```
 </details>
+
+---    
 
 > ### getAddress
 

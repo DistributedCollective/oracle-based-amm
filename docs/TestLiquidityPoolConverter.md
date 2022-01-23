@@ -24,6 +24,8 @@ constructor(ISmartToken _token, IContractRegistry _registry, uint32 _maxConversi
 
 - [setEtherToken(IEtherToken _etherToken)](#setethertoken)
 
+---    
+
 > ### setEtherToken
 
 ```solidity

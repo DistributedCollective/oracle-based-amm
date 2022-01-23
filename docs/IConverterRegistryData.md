@@ -31,6 +31,8 @@ View Source: [contracts/converter/interfaces/IConverterRegistryData.sol](../soli
 - [getConvertibleTokenSmartToken(address _convertibleToken, uint256 _index)](#getconvertibletokensmarttoken)
 - [isConvertibleTokenSmartToken(address _convertibleToken, address _value)](#isconvertibletokensmarttoken)
 
+---    
+
 > ### addSmartToken
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.addSmartToken](ConverterRegistryData.md#addsmarttoken)
@@ -52,6 +54,8 @@ function addSmartToken(address _smartToken) external nonpayable
 function addSmartToken(address _smartToken) external;
 ```
 </details>
+
+---    
 
 > ### removeSmartToken
 
@@ -75,6 +79,8 @@ function removeSmartToken(address _smartToken) external;
 ```
 </details>
 
+---    
+
 > ### addLiquidityPool
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.addLiquidityPool](ConverterRegistryData.md#addliquiditypool)
@@ -97,6 +103,8 @@ function addLiquidityPool(address _liquidityPool) external;
 ```
 </details>
 
+---    
+
 > ### removeLiquidityPool
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.removeLiquidityPool](ConverterRegistryData.md#removeliquiditypool)
@@ -118,6 +126,8 @@ function removeLiquidityPool(address _liquidityPool) external nonpayable
 function removeLiquidityPool(address _liquidityPool) external;
 ```
 </details>
+
+---    
 
 > ### addConvertibleToken
 
@@ -142,6 +152,8 @@ function addConvertibleToken(address _convertibleToken, address _smartToken) ext
 ```
 </details>
 
+---    
+
 > ### removeConvertibleToken
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.removeConvertibleToken](ConverterRegistryData.md#removeconvertibletoken)
@@ -165,6 +177,8 @@ function removeConvertibleToken(address _convertibleToken, address _smartToken) 
 ```
 </details>
 
+---    
+
 > ### getSmartTokenCount
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.getSmartTokenCount](ConverterRegistryData.md#getsmarttokencount)
@@ -187,6 +201,8 @@ function getSmartTokenCount() external view returns (uint256);
 ```
 </details>
 
+---    
+
 > ### getSmartTokens
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.getSmartTokens](ConverterRegistryData.md#getsmarttokens)
@@ -208,6 +224,8 @@ returns(address[])
 function getSmartTokens() external view returns (address[]);
 ```
 </details>
+
+---    
 
 > ### getSmartToken
 
@@ -232,6 +250,8 @@ function getSmartToken(uint256 _index) external view returns (address);
 ```
 </details>
 
+---    
+
 > ### isSmartToken
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.isSmartToken](ConverterRegistryData.md#issmarttoken)
@@ -255,6 +275,8 @@ function isSmartToken(address _value) external view returns (bool);
 ```
 </details>
 
+---    
+
 > ### getLiquidityPoolCount
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.getLiquidityPoolCount](ConverterRegistryData.md#getliquiditypoolcount)
@@ -277,6 +299,8 @@ function getLiquidityPoolCount() external view returns (uint256);
 ```
 </details>
 
+---    
+
 > ### getLiquidityPools
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.getLiquidityPools](ConverterRegistryData.md#getliquiditypools)
@@ -298,6 +322,8 @@ returns(address[])
 function getLiquidityPools() external view returns (address[]);
 ```
 </details>
+
+---    
 
 > ### getLiquidityPool
 
@@ -322,6 +348,8 @@ function getLiquidityPool(uint256 _index) external view returns (address);
 ```
 </details>
 
+---    
+
 > ### isLiquidityPool
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.isLiquidityPool](ConverterRegistryData.md#isliquiditypool)
@@ -345,6 +373,8 @@ function isLiquidityPool(address _value) external view returns (bool);
 ```
 </details>
 
+---    
+
 > ### getConvertibleTokenCount
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.getConvertibleTokenCount](ConverterRegistryData.md#getconvertibletokencount)
@@ -367,6 +397,8 @@ function getConvertibleTokenCount() external view returns (uint256);
 ```
 </details>
 
+---    
+
 > ### getConvertibleTokens
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.getConvertibleTokens](ConverterRegistryData.md#getconvertibletokens)
@@ -388,6 +420,8 @@ returns(address[])
 function getConvertibleTokens() external view returns (address[]);
 ```
 </details>
+
+---    
 
 > ### getConvertibleToken
 
@@ -412,6 +446,8 @@ function getConvertibleToken(uint256 _index) external view returns (address);
 ```
 </details>
 
+---    
+
 > ### isConvertibleToken
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.isConvertibleToken](ConverterRegistryData.md#isconvertibletoken)
@@ -434,6 +470,8 @@ returns(bool)
 function isConvertibleToken(address _value) external view returns (bool);
 ```
 </details>
+
+---    
 
 > ### getConvertibleTokenSmartTokenCount
 
@@ -458,6 +496,8 @@ function getConvertibleTokenSmartTokenCount(address _convertibleToken) external 
 ```
 </details>
 
+---    
+
 > ### getConvertibleTokenSmartTokens
 
 ⤿ Overridden Implementation(s): [ConverterRegistryData.getConvertibleTokenSmartTokens](ConverterRegistryData.md#getconvertibletokensmarttokens)
@@ -480,6 +520,8 @@ returns(address[])
 function getConvertibleTokenSmartTokens(address _convertibleToken) external view returns (address[]);
 ```
 </details>
+
+---    
 
 > ### getConvertibleTokenSmartToken
 
@@ -504,6 +546,8 @@ returns(address)
 function getConvertibleTokenSmartToken(address _convertibleToken, uint256 _index) external view returns (address);
 ```
 </details>
+
+---    
 
 > ### isConvertibleTokenSmartToken
 

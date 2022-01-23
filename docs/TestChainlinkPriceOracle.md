@@ -22,6 +22,8 @@ uint256 private timestamp;
 - [latestAnswer()](#latestanswer)
 - [latestTimestamp()](#latesttimestamp)
 
+---    
+
 > ### setAnswer
 
 ```solidity
@@ -44,6 +46,8 @@ function setAnswer(int256 _answer) public {
 ```
 </details>
 
+---    
+
 > ### setTimestamp
 
 ```solidity
@@ -65,6 +69,8 @@ function setTimestamp(uint256 _timestamp) public {
 	}
 ```
 </details>
+
+---    
 
 > ### latestAnswer
 
@@ -89,6 +95,8 @@ function latestAnswer() external view returns (int256) {
 	}
 ```
 </details>
+
+---    
 
 > ### latestTimestamp
 

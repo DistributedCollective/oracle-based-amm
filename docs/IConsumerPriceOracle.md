@@ -11,6 +11,8 @@ View Source: [contracts/utility/interfaces/IConsumerPriceOracle.sol](../solidity
 - [latestAnswer()](#latestanswer)
 - [latestTimestamp()](#latesttimestamp)
 
+---    
+
 > ### latestAnswer
 
 ⤿ Overridden Implementation(s): [BProOracle.latestAnswer](BProOracle.md#latestanswer),[ChainlinkBTCToUSDOracle.latestAnswer](ChainlinkBTCToUSDOracle.md#latestanswer),[ChainlinkETHToETHOracle.latestAnswer](ChainlinkETHToETHOracle.md#latestanswer),[ChainlinkUSDToBTCOracle.latestAnswer](ChainlinkUSDToBTCOracle.md#latestanswer),[Medianizer.latestAnswer](Medianizer.md#latestanswer),[MocBTCToBTCOracle.latestAnswer](MocBTCToBTCOracle.md#latestanswer),[MocBTCToUSDOracle.latestAnswer](MocBTCToUSDOracle.md#latestanswer),[MocUSDToBTCOracle.latestAnswer](MocUSDToBTCOracle.md#latestanswer),[TestChainlinkPriceOracle.latestAnswer](TestChainlinkPriceOracle.md#latestanswer)
@@ -32,6 +34,8 @@ returns(int256)
 function latestAnswer() external view returns (int256);
 ```
 </details>
+
+---    
 
 > ### latestTimestamp
 

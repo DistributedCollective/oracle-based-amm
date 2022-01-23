@@ -27,6 +27,8 @@ event SetMoCOracleAddress(address indexed mocOracleAddress, address  changerAddr
 - [latestTimestamp()](#latesttimestamp)
 - [setMoCOracleAddress(address _mocOracleAddress)](#setmocoracleaddress)
 
+---    
+
 > ### peek
 
 ⤿ Overridden Implementation(s): [MoCMedianizerMock.peek](MoCMedianizerMock.md#peek)
@@ -48,6 +50,8 @@ returns(bytes32, bool)
 function peek() external view returns (bytes32, bool);
 ```
 </details>
+
+---    
 
 > ### latestAnswer
 
@@ -78,6 +82,8 @@ function latestAnswer() external view returns (int256) {
 ```
 </details>
 
+---    
+
 > ### latestTimestamp
 
 ⤾ overrides [IConsumerPriceOracle.latestTimestamp](IConsumerPriceOracle.md#.latesttimestamp)
@@ -104,6 +110,8 @@ function latestTimestamp() external view returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### setMoCOracleAddress
 

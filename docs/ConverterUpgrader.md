@@ -65,6 +65,8 @@ event ConverterUpgrade(address indexed _oldConverter, address indexed _newConver
 - [handleTypeSpecificData(IConverter _oldConverter, IConverter _newConverter, bool _activate)](#handletypespecificdata)
 - [isV28OrHigherConverter(IConverter _converter)](#isv28orhigherconverter)
 
+---    
+
 > ### upgrade
 
 ⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#.upgrade)
@@ -96,6 +98,8 @@ function upgrade(bytes32 _version) public {
 ```
 </details>
 
+---    
+
 > ### upgrade
 
 ⤾ overrides [IConverterUpgrader.upgrade](IConverterUpgrader.md#.upgrade)
@@ -126,6 +130,8 @@ function upgrade(uint16 _version) public {
 	}
 ```
 </details>
+
+---    
 
 > ### upgradeOld
 
@@ -179,6 +185,8 @@ function upgradeOld(IConverter _converter, bytes32 _version) public {
 ```
 </details>
 
+---    
+
 > ### acceptConverterOwnership
 
 the first step when upgrading a converter is to transfer the ownership to the local contract.
@@ -207,6 +215,8 @@ function acceptConverterOwnership(IConverter _oldConverter) private {
 	}
 ```
 </details>
+
+---    
 
 > ### createConverter
 
@@ -255,6 +265,8 @@ function createConverter(IConverter _oldConverter) private returns (IConverter) 
 ```
 </details>
 
+---    
+
 > ### copyReserves
 
 copies the reserves from the old converter to the new one.
@@ -300,6 +312,8 @@ function copyReserves(IConverter _oldConverter, IConverter _newConverter) privat
 ```
 </details>
 
+---    
+
 > ### copyConversionFee
 
 copies the conversion fee from the old converter to the new one
@@ -326,6 +340,8 @@ function copyConversionFee(IConverter _oldConverter, IConverter _newConverter) p
 	}
 ```
 </details>
+
+---    
 
 > ### transferReserveBalances
 
@@ -375,6 +391,8 @@ function transferReserveBalances(IConverter _oldConverter, IConverter _newConver
 	}
 ```
 </details>
+
+---    
 
 > ### handleTypeSpecificData
 
@@ -432,6 +450,8 @@ function handleTypeSpecificData(
 	}
 ```
 </details>
+
+---    
 
 > ### isV28OrHigherConverter
 

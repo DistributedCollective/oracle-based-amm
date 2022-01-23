@@ -11,6 +11,8 @@ View Source: [contracts/converter/types/liquidity-pool-v2/LiquidityPoolV2Convert
 - [converterType()](#convertertype)
 - [createPriceOracle(IERC20Token _primaryReserveToken, IERC20Token _secondaryReserveToken, IConsumerPriceOracle _primaryReserveOracle, IConsumerPriceOracle _secondaryReserveOracle)](#createpriceoracle)
 
+---    
+
 > ### converterType
 
 ⤾ overrides [ITypedConverterCustomFactory.converterType](ITypedConverterCustomFactory.md#.convertertype)
@@ -40,6 +42,8 @@ function converterType() public pure returns (uint16) {
     }
 ```
 </details>
+
+---    
 
 > ### createPriceOracle
 

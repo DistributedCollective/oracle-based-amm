@@ -17,6 +17,8 @@ View Source: [contracts/ISovrynSwapNetwork.sol](../solidity/contracts/ISovrynSwa
 - [convertFor(IERC20Token[] _path, uint256 _amount, uint256 _minReturn, address _for)](#convertfor)
 - [claimAndConvertFor(IERC20Token[] _path, uint256 _amount, uint256 _minReturn, address _for)](#claimandconvertfor)
 
+---    
+
 > ### convert2
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.convert2](ILegacyConverter.md#convert2),[SovrynSwapNetwork.convert2](SovrynSwapNetwork.md#convert2)
@@ -50,6 +52,8 @@ function convert2(
 ```
 </details>
 
+---    
+
 > ### claimAndConvert2
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.claimAndConvert2](ILegacyConverter.md#claimandconvert2),[SovrynSwapNetwork.claimAndConvert2](SovrynSwapNetwork.md#claimandconvert2)
@@ -82,6 +86,8 @@ function claimAndConvert2(
 	) public returns (uint256);
 ```
 </details>
+
+---    
 
 > ### convertFor2
 
@@ -118,6 +124,8 @@ function convertFor2(
 ```
 </details>
 
+---    
+
 > ### claimAndConvertFor2
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.claimAndConvertFor2](ILegacyConverter.md#claimandconvertfor2),[SovrynSwapNetwork.claimAndConvertFor2](SovrynSwapNetwork.md#claimandconvertfor2)
@@ -153,6 +161,8 @@ function claimAndConvertFor2(
 ```
 </details>
 
+---    
+
 > ### convert
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.convert](ILegacyConverter.md#convert),[SovrynSwapNetwork.convert](SovrynSwapNetwork.md#convert),[SovrynSwapNetworkMockup.convert](SovrynSwapNetworkMockup.md#convert)
@@ -182,6 +192,8 @@ function convert(
 ```
 </details>
 
+---    
+
 > ### claimAndConvert
 
 ⤿ Overridden Implementation(s): [ILegacyConverter.claimAndConvert](ILegacyConverter.md#claimandconvert),[SovrynSwapNetwork.claimAndConvert](SovrynSwapNetwork.md#claimandconvert)
@@ -210,6 +222,8 @@ function claimAndConvert(
 	) public returns (uint256);
 ```
 </details>
+
+---    
 
 > ### convertFor
 
@@ -241,6 +255,8 @@ function convertFor(
 	) public payable returns (uint256);
 ```
 </details>
+
+---    
 
 > ### claimAndConvertFor
 

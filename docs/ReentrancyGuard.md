@@ -39,6 +39,8 @@ modifier protected() internal
 
 - [_protected()](#_protected)
 
+---    
+
 > ### _protected
 
 ```solidity

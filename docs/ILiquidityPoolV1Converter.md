@@ -37,6 +37,8 @@ event PriceDataUpdate(address indexed _connectorToken, uint256  _tokenSupply, ui
 - [reserves(address )](#reserves)
 - [reserveTokens(uint256 index)](#reservetokens)
 
+---    
+
 > ### converterType
 
 returns the converter type
@@ -60,6 +62,8 @@ returns(uint16)
 function converterType() external pure returns (uint16);
 ```
 </details>
+
+---    
 
 > ### acceptAnchorOwnership
 
@@ -87,6 +91,8 @@ function acceptAnchorOwnership() external nonpayable
 function acceptAnchorOwnership() external;
 ```
 </details>
+
+---    
 
 > ### targetAmountAndFee
 
@@ -119,6 +125,8 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
 ```
 </details>
 
+---    
+
 > ### addLiquidity
 
 increases the pool's liquidity and mints new shares in the pool to the caller
@@ -147,6 +155,8 @@ function addLiquidity(IERC20Token[] _reserveTokens, uint256[] _reserveAmounts, u
 ```
 </details>
 
+---    
+
 > ### removeLiquidity
 
 decreases the pool's liquidity and burns the caller's shares in the pool
@@ -174,6 +184,8 @@ function removeLiquidity(uint256 _amount, IERC20Token[] _reserveTokens, uint256[
 function removeLiquidity(uint256 _amount, IERC20Token[] _reserveTokens, uint256[] _reserveMinReturnAmounts) external;
 ```
 </details>
+
+---    
 
 > ### fund
 
@@ -205,6 +217,8 @@ function fund(uint256 _amount) external payable;
 ```
 </details>
 
+---    
+
 > ### liquidate
 
 decreases the pool's liquidity and burns the caller's shares in the pool
@@ -235,6 +249,8 @@ function liquidate(uint256 _amount) external;
 ```
 </details>
 
+---    
+
 > ### decimalLength
 
 calculates the number of decimal digits in a given value
@@ -263,6 +279,8 @@ the number of decimal digits in the given value
 function decimalLength(uint256 _x) external pure returns (uint256);
 ```
 </details>
+
+---    
 
 > ### roundDiv
 
@@ -294,6 +312,8 @@ function roundDiv(uint256 _n, uint256 _d) external pure returns (uint256);
 ```
 </details>
 
+---    
+
 > ### geometricMean
 
 calculates the average number of decimal digits in a given list of values
@@ -323,6 +343,8 @@ function geometricMean(uint256[] _values) external pure returns (uint256);
 ```
 </details>
 
+---    
+
 > ### token
 
 deprecated since version 28, backward compatibility - use only for earlier versions
@@ -345,6 +367,8 @@ function token() external view returns (IConverterAnchor);
 ```
 </details>
 
+---    
+
 > ### reserveRatio
 
 ```solidity
@@ -364,6 +388,8 @@ returns(uint32)
 function reserveRatio() external view returns (uint32);
 ```
 </details>
+
+---    
 
 > ### reserves
 
@@ -385,6 +411,8 @@ returns(uint256, uint32, bool, bool, bool)
 function reserves(address) external view returns (uint256, uint32, bool, bool, bool);
 ```
 </details>
+
+---    
 
 > ### reserveTokens
 

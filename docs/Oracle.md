@@ -63,6 +63,8 @@ modifier validPool() internal
 - [latestAnswer()](#latestanswer)
 - [latestPrice(address _baseToken)](#latestprice)
 
+---    
+
 > ### setK
 
 Used to set the value of k
@@ -88,6 +90,8 @@ function setK(uint256 _k) external ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### write
 
@@ -136,6 +140,8 @@ function write(uint256 _price0, uint256 _price1) external validPool {
 ```
 </details>
 
+---    
+
 > ### read
 
 used to read the latest observations recorded
@@ -171,6 +177,8 @@ function read()
 ```
 </details>
 
+---    
+
 > ### latestAnswer
 
 returns the price of a reserve in base currency (assuming one of the reserves is always BTC)
@@ -199,6 +207,8 @@ function latestAnswer() external view returns (uint256 answer) {
 	}
 ```
 </details>
+
+---    
 
 > ### latestPrice
 

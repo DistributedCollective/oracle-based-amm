@@ -44,6 +44,8 @@ event Destruction(uint256  _amount);
 - [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
 - [constructor()](#constructor)
 
+---    
+
 > ### deposit
 
 ⤾ overrides [IEtherToken.deposit](IEtherToken.md#.deposit)
@@ -68,6 +70,8 @@ function deposit() public payable {
 	}
 ```
 </details>
+
+---    
 
 > ### withdraw
 
@@ -95,6 +99,8 @@ function withdraw(uint256 _amount) public {
 	}
 ```
 </details>
+
+---    
 
 > ### depositTo
 
@@ -126,6 +132,8 @@ function depositTo(address _to) public payable notThis(_to) {
 	}
 ```
 </details>
+
+---    
 
 > ### withdrawTo
 
@@ -159,6 +167,8 @@ function withdrawTo(address _to, uint256 _amount) public notThis(_to) {
 	}
 ```
 </details>
+
+---    
 
 > ### transfer
 
@@ -194,6 +204,8 @@ function transfer(address _to, uint256 _value) public notThis(_to) returns (bool
 	}
 ```
 </details>
+
+---    
 
 > ### transferFrom
 
@@ -234,6 +246,8 @@ function transferFrom(
 	}
 ```
 </details>
+
+---    
 
 > ### constructor
 

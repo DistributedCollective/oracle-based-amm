@@ -20,6 +20,8 @@ contract IConverterAnchor public createdAnchor;
 - [createAnchor(uint16 _converterType, string _name, string _symbol, uint8 _decimals)](#createanchor)
 - [createConverter(uint16 _type, IConverterAnchor _anchor, IContractRegistry _registry, uint32 _maxConversionFee)](#createconverter)
 
+---    
+
 > ### createAnchor
 
 ⤾ overrides [ConverterFactory.createAnchor](ConverterFactory.md#.createanchor)
@@ -54,6 +56,8 @@ function createAnchor(
 	}
 ```
 </details>
+
+---    
 
 > ### createConverter
 

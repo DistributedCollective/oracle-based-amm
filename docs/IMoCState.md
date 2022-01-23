@@ -10,6 +10,8 @@ View Source: [contracts/utility/interfaces/IMoCState.sol](../solidity/contracts/
 
 - [bproUsdPrice()](#bprousdprice)
 
+---    
+
 > ### bproUsdPrice
 
 ⤿ Overridden Implementation(s): [MoCStateMock.bproUsdPrice](MoCStateMock.md#bprousdprice)

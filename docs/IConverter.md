@@ -34,6 +34,8 @@ View Source: [contracts/converter/interfaces/IConverter.sol](../solidity/contrac
 - [connectorTokens(uint256 _index)](#connectortokens)
 - [connectorTokenCount()](#connectortokencount)
 
+---    
+
 > ### converterType
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV1Converter.converterType](LiquidityPoolV1Converter.md#convertertype),[LiquidityPoolV1ConverterMultiAsset.converterType](LiquidityPoolV1ConverterMultiAsset.md#convertertype),[LiquidityPoolV2Converter.converterType](LiquidityPoolV2Converter.md#convertertype),[LiquidTokenConverter.converterType](LiquidTokenConverter.md#convertertype)
@@ -55,6 +57,8 @@ returns(uint16)
 function converterType() public pure returns (uint16);
 ```
 </details>
+
+---    
 
 > ### anchor
 
@@ -78,6 +82,8 @@ function anchor() public view returns (IConverterAnchor) {
 ```
 </details>
 
+---    
+
 > ### isActive
 
 ⤿ Overridden Implementation(s): [ConverterBase.isActive](ConverterBase.md#isactive),[IFeeSharingProxy.isActive](IFeeSharingProxy.md#isactive),[IInternalSovrynSwapNetwork.isActive](IInternalSovrynSwapNetwork.md#isactive),[ISwapSettings.isActive](ISwapSettings.md#isactive),[LiquidityPoolV2Converter.isActive](LiquidityPoolV2Converter.md#isactive)
@@ -99,6 +105,8 @@ returns(bool)
 function isActive() public view returns (bool);
 ```
 </details>
+
+---    
 
 > ### targetAmountAndFee
 
@@ -128,6 +136,8 @@ function targetAmountAndFee(
 	) public view returns (uint256, uint256);
 ```
 </details>
+
+---    
 
 > ### convert
 
@@ -162,6 +172,8 @@ function convert(
 ```
 </details>
 
+---    
+
 > ### conversionWhitelist
 
 ```solidity
@@ -183,6 +195,8 @@ function conversionWhitelist() public view returns (IWhitelist) {
 	}
 ```
 </details>
+
+---    
 
 > ### conversionFee
 
@@ -206,6 +220,8 @@ function conversionFee() public view returns (uint32) {
 ```
 </details>
 
+---    
+
 > ### maxConversionFee
 
 ```solidity
@@ -227,6 +243,8 @@ function maxConversionFee() public view returns (uint32) {
 	}
 ```
 </details>
+
+---    
 
 > ### reserveBalance
 
@@ -251,6 +269,8 @@ function reserveBalance(IERC20Token _reserveToken) public view returns (uint256)
 ```
 </details>
 
+---    
+
 > ### constructor
 
 ⤿ Overridden Implementation(s): [ConverterBase.](ConverterBase.md#),[IFeeSharingProxy.](IFeeSharingProxy.md#),[IInternalSovrynSwapNetwork.](IInternalSovrynSwapNetwork.md#),[ISwapSettings.](ISwapSettings.md#)
@@ -271,6 +291,8 @@ function () external payable
 function() external payable;
 ```
 </details>
+
+---    
 
 > ### transferAnchorOwnership
 
@@ -294,6 +316,8 @@ function transferAnchorOwnership(address _newOwner) public;
 ```
 </details>
 
+---    
+
 > ### acceptAnchorOwnership
 
 ⤿ Overridden Implementation(s): [ConverterBase.acceptAnchorOwnership](ConverterBase.md#acceptanchorownership),[IFeeSharingProxy.acceptAnchorOwnership](IFeeSharingProxy.md#acceptanchorownership),[IInternalSovrynSwapNetwork.acceptAnchorOwnership](IInternalSovrynSwapNetwork.md#acceptanchorownership),[ISwapSettings.acceptAnchorOwnership](ISwapSettings.md#acceptanchorownership),[LiquidityPoolConverter.acceptAnchorOwnership](LiquidityPoolConverter.md#acceptanchorownership),[LiquidityPoolV1Converter.acceptAnchorOwnership](LiquidityPoolV1Converter.md#acceptanchorownership),[LiquidityPoolV1ConverterMultiAsset.acceptAnchorOwnership](LiquidityPoolV1ConverterMultiAsset.md#acceptanchorownership),[LiquidTokenConverter.acceptAnchorOwnership](LiquidTokenConverter.md#acceptanchorownership)
@@ -314,6 +338,8 @@ function acceptAnchorOwnership() public nonpayable
 function acceptAnchorOwnership() public;
 ```
 </details>
+
+---    
 
 > ### setConversionFee
 
@@ -337,6 +363,8 @@ function setConversionFee(uint32 _conversionFee) public;
 ```
 </details>
 
+---    
+
 > ### setConversionWhitelist
 
 ⤿ Overridden Implementation(s): [ConverterBase.setConversionWhitelist](ConverterBase.md#setconversionwhitelist),[IFeeSharingProxy.setConversionWhitelist](IFeeSharingProxy.md#setconversionwhitelist),[IInternalSovrynSwapNetwork.setConversionWhitelist](IInternalSovrynSwapNetwork.md#setconversionwhitelist),[ISwapSettings.setConversionWhitelist](ISwapSettings.md#setconversionwhitelist)
@@ -358,6 +386,8 @@ function setConversionWhitelist(IWhitelist _whitelist) public nonpayable
 function setConversionWhitelist(IWhitelist _whitelist) public;
 ```
 </details>
+
+---    
 
 > ### withdrawTokens
 
@@ -387,6 +417,8 @@ function withdrawTokens(
 ```
 </details>
 
+---    
+
 > ### withdrawETH
 
 ⤿ Overridden Implementation(s): [ConverterBase.withdrawETH](ConverterBase.md#withdraweth),[IFeeSharingProxy.withdrawETH](IFeeSharingProxy.md#withdraweth),[IInternalSovrynSwapNetwork.withdrawETH](IInternalSovrynSwapNetwork.md#withdraweth),[ISwapSettings.withdrawETH](ISwapSettings.md#withdraweth)
@@ -408,6 +440,8 @@ function withdrawETH(address _to) public nonpayable
 function withdrawETH(address _to) public;
 ```
 </details>
+
+---    
 
 > ### addReserve
 
@@ -432,6 +466,8 @@ function addReserve(IERC20Token _token, uint32 _ratio) public;
 ```
 </details>
 
+---    
+
 > ### token
 
 ⤿ Overridden Implementation(s): [ConverterBase.token](ConverterBase.md#token),[IFeeSharingProxy.token](IFeeSharingProxy.md#token),[IInternalSovrynSwapNetwork.token](IInternalSovrynSwapNetwork.md#token),[ISwapSettings.token](ISwapSettings.md#token)
@@ -453,6 +489,8 @@ returns(contract IConverterAnchor)
 function token() public view returns (IConverterAnchor);
 ```
 </details>
+
+---    
 
 > ### transferTokenOwnership
 
@@ -476,6 +514,8 @@ function transferTokenOwnership(address _newOwner) public;
 ```
 </details>
 
+---    
+
 > ### acceptTokenOwnership
 
 ⤿ Overridden Implementation(s): [ConverterBase.acceptTokenOwnership](ConverterBase.md#accepttokenownership),[IFeeSharingProxy.acceptTokenOwnership](IFeeSharingProxy.md#accepttokenownership),[IInternalSovrynSwapNetwork.acceptTokenOwnership](IInternalSovrynSwapNetwork.md#accepttokenownership),[ISwapSettings.acceptTokenOwnership](ISwapSettings.md#accepttokenownership)
@@ -496,6 +536,8 @@ function acceptTokenOwnership() public nonpayable
 function acceptTokenOwnership() public;
 ```
 </details>
+
+---    
 
 > ### connectors
 
@@ -529,6 +571,8 @@ function connectors(address _address)
 ```
 </details>
 
+---    
+
 > ### getConnectorBalance
 
 ⤿ Overridden Implementation(s): [ConverterBase.getConnectorBalance](ConverterBase.md#getconnectorbalance),[IFeeSharingProxy.getConnectorBalance](IFeeSharingProxy.md#getconnectorbalance),[IInternalSovrynSwapNetwork.getConnectorBalance](IInternalSovrynSwapNetwork.md#getconnectorbalance),[ISwapSettings.getConnectorBalance](ISwapSettings.md#getconnectorbalance)
@@ -552,6 +596,8 @@ function getConnectorBalance(IERC20Token _connectorToken) public view returns (u
 ```
 </details>
 
+---    
+
 > ### connectorTokens
 
 ⤿ Overridden Implementation(s): [ConverterBase.connectorTokens](ConverterBase.md#connectortokens),[IFeeSharingProxy.connectorTokens](IFeeSharingProxy.md#connectortokens),[IInternalSovrynSwapNetwork.connectorTokens](IInternalSovrynSwapNetwork.md#connectortokens),[ISwapSettings.connectorTokens](ISwapSettings.md#connectortokens)
@@ -574,6 +620,8 @@ returns(contract IERC20Token)
 function connectorTokens(uint256 _index) public view returns (IERC20Token);
 ```
 </details>
+
+---    
 
 > ### connectorTokenCount
 

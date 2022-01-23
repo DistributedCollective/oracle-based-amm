@@ -11,6 +11,8 @@ View Source: [contracts/helpers/TestSafeMath.sol](../solidity/contracts/helpers/
 - [testSafeMul(uint256 _x, uint256 _y)](#testsafemul)
 - [testSafeDiv(uint256 _x, uint256 _y)](#testsafediv)
 
+---    
+
 > ### testSafeAdd
 
 ```solidity
@@ -34,6 +36,8 @@ function testSafeAdd(uint256 _x, uint256 _y) public pure returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### testSafeSub
 
@@ -59,6 +63,8 @@ function testSafeSub(uint256 _x, uint256 _y) public pure returns (uint256) {
 ```
 </details>
 
+---    
+
 > ### testSafeMul
 
 ```solidity
@@ -82,6 +88,8 @@ function testSafeMul(uint256 _x, uint256 _y) public pure returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### testSafeDiv
 

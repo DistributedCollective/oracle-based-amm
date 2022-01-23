@@ -10,6 +10,8 @@ View Source: [contracts/utility/interfaces/IWhitelist.sol](../solidity/contracts
 
 - [isWhitelisted(address _address)](#iswhitelisted)
 
+---    
+
 > ### isWhitelisted
 
 ⤿ Overridden Implementation(s): [Whitelist.isWhitelisted](Whitelist.md#iswhitelisted)

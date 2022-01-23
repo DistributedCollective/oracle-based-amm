@@ -106,6 +106,8 @@ event SmartTokenRemoved(address indexed _smartToken);
 - [getConvertersBySmartTokens(address[] _smartTokens)](#getconvertersbysmarttokens)
 - [getLiquidityPoolByReserveConfig(IERC20Token[] _reserveTokens, uint32[] _reserveWeights)](#getliquiditypoolbyreserveconfig)
 
+---    
+
 > ### newConverter
 
 ⤿ Overridden Implementation(s): [TestConverterRegistry.newConverter](TestConverterRegistry.md#newconverter)
@@ -163,6 +165,8 @@ function newConverter(
 ```
 </details>
 
+---    
+
 > ### setupConverter
 
 completes the configuration for a converter
@@ -219,6 +223,8 @@ function setupConverter(
 ```
 </details>
 
+---    
+
 > ### addConverter
 
 adds an existing converter to the registry
@@ -245,6 +251,8 @@ function addConverter(IConverter _converter) public ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### removeConverter
 
@@ -274,6 +282,8 @@ function removeConverter(IConverter _converter) public {
 ```
 </details>
 
+---    
+
 > ### getAnchorCount
 
 ⤾ overrides [IConverterRegistry.getAnchorCount](IConverterRegistry.md#.getanchorcount)
@@ -301,6 +311,8 @@ function getAnchorCount() public view returns (uint256) {
 ```
 </details>
 
+---    
+
 > ### getAnchors
 
 ⤾ overrides [IConverterRegistry.getAnchors](IConverterRegistry.md#.getanchors)
@@ -327,6 +339,8 @@ function getAnchors() public view returns (address[]) {
 	}
 ```
 </details>
+
+---    
 
 > ### getAnchor
 
@@ -360,6 +374,8 @@ function getAnchor(uint256 _index) public view returns (address) {
 ```
 </details>
 
+---    
+
 > ### isAnchor
 
 ⤾ overrides [IConverterRegistry.isAnchor](IConverterRegistry.md#.isanchor)
@@ -392,6 +408,8 @@ function isAnchor(address _value) public view returns (bool) {
 ```
 </details>
 
+---    
+
 > ### getLiquidityPoolCount
 
 ⤾ overrides [IConverterRegistry.getLiquidityPoolCount](IConverterRegistry.md#.getliquiditypoolcount)
@@ -419,6 +437,8 @@ function getLiquidityPoolCount() public view returns (uint256) {
 ```
 </details>
 
+---    
+
 > ### getLiquidityPools
 
 ⤾ overrides [IConverterRegistry.getLiquidityPools](IConverterRegistry.md#.getliquiditypools)
@@ -445,6 +465,8 @@ function getLiquidityPools() public view returns (address[]) {
 	}
 ```
 </details>
+
+---    
 
 > ### getLiquidityPool
 
@@ -478,6 +500,8 @@ function getLiquidityPool(uint256 _index) public view returns (address) {
 ```
 </details>
 
+---    
+
 > ### isLiquidityPool
 
 ⤾ overrides [IConverterRegistry.isLiquidityPool](IConverterRegistry.md#.isliquiditypool)
@@ -510,6 +534,8 @@ function isLiquidityPool(address _value) public view returns (bool) {
 ```
 </details>
 
+---    
+
 > ### getConvertibleTokenCount
 
 ⤾ overrides [IConverterRegistry.getConvertibleTokenCount](IConverterRegistry.md#.getconvertibletokencount)
@@ -537,6 +563,8 @@ function getConvertibleTokenCount() public view returns (uint256) {
 ```
 </details>
 
+---    
+
 > ### getConvertibleTokens
 
 ⤾ overrides [IConverterRegistry.getConvertibleTokens](IConverterRegistry.md#.getconvertibletokens)
@@ -563,6 +591,8 @@ function getConvertibleTokens() public view returns (address[]) {
 	}
 ```
 </details>
+
+---    
 
 > ### getConvertibleToken
 
@@ -596,6 +626,8 @@ function getConvertibleToken(uint256 _index) public view returns (address) {
 ```
 </details>
 
+---    
+
 > ### isConvertibleToken
 
 ⤾ overrides [IConverterRegistry.isConvertibleToken](IConverterRegistry.md#.isconvertibletoken)
@@ -627,6 +659,8 @@ function isConvertibleToken(address _value) public view returns (bool) {
 	}
 ```
 </details>
+
+---    
 
 > ### getConvertibleTokenAnchorCount
 
@@ -660,6 +694,8 @@ function getConvertibleTokenAnchorCount(address _convertibleToken) public view r
 ```
 </details>
 
+---    
+
 > ### getConvertibleTokenAnchors
 
 ⤾ overrides [IConverterRegistry.getConvertibleTokenAnchors](IConverterRegistry.md#.getconvertibletokenanchors)
@@ -691,6 +727,8 @@ function getConvertibleTokenAnchors(address _convertibleToken) public view retur
 	}
 ```
 </details>
+
+---    
 
 > ### getConvertibleTokenAnchor
 
@@ -725,6 +763,8 @@ function getConvertibleTokenAnchor(address _convertibleToken, uint256 _index) pu
 ```
 </details>
 
+---    
+
 > ### isConvertibleTokenAnchor
 
 ⤾ overrides [IConverterRegistry.isConvertibleTokenAnchor](IConverterRegistry.md#.isconvertibletokenanchor)
@@ -757,6 +797,8 @@ function isConvertibleTokenAnchor(address _convertibleToken, address _value) pub
 	}
 ```
 </details>
+
+---    
 
 > ### getConvertersByAnchors
 
@@ -793,6 +835,8 @@ function getConvertersByAnchors(address[] _anchors) public view returns (address
 ```
 </details>
 
+---    
+
 > ### isConverterValid
 
 checks whether or not a given converter is valid
@@ -823,6 +867,8 @@ function isConverterValid(IConverter _converter) public view returns (bool) {
 	}
 ```
 </details>
+
+---    
 
 > ### isSimilarLiquidityPoolRegistered
 
@@ -865,6 +911,8 @@ function isSimilarLiquidityPoolRegistered(IConverter _converter) public view ret
 	}
 ```
 </details>
+
+---    
 
 > ### getLiquidityPoolByConfig
 
@@ -914,6 +962,8 @@ function getLiquidityPoolByConfig(
 ```
 </details>
 
+---    
+
 > ### addAnchor
 
 adds a converter anchor to the registry
@@ -941,6 +991,8 @@ function addAnchor(IConverterRegistryData _converterRegistryData, address _ancho
 	}
 ```
 </details>
+
+---    
 
 > ### removeAnchor
 
@@ -970,6 +1022,8 @@ function removeAnchor(IConverterRegistryData _converterRegistryData, address _an
 ```
 </details>
 
+---    
+
 > ### addLiquidityPool
 
 adds a liquidity pool to the registry
@@ -997,6 +1051,8 @@ function addLiquidityPool(IConverterRegistryData _converterRegistryData, address
 ```
 </details>
 
+---    
+
 > ### removeLiquidityPool
 
 removes a liquidity pool from the registry
@@ -1023,6 +1079,8 @@ function removeLiquidityPool(IConverterRegistryData _converterRegistryData, addr
 	}
 ```
 </details>
+
+---    
 
 > ### addConvertibleToken
 
@@ -1056,6 +1114,8 @@ function addConvertibleToken(
 ```
 </details>
 
+---    
+
 > ### removeConvertibleToken
 
 removes a convertible token from the registry
@@ -1087,6 +1147,8 @@ function removeConvertibleToken(
 	}
 ```
 </details>
+
+---    
 
 > ### addConverterInternal
 
@@ -1120,6 +1182,8 @@ function addConverterInternal(IConverter _converter) private {
 ```
 </details>
 
+---    
+
 > ### removeConverterInternal
 
 ```solidity
@@ -1151,6 +1215,8 @@ function removeConverterInternal(IConverter _converter) private {
 	}
 ```
 </details>
+
+---    
 
 > ### getLeastFrequentTokenAnchors
 
@@ -1187,6 +1253,8 @@ function getLeastFrequentTokenAnchors(IERC20Token[] memory _reserveTokens) priva
 	}
 ```
 </details>
+
+---    
 
 > ### isConverterReserveConfigEqual
 
@@ -1226,6 +1294,8 @@ function isConverterReserveConfigEqual(
 	}
 ```
 </details>
+
+---    
 
 > ### getReserveWeight
 
@@ -1268,6 +1338,8 @@ function getReserveWeight(address _converter, address _reserveToken) private vie
 ```
 </details>
 
+---    
+
 > ### getSmartTokenCount
 
 deprecated, backward compatibility, use `getAnchorCount`
@@ -1292,6 +1364,8 @@ function getSmartTokenCount() public view returns (uint256) {
 ```
 </details>
 
+---    
+
 > ### getSmartTokens
 
 deprecated, backward compatibility, use `getAnchors`
@@ -1315,6 +1389,8 @@ function getSmartTokens() public view returns (address[]) {
 	}
 ```
 </details>
+
+---    
 
 > ### getSmartToken
 
@@ -1341,6 +1417,8 @@ function getSmartToken(uint256 _index) public view returns (address) {
 ```
 </details>
 
+---    
+
 > ### isSmartToken
 
 deprecated, backward compatibility, use `isAnchor`
@@ -1365,6 +1443,8 @@ function isSmartToken(address _value) public view returns (bool) {
 	}
 ```
 </details>
+
+---    
 
 > ### getConvertibleTokenSmartTokenCount
 
@@ -1391,6 +1471,8 @@ function getConvertibleTokenSmartTokenCount(address _convertibleToken) public vi
 ```
 </details>
 
+---    
+
 > ### getConvertibleTokenSmartTokens
 
 deprecated, backward compatibility, use `getConvertibleTokenAnchors`
@@ -1415,6 +1497,8 @@ function getConvertibleTokenSmartTokens(address _convertibleToken) public view r
 	}
 ```
 </details>
+
+---    
 
 > ### getConvertibleTokenSmartToken
 
@@ -1442,6 +1526,8 @@ function getConvertibleTokenSmartToken(address _convertibleToken, uint256 _index
 ```
 </details>
 
+---    
+
 > ### isConvertibleTokenSmartToken
 
 deprecated, backward compatibility, use `isConvertibleTokenAnchor`
@@ -1468,6 +1554,8 @@ function isConvertibleTokenSmartToken(address _convertibleToken, address _value)
 ```
 </details>
 
+---    
+
 > ### getConvertersBySmartTokens
 
 deprecated, backward compatibility, use `getConvertersByAnchors`
@@ -1492,6 +1580,8 @@ function getConvertersBySmartTokens(address[] _smartTokens) public view returns 
 	}
 ```
 </details>
+
+---    
 
 > ### getLiquidityPoolByReserveConfig
 

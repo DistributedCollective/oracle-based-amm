@@ -16,6 +16,8 @@ event TokensTransferred(address indexed sender, address indexed token, uint256  
 - [withdrawFees(address _converter, address _receiver)](#withdrawfees)
 - [withdrawFees(address receiver)](#withdrawfees)
 
+---    
+
 > ### transferTokens
 
 ```solidity
@@ -39,6 +41,8 @@ function transferTokens(address _token, uint96 _amount) public {
 ```
 </details>
 
+---    
+
 > ### withdrawFees
 
 ```solidity
@@ -61,6 +65,8 @@ function withdrawFees(address _converter, address _receiver) public {
   }
 ```
 </details>
+
+---    
 
 > ### withdrawFees
 

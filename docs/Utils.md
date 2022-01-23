@@ -56,6 +56,8 @@ modifier notThis(address _address) internal
 - [_validAddress(address _address)](#_validaddress)
 - [_notThis(address _address)](#_notthis)
 
+---    
+
 > ### _greaterThanZero
 
 ```solidity
@@ -78,6 +80,8 @@ function _greaterThanZero(uint256 _value) internal pure {
 ```
 </details>
 
+---    
+
 > ### _validAddress
 
 ```solidity
@@ -99,6 +103,8 @@ function _validAddress(address _address) internal pure {
 	}
 ```
 </details>
+
+---    
 
 > ### _notThis
 

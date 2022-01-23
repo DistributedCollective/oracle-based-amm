@@ -48,6 +48,8 @@ event Approval(address indexed _owner, address indexed _spender, uint256  _value
 - [transfer(address _to, uint256 _value)](#transfer)
 - [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
 
+---    
+
 > ### _transfer
 
 send coins
@@ -80,6 +82,8 @@ function _transfer(address _to, uint256 _value) internal validAddress(_to) {
 	}
 ```
 </details>
+
+---    
 
 > ### _transferFrom
 
@@ -120,6 +124,8 @@ function _transferFrom(
 ```
 </details>
 
+---    
+
 > ### _approve
 
 allow another account/contract to spend some tokens on your behalf
@@ -158,6 +164,8 @@ function _approve(address _spender, uint256 _value) internal validAddress(_spend
 ```
 </details>
 
+---    
+
 > ### set
 
 ```solidity
@@ -180,6 +188,8 @@ function set(bool _ok) public {
 ```
 </details>
 
+---    
+
 > ### approve
 
 ```solidity
@@ -204,6 +214,8 @@ function approve(address _spender, uint256 _value) public {
 ```
 </details>
 
+---    
+
 > ### transfer
 
 ```solidity
@@ -227,6 +239,8 @@ function transfer(address _to, uint256 _value) public {
 	}
 ```
 </details>
+
+---    
 
 > ### transferFrom
 
@@ -257,6 +271,8 @@ function transferFrom(
 ```
 </details>
 
+---    
+
 > ### approve
 
 ```solidity
@@ -280,6 +296,8 @@ function approve(address _spender, uint256 _value) public {
 ```
 </details>
 
+---    
+
 > ### transfer
 
 ```solidity
@@ -302,6 +320,8 @@ function transfer(address _to, uint256 _value) public {
 	}
 ```
 </details>
+
+---    
 
 > ### transferFrom
 
@@ -330,6 +350,8 @@ function transferFrom(
 	}
 ```
 </details>
+
+---    
 
 > ### set
 
@@ -354,6 +376,8 @@ function set(bool _ok, bool _ret) public {
 	}
 ```
 </details>
+
+---    
 
 > ### approve
 
@@ -381,6 +405,8 @@ function approve(address _spender, uint256 _value) public returns (bool) {
 ```
 </details>
 
+---    
+
 > ### transfer
 
 ```solidity
@@ -406,6 +432,8 @@ function transfer(address _to, uint256 _value) public returns (bool) {
 	}
 ```
 </details>
+
+---    
 
 > ### transferFrom
 

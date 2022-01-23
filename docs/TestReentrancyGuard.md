@@ -28,6 +28,8 @@ uint256 public calls;
 - [unprotectedMethod()](#unprotectedmethod)
 - [run()](#run)
 
+---    
+
 > ### setReentrancy
 
 ```solidity
@@ -49,6 +51,8 @@ function setReentrancy(bool _reentrancy) external {
 	}
 ```
 </details>
+
+---    
 
 > ### setCallProtectedMethod
 
@@ -72,6 +76,8 @@ function setCallProtectedMethod(bool _callProtectedMethod) external {
 ```
 </details>
 
+---    
+
 > ### run
 
 ```solidity
@@ -92,6 +98,8 @@ function run() public {
 	}
 ```
 </details>
+
+---    
 
 > ### callback
 
@@ -124,6 +132,8 @@ function callback() external {
 ```
 </details>
 
+---    
+
 > ### protectedMethod
 
 ```solidity
@@ -145,6 +155,8 @@ function protectedMethod() external protected {
 ```
 </details>
 
+---    
+
 > ### unprotectedMethod
 
 ```solidity
@@ -165,6 +177,8 @@ function unprotectedMethod() external {
 	}
 ```
 </details>
+
+---    
 
 > ### run
 

@@ -44,6 +44,8 @@ constructor(ISmartToken _token, IContractRegistry _registry, uint32 _maxConversi
 - [buy(uint256 _amount, address _trader, address _beneficiary)](#buy)
 - [sell(uint256 _amount, address _trader, address _beneficiary)](#sell)
 
+---    
+
 > ### converterType
 
 ⤾ overrides [IConverter.converterType](IConverter.md#.convertertype)
@@ -73,6 +75,8 @@ function converterType() public pure returns (uint16) {
     }
 ```
 </details>
+
+---    
 
 > ### acceptAnchorOwnership
 
@@ -108,6 +112,8 @@ function acceptAnchorOwnership() public ownerOnly {
     }
 ```
 </details>
+
+---    
 
 > ### addReserve
 
@@ -147,6 +153,8 @@ function addReserve(IERC20Token _token, uint32 _weight) public {
     }
 ```
 </details>
+
+---    
 
 > ### targetAmountAndFee
 
@@ -196,6 +204,8 @@ function targetAmountAndFee(IERC20Token _sourceToken, IERC20Token _targetToken, 
     }
 ```
 </details>
+
+---    
 
 > ### doConvert
 
@@ -280,6 +290,8 @@ function doConvert(IERC20Token _sourceToken, IERC20Token _targetToken, uint256 _
 ```
 </details>
 
+---    
+
 > ### purchaseTargetAmount
 
 returns the expected target amount of buying with a given amount of tokens
@@ -348,6 +360,8 @@ function purchaseTargetAmount(uint256 _amount)
     }
 ```
 </details>
+
+---    
 
 > ### saleTargetAmount
 
@@ -418,6 +432,8 @@ function saleTargetAmount(uint256 _amount)
 ```
 </details>
 
+---    
+
 > ### buy
 
 buys the liquid token by depositing in its reserve
@@ -484,6 +500,8 @@ function buy(uint256 _amount, address _trader, address _beneficiary) internal re
     }
 ```
 </details>
+
+---    
 
 > ### sell
 

@@ -45,6 +45,8 @@ modifier ownerOnly() internal
 - [transferOwnership(address _newOwner)](#transferownership)
 - [acceptOwnership()](#acceptownership)
 
+---    
+
 > ### _ownerOnly
 
 ```solidity
@@ -65,6 +67,8 @@ function _ownerOnly() internal view {
 	}
 ```
 </details>
+
+---    
 
 > ### transferOwnership
 
@@ -95,6 +99,8 @@ function transferOwnership(address _newOwner) public ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### acceptOwnership
 

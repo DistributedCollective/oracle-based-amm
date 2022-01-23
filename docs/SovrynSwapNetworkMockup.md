@@ -37,6 +37,8 @@ contract IERC20Token internal wrbtcToken;
 - [convert(IERC20Token[] _path, uint256 _amount, uint256 _minReturn)](#convert)
 - [setMockConversionValue(uint256 _conversionValue)](#setmockconversionvalue)
 
+---    
+
 > ### conversionPath
 
 undefined
@@ -64,6 +66,8 @@ function conversionPath(IERC20Token _sourceToken, IERC20Token _targetToken) publ
 ```
 </details>
 
+---    
+
 > ### rateByPath
 
 undefined
@@ -89,6 +93,8 @@ function rateByPath(IERC20Token[] _path, uint256 _amount) public view returns (u
   }
 ```
 </details>
+
+---    
 
 > ### convert
 
@@ -124,6 +130,8 @@ function convert(
 	}
 ```
 </details>
+
+---    
 
 > ### setMockConversionValue
 

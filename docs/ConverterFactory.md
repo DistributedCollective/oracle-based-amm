@@ -31,6 +31,8 @@ event NewConverter(uint16 indexed _type, address indexed _converter, address ind
 - [createAnchor(uint16 _converterType, string _name, string _symbol, uint8 _decimals)](#createanchor)
 - [createConverter(uint16 _type, IConverterAnchor _anchor, IContractRegistry _registry, uint32 _maxConversionFee)](#createconverter)
 
+---    
+
 > ### registerTypedConverterFactory
 
 initializes the factory with a specific typed converter factory
@@ -56,6 +58,8 @@ function registerTypedConverterFactory(ITypedConverterFactory _factory) public o
 	}
 ```
 </details>
+
+---    
 
 > ### registerTypedConverterAnchorFactory
 
@@ -83,6 +87,8 @@ function registerTypedConverterAnchorFactory(ITypedConverterAnchorFactory _facto
 ```
 </details>
 
+---    
+
 > ### registerTypedConverterCustomFactory
 
 initializes the factory with a specific typed converter custom factory
@@ -108,6 +114,8 @@ function registerTypedConverterCustomFactory(ITypedConverterCustomFactory _facto
 	}
 ```
 </details>
+
+---    
 
 > ### createAnchor
 
@@ -164,6 +172,8 @@ function createAnchor(
 	}
 ```
 </details>
+
+---    
 
 > ### createConverter
 

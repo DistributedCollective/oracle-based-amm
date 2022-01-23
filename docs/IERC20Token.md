@@ -18,6 +18,8 @@ View Source: [contracts/token/interfaces/IERC20Token.sol](../solidity/contracts/
 - [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
 - [approve(address _spender, uint256 _value)](#approve)
 
+---    
+
 > ### name
 
 ```solidity
@@ -39,6 +41,8 @@ function name() public view returns (string) {
 	}
 ```
 </details>
+
+---    
 
 > ### symbol
 
@@ -62,6 +66,8 @@ function symbol() public view returns (string) {
 ```
 </details>
 
+---    
+
 > ### decimals
 
 ```solidity
@@ -84,6 +90,8 @@ function decimals() public view returns (uint8) {
 ```
 </details>
 
+---    
+
 > ### totalSupply
 
 ```solidity
@@ -105,6 +113,8 @@ function totalSupply() public view returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### balanceOf
 
@@ -129,6 +139,8 @@ function balanceOf(address _owner) public view returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### allowance
 
@@ -156,6 +168,8 @@ function allowance(address _owner, address _spender) public view returns (uint25
 ```
 </details>
 
+---    
+
 > ### transfer
 
 ⤿ Overridden Implementation(s): [ERC20Token.transfer](ERC20Token.md#transfer),[EtherToken.transfer](EtherToken.md#transfer),[SmartToken.transfer](SmartToken.md#transfer)
@@ -179,6 +193,8 @@ returns(success bool)
 function transfer(address _to, uint256 _value) public returns (bool success);
 ```
 </details>
+
+---    
 
 > ### transferFrom
 
@@ -208,6 +224,8 @@ function transferFrom(
 	) public returns (bool success);
 ```
 </details>
+
+---    
 
 > ### approve
 

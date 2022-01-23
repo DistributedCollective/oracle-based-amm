@@ -31,6 +31,8 @@ event AddressRemoval(address indexed _address);
 - [removeAddress(address _address)](#removeaddress)
 - [removeAddresses(address[] _addresses)](#removeaddresses)
 
+---    
+
 > ### isWhitelisted
 
 ⤾ overrides [IWhitelist.isWhitelisted](IWhitelist.md#.iswhitelisted)
@@ -63,6 +65,8 @@ function isWhitelisted(address _address) public view returns (bool) {
 ```
 </details>
 
+---    
+
 > ### addAddress
 
 adds a given address to the whitelist
@@ -93,6 +97,8 @@ function addAddress(address _address) public ownerOnly validAddress(_address) {
 ```
 </details>
 
+---    
+
 > ### addAddresses
 
 adds a list of addresses to the whitelist
@@ -119,6 +125,8 @@ function addAddresses(address[] _addresses) public {
 	}
 ```
 </details>
+
+---    
 
 > ### removeAddress
 
@@ -149,6 +157,8 @@ function removeAddress(address _address) public ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### removeAddresses
 

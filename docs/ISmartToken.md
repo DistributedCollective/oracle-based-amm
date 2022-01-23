@@ -13,6 +13,8 @@ View Source: [contracts/token/interfaces/ISmartToken.sol](../solidity/contracts/
 - [issue(address _to, uint256 _amount)](#issue)
 - [destroy(address _from, uint256 _amount)](#destroy)
 
+---    
+
 > ### disableTransfers
 
 ⤿ Overridden Implementation(s): [SmartToken.disableTransfers](SmartToken.md#disabletransfers)
@@ -34,6 +36,8 @@ function disableTransfers(bool _disable) public nonpayable
 function disableTransfers(bool _disable) public;
 ```
 </details>
+
+---    
 
 > ### issue
 
@@ -57,6 +61,8 @@ function issue(address _to, uint256 _amount) public nonpayable
 function issue(address _to, uint256 _amount) public;
 ```
 </details>
+
+---    
 
 > ### destroy
 

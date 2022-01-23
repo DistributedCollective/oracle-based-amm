@@ -30,6 +30,8 @@ contract NewConverter private newConverter;
 - [getReturnOld()](#getreturnold)
 - [getReturnNew()](#getreturnnew)
 
+---    
+
 > ### getReturn
 
 ```solidity
@@ -61,6 +63,8 @@ function getReturn(
 	}
 ```
 </details>
+
+---    
 
 > ### getReturn
 
@@ -94,6 +98,8 @@ function getReturn(
 ```
 </details>
 
+---    
+
 > ### constructor
 
 ```solidity
@@ -113,27 +119,7 @@ function() external payable {}
 ```
 </details>
 
-> ### isV28OrHigher
-
-```solidity
-function isV28OrHigher() public pure
-returns(bool)
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-
-<details>
-	<summary><strong>Source Code</strong></summary>
-
-```javascript
-function isV28OrHigher() public pure returns (bool) {
-		return true;
-	}
-```
-</details>
+---    
 
 > ### isV28OrHigher
 
@@ -156,6 +142,32 @@ function isV28OrHigher() public pure returns (bool) {
 	}
 ```
 </details>
+
+---    
+
+> ### isV28OrHigher
+
+```solidity
+function isV28OrHigher() public pure
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+<details>
+	<summary><strong>Source Code</strong></summary>
+
+```javascript
+function isV28OrHigher() public pure returns (bool) {
+		return true;
+	}
+```
+</details>
+
+---    
 
 > ### constructor
 
@@ -177,6 +189,8 @@ function() external payable {
 	}
 ```
 </details>
+
+---    
 
 > ### isV28OrHigherConverterExternal
 
@@ -201,6 +215,8 @@ function isV28OrHigherConverterExternal(IConverter _converter) external view ret
 ```
 </details>
 
+---    
+
 > ### getReturnOld
 
 ```solidity
@@ -222,6 +238,8 @@ function getReturnOld() external view returns (uint256, uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### getReturnNew
 

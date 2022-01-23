@@ -35,6 +35,8 @@ event Approval(address indexed _owner, address indexed _spender, uint256  _value
 - [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
 - [approve(address _spender, uint256 _value)](#approve)
 
+---    
+
 > ### transfer
 
 ⤾ overrides [IERC20Token.transfer](IERC20Token.md#.transfer)
@@ -73,6 +75,8 @@ function transfer(address _to, uint256 _value) public validAddress(_to) returns 
 	}
 ```
 </details>
+
+---    
 
 > ### transferFrom
 
@@ -118,6 +122,8 @@ function transferFrom(
 	}
 ```
 </details>
+
+---    
 
 > ### approve
 

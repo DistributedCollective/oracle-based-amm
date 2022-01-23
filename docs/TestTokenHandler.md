@@ -12,6 +12,8 @@ View Source: [contracts/helpers/TestTokenHandler.sol](../solidity/contracts/help
 - [testSafeTransfer(IERC20Token _token, address _to, uint256 _value)](#testsafetransfer)
 - [testSafeTransferFrom(IERC20Token _token, address _from, address _to, uint256 _value)](#testsafetransferfrom)
 
+---    
+
 > ### testSafeApprove
 
 ```solidity
@@ -40,6 +42,8 @@ function testSafeApprove(
 ```
 </details>
 
+---    
+
 > ### testSafeTransfer
 
 ```solidity
@@ -67,6 +71,8 @@ function testSafeTransfer(
 	}
 ```
 </details>
+
+---    
 
 > ### testSafeTransferFrom
 

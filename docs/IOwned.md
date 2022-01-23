@@ -12,6 +12,8 @@ View Source: [contracts/utility/interfaces/IOwned.sol](../solidity/contracts/uti
 - [transferOwnership(address _newOwner)](#transferownership)
 - [acceptOwnership()](#acceptownership)
 
+---    
+
 > ### owner
 
 ```solidity
@@ -34,6 +36,8 @@ function owner() public view returns (address) {
 ```
 </details>
 
+---    
+
 > ### transferOwnership
 
 ⤿ Overridden Implementation(s): [Owned.transferOwnership](Owned.md#transferownership)
@@ -55,6 +59,8 @@ function transferOwnership(address _newOwner) public nonpayable
 function transferOwnership(address _newOwner) public;
 ```
 </details>
+
+---    
 
 > ### acceptOwnership
 

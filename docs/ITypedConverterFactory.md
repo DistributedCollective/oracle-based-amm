@@ -11,6 +11,8 @@ View Source: [contracts/converter/interfaces/ITypedConverterFactory.sol](../soli
 - [converterType()](#convertertype)
 - [createConverter(IConverterAnchor _anchor, IContractRegistry _registry, uint32 _maxConversionFee)](#createconverter)
 
+---    
+
 > ### converterType
 
 ⤿ Overridden Implementation(s): [LiquidityPoolV1ConverterFactory.converterType](LiquidityPoolV1ConverterFactory.md#convertertype),[LiquidityPoolV2ConverterFactory.converterType](LiquidityPoolV2ConverterFactory.md#convertertype),[LiquidTokenConverterFactory.converterType](LiquidTokenConverterFactory.md#convertertype)
@@ -32,6 +34,8 @@ returns(uint16)
 function converterType() public pure returns (uint16);
 ```
 </details>
+
+---    
 
 > ### createConverter
 

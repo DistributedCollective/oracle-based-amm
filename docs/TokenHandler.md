@@ -23,6 +23,8 @@ bytes4 private constant TRANSFER_FROM_FUNC_SELECTOR;
 - [safeTransferFrom(IERC20Token _token, address _from, address _to, uint256 _value)](#safetransferfrom)
 - [execute(IERC20Token _token, bytes _data)](#execute)
 
+---    
+
 > ### safeApprove
 
 executes the ERC20 token's `approve` function and reverts upon failure
@@ -56,6 +58,8 @@ function safeApprove(
 ```
 </details>
 
+---    
+
 > ### safeTransfer
 
 executes the ERC20 token's `transfer` function and reverts upon failure
@@ -88,6 +92,8 @@ function safeTransfer(
 	}
 ```
 </details>
+
+---    
 
 > ### safeTransferFrom
 
@@ -123,6 +129,8 @@ function safeTransferFrom(
 	}
 ```
 </details>
+
+---    
 
 > ### execute
 

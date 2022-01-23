@@ -19,6 +19,8 @@ see https://github.com/ethereum/solidity/issues/4116
 
 - [withdrawTokens(IERC20Token _token, address _to, uint256 _amount)](#withdrawtokens)
 
+---    
+
 > ### withdrawTokens
 
 ⤾ overrides [ITokenHolder.withdrawTokens](ITokenHolder.md#.withdrawtokens)

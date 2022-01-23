@@ -43,6 +43,8 @@ address public anchorToken;
 - [getExtendedArray(address _item0, address _item1, address[] _array)](#getextendedarray)
 - [getPartialArray(address[] _array, uint256 _length)](#getpartialarray)
 
+---    
+
 > ### setAnchorToken
 
 updates the anchor token
@@ -67,6 +69,8 @@ function setAnchorToken(address _anchorToken) public ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### findPath
 
@@ -103,6 +107,8 @@ function findPath(address _sourceToken, address _targetToken) public view return
 	}
 ```
 </details>
+
+---    
 
 > ### getPath
 
@@ -152,6 +158,8 @@ function getPath(address _token, IConverterRegistry _converterRegistry) private 
 	}
 ```
 </details>
+
+---    
 
 > ### getShortestPath
 
@@ -207,6 +215,8 @@ function getShortestPath(address[] memory _sourcePath, address[] memory _targetP
 ```
 </details>
 
+---    
+
 > ### getInitialArray
 
 creates a new array containing a single item
@@ -238,6 +248,8 @@ function getInitialArray(address _item) private pure returns (address[] memory) 
 	}
 ```
 </details>
+
+---    
 
 > ### getExtendedArray
 
@@ -278,6 +290,8 @@ function getExtendedArray(
 	}
 ```
 </details>
+
+---    
 
 > ### getPartialArray
 

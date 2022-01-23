@@ -137,6 +137,8 @@ modifier reportingAllowed() internal
 - [lockTokens(uint256 _amount)](#locktokens)
 - [releaseTokens(address _to, uint256 _amount)](#releasetokens)
 
+---    
+
 > ### _reporterOnly
 
 ```solidity
@@ -157,6 +159,8 @@ function _reporterOnly() internal view {
 	}
 ```
 </details>
+
+---    
 
 > ### _xTransfersAllowed
 
@@ -179,6 +183,8 @@ function _xTransfersAllowed() internal view {
 ```
 </details>
 
+---    
+
 > ### _reportingAllowed
 
 ```solidity
@@ -199,6 +205,8 @@ function _reportingAllowed() internal view {
 	}
 ```
 </details>
+
+---    
 
 > ### setMaxLockLimit
 
@@ -225,6 +233,8 @@ function setMaxLockLimit(uint256 _maxLockLimit) public ownerOnly greaterThanZero
 ```
 </details>
 
+---    
+
 > ### setMaxReleaseLimit
 
 setter
@@ -249,6 +259,8 @@ function setMaxReleaseLimit(uint256 _maxReleaseLimit) public ownerOnly greaterTh
 	}
 ```
 </details>
+
+---    
 
 > ### setMinLimit
 
@@ -278,6 +290,8 @@ function setMinLimit(uint256 _minLimit) public ownerOnly greaterThanZero(_minLim
 ```
 </details>
 
+---    
+
 > ### setLimitIncPerBlock
 
 setter
@@ -303,6 +317,8 @@ function setLimitIncPerBlock(uint256 _limitIncPerBlock) public ownerOnly greater
 ```
 </details>
 
+---    
+
 > ### setMinRequiredReports
 
 setter
@@ -327,6 +343,8 @@ function setMinRequiredReports(uint8 _minRequiredReports) public ownerOnly great
 	}
 ```
 </details>
+
+---    
 
 > ### setReporter
 
@@ -354,6 +372,8 @@ function setReporter(address _reporter, bool _active) public ownerOnly {
 ```
 </details>
 
+---    
+
 > ### enableXTransfers
 
 allows the owner enable/disable the xTransfer method
@@ -379,6 +399,8 @@ function enableXTransfers(bool _enable) public ownerOnly {
 ```
 </details>
 
+---    
+
 > ### enableReporting
 
 allows the owner enable/disable the reportTransaction method
@@ -403,6 +425,8 @@ function enableReporting(bool _enable) public ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### upgrade
 
@@ -434,6 +458,8 @@ function upgrade(address[] _reporters) public ownerOnly {
 	}
 ```
 </details>
+
+---    
 
 > ### xTransfer
 
@@ -478,6 +504,8 @@ function xTransfer(
 	}
 ```
 </details>
+
+---    
 
 > ### xTransfer
 
@@ -526,6 +554,8 @@ function xTransfer(
 	}
 ```
 </details>
+
+---    
 
 > ### reportTx
 
@@ -603,6 +633,8 @@ function reportTx(
 ```
 </details>
 
+---    
+
 > ### getXTransferAmount
 
 ⤾ overrides [ISovrynSwapX.getXTransferAmount](ISovrynSwapX.md#.getxtransferamount)
@@ -642,6 +674,8 @@ function getXTransferAmount(uint256 _xTransferId, address _for) public view retu
 ```
 </details>
 
+---    
+
 > ### getCurrentLockLimit
 
 method for calculating current lock limit
@@ -669,6 +703,8 @@ function getCurrentLockLimit() public view returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### getCurrentReleaseLimit
 
@@ -698,6 +734,8 @@ function getCurrentReleaseLimit() public view returns (uint256) {
 ```
 </details>
 
+---    
+
 > ### lockTokens
 
 claims and locks tokens from msg.sender to be converted to tokens on another blockchain
@@ -723,6 +761,8 @@ function lockTokens(uint256 _amount) private {
 	}
 ```
 </details>
+
+---    
 
 > ### releaseTokens
 

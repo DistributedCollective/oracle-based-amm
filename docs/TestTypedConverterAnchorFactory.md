@@ -19,6 +19,8 @@ string public name;
 - [converterType()](#convertertype)
 - [createAnchor(string , string _symbol, uint8 _decimals)](#createanchor)
 
+---    
+
 > ### converterType
 
 ⤾ overrides [ITypedConverterAnchorFactory.converterType](ITypedConverterAnchorFactory.md#.convertertype)
@@ -42,6 +44,8 @@ function converterType() public pure returns (uint16) {
 	}
 ```
 </details>
+
+---    
 
 > ### createAnchor
 

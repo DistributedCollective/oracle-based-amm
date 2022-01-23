@@ -205,6 +205,8 @@ modifier validRequirement(uint256 ownerCount, uint256 _required) internal
 - [getConfirmations(uint256 transactionId)](#getconfirmations)
 - [getTransactionIds(uint256 from, uint256 to, bool pending, bool executed)](#gettransactionids)
 
+---    
+
 > ### constructor
 
 Fallback function allows to deposit ether.
@@ -227,6 +229,8 @@ function() external payable {
 	}
 ```
 </details>
+
+---    
 
 > ### addOwner
 
@@ -260,6 +264,8 @@ function addOwner(address owner)
 ```
 </details>
 
+---    
+
 > ### removeOwner
 
 Allows to remove an owner. Transaction has to be sent by wallet.
@@ -291,6 +297,8 @@ function removeOwner(address owner) public onlyWallet ownerExists(owner) {
 	}
 ```
 </details>
+
+---    
 
 > ### replaceOwner
 
@@ -327,6 +335,8 @@ function replaceOwner(address owner, address newOwner) public onlyWallet ownerEx
 ```
 </details>
 
+---    
+
 > ### changeRequirement
 
 Allows to change the number of required confirmations.
@@ -353,6 +363,8 @@ function changeRequirement(uint256 _required) public onlyWallet validRequirement
 	}
 ```
 </details>
+
+---    
 
 > ### submitTransaction
 
@@ -391,6 +403,8 @@ function submitTransaction(
 ```
 </details>
 
+---    
+
 > ### confirmTransaction
 
 Allows an owner to confirm a transaction.
@@ -422,6 +436,8 @@ function confirmTransaction(uint256 transactionId)
 ```
 </details>
 
+---    
+
 > ### revokeConfirmation
 
 Allows an owner to revoke a confirmation for a transaction.
@@ -451,6 +467,8 @@ function revokeConfirmation(uint256 transactionId)
 	}
 ```
 </details>
+
+---    
 
 > ### executeTransaction
 
@@ -488,6 +506,8 @@ function executeTransaction(uint256 transactionId)
 	}
 ```
 </details>
+
+---    
 
 > ### external_call
 
@@ -543,6 +563,8 @@ function external_call(
 ```
 </details>
 
+---    
+
 > ### isConfirmed
 
 Returns the confirmation status of a transaction.
@@ -577,6 +599,8 @@ function isConfirmed(uint256 transactionId) public view returns (bool) {
 	}
 ```
 </details>
+
+---    
 
 > ### addTransaction
 
@@ -618,6 +642,8 @@ function addTransaction(
 ```
 </details>
 
+---    
+
 > ### getConfirmationCount
 
 Get the number of confirmations of a transaction.
@@ -646,6 +672,8 @@ function getConfirmationCount(uint256 transactionId) public view returns (uint25
 	}
 ```
 </details>
+
+---    
 
 > ### getTransactionCount
 
@@ -678,6 +706,8 @@ function getTransactionCount(bool pending, bool executed) public view returns (u
 ```
 </details>
 
+---    
+
 > ### getOwners
 
 Get the list of owners.
@@ -701,6 +731,8 @@ function getOwners() public view returns (address[] memory) {
 	}
 ```
 </details>
+
+---    
 
 > ### getConfirmations
 
@@ -739,6 +771,8 @@ function getConfirmations(uint256 transactionId) public view returns (address[] 
 	}
 ```
 </details>
+
+---    
 
 > ### getTransactionIds
 

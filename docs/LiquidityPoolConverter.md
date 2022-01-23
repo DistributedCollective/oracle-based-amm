@@ -42,6 +42,8 @@ event LiquidityRemoved(address indexed _provider, address indexed _reserveToken,
 
 - [acceptAnchorOwnership()](#acceptanchorownership)
 
+---    
+
 > ### acceptAnchorOwnership
 
 ⤾ overrides [ConverterBase.acceptAnchorOwnership](ConverterBase.md#.acceptanchorownership)

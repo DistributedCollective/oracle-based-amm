@@ -41,6 +41,8 @@ modifier reroutingAllowed() internal
 - [_reroutingAllowed()](#_reroutingallowed)
 - [rerouteTx(uint256 _txId, bytes32 _blockchain, bytes32 _to)](#reroutetx)
 
+---    
+
 > ### enableRerouting
 
 allows the owner to disable/enable rerouting
@@ -66,6 +68,8 @@ function enableRerouting(bool _enable) public ownerOnly {
 ```
 </details>
 
+---    
+
 > ### _reroutingAllowed
 
 ```solidity
@@ -86,6 +90,8 @@ function _reroutingAllowed() internal view {
 	}
 ```
 </details>
+
+---    
 
 > ### rerouteTx
 

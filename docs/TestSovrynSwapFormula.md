@@ -19,6 +19,8 @@ View Source: [contracts/helpers/TestSovrynSwapFormula.sol](../solidity/contracts
 - [accurateWeightsTest(uint256 _a, uint256 _b)](#accurateweightstest)
 - [roundDivTest(uint256 _n, uint256 _d)](#rounddivtest)
 
+---    
+
 > ### powerTest
 
 ```solidity
@@ -50,6 +52,8 @@ function powerTest(
 ```
 </details>
 
+---    
+
 > ### generalLogTest
 
 ```solidity
@@ -72,6 +76,8 @@ function generalLogTest(uint256 x) external pure returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### floorLog2Test
 
@@ -96,6 +102,8 @@ function floorLog2Test(uint256 _n) external pure returns (uint8) {
 ```
 </details>
 
+---    
+
 > ### findPositionInMaxExpArrayTest
 
 ```solidity
@@ -118,6 +126,8 @@ function findPositionInMaxExpArrayTest(uint256 _x) external view returns (uint8)
 	}
 ```
 </details>
+
+---    
 
 > ### generalExpTest
 
@@ -143,6 +153,8 @@ function generalExpTest(uint256 _x, uint8 _precision) external pure returns (uin
 ```
 </details>
 
+---    
+
 > ### optimalLogTest
 
 ```solidity
@@ -166,6 +178,8 @@ function optimalLogTest(uint256 x) external pure returns (uint256) {
 ```
 </details>
 
+---    
+
 > ### optimalExpTest
 
 ```solidity
@@ -188,6 +202,8 @@ function optimalExpTest(uint256 x) external pure returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### normalizedWeightsTest
 
@@ -213,6 +229,8 @@ function normalizedWeightsTest(uint256 _a, uint256 _b) external pure returns (ui
 ```
 </details>
 
+---    
+
 > ### accurateWeightsTest
 
 ```solidity
@@ -236,6 +254,8 @@ function accurateWeightsTest(uint256 _a, uint256 _b) external pure returns (uint
 	}
 ```
 </details>
+
+---    
 
 > ### roundDivTest
 

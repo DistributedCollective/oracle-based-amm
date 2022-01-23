@@ -36,6 +36,8 @@ uint256 public currentTime;
 - [calculateFeeToEquilibriumTest(uint256 _primaryReserveStaked, uint256 _secondaryReserveStaked, uint256 _primaryReserveWeight, uint256 _secondaryReserveWeight, uint256 _primaryReserveRate, uint256 _secondaryReserveRate, uint256 _dynamicFeeFactor)](#calculatefeetoequilibriumtest)
 - [setReserveWeight(IERC20Token _reserveToken, uint32 _weight)](#setreserveweight)
 
+---    
+
 > ### setReferenceRateUpdateTime
 
 ```solidity
@@ -57,6 +59,8 @@ function setReferenceRateUpdateTime(uint256 _referenceRateUpdateTime) public {
 	}
 ```
 </details>
+
+---    
 
 > ### time
 
@@ -82,6 +86,8 @@ function time() internal view returns (uint256) {
 ```
 </details>
 
+---    
+
 > ### setTime
 
 ```solidity
@@ -103,6 +109,8 @@ function setTime(uint256 _currentTime) public {
 	}
 ```
 </details>
+
+---    
 
 > ### calculateFeeToEquilibriumTest
 
@@ -149,6 +157,8 @@ function calculateFeeToEquilibriumTest(
 	}
 ```
 </details>
+
+---    
 
 > ### setReserveWeight
 

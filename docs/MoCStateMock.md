@@ -19,6 +19,8 @@ uint256 public value;
 - [bproUsdPrice()](#bprousdprice)
 - [setValue(uint256 _value)](#setvalue)
 
+---    
+
 > ### bproUsdPrice
 
 ⤾ overrides [IMoCState.bproUsdPrice](IMoCState.md#.bprousdprice)
@@ -42,6 +44,8 @@ function bproUsdPrice() public view returns (uint256) {
 	}
 ```
 </details>
+
+---    
 
 > ### setValue
 
