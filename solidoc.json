@@ -1,0 +1,10 @@
+{
+    "pathToRoot": "./solidity",
+    "outputPath": "./docs",
+    "buildFolder": "build/contracts",
+    "noCompilation": true,
+    "compiler": "truffle compile",
+    "language": "en",
+    "ignoreFiles": [],
+    "readme": "./docs"
+}
