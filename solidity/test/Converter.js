@@ -417,8 +417,12 @@ contract("Converter", (accounts) => {
 				it("should revert when attempting to add a reserve with invalid address", async () => {
 					await createAnchor(type);
 					const converter = await createConverter(type, anchorAddress);
-
-					await expectRevert(converter.addReserve(ZERO_ADDRESS, WEIGHT_10_PERCENT), "ERR_INVALID_ADDRESS");
+					if(type == 1) {
+						// for liquidity v1 pool, it will failed when getting the .decimals() to the zero address
+						await expectRevert.unspecified(converter.addReserve(ZERO_ADDRESS, WEIGHT_10_PERCENT));
+					} else {
+						await expectRevert(converter.addReserve(ZERO_ADDRESS, WEIGHT_10_PERCENT), "ERR_INVALID_ADDRESS");
+					}
 				});
 
 				it("should revert when attempting to add a reserve with weight = 0", async () => {
@@ -446,7 +450,12 @@ contract("Converter", (accounts) => {
 					await createAnchor(type);
 					const converter = await createConverter(type, anchorAddress);
 
-					await expectRevert(converter.addReserve(converter.address, WEIGHT_10_PERCENT), "ERR_ADDRESS_IS_SELF");
+					if(type == 1) {
+						// for liquidity v1 pool, it will come into the fallback function of converter contract when getting the .decimals()
+						await expectRevert(converter.addReserve(converter.address, WEIGHT_10_PERCENT), "ERR_INVALID_RESERVE");
+					} else {
+						await expectRevert(converter.addReserve(converter.address, WEIGHT_10_PERCENT), "ERR_ADDRESS_IS_SELF");
+					}
 				});
 
 				it("verifies that the correct reserve weight is returned", async () => {
@@ -519,13 +528,13 @@ contract("Converter", (accounts) => {
 				it("verifies that isActive returns true when the converter is active", async () => {
 					const converter = await initConverter(type, true, isETHReserve);
 					const isActive = await converter.isActive.call();
-					expect(isActive).to.be.true();
+					expect(isActive).to.be.true;
 				});
 
 				it("verifies that isActive returns false when the converter is inactive", async () => {
 					const converter = await initConverter(type, false, isETHReserve);
 					const isActive = await converter.isActive.call();
-					expect(isActive).to.be.false();
+					expect(isActive).to.be.false;
 				});
 
 				it("verifies that the owner can withdraw a non reserve token from the converter while the converter is not active", async () => {

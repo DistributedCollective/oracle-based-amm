@@ -222,7 +222,7 @@ contract LiquidTokenConverter is ConverterBase {
         ISmartToken(anchor).issue(_beneficiary, amount);
 
         // dispatch the conversion event
-        dispatchConversionEvent(reserveToken, ISmartToken(anchor), _trader, _amount, amount, fee);
+        dispatchConversionEvent(reserveToken, ISmartToken(anchor), _trader, _amount, amount, fee, 0);
 
         return amount;
     }
@@ -266,7 +266,7 @@ contract LiquidTokenConverter is ConverterBase {
             safeTransfer(reserveToken, _beneficiary, amount);
 
         // dispatch the conversion event
-        dispatchConversionEvent(ISmartToken(anchor), reserveToken, _trader, _amount, amount, fee);
+        dispatchConversionEvent(ISmartToken(anchor), reserveToken, _trader, _amount, amount, fee, 0);
 
         return amount;
     }
