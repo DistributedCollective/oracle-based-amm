@@ -1,0 +1,21 @@
+[
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "isV28OrHigher",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "fallback"
+    }
+]

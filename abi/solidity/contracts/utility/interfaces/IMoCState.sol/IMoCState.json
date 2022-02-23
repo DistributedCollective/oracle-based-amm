@@ -1,0 +1,16 @@
+[
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "bproUsdPrice",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

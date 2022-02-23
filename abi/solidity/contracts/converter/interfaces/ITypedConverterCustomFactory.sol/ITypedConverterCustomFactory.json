@@ -1,0 +1,16 @@
+[
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "converterType",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint16"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "pure",
+        "type": "function"
+    }
+]

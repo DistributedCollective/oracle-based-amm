@@ -1,9 +1,9 @@
 {
     "reserves": [
         {
-            "symbol": "(WR)BTC",
+            "symbol": "RBTC",
             "decimals": 18,
-            "address": "0xFD2E6034Be9Fb1F54ae380a22d6b9FFFc01442F0"
+            "address": "0x02528571A941bD4DF062007da9bbf0471a989f52"
         },
         {
             "symbol": "SOV",
@@ -13,12 +13,12 @@
     "converters": [
         {
             "type": 1,
-            "symbol": "(WR)BTC/SOV",
+            "symbol": "RBTC/SOV",
             "decimals": 18,
             "fee": "0.1%",
             "reserves": [
                 {
-                    "symbol": "(WR)BTC",
+                    "symbol": "RBTC",
                     "weight": "50%",
                     "balance": "0.01"
                 },
@@ -30,19 +30,89 @@
             ]
         }
     ],
-    "phase": 7,
-    "(WR)BTC": {
-        "name": "(WR)BTC",
-        "addr": "0xFD2E6034Be9Fb1F54ae380a22d6b9FFFc01442F0"
+    "phase": 25,
+    "contractRegistry": {
+        "name": "ContractRegistry",
+        "addr": "0x095DA40fCA5dD218E0e30A38602eDe764297090D",
+        "args": ""
+    },
+    "converterFactory": {
+        "name": "ConverterFactory",
+        "addr": "0x9377d087cCED8294F12707ECFb2451131f99db8C",
+        "args": ""
+    },
+    "sovrynSwapFormula": {
+        "name": "SovrynSwapFormula",
+        "addr": "0x6F81891e48969853ef640342a969Cda17bB17936",
+        "args": ""
+    },
+    "sovrynSwapNetwork": {
+        "name": "SovrynSwapNetwork",
+        "addr": "0xe395FdffeA45E88282e3129C070425D3E26E746B",
+        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d"
+    },
+    "conversionPathFinder": {
+        "name": "ConversionPathFinder",
+        "addr": "0x8B6646AEC0CD3052Bd5ba7E02CE26e41A15d1B5C",
+        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d"
+    },
+    "converterUpgrader": {
+        "name": "ConverterUpgrader",
+        "addr": "0x25df87a4E6B4caBE217ACD369f7d7DD98b8813f9",
+        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0xc8c7f22CD5C09734018DCcFA5fd821d749EcAfba",
+        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d"
+    },
+    "converterRegistryData": {
+        "name": "ConverterRegistryData",
+        "addr": "0xfe3F5C7cb8e91428aDf5820CCe69133851F22aa9",
+        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d"
+    },
+    "liquidTokenConverterFactory": {
+        "name": "LiquidTokenConverterFactory",
+        "addr": "0x1686c7df48107fbbA231339Fd411e3AD841dFE51",
+        "args": ""
+    },
+    "liquidityPoolV1ConverterFactory": {
+        "name": "LiquidityPoolV1ConverterFactory",
+        "addr": "0x9850fcF5B7f0e4150c6898B9dB6808150b4E04Eb",
+        "args": ""
+    },
+    "oracleWhitelist": {
+        "name": "Whitelist",
+        "addr": "0xB61D5EfEfB65F235F6B2299C1732229F87805B3E",
+        "args": ""
+    },
+    "mocMedianizerMockUSDtoBTC": {
+        "name": "MoCMedianizerMock",
+        "addr": "0x8A0AdD9a8FB875314AFb454050ED5CfEd426EA32",
+        "args": ""
+    },
+    "RBTC": {
+        "name": "RBTC",
+        "addr": "0x02528571A941bD4DF062007da9bbf0471a989f52"
     },
     "SOV": {
         "name": "ERC20Token",
-        "addr": "0x4c2462b1f9507Ca72Ee578c02F43740f7d6EB1dB",
+        "addr": "0x00CB72C8b88a21C85Dd6eCC9a47aba42FdeA21af",
         "args": "000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000021e19e0c9bab24000000000000000000000000000000000000000000000000000000000000000000003534f5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003534f560000000000000000000000000000000000000000000000000000000000"
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0xD5F4c507920c35150587867D2ecef6dff9486844",
+        "args": "000000000000000000000000de35a908782734e771e5a8c5f55434d052341b6f00000000000000000000000002528571a941bd4df062007da9bbf0471a989f52"
     },
     "newLiquidityPoolV1Converter": {
         "name": "LiquidityPoolV1Converter",
-        "addr": "0x864Cf32F95CF809C1D8E73F547C51fE11597EaDA",
+        "addr": "0xdE35a908782734e771e5A8c5F55434D052341b6f",
         "args": ""
+    },
+    "swapSettings": {
+        "name": "SwapSettings",
+        "addr": "0x3e54d55F2183bcC5d7B72a0C3FE3aAF93d44cAe6",
+        "args": "00000000000000000000000002528571a941bd4df062007da9bbf0471a989f5200000000000000000000000002528571a941bd4df062007da9bbf0471a989f5200000000000000000000000000cb72c8b88a21c85dd6ecc9a47aba42fdea21af0000000000000000000000000000000000000000000000000000000000000000"
     }
 }

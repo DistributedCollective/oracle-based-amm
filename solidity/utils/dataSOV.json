@@ -1,0 +1,47 @@
+{
+    "reserves": [
+        {
+            "symbol": "RBTC",
+            "decimals": 18,
+            "address": "0x1a3D0142f26c256936611f98E2FF9eAd6eeA1A72"
+        },
+        {
+            "symbol": "SOV",
+            "decimals": 18
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "RBTC/SOV",
+            "decimals": 18,
+            "fee": "0.1%",
+            "reserves": [
+                {
+                    "symbol": "RBTC",
+                    "weight": "50%",
+                    "balance": "0.01"
+                },
+                {
+                    "symbol": "SOV",
+                    "weight": "50%",
+                    "balance": "67"
+                }
+            ]
+        }
+    ],
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0x115e069e795D5D53Aca6D3546Dc90247793D6E7C",
+        "args": "000000000000000000000000b99f596c9fbd3ba4c594c8d60319b62cca1aea57"
+    },
+    "oracleWhitelist": {
+        "name": "Whitelist",
+        "addr": "0x7f9526298d205D7eAC2b39dA3c7b53EeBd3973d5",
+        "args": ""
+    },
+    "RBTC": {
+        "name": "RBTC",
+        "addr": "0x1a3D0142f26c256936611f98E2FF9eAd6eeA1A72"
+    }
+}

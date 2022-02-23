@@ -4,14 +4,24 @@ const Web3 = require("web3");
 
 const TOKEN_NAME = process.argv[2];
 const NETWORK = process.argv[3];
+const TOKEN_CONFIG_FILENAME = process.argv[4];
 const NODE_ADDRESS = process.argv[5];
 const PRIVATE_KEY = process.argv[6];
 
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
 
 const MIN_GAS_LIMIT = 100000;
-const TOKEN_CONFIG_FILENAME = `config_${NETWORK}_${TOKEN_NAME}.json`;
-const DATA_FILENAME = `add_${TOKEN_NAME}.json`;
+// const TOKEN_CONFIG_FILENAME = `config_${NETWORK}.json`;
+const DATA_FILENAME = `add${TOKEN_NAME}.json`;
+
+const execute = async (transaction, ...args) => {
+	if (getConfig().phase === phase++) {
+		await web3Func(send, transaction, ...args);
+		console.log(`phase ${phase} executed`);
+		setConfig({ phase });
+	}
+};
+
 String.prototype.replaceAll = function (exp, newStr) {
 	return this.replace(new RegExp(exp, "gm"), newStr);
 };
@@ -126,21 +136,23 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
 
 const deploy = async (web3, account, gasPrice, contractId, contractName, contractArgs) => {
 	if (getConfig()[contractId] === undefined) {
-		const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
-		const contract = new web3.eth.Contract(abi);
-		const options = { data: bin, arguments: contractArgs };
+		const abi = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".abi"), { encoding: "utf8" });
+		const bin = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".bin"), { encoding: "utf8" });
+		const contract = new web3.eth.Contract(JSON.parse(abi));
+		const options = { data: "0x" + bin, arguments: contractArgs };
 		const transaction = contract.deploy(options);
 		const receipt = await send(web3, account, gasPrice, transaction);
 		const args = transaction.encodeABI().slice(options.data.length);
 		console.log(`${contractId} deployed at ${receipt.contractAddress}`);
 		setConfig({ [contractId]: { name: contractName, addr: receipt.contractAddress, args: args } });
 	}
+
 	return deployed(web3, contractName, getConfig()[contractId].addr);
 };
 
 const deployed = (web3, contractName, contractAddr) => {
-	const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
-	return new web3.eth.Contract(buildFile.abi, contractAddr);
+	const abi = fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".abi"), { encoding: "utf8" });
+	return new web3.eth.Contract(JSON.parse(abi), contractAddr);
 };
 
 const decimalToInteger = (value, decimals) => {
@@ -232,7 +244,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
-		const oracle = await web3Func(deploy, "oracle", "Oracle", [newConverter]);
+		const oracle = await web3Func(deploy, "Oracle", "Oracle", [newConverter]);
 		console.log("New Converter is  ", newConverter);
 		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 

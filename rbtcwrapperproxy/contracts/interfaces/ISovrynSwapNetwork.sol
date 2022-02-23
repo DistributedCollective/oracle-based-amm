@@ -18,7 +18,7 @@ interface ISovrynSwapNetwork {
 
 	function registerEtherToken(IEtherToken _token, bool _register) external;
 
-	function conversionPath(IERC20Token _sourceToken, IERC20Token _targetToken) external view returns (address[] memory);
+	function conversionPath(IERC20Token _sourceToken, IERC20Token _targetToken) external view returns (IERC20Token[] memory);
 
 	function rateByPath(IERC20Token[] calldata _path, uint256 _amount) external view returns (uint256);
 

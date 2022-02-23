@@ -32,25 +32,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"latestAnswer\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"latestTimestamp\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol\":\"IConsumerPriceOracle\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol\":{\"keccak256\":\"0x5e8188aa66742b15bc828e3c5b023fedd981d9651777cccd1a912d4b8e986a0d\",\"urls\":[\"bzz-raw://64f5b7400ad684dea6db427299708f689f474d8698a929320a70913b5071fa29\",\"dweb:/ipfs/QmZzNBXWhvo7BMDSSx7VPVH91M7d2uET4nWRFoRJteZB1o\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"latestAnswer\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"latestTimestamp\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/private/var/www/html/Sovryn/oracle-based-amm/rbtcwrapperproxy/contracts/interfaces/IConsumerPriceOracle.sol\":\"IConsumerPriceOracle\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/private/var/www/html/Sovryn/oracle-based-amm/rbtcwrapperproxy/contracts/interfaces/IConsumerPriceOracle.sol\":{\"keccak256\":\"0x5e8188aa66742b15bc828e3c5b023fedd981d9651777cccd1a912d4b8e986a0d\",\"urls\":[\"bzz-raw://64f5b7400ad684dea6db427299708f689f474d8698a929320a70913b5071fa29\",\"dweb:/ipfs/QmZzNBXWhvo7BMDSSx7VPVH91M7d2uET4nWRFoRJteZB1o\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity >=0.5.0 <0.6.0;\n\n/*\n    Chainlink Price Oracle interface\n*/\ninterface IConsumerPriceOracle {\n\tfunction latestAnswer() external view returns (int256);\n\n\tfunction latestTimestamp() external view returns (uint256);\n}\n",
-  "sourcePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
+  "sourcePath": "/private/var/www/html/Sovryn/oracle-based-amm/rbtcwrapperproxy/contracts/interfaces/IConsumerPriceOracle.sol",
   "ast": {
-    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
+    "absolutePath": "/private/var/www/html/Sovryn/oracle-based-amm/rbtcwrapperproxy/contracts/interfaces/IConsumerPriceOracle.sol",
     "exportedSymbols": {
       "IConsumerPriceOracle": [
-        1210
+        1784
       ]
     },
-    "id": 1211,
+    "id": 1785,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1199,
+        "id": 1773,
         "literals": [
           "solidity",
           ">=",
@@ -61,7 +61,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:3"
+        "src": "0:31:4"
       },
       {
         "baseContracts": [],
@@ -69,9 +69,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1210,
+        "id": 1784,
         "linearizedBaseContracts": [
-          1210
+          1784
         ],
         "name": "IConsumerPriceOracle",
         "nodeType": "ContractDefinition",
@@ -79,29 +79,29 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1204,
+            "id": 1778,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "latestAnswer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1200,
+              "id": 1774,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "131:2:3"
+              "src": "131:2:4"
             },
             "returnParameters": {
-              "id": 1203,
+              "id": 1777,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1202,
+                  "id": 1776,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1204,
-                  "src": "157:6:3",
+                  "scope": 1778,
+                  "src": "157:6:4",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -109,10 +109,10 @@
                     "typeString": "int256"
                   },
                   "typeName": {
-                    "id": 1201,
+                    "id": 1775,
                     "name": "int256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "157:6:3",
+                    "src": "157:6:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_int256",
                       "typeString": "int256"
@@ -122,10 +122,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "156:8:3"
+              "src": "156:8:4"
             },
-            "scope": 1210,
-            "src": "110:55:3",
+            "scope": 1784,
+            "src": "110:55:4",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -133,29 +133,29 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1209,
+            "id": 1783,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "latestTimestamp",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1205,
+              "id": 1779,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "192:2:3"
+              "src": "192:2:4"
             },
             "returnParameters": {
-              "id": 1208,
+              "id": 1782,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1207,
+                  "id": 1781,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1209,
-                  "src": "218:7:3",
+                  "scope": 1783,
+                  "src": "218:7:4",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -163,10 +163,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1206,
+                    "id": 1780,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "218:7:3",
+                    "src": "218:7:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -176,180 +176,214 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "217:9:3"
+              "src": "217:9:4"
             },
-            "scope": 1210,
-            "src": "168:59:3",
+            "scope": 1784,
+            "src": "168:59:4",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1211,
-        "src": "76:153:3"
+        "scope": 1785,
+        "src": "76:153:4"
       }
     ],
-    "src": "0:230:3"
+    "src": "0:230:4"
   },
   "legacyAST": {
-    "absolutePath": "/Users/hsiang/Desktop/new RBTCWrapperProxy/contracts/interfaces/IConsumerPriceOracle.sol",
-    "exportedSymbols": {
-      "IConsumerPriceOracle": [
-        1210
-      ]
+    "attributes": {
+      "absolutePath": "/private/var/www/html/Sovryn/oracle-based-amm/rbtcwrapperproxy/contracts/interfaces/IConsumerPriceOracle.sol",
+      "exportedSymbols": {
+        "IConsumerPriceOracle": [
+          1784
+        ]
+      }
     },
-    "id": 1211,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
-        "id": 1199,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.5",
-          ".0",
-          "<",
-          "0.6",
-          ".0"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "0:31:3"
+        "attributes": {
+          "literals": [
+            "solidity",
+            ">=",
+            "0.5",
+            ".0",
+            "<",
+            "0.6",
+            ".0"
+          ]
+        },
+        "id": 1773,
+        "name": "PragmaDirective",
+        "src": "0:31:4"
       },
       {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "interface",
-        "documentation": null,
-        "fullyImplemented": false,
-        "id": 1210,
-        "linearizedBaseContracts": [
-          1210
-        ],
-        "name": "IConsumerPriceOracle",
-        "nodeType": "ContractDefinition",
-        "nodes": [
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            1784
+          ],
+          "name": "IConsumerPriceOracle",
+          "scope": 1785
+        },
+        "children": [
           {
-            "body": null,
-            "documentation": null,
-            "id": 1204,
-            "implemented": false,
-            "kind": "function",
-            "modifiers": [],
-            "name": "latestAnswer",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 1200,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "131:2:3"
-            },
-            "returnParameters": {
-              "id": 1203,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 1202,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1204,
-                  "src": "157:6:3",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_int256",
-                    "typeString": "int256"
-                  },
-                  "typeName": {
-                    "id": 1201,
-                    "name": "int256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "157:6:3",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_int256",
-                      "typeString": "int256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
+            "attributes": {
+              "body": null,
+              "documentation": null,
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
               ],
-              "src": "156:8:3"
+              "name": "latestAnswer",
+              "scope": 1784,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "external"
             },
-            "scope": 1210,
-            "src": "110:55:3",
-            "stateMutability": "view",
-            "superFunction": null,
-            "visibility": "external"
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1774,
+                "name": "ParameterList",
+                "src": "131:2:4"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 1778,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "int256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "int256",
+                          "type": "int256"
+                        },
+                        "id": 1775,
+                        "name": "ElementaryTypeName",
+                        "src": "157:6:4"
+                      }
+                    ],
+                    "id": 1776,
+                    "name": "VariableDeclaration",
+                    "src": "157:6:4"
+                  }
+                ],
+                "id": 1777,
+                "name": "ParameterList",
+                "src": "156:8:4"
+              }
+            ],
+            "id": 1778,
+            "name": "FunctionDefinition",
+            "src": "110:55:4"
           },
           {
-            "body": null,
-            "documentation": null,
-            "id": 1209,
-            "implemented": false,
-            "kind": "function",
-            "modifiers": [],
-            "name": "latestTimestamp",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 1205,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "192:2:3"
-            },
-            "returnParameters": {
-              "id": 1208,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 1207,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1209,
-                  "src": "218:7:3",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 1206,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "218:7:3",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
+            "attributes": {
+              "body": null,
+              "documentation": null,
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
               ],
-              "src": "217:9:3"
+              "name": "latestTimestamp",
+              "scope": 1784,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "external"
             },
-            "scope": 1210,
-            "src": "168:59:3",
-            "stateMutability": "view",
-            "superFunction": null,
-            "visibility": "external"
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1779,
+                "name": "ParameterList",
+                "src": "192:2:4"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 1783,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 1780,
+                        "name": "ElementaryTypeName",
+                        "src": "218:7:4"
+                      }
+                    ],
+                    "id": 1781,
+                    "name": "VariableDeclaration",
+                    "src": "218:7:4"
+                  }
+                ],
+                "id": 1782,
+                "name": "ParameterList",
+                "src": "217:9:4"
+              }
+            ],
+            "id": 1783,
+            "name": "FunctionDefinition",
+            "src": "168:59:4"
           }
         ],
-        "scope": 1211,
-        "src": "76:153:3"
+        "id": 1784,
+        "name": "ContractDefinition",
+        "src": "76:153:4"
       }
     ],
-    "src": "0:230:3"
+    "id": 1785,
+    "name": "SourceUnit",
+    "src": "0:230:4"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.2",
-  "updatedAt": "2021-03-26T10:10:09.409Z",
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2022-02-15T06:13:50.453Z",
   "devdoc": {
     "methods": {}
   },

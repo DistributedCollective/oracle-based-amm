@@ -1,16 +1,12 @@
 {
-    "privateKey": "0x",
-    "nodeURL": "http://127.0.0.1:8545",
     "reserves": [
         {
             "symbol": "RBTC",
-            "decimals": 18,
-            "address": ""
+            "decimals": 18
         },
         {
             "symbol": "SUSD",
-            "decimals": 18,
-            "address": ""
+            "decimals": 18
         }
     ],
     "converters": [
@@ -32,5 +28,91 @@
                 }
             ]
         }
-    ]
+    ],
+    "phase": 26,
+    "contractRegistry": {
+        "name": "ContractRegistry",
+        "addr": "0x22d99953F52Cf061A969497585BB7CF6831EDb2c",
+        "args": ""
+    },
+    "converterFactory": {
+        "name": "ConverterFactory",
+        "addr": "0xEE6D0eFC6CD11679C8abcfcc200CD4eFcB154387",
+        "args": ""
+    },
+    "sovrynSwapFormula": {
+        "name": "SovrynSwapFormula",
+        "addr": "0x8B95fE8f0aAEab13057E064D3CBC6A627921a7b8",
+        "args": ""
+    },
+    "sovrynSwapNetwork": {
+        "name": "SovrynSwapNetwork",
+        "addr": "0xDf31EFdDD2615194FC6dFC9562a53ADba3A794cF",
+        "args": "00000000000000000000000022d99953f52cf061a969497585bb7cf6831edb2c"
+    },
+    "conversionPathFinder": {
+        "name": "ConversionPathFinder",
+        "addr": "0x7f4c3d11dCEB38ed46076652cD5e76dA823b7d63",
+        "args": "00000000000000000000000022d99953f52cf061a969497585bb7cf6831edb2c"
+    },
+    "converterUpgrader": {
+        "name": "ConverterUpgrader",
+        "addr": "0x224E6c42e0c7F652A54A83f01F59d7020350a61C",
+        "args": "00000000000000000000000022d99953f52cf061a969497585bb7cf6831edb2c000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0xB07429037B6f7C1CE609318c8c4052A3c9CdFdD8",
+        "args": "00000000000000000000000022d99953f52cf061a969497585bb7cf6831edb2c"
+    },
+    "converterRegistryData": {
+        "name": "ConverterRegistryData",
+        "addr": "0xbF0E61Ae178DFD43461696a8D6123CaB256bdFA1",
+        "args": "00000000000000000000000022d99953f52cf061a969497585bb7cf6831edb2c"
+    },
+    "liquidTokenConverterFactory": {
+        "name": "LiquidTokenConverterFactory",
+        "addr": "0x5B14F39B3131d9FBB58C971249c3e914b933C35B",
+        "args": ""
+    },
+    "liquidityPoolV1ConverterFactory": {
+        "name": "LiquidityPoolV1ConverterFactory",
+        "addr": "0x951E246aF8dA0eEE4dE71F0f8c5F27F7C795686f",
+        "args": ""
+    },
+    "oracleWhitelist": {
+        "name": "Whitelist",
+        "addr": "0x59237ED81dB533E1867d099529FcdC524E44e3c1",
+        "args": ""
+    },
+    "mocMedianizerMockUSDtoBTC": {
+        "name": "MoCMedianizerMock",
+        "addr": "0x1a90aD23874f9d56dAb514ef63D9619acdb84aA3",
+        "args": ""
+    },
+    "RBTC": {
+        "name": "WRBTC",
+        "addr": "0x02528571A941bD4DF062007da9bbf0471a989f52",
+        "args": ""
+    },
+    "SUSD": {
+        "name": "ERC20Token",
+        "addr": "0x3Bba4b03FdFD31874983EE5F73131A664F7AeAE7",
+        "args": "000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000021e19e0c9bab24000000000000000000000000000000000000000000000000000000000000000000004535553440000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000045355534400000000000000000000000000000000000000000000000000000000"
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0x5B4e0310363b0B37A3bc75E11BE8Eb7aE2428bb3",
+        "args": "0000000000000000000000007c2f97e179ade84f35e151be62ed0b7b0854432c00000000000000000000000002528571a941bd4df062007da9bbf0471a989f52"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0x7c2F97E179aDE84f35e151be62Ed0b7B0854432c",
+        "args": ""
+    },
+    "swapSettings": {
+        "name": "SwapSettings",
+        "addr": "0x82EA0140a7e8b2b7A6c85413ecbC32797C31A44f",
+        "args": "00000000000000000000000002528571a941bd4df062007da9bbf0471a989f5200000000000000000000000002528571a941bd4df062007da9bbf0471a989f520000000000000000000000003bba4b03fdfd31874983ee5f73131a664f7aeae70000000000000000000000000000000000000000000000000000000000000000"
+    }
 }

@@ -1,0 +1,118 @@
+{
+    "reserves": [
+        {
+            "symbol": "SUSD",
+            "decimals": 18,
+            "address": "0x3Bba4b03FdFD31874983EE5F73131A664F7AeAE7"
+        },
+        {
+            "symbol": "SOV",
+            "decimals": 18,
+            "address": "0x00CB72C8b88a21C85Dd6eCC9a47aba42FdeA21af"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "SUSD/SOV",
+            "decimals": 18,
+            "fee": "0.1%",
+            "reserves": [
+                {
+                    "symbol": "SUSD",
+                    "weight": "50%",
+                    "balance": "0.01"
+                },
+                {
+                    "symbol": "SOV",
+                    "weight": "50%",
+                    "balance": "67"
+                }
+            ]
+        }
+    ],
+    "phase": 25,
+    "contractRegistry": {
+        "name": "ContractRegistry",
+        "addr": "0x3884164B0432C92743621D7Ed7a252eab0e04Cb1",
+        "args": ""
+    },
+    "converterFactory": {
+        "name": "ConverterFactory",
+        "addr": "0x53b5738abf598Dab123BC7b30e10Fe63240C1DCF",
+        "args": ""
+    },
+    "sovrynSwapFormula": {
+        "name": "SovrynSwapFormula",
+        "addr": "0x51c747E520c23575FB52996eb7a3874Ef2abE315",
+        "args": ""
+    },
+    "sovrynSwapNetwork": {
+        "name": "SovrynSwapNetwork",
+        "addr": "0x4f2409Bd01A7C46944F6bca07C138f393C994527",
+        "args": "0000000000000000000000003884164b0432c92743621d7ed7a252eab0e04cb1"
+    },
+    "conversionPathFinder": {
+        "name": "ConversionPathFinder",
+        "addr": "0xBe8602Fa0E7195b11c50d45De1aFe2C270f69d42",
+        "args": "0000000000000000000000003884164b0432c92743621d7ed7a252eab0e04cb1"
+    },
+    "converterUpgrader": {
+        "name": "ConverterUpgrader",
+        "addr": "0xFB0aC76d6a0F68E0377a3da9243175f3aA923E08",
+        "args": "0000000000000000000000003884164b0432c92743621d7ed7a252eab0e04cb1000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0x44d9b3E1ABa748258e6290bEfD8c8bd203d58C47",
+        "args": "0000000000000000000000003884164b0432c92743621d7ed7a252eab0e04cb1"
+    },
+    "converterRegistryData": {
+        "name": "ConverterRegistryData",
+        "addr": "0x598724a14CFe8cC995e70EF2AC4933d9b8f5050D",
+        "args": "0000000000000000000000003884164b0432c92743621d7ed7a252eab0e04cb1"
+    },
+    "liquidTokenConverterFactory": {
+        "name": "LiquidTokenConverterFactory",
+        "addr": "0x22CfF4940Ad003d96B1f06bE7d2fF0B03d52e9AC",
+        "args": ""
+    },
+    "liquidityPoolV1ConverterFactory": {
+        "name": "LiquidityPoolV1ConverterFactory",
+        "addr": "0xB6dF127793ce89259611E03A0cAA5693baA63889",
+        "args": ""
+    },
+    "oracleWhitelist": {
+        "name": "Whitelist",
+        "addr": "0xb7763E780846e36d7dfFE94d07d7D1193265ef47",
+        "args": ""
+    },
+    "mocMedianizerMockUSDtoBTC": {
+        "name": "MoCMedianizerMock",
+        "addr": "0x159D0Daf5Ac4871C88898c15C43b219951DcD32e",
+        "args": ""
+    },
+    "SUSD": {
+        "name": "SUSD",
+        "addr": "0x3Bba4b03FdFD31874983EE5F73131A664F7AeAE7"
+    },
+    "SOV": {
+        "name": "SOV",
+        "addr": "0x00CB72C8b88a21C85Dd6eCC9a47aba42FdeA21af"
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0x51C66073705627A3bBd253A2667ad33ab212b507",
+        "args": "000000000000000000000000d333e58eaa80272744e049aeee65515c4cd6c92c0000000000000000000000003bba4b03fdfd31874983ee5f73131a664f7aeae7"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xD333E58eaA80272744E049Aeee65515c4cd6c92c",
+        "args": ""
+    },
+    "swapSettings": {
+        "name": "SwapSettings",
+        "addr": "0x09A5E97dB10023C057291F23ff7f6309bA125e64",
+        "args": "0000000000000000000000003bba4b03fdfd31874983ee5f73131a664f7aeae70000000000000000000000003bba4b03fdfd31874983ee5f73131a664f7aeae700000000000000000000000000cb72c8b88a21c85dd6ecc9a47aba42fdea21af0000000000000000000000000000000000000000000000000000000000000000"
+    }
+}
