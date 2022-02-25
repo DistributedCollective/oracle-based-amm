@@ -202,14 +202,12 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      * @dev  
      * This function support to provide liquidity for both wrbtc & non-wrbtc pool.
      * The process:
-     * 1.Accepts RBTC
-     * 2.If first index reserveTokens is wrbtc, it will just directly provide to the pool.
-     * 3.If first index reserveTokens is not wrbtc, it will convert the RBTC to the first index of reserveTokens, then provide liquidity to the pool.
-     * 4.Transfers pool tokens to user
-     * 
-     * @notice
-     * If want to provide liquidity to WRBTC pairs, wrbtc address must be passed in the first index of reserveTokens.
-     * If want to provide liquidity to NON-WRBTC pairs, first index of reserveAmounts must be 0.
+     * 1. If wrbtc pairs (in reserveTokens) provided, RBTC is required to be sent, the value of msg.value must be identical with the reserveAmounts.
+     * 2. If RBTC sent to non wrbtc pairs, it will revert.
+     * 3. For wrbtc pairs, the RBTC sent will be converted to WRBTC.
+     * 4. For non-wrbtc token users need to approve the token first.
+     * 5.Transfers pool tokens to user.
+     * 6. Refund the excess back to caller (msg.sender).
      *
      * @param _liquidityPoolConverterAddress    address of LiquidityPoolConverter contract
      * @param _reserveTokens                    address of each reserve token. The first element should be the address of WRBTC
@@ -229,9 +227,8 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         checkAddress(_liquidityPoolConverterAddress)
         returns(uint256) 
     {
-        require(address(_reserveTokens[1]) != wrbtcTokenAddress, "WRBTC must be in the 0 index");
+        if(msg.value > 0) require(address(_reserveTokens[0]) == wrbtcTokenAddress || address(_reserveTokens[1]) == wrbtcTokenAddress, "RBTC is not allowed for non-wrbtc pairs");
 
-        bool success;
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
         uint32 reserveRatio_ = _liquidityPoolConverter.reserveRatio();
@@ -243,19 +240,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
                 require(_reserveAmounts[i] == msg.value, "The provided amount of RBTC should be identical to msg.value");
 
                 IWrbtcERC20(wrbtcTokenAddress).deposit.value(_reserveAmounts[i])();
-                success = IWrbtcERC20(wrbtcTokenAddress).approve(_liquidityPoolConverterAddress, _reserveAmounts[i]);
-                require(success, "Failed to approve converter to transfer WRBTC");
+                require(IWrbtcERC20(wrbtcTokenAddress).approve(_liquidityPoolConverterAddress, _reserveAmounts[i]), "Failed to approve converter to transfer WRBTC");
             } else {
-                if (i == 0) {
-                    require(_reserveAmounts[i] == 0, "0 amount required for non-wrbtc pairs");
-
-                    // Swap rbtc to reserve token --> Use convertion helper to avoid stack too deep
-                    _reserveAmounts[i] = convertionHelper(wrbtcTokenAddress, address(_reserveTokens[i]), address(this), msg.value);
-                } else {
-                    success = IERC20Token(_reserveTokens[i]).transferFrom(msg.sender, address(this), _reserveAmounts[i]);
-                    require(success, "Failed to transfer reserve token from user");
-                }
-
+                require(IERC20Token(_reserveTokens[i]).transferFrom(msg.sender, address(this), _reserveAmounts[i]), "Failed to transfer reserve token from user");
                 require(IERC20Token(_reserveTokens[i]).approve(_liquidityPoolConverterAddress, _reserveAmounts[i]), "Failed to approve converter to transfer reserve token");
             }
 
@@ -397,7 +384,6 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      *
      * @param _path         conversion path between two tokens in the network
      * @param _amount       amount to convert from, in the source token
-     * @param _recipient    the beneficiary of the conversion. If 0 address is passed, msg.sender will be considered as the recipient.
      * @param _minReturn    if the conversion results in an amount smaller than the minimum return - it is cancelled, must be greater than zero
      * 
      * @return amount of tokens received from the conversion
@@ -405,7 +391,6 @@ contract RBTCWrapperProxy is ContractRegistryClient {
     function convertByPath(
         IERC20Token[] memory _path,
         uint256 _amount, 
-        address _recipient,
         uint256 _minReturn
     ) 
         public 
@@ -413,7 +398,6 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         returns(uint256) 
     {    
         ISovrynSwapNetwork _sovrynSwapNetwork =  ISovrynSwapNetwork(sovrynSwapNetworkAddress);
-        address recipient = _recipient != address(0) ? _recipient : msg.sender;
   
         if (msg.value != 0) {
             require(_path[0] == IERC20Token(wrbtcTokenAddress), "Value may only be sent for WRBTC transfers");
@@ -424,9 +408,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
             bool successOfApprove = IWrbtcERC20(wrbtcTokenAddress).approve(sovrynSwapNetworkAddress, _amount);
             require(successOfApprove);
 
-            uint256 _targetTokenAmount = _sovrynSwapNetwork.convertByPath(_path, _amount, _minReturn, recipient, address(0), 0);
+            uint256 _targetTokenAmount = _sovrynSwapNetwork.convertByPath(_path, _amount, _minReturn, msg.sender, address(0), 0);
 
-            emit TokenConverted(recipient, _amount, _targetTokenAmount, _path);
+            emit TokenConverted(msg.sender, _amount, _targetTokenAmount, _path);
 
             return _targetTokenAmount;
         }
@@ -445,10 +429,10 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
             IWrbtcERC20(wrbtcTokenAddress).withdraw(_targetTokenAmount);
 
-            (bool successOfSendRBTC,) = recipient.call.value(_targetTokenAmount)("");
+            (bool successOfSendRBTC,) = msg.sender.call.value(_targetTokenAmount)("");
             require(successOfSendRBTC, "Failed to send RBTC to user");
 
-            emit TokenConverted(recipient, _amount, _targetTokenAmount, _path);
+            emit TokenConverted(msg.sender, _amount, _targetTokenAmount, _path);
 
             return _targetTokenAmount;
         }        
@@ -456,61 +440,9 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
     /**
      * @dev
-     * The conversion function to do the refund.
-     * This function will be called in order to refund the excess of non-wrbtc token in form of RBTC.
-     *
-     * @param _sourceToken the non-wrbtc token which will be converted to WRBTC, and then sent the RBTC to the sender.
-     * @param _amount amount of _sourceToken for refund.
-     *
-     * @return THe total wrbtc refunded.
-     */
-    function convertForRBTCRefund(
-        IERC20Token _sourceToken,
-        uint256 _amount
-    ) private returns(uint256) {
-        ISovrynSwapNetwork _sovrynSwapNetwork =  ISovrynSwapNetwork(sovrynSwapNetworkAddress);
-        IERC20Token[] memory _path = _sovrynSwapNetwork.conversionPath(_sourceToken, IERC20Token(wrbtcTokenAddress));
-
-        bool successOfApprove = _sourceToken.approve(sovrynSwapNetworkAddress, _amount);
-        require(successOfApprove);
-
-        uint256 _targetTokenAmount = _sovrynSwapNetwork.convertByPath(_path, _amount, 1, address(this), address(0), 0);
-
-        IWrbtcERC20(wrbtcTokenAddress).withdraw(_targetTokenAmount);
-
-        (bool successOfSendRBTC,) = msg.sender.call.value(_targetTokenAmount)("");
-        require(successOfSendRBTC, "Failed to send RBTC to user");
-
-        emit TokenConverted(msg.sender, _amount, _targetTokenAmount, _path);
-
-        return _targetTokenAmount;
-    }
-
-    /**
-     * @dev
-     * This function is meant to avoid the stack too deep issue which will be calling from the addLiquidity function.
-     * Mostly, this function will convert the wrbtc to specific token, and then the address(this) will be the recipient.
-     * 
-     * @param sourceToken sourceToken for conversion.
-     * @param destToken destToken for conversion.
-     * @param recipient beneficiary of the conversion.
-     *
-     * @return amount of tokens received from the conversion
-     */
-    function convertionHelper(address sourceToken, address destToken, address recipient, uint256 amount) private returns(uint256) {
-        // Swap rbtc to reserve token
-        ISovrynSwapNetwork _sovrynSwapNetwork =  ISovrynSwapNetwork(sovrynSwapNetworkAddress);
-        IERC20Token[] memory path = _sovrynSwapNetwork.conversionPath(IERC20Token(sourceToken), IERC20Token(destToken));
-        return convertByPath(path, amount, recipient, 1);
-    }
-
-    /**
-     * @dev
      * Function to do the refund there is any excess when providing the liquidity.
-     * If the excess is the first index of reserveTokens: 
-        - it's wrbtc, then will directly refund msg.sender as RBTC.
-        - it's not wrbtc, then it will be converted to wrbtc and then refund to the msg.sender as RBTC.
-     * If the excess is the second index of reserveTokens, then refund to the msg.sender as Token itself.
+     * if wrbtc excess then will refund as rbtc.
+     * if non-wrbtc, then will be refunded in form of the token itself.
      * 
      * @notice
      * This function is one of the solution to fix the stack too deep issue.
@@ -535,15 +467,13 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         for (uint256 i = 0; i < _reserveTokens.length; i++) {
             uint256 amount = _reserveAmounts[i].sub(ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).fundCost(totalSupplyBefore, rsvBalances[i], reserveRatio_, poolTokenAmountLatest));
             if (amount > 0) {
-                require(_reserveTokens[i].approve(_liquidityPoolConverterAddress, 0), "Failed to approve converter to transfer reserve token");
-
+                require(_reserveTokens[i].approve(_liquidityPoolConverterAddress, 0), "Failed to reset approval");
                 if(address(_reserveTokens[i]) == wrbtcTokenAddress ) {
                     IWrbtcERC20(wrbtcTokenAddress).withdraw(amount);
                     (bool success,) = msg.sender.call.value(amount)("");
                     require(success, "Failed to send extra RBTC back to user");
                 } else {
-                    // Convert back the token to rbtc for first index, for other tokens, need to be refunded as the token for itself.
-                    if(i == 0) convertForRBTCRefund(_reserveTokens[i], amount);
+                    require(_reserveTokens[i].transfer(msg.sender, amount), "Failed to transfer extra reserve token back to user");
                 }
             }
         }
