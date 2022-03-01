@@ -231,8 +231,6 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
-        uint32 reserveRatio_ = _liquidityPoolConverter.reserveRatio();
-        uint256 totalSupplyBefore = _poolToken.totalSupply();
         uint256[] memory rsvBalances = new uint256[](_reserveTokens.length);
         
         for (uint256 i = 0; i < _reserveTokens.length; i++) {
@@ -257,7 +255,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         _poolToken.approve(address(liquidityMiningContract), poolTokenAmount);
         liquidityMiningContract.deposit(address(_poolToken), poolTokenAmount, msg.sender);
 
-        _refund(_liquidityPoolConverterAddress, _reserveTokens, _reserveAmounts, rsvBalances, totalSupplyBefore, poolTokenAmount, reserveRatio_);
+        _refund(_liquidityPoolConverterAddress, _reserveTokens, _reserveAmounts);
 
         emit LiquidityAddedToV1(msg.sender, _reserveTokens, _reserveAmounts, poolTokenAmount);
 
@@ -450,30 +448,23 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      * @param _liquidityPoolConverterAddress converter address.
      * @param _reserveTokens reserve tokens of the pool.
      * @param _reserveAmounts reserve amounts.
-     * @param rsvBalances Reserve balances of the pool
-     * @param totalSupplyBefore Total supply of the token pool before the liquidity process happened.
-     * @param poolTokenAmountLatest Total supply of the token pool after the liquidity process happened.
-     * @param reserveRatio_ Reserve ration of the pool.
      */
     function _refund(
         address _liquidityPoolConverterAddress,
         IERC20Token[] memory _reserveTokens,
-        uint256[] memory _reserveAmounts,
-        uint256[] memory rsvBalances,
-        uint256 totalSupplyBefore,
-        uint256 poolTokenAmountLatest,
-        uint32 reserveRatio_
+        uint256[] memory _reserveAmounts
     ) private {
-        for (uint256 i = 0; i < _reserveTokens.length; i++) {
-            uint256 amount = _reserveAmounts[i].sub(ISovrynSwapFormula(addressOf(SOVRYNSWAP_FORMULA)).fundCost(totalSupplyBefore, rsvBalances[i], reserveRatio_, poolTokenAmountLatest));
-            if (amount > 0) {
+        for (uint256 i = 0; i < _reserveTokens.length; i++) {            
+            uint256 latestTokenBalance = _reserveTokens[i].balanceOf(address(this));
+            require(_reserveAmounts[i] >= latestTokenBalance, "Not eligible for refund");
+            if (latestTokenBalance > 0) {
                 require(_reserveTokens[i].approve(_liquidityPoolConverterAddress, 0), "Failed to reset approval");
                 if(address(_reserveTokens[i]) == wrbtcTokenAddress ) {
-                    IWrbtcERC20(wrbtcTokenAddress).withdraw(amount);
-                    (bool success,) = msg.sender.call.value(amount)("");
+                    IWrbtcERC20(wrbtcTokenAddress).withdraw(latestTokenBalance);
+                    (bool success,) = msg.sender.call.value(latestTokenBalance)("");
                     require(success, "Failed to send extra RBTC back to user");
                 } else {
-                    require(_reserveTokens[i].transfer(msg.sender, amount), "Failed to transfer extra reserve token back to user");
+                    require(_reserveTokens[i].transfer(msg.sender, latestTokenBalance), "Failed to transfer extra reserve token back to user");
                 }
             }
         }
