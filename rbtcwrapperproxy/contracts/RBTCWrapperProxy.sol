@@ -232,11 +232,12 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
         uint256[] memory rsvBalances = new uint256[](_reserveTokens.length);
+        uint256[] memory initialProxyBalances = new uint256[](_reserveTokens.length);
         
         for (uint256 i = 0; i < _reserveTokens.length; i++) {
+            initialProxyBalances[i] = IERC20Token(_reserveTokens[i]).balanceOf(address(this));
             if(address(_reserveTokens[i]) == wrbtcTokenAddress) {
                 require(_reserveAmounts[i] == msg.value, "The provided amount of RBTC should be identical to msg.value");
-
                 IWrbtcERC20(wrbtcTokenAddress).deposit.value(_reserveAmounts[i])();
                 require(IWrbtcERC20(wrbtcTokenAddress).approve(_liquidityPoolConverterAddress, _reserveAmounts[i]), "Failed to approve converter to transfer WRBTC");
             } else {
@@ -255,7 +256,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         _poolToken.approve(address(liquidityMiningContract), poolTokenAmount);
         liquidityMiningContract.deposit(address(_poolToken), poolTokenAmount, msg.sender);
 
-        _refund(_liquidityPoolConverterAddress, _reserveTokens, _reserveAmounts);
+        _refund(_liquidityPoolConverterAddress, _reserveTokens, _reserveAmounts, initialProxyBalances);
 
         emit LiquidityAddedToV1(msg.sender, _reserveTokens, _reserveAmounts, poolTokenAmount);
 
@@ -448,23 +449,25 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      * @param _liquidityPoolConverterAddress converter address.
      * @param _reserveTokens reserve tokens of the pool.
      * @param _reserveAmounts reserve amounts.
+     * @param _initialProxyBalances initial token balance of this proxy.
      */
     function _refund(
         address _liquidityPoolConverterAddress,
         IERC20Token[] memory _reserveTokens,
-        uint256[] memory _reserveAmounts
+        uint256[] memory _reserveAmounts,
+        uint256[] memory _initialProxyBalances
     ) private {
         for (uint256 i = 0; i < _reserveTokens.length; i++) {            
             uint256 latestTokenBalance = _reserveTokens[i].balanceOf(address(this));
-            require(_reserveAmounts[i] >= latestTokenBalance, "Not eligible for refund");
-            if (latestTokenBalance > 0) {
+            uint256 amount = latestTokenBalance.sub(_initialProxyBalances[i]);
+            if (amount > 0) {
                 require(_reserveTokens[i].approve(_liquidityPoolConverterAddress, 0), "Failed to reset approval");
                 if(address(_reserveTokens[i]) == wrbtcTokenAddress ) {
-                    IWrbtcERC20(wrbtcTokenAddress).withdraw(latestTokenBalance);
-                    (bool success,) = msg.sender.call.value(latestTokenBalance)("");
+                    IWrbtcERC20(wrbtcTokenAddress).withdraw(amount);
+                    (bool success,) = msg.sender.call.value(amount)("");
                     require(success, "Failed to send extra RBTC back to user");
                 } else {
-                    require(_reserveTokens[i].transfer(msg.sender, latestTokenBalance), "Failed to transfer extra reserve token back to user");
+                    require(_reserveTokens[i].transfer(msg.sender, amount), "Failed to transfer extra reserve token back to user");
                 }
             }
         }
