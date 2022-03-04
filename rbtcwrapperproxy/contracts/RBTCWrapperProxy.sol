@@ -256,7 +256,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
         _poolToken.approve(address(liquidityMiningContract), poolTokenAmount);
         liquidityMiningContract.deposit(address(_poolToken), poolTokenAmount, msg.sender);
 
-        _refund(_liquidityPoolConverterAddress, _reserveTokens, _reserveAmounts, initialProxyBalances);
+        _refund(_liquidityPoolConverterAddress, _reserveTokens, initialProxyBalances);
 
         emit LiquidityAddedToV1(msg.sender, _reserveTokens, _reserveAmounts, poolTokenAmount);
 
@@ -448,13 +448,11 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      *
      * @param _liquidityPoolConverterAddress converter address.
      * @param _reserveTokens reserve tokens of the pool.
-     * @param _reserveAmounts reserve amounts.
      * @param _initialProxyBalances initial token balance of this proxy.
      */
     function _refund(
         address _liquidityPoolConverterAddress,
         IERC20Token[] memory _reserveTokens,
-        uint256[] memory _reserveAmounts,
         uint256[] memory _initialProxyBalances
     ) private {
         for (uint256 i = 0; i < _reserveTokens.length; i++) {            
