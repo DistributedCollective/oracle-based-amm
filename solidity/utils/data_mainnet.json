@@ -112,5 +112,10 @@
         "name": "MocBTCToBTCOracle",
         "addr": "0xf5DF3b2AE0c4E2c8912E177f6BD8ca6d479397A2",
         "args": ""
+    },
+    "multiSigWallet": {
+        "name": "MultiSigWallet",
+        "addr": "0x924f5ad34698Fd20c90Fe5D5A8A0abd3b42dc711",
+        "args": ""
     }
 }

@@ -1,0 +1,55 @@
+{
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d"
+        },
+        {
+            "symbol": "FISH",
+            "decimals": 18,
+            "address": "0x055A902303746382FBB7D18f6aE0df56eFDc5213"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/FISH",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0"
+                },
+                {
+                    "symbol": "FISH",
+                    "weight": "50%",
+                    "balance": "0"
+                }
+            ]
+        }
+    ],
+    "k": 6779,
+    "btcAddress": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d",
+    "phase": 7,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x542fDA317318eBF1d3DEAf76E0b632741A7e677d"
+    },
+    "FISH": {
+        "name": "FISH",
+        "addr": "0x055A902303746382FBB7D18f6aE0df56eFDc5213"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xe731DA93034D769c2045B1ee137D42E1Aa23C18e",
+        "args": ""
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0x6C58148993bB918347D6d4e0E67EE47903776ab7",
+        "args": "000000000000000000000000e731da93034d769c2045b1ee137d42e1aa23c18e000000000000000000000000542fda317318ebf1d3deaf76e0b632741a7e677d"
+    }
+}

@@ -80,12 +80,27 @@ The configuration file is updated during the process, in order to allow resuming
 
 ### Adding LM pools to the testnet and mainnet (only needed if contracts' abi were changed)
 
-1. Before adding pools we need to make sure having updated comipled contracts in [./solidity/build](./solidity/build)
-   - Change contract folder in script Compile contracts `../../scripts/compile.sh`
-   - Run from root dir `./scripts/compile.sh`
-2. Top up RBTC and WRBTC account with some RBTC to pay for tx and **WRBTC** amount for initial deposit (0.01 usually)
+1. Use ```yarn install``` or ```npm install``` from the root to install node modules 
+2. Before adding pools we need to make sure having updated compiled contracts in [./solidity/build/contracts](./solidity/build/contracts)
+   - Run from root dir ```truffle compile```
+3. Top up deploying account with RBTC to pay tx fees and pair tokens for initial deposit if it is not zero - at least `balance` amounts in config file, e.g.  18 XUSD and 100 BRZ:
+   ```
+   "reserves": [
+                {
+                    "symbol": "XUSD",
+                    "weight": "50%",
+                    "balance": "18"
+                },
+                {
+                    "symbol": "BRZ",
+                    "weight": "50%",
+                    "balance": "100"
+                }
+            ]
+   ```
+   * For WRBTC-paired tokens **WRBTC** amount for initial deposit is usually 0.01
 
-To add converters to an existing swap network, use ```addConverter.js```.
+To add converters to an existing swap network, use ```addConverter.js``` or ```addConverterNoOracle.js```.
 
 Example creation v1 pool WRBTC/ETH  
 
@@ -93,11 +108,17 @@ Note: `data_testnet.json` and `data_mainnet.json` store contracts addresses part
 
 testnet:  
 
-```node addConverter.js ETH addETHs_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
+```node addConverter.js ETH addETHs_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```   
+  
+for pairs with no WRBTC (with no internal oracle):  
+
+```node addConverterNoOracle.js ETH addBRZ_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
 
 mainnet:  
 
-```node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet.sovryn.app/rpc <private key>```
+```node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet2.sovryn.app/rpc <private key>```  
+  or respectively  
+```node addConverterNoOracle.js ETH addBRZ_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
 
 ```TODO: check if the following is for v2 pools only```
 
