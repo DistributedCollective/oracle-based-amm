@@ -1,3 +1,7 @@
+// This script is designed for deploying v1 converter for token pairs 
+// where none of them is  wRBTC
+// TODO: add to docs
+
 const fs = require("fs");
 const path = require("path");
 const Web3 = require("web3");
@@ -128,15 +132,7 @@ const deploy = async (web3, account, gasPrice, contractId, contractName, contrac
 		const receipt = await send(web3, account, gasPrice, transaction);
 		const args = transaction.encodeABI().slice(options.data.length);
 		console.log(`${contractId} deployed at ${receipt.contractAddress}`);
-
-		let configName = contractId;
-		let converterIndex = 0;
-		//TODO: IMPORTANT - FIGURE OUT HOW TO GET CONVERTER INDEX! IT WON'T WORK WITH MUlTIPLE CONVERTERS!
-		//TODO: move oracle to "converters"
-		//if (contractId === "Oracle") configName = `${contractId}${converterIndex++}`;
-		if (contractId === "Oracle") configName = `${contractId}`;
-		setConfig({ [configName]: { name: contractName, addr: receipt.contractAddress, args: args } });
-		return deployed(web3, contractName, receipt.contractAddress);
+		setConfig({ [contractId]: { name: contractName, addr: receipt.contractAddress, args: args } });
 	}
 	return deployed(web3, contractName, getConfig()[contractId].addr);
 };
@@ -181,7 +177,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
 	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
-
+	
 	let multiSigWallet;
 	if (getData().multiSigWallet.addr !== "") multiSigWallet = deployed(web3, getData().multiSigWallet.name, getData().multiSigWallet.addr);
 
@@ -260,7 +256,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
 
 		// TODO: Remove next line, just here for checking which address is received from anchor. The last address shown from above anchor list should be shown.
-		console.log("Anchor Taken: ", anchor);
+		console.log("Anchor Taken: ", anchor._address)
 
 		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
@@ -270,25 +266,6 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		await execute(converterBase.methods.setConversionFee(fee));
 		console.log("Done with conversion fee");
 
-		if (type === 1) {
-			console.log("Deploying Oracle");
-			const oracle = await web3Func(deploy, "Oracle", "Oracle", [converterBase._address, getConfig().btcAddress]);
-
-			console.log("Setting k", getConfig().k);
-			await execute(oracle.methods.setK(getConfig().k));
-
-			console.log("Setting oracle in converter", oracle._address);
-			const liquidityV1PoolConverter = deployed(web3, "LiquidityPoolV1Converter", converterBase._address);
-			await execute(liquidityV1PoolConverter.methods.setOracle(oracle._address));
-			console.log("Done with adding oracle");
-
-			if (multiSigWallet !== undefined) {
-				console.log("Updating oracle ownership");
-				await execute(oracle.methods.transferOwnership(multiSigWallet._address));
-			} else {
-				console.log("Oracle owner is account: ", await oracle.methods.owner().call());
-			}
-		}
 		//adding the liquidity and thereby seeting the price
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
 			for (let i = 0; i < converter.reserves.length; i++) {
@@ -343,7 +320,6 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		addresses[converter.symbol] = anchor._address;
 	}
 
-	//TODO: add transfer ownership of converter to multisig
 	console.log("All done");
 
 	if (web3.currentProvider.constructor.name === "WebsocketProvider") {

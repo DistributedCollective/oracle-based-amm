@@ -1,0 +1,55 @@
+{
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+        },
+        {
+            "symbol": "MYNT",
+            "decimals": 18,
+            "address": "0x139483e22575826183F5b56dd242f8f2C1AEf327"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/MYNT",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0"
+                },
+                {
+                    "symbol": "MYNT",
+                    "weight": "50%",
+                    "balance": "0"
+                }
+            ]
+        }
+    ],
+    "k": 6779,
+    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab",
+    "phase": 6,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "MYNT": {
+        "name": "MYNT",
+        "addr": "0x139483e22575826183F5b56dd242f8f2C1AEf327"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0x84953dAF0E7a9fFb8B4fDf7F948185e1cF85852e",
+        "args": ""
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0xdE4a7AE6cd286a8eeC24e34D8705cbf3827524Ff",
+        "args": "00000000000000000000000084953daf0e7a9ffb8b4fdf7f948185e1cf85852e00000000000000000000000069fe5cec81d5ef92600c1a0db1f11986ab3758ab"
+    }
+}

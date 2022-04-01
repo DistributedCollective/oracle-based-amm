@@ -12,7 +12,6 @@ import "./interfaces/ISovrynSwapFormula.sol";
 import "./interfaces/IContractRegistry.sol";
 import "./ContractRegistryClient.sol";
 import "./mockups/LiquidityMining.sol";
-import "./interfaces/ILoanToken.sol";
 
 contract RBTCWrapperProxy is ContractRegistryClient {
     
@@ -181,7 +180,7 @@ contract RBTCWrapperProxy is ContractRegistryClient {
             IWrbtcERC20(wrbtcTokenAddress).deposit.value(_amount)();
         }
         else{
-            reserveToken.transferFrom(msg.sender, address(this), _amount);
+            require(reserveToken.transferFrom(msg.sender, address(this), _amount));
         }
 
         require(reserveToken.approve(_liquidityPoolConverterAddress, _amount), "token approval failed");
@@ -453,48 +452,6 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
             return _targetTokenAmount;
         }        
-    }
-
-    /**
-     * @notice provides funds to a lending pool and deposits the pool tokens into the liquidity mining contract.
-     * @param loanTokenAddress the address of the loan token (aka lending pool)
-     * @param depositAmount he amount of underlying tokens to deposit 
-     */
-    function addToLendingPool(address loanTokenAddress, uint256 depositAmount) public{
-        LoanToken loanToken = LoanToken(loanTokenAddress);
-        IERC20Token underlyingAsset = IERC20Token(loanToken.loanTokenAddress());
-
-        //retrieve the underlying asset from the user
-        require(underlyingAsset.transferFrom(msg.sender, address(this), depositAmount), "Failed to transfer tokens to the wrapper proxy");
-
-        //add the tokens to the lending pool
-        underlyingAsset.approve(loanTokenAddress, depositAmount);
-        uint256 minted = loanToken.mint(address(this), depositAmount);
-
-        //deposit the pool tokens in the liquidity mining contract on the sender's behalf
-        loanToken.approve(address(liquidityMiningContract), minted);
-        liquidityMiningContract.deposit(loanTokenAddress, minted, msg.sender);   
-
-        emit LoanTokensMinted(msg.sender, minted, depositAmount);   
-    }
-
-    /**
-     * @notice removes funds from the liquidity mining contract, burns them on the lending pool and 
-     * provides the underlying asset to the user
-     * @param loanTokenAddress the address of the loan token (aka lending pool)
-     * @param burnAmount the amount of pool tokens to withdraw from the lending pool and burn
-     */
-    function removeFromLendingPool(address loanTokenAddress, uint256 burnAmount) public{
-        LoanToken loanToken = LoanToken(loanTokenAddress);
-
-        //withdraw always transfers the pool tokens to the caller and the reward tokens to the passed address
-        liquidityMiningContract.withdraw(loanTokenAddress, burnAmount, msg.sender);
-
-        //burn pool token and directly send underlying tokens to the receiver
-        loanToken.approve(address(liquidityMiningContract), burnAmount);
-        uint256 redeemed = loanToken.burn(msg.sender, burnAmount);
-
-        emit LoanTokensBurnt(msg.sender, burnAmount, redeemed);   
     }
 
 }
