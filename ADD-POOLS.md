@@ -80,9 +80,10 @@ The configuration file is updated during the process, in order to allow resuming
 
 ### Adding LM pools to the testnet and mainnet (only needed if contracts' abi were changed)
 
-1. Before adding pools we need to make sure having updated comipled contracts in [./solidity/build](./solidity/build)
-   - Change contract folder in script Compile contracts `../../scripts/compile.sh`
-   - Run from root dir `./scripts/compile.sh`
+1. Before adding pools we need to make sure having updated comipled contracts in [./solidity/build/contracts](./solidity/build/contracts) using Truffle
+```shell
+    truffle compile
+```
 2. Top up RBTC and WRBTC account with some RBTC to pay for tx and **WRBTC** amount for initial deposit (0.01 usually)
 
 To add converters to an existing swap network, use ```addConverter.js```.
