@@ -12,6 +12,8 @@ const fs = require("fs");
 
 const assert = require("chai").assert;
 const { expectRevert, expectEvent, BN, constants } = require("@openzeppelin/test-helpers");
+const { ZERO_ADDRESS } = require("@openzeppelin/test-helpers/src/constants");
+const { expect } = require("chai");
 
 const RBTCWrapperProxy = artifacts.require("../RBTCWrapperProxy.sol");
 const IERC20Token = artifacts.require("../interfaces/IERC20Token.sol");
@@ -21,6 +23,7 @@ const ILiquidityPoolV1Converter = artifacts.require("../interfaces/ILiquidityPoo
 // const ILiquidityPoolV2Converter = artifacts.require("../interfaces/ILiquidityPoolV2Converter.sol");
 const LiquidityMining = artifacts.require("../mockups/LiquidityMining.sol");
 const LoanToken = artifacts.require("../mockups/LoanToken.sol");
+const IERC20 = artifacts.require("../interfaces/IERC20.sol");
 
 const getConfig = () => {
 	return JSON.parse(fs.readFileSync("../solidity/utils/config_rsk.json", { encoding: "utf8" }));
@@ -563,8 +566,13 @@ contract("RBTCWrapperProxy", async (accounts) => {
 
 		expect(usdAmountAfter.toString()).to.equal( (usdAmountBefore.sub(usdAmount)).toString() );
 
+		let decode = decodeLogs(result.receipt.rawLogs, IERC20, "Transfer");
+		let refundTx = decode[decode.length - 1].args;
+		let refundedSOV = refundTx.to === accounts[0] ? refundTx.value : 0;
+
 		var addedPoolTokenV1Amount = new BN(result.logs[0].args._poolTokenAmount);
-		var expectedBalance = new BN(sovAmountBefore.toString()).sub(sovAmount)
+		var expectedBalance = new BN(sovAmountBefore.toString()).sub(sovAmount).add(new BN(refundedSOV));
+
 		assert.equal(
 			(await sovToken.balanceOf(accounts[0])).toString(),
 			expectedBalance.toString(),
@@ -602,7 +610,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		expect(usdAmountAfter.toString()).to.equal( (usdAmountBefore.sub(usdAmount)).toString() );
 
 		addedPoolTokenV1Amount = addedPoolTokenV1Amount.add(new BN(result.logs[0].args._poolTokenAmount));
-		expectedBalance = new BN(sovAmountAfter.toString()).sub(web3.utils.toBN(sovAmount));
+		expectedBalance = new BN(sovAmountAfter.toString()).sub(web3.utils.toBN(sovAmount)).add(new BN(refundedSOV));
 
 		assert.equal(
 			(await sovToken.balanceOf(accounts[0])).toString(),
@@ -659,8 +667,12 @@ contract("RBTCWrapperProxy", async (accounts) => {
 
 		expect(usdAmountAfter.toString()).to.equal( (usdAmountBefore.sub(usdAmount)).toString() );
 
+		let decode = decodeLogs(result.receipt.rawLogs, IERC20, "Transfer");
+		let refundTx = decode[decode.length - 1].args;
+		let refundedSOV = refundTx.to === accounts[0] ? decode[decode.length - 1].args.value : 0;
+
 		var addedPoolTokenV1Amount = new BN(result.logs[0].args._poolTokenAmount);
-		var expectedBalance = new BN(sovAmountBefore.toString()).sub(sovAmount)
+		var expectedBalance = new BN(sovAmountBefore.toString()).sub(sovAmount).add(new BN(refundedSOV))
 		assert.equal(
 			(await sovToken.balanceOf(accounts[0])).toString(),
 			expectedBalance.toString(),
@@ -672,7 +684,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			addedPoolTokenV1Amount.add(totalLPTokenInLMBefore).toString(),
 			"Wrong pool token balance on LM contract (1)"
 		);
-		
+
 		await expectEvent(result.receipt, "LiquidityAddedToV1", {
 			_provider: accounts[0],
 			_reserveTokens: [usdTokenAddress, sovTokenAddress],
@@ -695,11 +707,18 @@ contract("RBTCWrapperProxy", async (accounts) => {
 			to: RBTCWrapperProxy.address,
 		});
 
+		let decode2 = decodeLogs(result.receipt.rawLogs, IERC20, "Transfer");
+		let refundTx2 = decode2[decode2.length - 1].args;
+		let refundedUSD = decode2[2].args.value;
+
+		// 8th event is the refund
+		let refundedSOV2 = decode2.length == 8 ? refundTx2.value : 0;
+
 		usdAmountAfter = await usdToken.balanceOf(accounts[0]);
-		expect(usdAmountAfter.toString()).to.equal( (usdAmountBefore.sub(usdAmount)).toString() );
+		expect(usdAmountAfter.toString()).to.equal( (usdAmountBefore.sub(new BN(refundedUSD))).toString() );
 
 		addedPoolTokenV1Amount = new BN(result.logs[0].args._poolTokenAmount);
-		expectedBalance = new BN(sovAmountAfter.toString()).sub(web3.utils.toBN(sovAmount));
+		expectedBalance = new BN(sovAmountAfter.toString()).sub(web3.utils.toBN(sovAmount)).add(new BN(refundedSOV2));
 
 		assert.equal(
 			(await sovToken.balanceOf(accounts[0])).toString(),
@@ -752,5 +771,134 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		expect(latestSOVBalance.toString()).to.equal(expectedSOVBalance.toString())
 	});
 
-	
+	it("verifies user can swap / trade to the non-rbtc pairs", async () => {
+		var sovAmountBefore = await sovToken.balanceOf(accounts[0]);
+		var usdAmountBefore = await usdToken.balanceOf(accounts[0]);
+
+		liquidityPoolV1Converter = await ILiquidityPoolV1Converter.at(liquidityPoolV1ConverterUSDSOV);
+		poolTokenV1Address = await liquidityPoolV1Converter.token();
+		poolTokenV1 = await ISmartToken.at(poolTokenV1Address);
+		var poolTokenV1AmountBefore = await poolTokenV1.balanceOf(accounts[0]);
+
+		var usdAmount = web3.utils.toBN(getConfigFromSOV()["converters"][0]["reserves"][0]["balance"] * 1e14);
+		var sovAmount = web3.utils.toBN(getConfigFromSOV()["converters"][0]["reserves"][1]["balance"] * 1e14);
+
+		const pathWRBTCToDoC = await sovrynSwapNetwork.conversionPath(wrbtcAddress, usdTokenAddress);
+
+		await sovToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(0), { from: accounts[0] });
+		await sovToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(sovAmount * 4), { from: accounts[0] });
+
+		await usdToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(0), { from: accounts[0] });
+		await usdToken.approve(RBTCWrapperProxy.address, web3.utils.toBN(usdAmount * 4), { from: accounts[0] });
+
+		var result = await rbtcWrapperProxy.addLiquidityToV1(
+			liquidityPoolV1ConverterUSDSOV, 
+			[usdTokenAddress,sovTokenAddress], 
+			[usdAmount, sovAmount], 
+			1, 
+		{
+			from: accounts[0],
+			to: RBTCWrapperProxy.address,
+		});
+
+		var usdAmountAfter = await usdToken.balanceOf(accounts[0]);
+
+		expect(usdAmountAfter.toString()).to.equal( (usdAmountBefore.sub(usdAmount)).toString() );
+
+		let decode = decodeLogs(result.receipt.rawLogs, IERC20, "Transfer");
+		let refundTx = decode[decode.length - 1].args;
+		let refundedSOV = refundTx.to === accounts[0] ? refundTx.value : 0;
+
+		var addedPoolTokenV1Amount = new BN(result.logs[0].args._poolTokenAmount);
+		var expectedBalance = new BN(sovAmountBefore.toString()).sub(sovAmount).add(new BN(refundedSOV))
+		assert.equal(
+			(await sovToken.balanceOf(accounts[0])).toString(),
+			expectedBalance.toString(),
+			"Wrong SOV balance"
+		);
+		
+		assert.equal(
+			(await liquidityMining.userLPBalance(accounts[0], poolTokenV1Address)).toString(),
+			addedPoolTokenV1Amount.toString(),
+			"Wrong pool token balance on LM contract (1)"
+		);
+		
+		await expectEvent(result.receipt, "LiquidityAddedToV1", {
+			_provider: accounts[0],
+			_reserveTokens: [usdTokenAddress, sovTokenAddress],
+			_reserveAmounts: [usdAmount, sovAmount], 
+			_poolTokenAmount: addedPoolTokenV1Amount,
+		});
+
+		var sovAmountAfter = await sovToken.balanceOf(accounts[0]);
+
+		usdAmountBefore = await usdToken.balanceOf(accounts[0]);
+		// Send 2x SOV, User should get 1x SOV back
+		var result = await rbtcWrapperProxy.addLiquidityToV1(
+			liquidityPoolV1ConverterUSDSOV, 
+			[usdTokenAddress,sovTokenAddress], 
+			[usdAmount, web3.utils.toBN(sovAmount * 2)], 
+			2, 
+		{
+			from: accounts[0],
+			to: RBTCWrapperProxy.address,
+		});
+
+		usdAmountAfter = await usdToken.balanceOf(accounts[0]);
+		expect(usdAmountAfter.toString()).to.equal( (usdAmountBefore.sub(usdAmount)).toString() );
+
+		addedPoolTokenV1Amount = addedPoolTokenV1Amount.add(new BN(result.logs[0].args._poolTokenAmount));
+		expectedBalance = new BN(sovAmountAfter.toString()).sub(web3.utils.toBN(sovAmount)).add(new BN(refundedSOV));
+
+		assert.equal(
+			(await sovToken.balanceOf(accounts[0])).toString(),
+			expectedBalance.toString(),
+			"Wrong SOV balance (2)"
+		);
+		
+		assert.equal(
+			(await liquidityMining.userLPBalance(accounts[0], poolTokenV1Address)).toString(),
+			addedPoolTokenV1Amount.toString(),
+			"Wrong pool token balance on LM contract (2)"
+		);
+
+		await expectEvent(result.receipt, "LiquidityAddedToV1", {
+			_provider: accounts[0],
+			_reserveTokens: [usdTokenAddress, sovTokenAddress],
+			_reserveAmounts: [usdAmount, web3.utils.toBN(sovAmount * 2)]
+		});
+
+		// SWAP / TRADE
+		var pathSUSDToSOV = await sovrynSwapNetwork.conversionPath(usdTokenAddress, sovTokenAddress);
+
+		await usdToken.approve(sovrynSwapNetwork.address, web3.utils.toBN(0), { from: accounts[0] });
+		await usdToken.approve(sovrynSwapNetwork.address, web3.utils.toBN(1e14), { from: accounts[0] });
+
+		const previousSOVBalance = await sovToken.balanceOf(accounts[0]);
+		const previousUSDBalance = await usdToken.balanceOf(accounts[0]);
+		const amountSwap = web3.utils.toBN(1e14);
+
+		var result = await sovrynSwapNetwork.convertByPath(
+			pathSUSDToSOV, // path
+			amountSwap, // amount
+			1, // minReturn
+			accounts[0], // recipient
+			ZERO_ADDRESS, // affiliate Account
+			0, // affiliate fee
+		);
+
+		decode = decodeLogs(result.receipt.rawLogs, ISovrynSwapNetwork, "Conversion");
+		conversionData = decode[0].args;
+		totalConverted = conversionData._toAmount;
+
+		expect(conversionData._fromToken).to.equal(usdTokenAddress);
+		expect(conversionData._toToken).to.equal(sovTokenAddress);
+		expect(conversionData._fromAmount).to.equal(amountSwap.toString());
+		expect(conversionData._trader).to.equal(accounts[0]);
+
+		const latestSOVBalance = await sovToken.balanceOf(accounts[0]);
+		const latestUSDBalance = await usdToken.balanceOf(accounts[0]);
+		expect(latestSOVBalance.toString()).to.equal(previousSOVBalance.add(new BN(totalConverted)).toString());
+		expect(latestUSDBalance.toString()).to.equal(previousUSDBalance.sub(amountSwap).toString());
+	});
 });
