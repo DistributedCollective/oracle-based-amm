@@ -532,7 +532,7 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		}), "ERR_INVALID_RESERVE");
 	})
 
-	it("verifies that users could send USDT and SOV, and then add liquidity to get pool token 1 (SOV refunded)", async () => {
+	it("verifies that users could send a non-rbtc based pair (USD - SOV) and then add liquidity to get pool token v1 (SOV refunded)", async () => {
 		var sovAmountBefore = await sovToken.balanceOf(accounts[0]);
 		var usdAmountBefore = await usdToken.balanceOf(accounts[0]);
 
