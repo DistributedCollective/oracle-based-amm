@@ -3,7 +3,7 @@
         {
             "symbol": "RBTC",
             "decimals": 18,
-            "address": "0x02528571A941bD4DF062007da9bbf0471a989f52"
+            "address": "0xB2A4dF67d6146067Ce20412B8a012BE9c3032614"
         },
         {
             "symbol": "SOV",
@@ -33,86 +33,86 @@
     "phase": 25,
     "contractRegistry": {
         "name": "ContractRegistry",
-        "addr": "0x095DA40fCA5dD218E0e30A38602eDe764297090D",
+        "addr": "0x3e23B8f8E9d7f636E77487A63cE86197F68fb1D7",
         "args": ""
     },
     "converterFactory": {
         "name": "ConverterFactory",
-        "addr": "0x9377d087cCED8294F12707ECFb2451131f99db8C",
+        "addr": "0xbCA4CB0d5CBeA95AE037B1c1f4E9B059114fE952",
         "args": ""
     },
     "sovrynSwapFormula": {
         "name": "SovrynSwapFormula",
-        "addr": "0x6F81891e48969853ef640342a969Cda17bB17936",
+        "addr": "0xE6dd1992286De6820d96eA6b66C186ee8a8f7874",
         "args": ""
     },
     "sovrynSwapNetwork": {
         "name": "SovrynSwapNetwork",
-        "addr": "0xe395FdffeA45E88282e3129C070425D3E26E746B",
-        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d"
+        "addr": "0x0Ca64Dc75f7a8261aC8fAEbc17ef5b427dE6F81E",
+        "args": "0000000000000000000000003e23b8f8e9d7f636e77487a63ce86197f68fb1d7"
     },
     "conversionPathFinder": {
         "name": "ConversionPathFinder",
-        "addr": "0x8B6646AEC0CD3052Bd5ba7E02CE26e41A15d1B5C",
-        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d"
+        "addr": "0xC33B6fc4389904b3ECd1e2A485a9B567EF294C9F",
+        "args": "0000000000000000000000003e23b8f8e9d7f636e77487a63ce86197f68fb1d7"
     },
     "converterUpgrader": {
         "name": "ConverterUpgrader",
-        "addr": "0x25df87a4E6B4caBE217ACD369f7d7DD98b8813f9",
-        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        "addr": "0x2C7F6259D25A58f39D70909c852E9cAF0268AAEd",
+        "args": "0000000000000000000000003e23b8f8e9d7f636e77487a63ce86197f68fb1d7000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
     },
     "converterRegistry": {
         "name": "ConverterRegistry",
-        "addr": "0xc8c7f22CD5C09734018DCcFA5fd821d749EcAfba",
-        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d"
+        "addr": "0x421c9f841f48C5B4b8a7b8227f998ea8338125a9",
+        "args": "0000000000000000000000003e23b8f8e9d7f636e77487a63ce86197f68fb1d7"
     },
     "converterRegistryData": {
         "name": "ConverterRegistryData",
-        "addr": "0xfe3F5C7cb8e91428aDf5820CCe69133851F22aa9",
-        "args": "000000000000000000000000095da40fca5dd218e0e30a38602ede764297090d"
+        "addr": "0xc157664059557E175a4B185Db0715618976A6eD6",
+        "args": "0000000000000000000000003e23b8f8e9d7f636e77487a63ce86197f68fb1d7"
     },
     "liquidTokenConverterFactory": {
         "name": "LiquidTokenConverterFactory",
-        "addr": "0x1686c7df48107fbbA231339Fd411e3AD841dFE51",
+        "addr": "0xbC97A57839c981d911E0768cF2e3B5EA3da564D9",
         "args": ""
     },
     "liquidityPoolV1ConverterFactory": {
         "name": "LiquidityPoolV1ConverterFactory",
-        "addr": "0x9850fcF5B7f0e4150c6898B9dB6808150b4E04Eb",
+        "addr": "0xbc199483BD537CB18e4447b88e322b3611F69FF0",
         "args": ""
     },
     "oracleWhitelist": {
         "name": "Whitelist",
-        "addr": "0xB61D5EfEfB65F235F6B2299C1732229F87805B3E",
+        "addr": "0x3a6ce1212F3051f73EF26a4ea3c95269747Dda19",
         "args": ""
     },
     "mocMedianizerMockUSDtoBTC": {
         "name": "MoCMedianizerMock",
-        "addr": "0x8A0AdD9a8FB875314AFb454050ED5CfEd426EA32",
+        "addr": "0x181188B68Bd062e7d1a6f5d04f5CC1Bc5fA37C1A",
         "args": ""
     },
     "RBTC": {
         "name": "RBTC",
-        "addr": "0x02528571A941bD4DF062007da9bbf0471a989f52"
+        "addr": "0xB2A4dF67d6146067Ce20412B8a012BE9c3032614"
     },
     "SOV": {
         "name": "ERC20Token",
-        "addr": "0x00CB72C8b88a21C85Dd6eCC9a47aba42FdeA21af",
+        "addr": "0xdd41d8651e93b050b8E13979FcfcB5A5d2f2f91B",
         "args": "000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000021e19e0c9bab24000000000000000000000000000000000000000000000000000000000000000000003534f5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003534f560000000000000000000000000000000000000000000000000000000000"
     },
     "Oracle": {
         "name": "Oracle",
-        "addr": "0xD5F4c507920c35150587867D2ecef6dff9486844",
-        "args": "000000000000000000000000de35a908782734e771e5a8c5f55434d052341b6f00000000000000000000000002528571a941bd4df062007da9bbf0471a989f52"
+        "addr": "0x93b33d9Bd715BFE3385a68384Fc09Fb9b800955f",
+        "args": "000000000000000000000000710fdb419c5a0f469792865fe54e0540d1254d8f000000000000000000000000b2a4df67d6146067ce20412b8a012be9c3032614"
     },
     "newLiquidityPoolV1Converter": {
         "name": "LiquidityPoolV1Converter",
-        "addr": "0xdE35a908782734e771e5A8c5F55434D052341b6f",
+        "addr": "0x710fDb419c5a0f469792865fe54e0540D1254d8F",
         "args": ""
     },
     "swapSettings": {
         "name": "SwapSettings",
-        "addr": "0x3e54d55F2183bcC5d7B72a0C3FE3aAF93d44cAe6",
-        "args": "00000000000000000000000002528571a941bd4df062007da9bbf0471a989f5200000000000000000000000002528571a941bd4df062007da9bbf0471a989f5200000000000000000000000000cb72c8b88a21c85dd6ecc9a47aba42fdea21af0000000000000000000000000000000000000000000000000000000000000000"
+        "addr": "0x9f293dF1aF5f0AecFCF68F75001d824Cad0b07B2",
+        "args": "000000000000000000000000b2a4df67d6146067ce20412b8a012be9c3032614000000000000000000000000b2a4df67d6146067ce20412b8a012be9c3032614000000000000000000000000dd41d8651e93b050b8e13979fcfcb5a5d2f2f91b0000000000000000000000000000000000000000000000000000000000000000"
     }
 }

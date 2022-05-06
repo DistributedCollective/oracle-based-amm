@@ -327,13 +327,17 @@ const run = async () => {
 
 		console.log("x: ", tokens[0])
 		const swapSettings = await web3Func(deploy, "swapSettings", "SwapSettings", [tokens[0], tokens[0], tokens[1], 0])
-		await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("SwapSettings"), swapSettings._address));
+	await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("SwapSettings"), swapSettings._address));
 
 		addresses[converter.symbol] = anchor._address;
 	}
 
-	await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addresses.RBTC));
-	await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
+	await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), "0xB2A4dF67d6146067Ce20412B8a012BE9c3032614"));
+	await execute(conversionPathFinder.methods.setAnchorToken("0xB2A4dF67d6146067Ce20412B8a012BE9c3032614"));
+	
+	// await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addresses.RBTC));
+	// await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
+
 	await execute(sovrynSwapFormula.methods.init());
 	console.log("All done");
 

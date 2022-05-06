@@ -8,7 +8,6 @@ import "./interfaces/ISmartToken.sol";
 import "./interfaces/IERC20Token.sol";
 import "./interfaces/IWrbtcERC20.sol";
 import "./interfaces/ISovrynSwapNetwork.sol";
-import "./interfaces/ISovrynSwapFormula.sol";
 import "./interfaces/IContractRegistry.sol";
 import "./ContractRegistryClient.sol";
 import "./mockups/LiquidityMining.sol";
@@ -231,7 +230,6 @@ contract RBTCWrapperProxy is ContractRegistryClient {
 
         ILiquidityPoolV1Converter _liquidityPoolConverter = ILiquidityPoolV1Converter(_liquidityPoolConverterAddress);
         ISmartToken _poolToken = ISmartToken(address(_liquidityPoolConverter.token()));
-        uint256[] memory rsvBalances = new uint256[](_reserveTokens.length);
         uint256[] memory initialProxyBalances = new uint256[](_reserveTokens.length);
         
         for (uint256 i = 0; i < _reserveTokens.length; i++) {
@@ -244,8 +242,6 @@ contract RBTCWrapperProxy is ContractRegistryClient {
                 require(IERC20Token(_reserveTokens[i]).transferFrom(msg.sender, address(this), _reserveAmounts[i]), "Failed to transfer reserve token from user");
                 require(IERC20Token(_reserveTokens[i]).approve(_liquidityPoolConverterAddress, _reserveAmounts[i]), "Failed to approve converter to transfer reserve token");
             }
-
-            (rsvBalances[i], , , , ) = _liquidityPoolConverter.reserves(address(_reserveTokens[i]));
         }
 
         uint256 poolTokenAmountBefore = _poolToken.balanceOf(address(this));
