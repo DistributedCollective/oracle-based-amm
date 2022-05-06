@@ -23,6 +23,7 @@ const ILiquidityPoolV1Converter = artifacts.require("../interfaces/ILiquidityPoo
 // const ILiquidityPoolV2Converter = artifacts.require("../interfaces/ILiquidityPoolV2Converter.sol");
 const LiquidityMining = artifacts.require("../mockups/LiquidityMining.sol");
 const LoanToken = artifacts.require("../mockups/LoanToken.sol");
+const WRBTCMockup = artifacts.require("../mockups/WRBTCMockup.sol");
 const IERC20 = artifacts.require("../interfaces/IERC20.sol");
 
 const getConfig = () => {
@@ -901,4 +902,84 @@ contract("RBTCWrapperProxy", async (accounts) => {
 		expect(latestSOVBalance.toString()).to.equal(previousSOVBalance.add(new BN(totalConverted)).toString());
 		expect(latestUSDBalance.toString()).to.equal(previousUSDBalance.sub(amountSwap).toString());
 	});
+
+	it("Withdraw token / rbtc should fail for non-authorized sender", async () => {
+		await expectRevert(rbtcWrapperProxy.withdraw(sovTokenAddress, accounts[5], 0, {from: accounts[1]}), "ERR_ACCESS_DENIED")
+		await expectRevert(rbtcWrapperProxy.withdraw(ZERO_ADDRESS, accounts[5], 0, {from: accounts[1]}), "ERR_ACCESS_DENIED")
+	})
+
+	it("Withdraw token / rbtc should fail if withdrawing 0 amount", async () => {
+		await expectRevert(rbtcWrapperProxy.withdraw(sovTokenAddress, accounts[5], 0), "non-zero withdraw amount expected")
+		await expectRevert(rbtcWrapperProxy.withdraw(ZERO_ADDRESS, accounts[5], 0), "non-zero withdraw amount expected")
+	})
+
+	it("Withdraw token / rbtc should fail if withdrawing to 0 address", async () => {
+		await expectRevert(rbtcWrapperProxy.withdraw(sovTokenAddress, ZERO_ADDRESS, 1), "receiver address invalid")
+		await expectRevert(rbtcWrapperProxy.withdraw(ZERO_ADDRESS, ZERO_ADDRESS, 1), "receiver address invalid")
+	})
+
+	it("Withdraw token / rbtc should fail for insufficient balance", async () => {
+		const receiver = accounts[5];
+		await expectRevert(rbtcWrapperProxy.withdraw(sovTokenAddress, receiver, 1), "ERR_UNDERFLOW")
+		await expectRevert(rbtcWrapperProxy.withdraw(ZERO_ADDRESS, receiver, 1), "withdraw amount cannot exceed balance")
+	})
+
+	it("Withdraw token successfully", async () => {
+		const receiver = accounts[5];
+		const stuckAmount = 10;
+		await sovToken.transfer(rbtcWrapperProxy.address, stuckAmount);
+
+		const previousSOVBalanceReceiver = await sovToken.balanceOf(receiver);
+		const previousSOVBalanceWrapper = await sovToken.balanceOf(rbtcWrapperProxy.address);
+
+		expect(previousSOVBalanceWrapper.toString()).to.equal(new BN(stuckAmount).toString());
+
+		const result = await rbtcWrapperProxy.withdraw(sovTokenAddress, receiver, stuckAmount);
+
+		await expectEvent(result.receipt, "Withdraw", {
+			token: sovTokenAddress,
+			recipient: receiver,
+			totalWithdrawn: new BN(stuckAmount)
+		});
+
+		const latestSOVBalanceReceiver = await sovToken.balanceOf(receiver);
+		const latestSOVBalanceWrapper = await sovToken.balanceOf(rbtcWrapperProxy.address);
+
+		expect(latestSOVBalanceReceiver.toString()).to.equal(previousSOVBalanceReceiver.add(new BN(stuckAmount)).toString());
+		expect(latestSOVBalanceWrapper.toString()).to.equal(previousSOVBalanceWrapper.sub(new BN(stuckAmount)).toString());
+	})
+
+	it("Withdraw rbtc successfully", async () => {
+		const receiver = accounts[5];
+		const stuckAmount = web3.utils.toWei(new BN(1), "ether");
+		const wrbtcMockup = await WRBTCMockup.new();
+		rbtcWrapperProxy = await RBTCWrapperProxy.new(
+			wrbtcMockup.address,
+			sovrynSwapNetworkAddress,
+			sovrynSwapNetworkAddress,
+			sovrynSwapNetworkAddress
+		)
+
+		await web3.eth.sendTransaction({ from: accounts[0], to: wrbtcMockup.address, value: stuckAmount });
+		await wrbtcMockup.sendRBTC(rbtcWrapperProxy.address, stuckAmount);
+
+		const previousRBTCBalanceReceiver = new BN(await web3.eth.getBalance(receiver));
+		const previousRBTCBalanceWrapper = new BN(await web3.eth.getBalance(rbtcWrapperProxy.address));
+
+		expect(previousRBTCBalanceWrapper.toString()).to.equal(new BN(stuckAmount).toString());
+
+		const result = await rbtcWrapperProxy.withdraw(ZERO_ADDRESS, receiver, stuckAmount);
+
+		await expectEvent(result.receipt, "Withdraw", {
+			token: ZERO_ADDRESS,
+			recipient: receiver,
+			totalWithdrawn: new BN(stuckAmount)
+		});
+
+		const latestRBTCBalanceReceiver = new BN(await web3.eth.getBalance(receiver));
+		const latestRBTCBalanceWrapper = new BN(await web3.eth.getBalance(rbtcWrapperProxy.address));
+
+		expect(latestRBTCBalanceReceiver.toString()).to.equal(previousRBTCBalanceReceiver.add(new BN(stuckAmount)).toString());
+		expect(latestRBTCBalanceWrapper.toString()).to.equal(previousRBTCBalanceWrapper.sub(new BN(stuckAmount)).toString());
+	})
 });

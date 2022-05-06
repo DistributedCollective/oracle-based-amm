@@ -118,6 +118,18 @@ contract RBTCWrapperProxy is ContractRegistryClient {
     );
 
     /**
+     * @dev triggered when the owner of the contract withdraw the stuck token.
+     * @param token the address of the token, 0 address means rbtc.
+     * @param recipient the recipient of the withdrawal.
+     * @param totalWithdrawn total withdrawn token / rbtc.
+     */
+    event Withdraw(
+        address indexed token,
+        address indexed recipient,
+        uint256 totalWithdrawn
+    );
+
+    /**
      * @dev To check if ddress is contract address 
      */
     modifier checkAddress(address address_) {
@@ -465,5 +477,26 @@ contract RBTCWrapperProxy is ContractRegistryClient {
                 }
             }
         }
+    }
+
+    /**
+     * @dev Owner withdraw stuck token / rbtc in this contract.
+     *
+     * @param token The token address that will be withdrawn. Pass 0 address for withdrawing rbtc.
+     * @param to The recipient of withdrawal.
+     * @param amount amount to the withdraw token / rbtc
+     */
+    function withdraw(address token, address payable to, uint256 amount) external ownerOnly {
+        require(amount > 0, "non-zero withdraw amount expected");
+        require(to != address(0), "receiver address invalid");
+
+        if (token == address(0)) {
+            require(amount <= address(this).balance, "withdraw amount cannot exceed balance");
+            to.transfer(amount);
+        } else {
+            require(IERC20Token(token).transfer(to, amount), "Failed to transfer the token");
+        }
+
+        emit Withdraw(token, to, amount);
     }
 }
