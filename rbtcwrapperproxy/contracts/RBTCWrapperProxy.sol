@@ -12,7 +12,7 @@ import "./interfaces/IContractRegistry.sol";
 import "./ContractRegistryClient.sol";
 import "./mockups/LiquidityMining.sol";
 import "./interfaces/ILoanToken.sol";
-import "./openzeppelin/SafeERC20.sol"; // copy from the protocol or from OZ - install proper version
+import "./openzeppelin/SafeERC20.sol";
 import "./interfaces/IERC20.sol";
 
 
