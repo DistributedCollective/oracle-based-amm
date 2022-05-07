@@ -12,11 +12,15 @@ import "./interfaces/IContractRegistry.sol";
 import "./ContractRegistryClient.sol";
 import "./mockups/LiquidityMining.sol";
 import "./interfaces/ILoanToken.sol";
+import "./openzeppelin/SafeERC20.sol"; // copy from the protocol or from OZ - install proper version
+import "./interfaces/IERC20.sol";
+
 
 contract RBTCWrapperProxy is ContractRegistryClient {
     
     using Address for address;
     using SafeMath for uint256;
+    using SafeERC20 for IERC20;
 
     address public wrbtcTokenAddress;
     address public sovrynSwapNetworkAddress;
@@ -486,15 +490,15 @@ contract RBTCWrapperProxy is ContractRegistryClient {
      * @param to The recipient of withdrawal.
      * @param amount amount to the withdraw token / rbtc
      */
-    function withdraw(address token, address payable to, uint256 amount) external ownerOnly {
+    function withdraw(address token, address to, uint256 amount) external ownerOnly {
         require(amount > 0, "non-zero withdraw amount expected");
         require(to != address(0), "receiver address invalid");
 
         if (token == address(0)) {
-            require(amount <= address(this).balance, "withdraw amount cannot exceed balance");
-            to.transfer(amount);
+            (bool success, ) = to.call.value(amount)("");
+            require(success, "transfer failed");
         } else {
-            require(IERC20Token(token).transfer(to, amount), "Failed to transfer the token");
+            IERC20(token).safeTransfer(to, amount);
         }
 
         emit Withdraw(token, to, amount);

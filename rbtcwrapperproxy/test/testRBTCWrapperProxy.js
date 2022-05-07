@@ -920,8 +920,8 @@ contract("RBTCWrapperProxy", async (accounts) => {
 
 	it("Withdraw token / rbtc should fail for insufficient balance", async () => {
 		const receiver = accounts[5];
-		await expectRevert(rbtcWrapperProxy.withdraw(sovTokenAddress, receiver, 1), "ERR_UNDERFLOW")
-		await expectRevert(rbtcWrapperProxy.withdraw(ZERO_ADDRESS, receiver, 1), "withdraw amount cannot exceed balance")
+		await expectRevert(rbtcWrapperProxy.withdraw(sovTokenAddress, receiver, 1), "SafeERC20: low-level call failed")
+		await expectRevert(rbtcWrapperProxy.withdraw(ZERO_ADDRESS, receiver, 1), "transfer failed")
 	})
 
 	it("Withdraw token successfully", async () => {
