@@ -32,6 +32,9 @@ solidity/build/Test*
 /rbtcwrapperproxy/private-key
 /rbtcwrapperproxy/build
 
+artifacts/
+cache/
+
 *.code-workspace
 .env
 yarn.lock
