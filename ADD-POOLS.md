@@ -78,13 +78,16 @@ You can take the commands from [commands.txt](solidity/utils/command.txt)
 
 The configuration file is updated during the process, in order to allow resuming a prematurely-terminated execution. This means, if you want to start a fresh deployment, you need to delete the "phase" section and all of the deployed contract addresses from the config file.  
 
-### Adding LM pools to the testnet and mainnet (only needed if contracts' abi were changed)
+### Adding LM pools to the testnet and mainnet
+-  to create and register a new converter
+-  if contracts' abi were changed - you will nee to delist the converter first and then register the new one
+-  if reserves addresses changed - it is optionally to remove previous converter (better do for clarity sake) 
 
-1. Before adding pools we need to make sure having updated comipled contracts in [./solidity/build/contracts](./solidity/build/contracts) using Truffle
+1. Before adding pools we need to make sure having updated compiled contracts in [./solidity/build/contracts](./solidity/build/contracts) using Truffle
 ```shell
     truffle compile
 ```
-2. Top up RBTC and WRBTC account with some RBTC to pay for tx and **WRBTC** amount for initial deposit (0.01 usually)
+2. The deploying account should have **RBTC** to pay for tx and **WRBTC** amount for initial deposit (0.01 usually)
 
 To add converters to an existing swap network, use ```addConverter.js```.
 
