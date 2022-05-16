@@ -95,13 +95,15 @@ Example creation v1 pool WRBTC/ETH
 
 Note: `data_testnet.json` and `data_mainnet.json` store contracts addresses participating in converter creation.
 
+//TODO: replace <private key> with .env 
+
 testnet:  
 
 ```node addConverter.js ETH addETHs_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
 
 mainnet:  
 
-```node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet.sovryn.app/rpc <private key>```
+```node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet2.sovryn.app/rpc <private key>```
 
 ```TODO: check if the following is for v2 pools only```
 
