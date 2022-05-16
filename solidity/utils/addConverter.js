@@ -240,6 +240,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
+		const oracle = await web3Func(deploy, "oracle", "Oracle", [newConverter]);
 		console.log("New Converter is  ", newConverter);
 		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
@@ -249,7 +250,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
 
 		// TODO: Remove next line, just here for checking which address is received from anchor. The last address shown from above anchor list should be shown.
-		console.log("Anchor Taken: ", anchor._address)
+		console.log("Anchor Taken: ", anchor._address);
 
 		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
@@ -258,6 +259,12 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		console.log("Done with ownership acceptance");
 		await execute(converterBase.methods.setConversionFee(fee));
 		console.log("Done with conversion fee");
+
+		if (type === 1) {
+			const liquidityV1PoolConverter = deployed(web3, "LiquidityPoolV1Converter", converterBase._address);
+			await execute(liquidityV1PoolConverter.methods.setOracle(oracle._address));
+			console.log("Done with adding oracle");
+		}
 
 		//adding the liquidity and thereby seeting the price
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
