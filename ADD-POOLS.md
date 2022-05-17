@@ -84,7 +84,7 @@ The configuration file is updated during the process, in order to allow resuming
 2. Before adding pools we need to make sure having updated compiled contracts in [./solidity/build/contracts](./solidity/build/contracts)
    - Run from root dir ```truffle compile```
 3. Top up deploying account with RBTC to pay tx fees and pair tokens for initial deposit if it is not zero - at least `balance` amounts in config file, e.g.  18 XUSD and 100 BRZ:
-   ```
+   ```js
    "reserves": [
                 {
                     "symbol": "XUSD",
@@ -96,7 +96,9 @@ The configuration file is updated during the process, in order to allow resuming
                     "weight": "50%",
                     "balance": "100"
                 }
-            ]
+            ],
+            "k": 6779,
+            "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab",
    ```
    * For WRBTC-paired tokens **WRBTC** amount for initial deposit is usually 0.01
 
@@ -112,13 +114,13 @@ testnet:
   
 for pairs with no WRBTC (with no internal oracle):  
 
-```node addConverterNoOracle.js ETH addBRZ_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
+```node addConverterNoOracle.js BRZ addBRZ_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
 
 mainnet:  
 
 ```node addConverter.js ETH addETHs_mainnet.json data_mainnet.json https://mainnet2.sovryn.app/rpc <private key>```  
   or respectively  
-```node addConverterNoOracle.js ETH addBRZ_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
+```node addConverterNoOracle.js BRZ addBRZ_testnet.json data_testnet.json https://public-node.testnet.rsk.co <private key>```  
 
 ```TODO: check if the following is for v2 pools only```
 
