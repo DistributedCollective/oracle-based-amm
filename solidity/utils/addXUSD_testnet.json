@@ -1,34 +1,48 @@
 {
-  "reserves": [
-    {
-      "symbol": "(WR)BTC",
-      "decimals": 18,
-      "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
-    },
-    {
-      "symbol": "XUSD",
-      "decimals": 18,
-      "address": "0xA9262cC3fb54Ea55b1b0AF00EFcA9416B8D59570"
-    }
-  ],
-  "converters": [
-    {
-      "type": 1,
-      "symbol": "(WR)BTC/XUSD",
-      "decimals": 18,
-      "fee": "0.3%",
-      "reserves": [
+    "reserves": [
         {
-          "symbol": "(WR)BTC",
-          "weight": "50%",
-          "balance": "0.0032"
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
         },
         {
-          "symbol": "XUSD",
-          "weight": "50%",
-          "balance": "100"
+            "symbol": "XUSD",
+            "decimals": 18,
+            "address": "0xa9262cc3fb54ea55b1b0af00efca9416b8d59570"
         }
-      ]
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/XUSD",
+            "decimals": 18,
+            "fee": "0.3%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0.0032"
+                },
+                {
+                    "symbol": "XUSD",
+                    "weight": "50%",
+                    "balance": "100"
+                }
+            ]
+        }
+    ],
+    "phase": 4,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "XUSD": {
+        "name": "XUSD",
+        "addr": "0xa9262cc3fb54ea55b1b0af00efca9416b8d59570"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xD877fd00ECF08eD78BF549fbc74bac3001aBBb07",
+        "args": ""
     }
-  ]
 }

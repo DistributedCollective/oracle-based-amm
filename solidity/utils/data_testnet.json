@@ -1,115 +1,119 @@
 {
-    "reserves": [
+  "reserves": [
+    {
+      "symbol": "RBTC",
+      "decimals": 18,
+      "address": ""
+    },
+    {
+      "symbol": "SUSD",
+      "decimals": 18,
+      "address": ""
+    }
+  ],
+  "converters": [
+    {
+      "type": 2,
+      "symbol": "sUSDrBTC",
+      "decimals": 18,
+      "fee": "0.1%",
+      "reserves": [
         {
-            "symbol": "RBTC",
-            "decimals": 18,
-            "address": ""
+          "symbol": "RBTC",
+          "weight": "50%",
+          "balance": "0.1"
         },
         {
-            "symbol": "SUSD",
-            "decimals": 18,
-            "address": ""
+          "symbol": "SUSD",
+          "weight": "50%",
+          "balance": "1000"
         }
-    ],
-    "converters": [
-        {
-            "type": 2,
-            "symbol": "sUSDrBTC",
-            "decimals": 18,
-            "fee": "0.1%",
-            "reserves": [
-                {
-                    "symbol": "RBTC",
-                    "weight": "50%",
-                    "balance": "0.1"
-                },
-                {
-                    "symbol": "SUSD",
-                    "weight": "50%",
-                    "balance": "1000"
-                }
-            ]
-        }
-    ],
-    "phase": 28,
-    "contractRegistry": {
-        "name": "ContractRegistry",
-        "addr": "0x0E7CcF6A67e614B507Aa524572F72C7e5Dec23CB",
-        "args": ""
-    },
-    "converterFactory": {
-        "name": "ConverterFactory",
-        "addr": "0x74690FD0Ac8602E6AfB16bB4F0a634b1c9A67735",
-        "args": ""
-    },
-    "sovrynSwapFormula": {
-        "name": "SovrynSwapFormula",
-        "addr": "0x7FF1C363b5600834bce7c514B01109eF1c103507",
-        "args": ""
-    },
-    "sovrynSwapNetwork": {
-        "name": "SovrynSwapNetwork",
-        "addr": "0x61172B53423E205a399640e5283e51FE60EC2256",
-        "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb"
-    },
-    "conversionPathFinder": {
-        "name": "ConversionPathFinder",
-        "addr": "0x1B6D3F64Ee284b8f9bBf6928549E582eDAa72DAc",
-        "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb"
-    },
-    "converterUpgrader": {
-        "name": "ConverterUpgrader",
-        "addr": "0x72A804229b129D6690Df397E350251d264De49fe",
-        "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-    },
-    "converterRegistry": {
-        "name": "ConverterRegistry",
-        "addr": "0x7816c4E1b61eE09c25974325cc20B056963423b1",
-        "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb"
-    },
-    "converterRegistryData": {
-        "name": "ConverterRegistryData",
-        "addr": "0xf958ccB5f6D1160710B59C624549661c6914624E",
-        "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb"
-    },
-    "liquidTokenConverterFactory": {
-        "name": "LiquidTokenConverterFactory",
-        "addr": "0x672901Fa606503dcE652722e42f15dBB0039980d",
-        "args": ""
-    },
-    "liquidityPoolV1ConverterFactory": {
-        "name": "LiquidityPoolV1ConverterFactory",
-        "addr": "0xb8AF39A4277Efc31eEAb161422DEe16a58895445",
-        "args": ""
-    },
-    "liquidityPoolV2ConverterFactory": {
-        "name": "LiquidityPoolV2ConverterFactory",
-        "addr": "0x386fFDFe46550D08D5A25971472274c8C3ae05fC",
-        "args": ""
-    },
-    "liquidityPoolV2ConverterAnchorFactory": {
-        "name": "LiquidityPoolV2ConverterAnchorFactory",
-        "addr": "0xa1b7B22F4296BB7943f73F382F0c0202c51d4322",
-        "args": ""
-    },
-    "liquidityPoolV2ConverterCustomFactory": {
-        "name": "LiquidityPoolV2ConverterCustomFactory",
-        "addr": "0x3AC9A49461097A7aa7c1dd7A20ee31fB59b8AC7d",
-        "args": ""
-    },
-    "oracleWhitelist": {
-        "name": "Whitelist",
-        "addr": "0x6A1b2A83a413F942A7D903DD6984A400C609fbd3",
-        "args": ""
-    },
-    "mocPriceOraclesUSDrBTCRBTC": {
-        "name": "MocBTCToUSDOracle",
-        "addr": "0x0a6858f2E0f2b42dbDD21D248da589478c507cDD",
-        "args": "0000000000000000000000002d39cc54dc44ff27ad23a91a9b5fd750dae4b218"
-    },
-    "mocPriceOraclesUSDrBTCSUSD": {
-        "name": "MocBTCToBTCOracle",
-        "addr": "0xf37963592635c020E0AD3313bA39C9BA627a3FB5",
-        "args": ""
+      ]
     }
+  ],
+  "phase": 28,
+  "contractRegistry": {
+    "name": "ContractRegistry",
+    "addr": "0x0E7CcF6A67e614B507Aa524572F72C7e5Dec23CB",
+    "args": ""
+  },
+  "converterFactory": {
+    "name": "ConverterFactory",
+    "addr": "0x74690FD0Ac8602E6AfB16bB4F0a634b1c9A67735",
+    "args": ""
+  },
+  "sovrynSwapFormula": {
+    "name": "SovrynSwapFormula",
+    "addr": "0x7FF1C363b5600834bce7c514B01109eF1c103507",
+    "args": ""
+  },
+  "sovrynSwapNetwork": {
+    "name": "SovrynSwapNetwork",
+    "addr": "0x61172B53423E205a399640e5283e51FE60EC2256",
+    "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb"
+  },
+  "conversionPathFinder": {
+    "name": "ConversionPathFinder",
+    "addr": "0x1B6D3F64Ee284b8f9bBf6928549E582eDAa72DAc",
+    "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb"
+  },
+  "converterUpgrader": {
+    "name": "ConverterUpgrader",
+    "addr": "0x72A804229b129D6690Df397E350251d264De49fe",
+    "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "converterRegistry": {
+    "name": "ConverterRegistry",
+    "addr": "0x7816c4E1b61eE09c25974325cc20B056963423b1",
+    "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb"
+  },
+  "converterRegistryData": {
+    "name": "ConverterRegistryData",
+    "addr": "0xf958ccB5f6D1160710B59C624549661c6914624E",
+    "args": "0000000000000000000000000e7ccf6a67e614b507aa524572f72c7e5dec23cb"
+  },
+  "liquidTokenConverterFactory": {
+    "name": "LiquidTokenConverterFactory",
+    "addr": "0x672901Fa606503dcE652722e42f15dBB0039980d",
+    "args": ""
+  },
+  "liquidityPoolV1ConverterFactory": {
+    "name": "LiquidityPoolV1ConverterFactory",
+    "addr": "0xb8AF39A4277Efc31eEAb161422DEe16a58895445",
+    "args": ""
+  },
+  "liquidityPoolV2ConverterFactory": {
+    "name": "LiquidityPoolV2ConverterFactory",
+    "addr": "0x386fFDFe46550D08D5A25971472274c8C3ae05fC",
+    "args": ""
+  },
+  "liquidityPoolV2ConverterAnchorFactory": {
+    "name": "LiquidityPoolV2ConverterAnchorFactory",
+    "addr": "0xa1b7B22F4296BB7943f73F382F0c0202c51d4322",
+    "args": ""
+  },
+  "liquidityPoolV2ConverterCustomFactory": {
+    "name": "LiquidityPoolV2ConverterCustomFactory",
+    "addr": "0x3AC9A49461097A7aa7c1dd7A20ee31fB59b8AC7d",
+    "args": ""
+  },
+  "oracleWhitelist": {
+    "name": "Whitelist",
+    "addr": "0x6A1b2A83a413F942A7D903DD6984A400C609fbd3",
+    "args": ""
+  },
+  "mocPriceOraclesUSDrBTCRBTC": {
+    "name": "MocBTCToUSDOracle",
+    "addr": "0x0a6858f2E0f2b42dbDD21D248da589478c507cDD",
+    "args": "0000000000000000000000002d39cc54dc44ff27ad23a91a9b5fd750dae4b218"
+  },
+  "mocPriceOraclesUSDrBTCSUSD": {
+    "name": "MocBTCToBTCOracle",
+    "addr": "0xf37963592635c020E0AD3313bA39C9BA627a3FB5",
+    "args": ""
+  },
+  "multiSigWallet": {
+    "name": "MultiSigWallet",
+    "addr": "0x189ecD23E9e34CFC07bFC3b7f5711A23F43F8a57"
+  }
 }
