@@ -66,7 +66,9 @@ You can take the commands from [commands.txt](solidity/utils/command.txt)
                     "weight": "50%",
                     "balance": "0.1167268" // balance BTC * ETH ex_rate, should be set right before deployment 
                 }
-            ]
+            ],
+            "k": 6779, // constant
+            "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab", //e.g. testnet WRBTC address
         }
     ]
 }
