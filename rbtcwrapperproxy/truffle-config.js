@@ -59,7 +59,7 @@ module.exports = {
     // options below to some value.
     //
     testnet: {
-      provider: () => new HDWalletProvider(privateKey, "wss://testnet.sovryn.app/ws"),
+      provider: () => new HDWalletProvider(privateKey, "wss://testnet.sovryn.app/websocket"),
       network_id: 31,
       gasPrice: 95000010,
       skipDryRun: true,
