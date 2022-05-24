@@ -32,7 +32,7 @@ function findMe(folders, name) {
 // and will try to find for each contract all the bytecode file paths
 function listMe(folders, F) {
   var L = Object.keys(F).length;  
-  console.log("looking for ", L, " contracts");
+  console.log("\n \n looking for ", L, " contracts \n");
   for (let i = 0; i < L; i++){
     draw(i,L,0);
     var Pth = "./";
@@ -51,7 +51,7 @@ function listMe(folders, F) {
 function draw(P, Bx, B0) {
   var Length = (Bx - B0);
   // here we have a little bug in the progress... 100% not reached (minor, to be fixed)
-  const percentage_progress = (((P - B0)/Length) * 100).toFixed(2);
+  const percentage_progress = (((P - B0 + 1)/Length) * 100).toFixed(2);
   process.stdout.clearLine();
   process.stdout.cursorTo(0);
   process.stdout.write(
