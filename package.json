@@ -16,6 +16,7 @@
     "npm": "^3.0.0"
   },
   "scripts": {
+    "docgen": "solidoc2 ./solidity ./docs",
     "build": "truffle compile",
     "test": "truffle test",
     "coverage": "truffle run coverage",
