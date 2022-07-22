@@ -14,6 +14,7 @@ const getSOVConfig = () => {
 module.exports = function (deployer, network) {
 	if(network == "development"){
 		console.log(getConfig()["SUSD"].addr)
+
 		return deployer.deploy(LoanToken, getConfig()["SUSD"].addr).then(function() {
 			return deployer.deploy(LiquidityMining, getSOVConfig()["SOV"].addr).then(function() {
 				return deployer.deploy(RBTCWrapperProxy, getConfig()["RBTC"].addr, getConfig()["sovrynSwapNetwork"].addr, getConfig()["contractRegistry"].addr, LiquidityMining.address);

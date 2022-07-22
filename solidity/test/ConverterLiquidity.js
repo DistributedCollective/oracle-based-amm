@@ -14,7 +14,6 @@ contract("ConverterLiquidity", (accounts) => {
 	const initLiquidityPool = async (hasETH, ...weights) => {
 		const smartToken = await SmartToken.new("name", "symbol", 0);
 		const converter = await LiquidityPoolV1Converter.new(smartToken.address, contractRegistry.address, 0);
-
 		for (let i = 0; i < weights.length; i++) {
 			if (hasETH && i === weights.length - 1) {
 				await converter.addReserve(ETH_RESERVE_ADDRESS, weights[i] * 10000);
@@ -94,7 +93,7 @@ contract("ConverterLiquidity", (accounts) => {
 		let smartToken;
 		let reserveTokens;
 
-		const weights = [1, 2, 3, 4, 5];
+		const weights = [1, 2];
 		const reserveAmounts = weights.map((weight) => 1);
 
 		context("without ether reserve", async () => {
@@ -170,7 +169,8 @@ contract("ConverterLiquidity", (accounts) => {
 				const state = [];
 				let expected = [];
 
-				for (const supplyAmount of [1000000000, 1000000, 2000000, 3000000, 4000000]) {
+				for (const supplyAmount of [1000000000, 1000000]) {
+					//}, 2000000, 3000000, 4000000]) {
 					const reserveAmounts = reserveTokens.map((reserveToken, i) => new BN(supplyAmount).mul(new BN(100 + i)).div(new BN(100)));
 					await Promise.all(reserveTokens.map((reserveToken, i) => approve(reserveToken, converter, reserveAmounts[i].mul(new BN(0)))));
 					await Promise.all(reserveTokens.map((reserveToken, i) => approve(reserveToken, converter, reserveAmounts[i].mul(new BN(1)))));
@@ -223,8 +223,8 @@ contract("ConverterLiquidity", (accounts) => {
 		};
 
 		for (const hasETH of [false, true]) {
-			for (const weight1 of [10, 20, 30, 40, 50, 60, 70, 80, 90]) {
-				for (const weight2 of [10, 20, 30, 40, 50, 60, 70, 80, 90]) {
+			for (const weight1 of [10, 20]) {
+				for (const weight2 of [10, 20]) {
 					if (weight1 + weight2 <= 100) {
 						test(hasETH, weight1, weight2);
 					}
@@ -233,12 +233,10 @@ contract("ConverterLiquidity", (accounts) => {
 		}
 
 		for (const hasETH of [false, true]) {
-			for (const weight1 of [10, 20, 30, 40, 50, 60]) {
-				for (const weight2 of [10, 20, 30, 40, 50, 60]) {
-					for (const weight3 of [10, 20, 30, 40, 50, 60]) {
-						if (weight1 + weight2 + weight3 <= 100) {
-							test(hasETH, weight1, weight2, weight3);
-						}
+			for (const weight1 of [10, 20]) {
+				for (const weight2 of [10, 20]) {
+					if (weight1 + weight2 <= 100) {
+						test(hasETH, weight1, weight2);
 					}
 				}
 			}

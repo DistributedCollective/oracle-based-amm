@@ -1,0 +1,123 @@
+{
+    "reserves": [
+        {
+            "symbol": "SUSD",
+            "decimals": 18,
+            "address": "0x7D4D2fE5FE76E87e18b2a0DD0676E113A416DAde"
+        },
+        {
+            "symbol": "SOV",
+            "decimals": 18,
+            "address": "0xdd41d8651e93b050b8E13979FcfcB5A5d2f2f91B"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "SUSD/SOV",
+            "decimals": 18,
+            "fee": "0.1%",
+            "reserves": [
+                {
+                    "symbol": "SUSD",
+                    "weight": "50%",
+                    "balance": "0.01"
+                },
+                {
+                    "symbol": "SOV",
+                    "weight": "50%",
+                    "balance": "67"
+                }
+            ]
+        }
+    ],
+    "contractRegistry": {
+        "name": "ContractRegistry",
+        "addr": "0x878C99382f042CB8AEabDa4C93Ad0cF560Fc35D1",
+        "args": ""
+    },
+    "converterFactory": {
+        "name": "ConverterFactory",
+        "addr": "0xe2b7E0B2fB9C317eF322A77E4D7880b1811b2E6b",
+        "args": ""
+    },
+    "sovrynSwapFormula": {
+        "name": "SovrynSwapFormula",
+        "addr": "0x0C68Bc4af58b869f269c124DC38Eccf70E2C6fF8",
+        "args": ""
+    },
+    "sovrynSwapNetwork": {
+        "name": "SovrynSwapNetwork",
+        "addr": "0x38267365CaaaA7aC97B71B7bD87Ff8CF4701C6F1",
+        "args": "000000000000000000000000878c99382f042cb8aeabda4c93ad0cf560fc35d1"
+    },
+    "conversionPathFinder": {
+        "name": "ConversionPathFinder",
+        "addr": "0x53F12F1FB95ceD342bf79C0F7C79D2291033f283",
+        "args": "000000000000000000000000878c99382f042cb8aeabda4c93ad0cf560fc35d1"
+    },
+    "converterUpgrader": {
+        "name": "ConverterUpgrader",
+        "addr": "0xd73B41F7ff39BFF18C4414F454951e3A98262900",
+        "args": "000000000000000000000000878c99382f042cb8aeabda4c93ad0cf560fc35d1000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0xa522C61C57F96014Bf310Ac45394d180a6Bf112b",
+        "args": "000000000000000000000000878c99382f042cb8aeabda4c93ad0cf560fc35d1"
+    },
+    "converterRegistryData": {
+        "name": "ConverterRegistryData",
+        "addr": "0x9B0C1cfed511Dcc277E8E3416C7D8813AB1A3F54",
+        "args": "000000000000000000000000878c99382f042cb8aeabda4c93ad0cf560fc35d1"
+    },
+    "liquidTokenConverterFactory": {
+        "name": "LiquidTokenConverterFactory",
+        "addr": "0x46c3659febC28626c3967A3DA0B7932E2A736675",
+        "args": ""
+    },
+    "liquidityPoolV1ConverterFactory": {
+        "name": "LiquidityPoolV1ConverterFactory",
+        "addr": "0xCde2D9C2513231458A8FC8219eBffF638857F2C7",
+        "args": ""
+    },
+    "mocMedianizerMockUSDtoBTC": {
+        "name": "MoCMedianizerMock",
+        "addr": "0x087c85c99Eda409a6E1c711FDa279B1B0eC60D28",
+        "args": ""
+    },
+    "RBTC": {
+        "name": "WRBTC",
+        "addr": "0xB2A4dF67d6146067Ce20412B8a012BE9c3032614",
+        "args": ""
+    },
+    "SUSD": {
+        "name": "SUSD",
+        "addr": "0x7D4D2fE5FE76E87e18b2a0DD0676E113A416DAde"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xa0ab86AD2E327F55Ce0ceAce836Aeebf379E3B3E",
+        "args": ""
+    },
+    "swapSettings": {
+        "name": "SwapSettings",
+        "addr": "0x7cE1b21f3B239Cbc1581d8f83ffD978C583BAa20",
+        "args": "000000000000000000000000b2a4df67d6146067ce20412b8a012be9c3032614000000000000000000000000b2a4df67d6146067ce20412b8a012be9c30326140000000000000000000000007d4d2fe5fe76e87e18b2a0dd0676e113a416dade0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "phase": 25,
+    "oracleWhitelist": {
+        "name": "Whitelist",
+        "addr": "0xCA409d177FD9617F744C92a304e0B9602c447199",
+        "args": ""
+    },
+    "SOV": {
+        "name": "SOV",
+        "addr": "0xdd41d8651e93b050b8E13979FcfcB5A5d2f2f91B"
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0x33D2d77AbEEf3D4Bc93fB0cD1009eB20AF3B1184",
+        "args": "000000000000000000000000a0ab86ad2e327f55ce0ceace836aeebf379e3b3e0000000000000000000000007d4d2fe5fe76e87e18b2a0dd0676e113a416dade"
+    }
+}

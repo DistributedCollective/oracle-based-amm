@@ -1,10 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 const Web3 = require("web3");
+const { constants } = require("@openzeppelin/test-helpers");
 
 const CFG_FILE_NAME = process.argv[2];
 const NODE_ADDRESS = process.argv[3];
 const PRIVATE_KEY = process.argv[4];
+
+const { ZERO_ADDRESS } = constants;
 
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
 
@@ -153,20 +156,23 @@ const run = async () => {
 	const converterRegistryData = await web3Func(deploy, "converterRegistryData", "ConverterRegistryData", [contractRegistry._address]);
 	const liquidTokenConverterFactory = await web3Func(deploy, "liquidTokenConverterFactory", "LiquidTokenConverterFactory", []);
 	const liquidityPoolV1ConverterFactory = await web3Func(deploy, "liquidityPoolV1ConverterFactory", "LiquidityPoolV1ConverterFactory", []);
-	const liquidityPoolV2ConverterFactory = await web3Func(deploy, "liquidityPoolV2ConverterFactory", "LiquidityPoolV2ConverterFactory", []);
-	const liquidityPoolV2ConverterAnchorFactory = await web3Func(
-		deploy,
-		"liquidityPoolV2ConverterAnchorFactory",
-		"LiquidityPoolV2ConverterAnchorFactory",
-		[]
-	);
-	const liquidityPoolV2ConverterCustomFactory = await web3Func(
-		deploy,
-		"liquidityPoolV2ConverterCustomFactory",
-		"LiquidityPoolV2ConverterCustomFactory",
-		[]
-	);
+	// console.log("deploy v2")
+	// const liquidityPoolV2ConverterFactory = await web3Func(deploy, "liquidityPoolV2ConverterFactory", "LiquidityPoolV2ConverterFactory", []);
+	// console.log("deploy v2 a ")
+	// const liquidityPoolV2ConverterAnchorFactory = await web3Func(
+	// 	deploy,
+	// 	"liquidityPoolV2ConverterAnchorFactory",
+	// 	"LiquidityPoolV2ConverterAnchorFactory",
+	// 	[]
+	// );
+	// const liquidityPoolV2ConverterCustomFactory = await web3Func(
+	// 	deploy,
+	// 	"liquidityPoolV2ConverterCustomFactory",
+	// 	"LiquidityPoolV2ConverterCustomFactory",
+	// 	[]
+	// );
 	const oracleWhitelist = await web3Func(deploy, "oracleWhitelist", "Whitelist", []);
+	console.log(converterRegistry._address);
 
 	const tokens = getConfig().reserves;
 	let medianizer = getConfig().mocMedianizer;
@@ -206,9 +212,9 @@ const run = async () => {
 	// initialize converter factory
 	await execute(converterFactory.methods.registerTypedConverterFactory(liquidTokenConverterFactory._address));
 	await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV1ConverterFactory._address));
-	await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address));
-	await execute(converterFactory.methods.registerTypedConverterAnchorFactory(liquidityPoolV2ConverterAnchorFactory._address));
-	await execute(converterFactory.methods.registerTypedConverterCustomFactory(liquidityPoolV2ConverterCustomFactory._address));
+	// await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address));
+	// await execute(converterFactory.methods.registerTypedConverterAnchorFactory(liquidityPoolV2ConverterAnchorFactory._address));
+	// await execute(converterFactory.methods.registerTypedConverterCustomFactory(liquidityPoolV2ConverterCustomFactory._address));
 
 	for (const reserve of getConfig().reserves) {
 		if (reserve.address) {
@@ -247,14 +253,18 @@ const run = async () => {
 
 		console.log("Deploying converter for ", type, " - ", name, " with value ", value);
 
+		console.log(converterRegistry._address);
 		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
 		console.log("New Converter is  ", newConverter);
 
-    const oracle = await web3Func(deploy, "oracle", "Oracle", [newConverter]);
+		console.log("Test1");
+		const oracle = await web3Func(deploy, "Oracle", "Oracle", [newConverter, tokens[0]]);
+		console.log("Test2");
 		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
+		console.log("Test3");
 
 		console.log("Calling anchors");
 		console.log(await converterRegistry.methods.getAnchors().call());
@@ -315,11 +325,19 @@ const run = async () => {
 			}
 		}
 
+		console.log("x: ", tokens[0])
+		const swapSettings = await web3Func(deploy, "swapSettings", "SwapSettings", [tokens[0], tokens[0], tokens[1], 0])
+	await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("SwapSettings"), swapSettings._address));
+
 		addresses[converter.symbol] = anchor._address;
 	}
 
-	await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addresses.RBTC));
-	await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
+	await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), "0xB2A4dF67d6146067Ce20412B8a012BE9c3032614"));
+	await execute(conversionPathFinder.methods.setAnchorToken("0xB2A4dF67d6146067Ce20412B8a012BE9c3032614"));
+	
+	// await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addresses.RBTC));
+	// await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
+
 	await execute(sovrynSwapFormula.methods.init());
 	console.log("All done");
 
