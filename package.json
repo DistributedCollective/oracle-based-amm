@@ -16,10 +16,13 @@
     "npm": "^3.0.0"
   },
   "scripts": {
+    "docgen": "solidoc2 ./solidity ./docs",
     "build": "truffle compile",
     "test": "truffle test",
     "coverage": "truffle run coverage",
     "export": "node scripts/export.js",
+    "SOV": "node scripts/SOV.js",
+    "USDSOV": "node scripts/USDSOV.js",
     "lint": "npm run lint:js && npm run lint:sol",
     "lint:js": "eslint .",
     "lint:sol": "solhint \"solidity/contracts/**/*.sol\"",

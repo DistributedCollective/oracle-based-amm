@@ -1,13 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 const Web3 = require("web3");
-const { constants } = require("@openzeppelin/test-helpers");
+const prettier = require("prettier");
 
 const CFG_FILE_NAME = process.argv[2];
 const NODE_ADDRESS = process.argv[3];
 const PRIVATE_KEY = process.argv[4];
-
-const { ZERO_ADDRESS } = constants;
+// this flag is true by default 
+const flag = process.argv[5] !== 'false' ? true : false;
 
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
 
@@ -118,15 +118,65 @@ const percentageToPPM = (value) => {
 	return decimalToInteger(value.replace("%", ""), 4);
 };
 
-const run = async () => {
-	const web3 = new Web3(NODE_ADDRESS);
+const clean = async (fileName) => {
+	// 1. we retreive the content of fileName and store it in a local variable
+	let localV = fs.readFileSync(fileName, {encoding:'utf8', flag:'r'});
+	let localJson;
+	try {
+		localJson = JSON.parse(localV);
+	} catch (error) {
+		console.log('\n the file ' + fileName + '\n needs to be in JSON format');
+		return;
+	}
+	// 2. we create a new local variable and assign it just with the contents of "reserves" and "converters" with previous local variable
+	let newLocal = {};
+	if (localJson.reserves) newLocal.reserves = localJson.reserves;
+	if (localJson.converters) newLocal.converters = localJson.converters;
+	newLocal = prettier.format(JSON.stringify(newLocal),{ semi: false, parser: "json" });
+	// 3. we create an new file just with the newLocal content
+	let foLder = path.dirname(fileName);
+	let eXtension = path.extname(fileName);		
+	fs.writeFileSync(path.format({
+		dir: foLder, name: 'random', ext: eXtension
+	}), newLocal);
+	// 4. then we rename the new file as the fileName, leaving totally clean that file
+	try {
+		fs.renameSync(path.format({
+			dir: foLder, name: 'random', ext: eXtension
+		}), fileName);		
+		console.log('\n' + fileName + ' Successfully cleaned \n');
+	} catch (err) {
+		if (err) throw err;		
+	}	
+}
 
+const run = async (flag) => {
+
+	console.log('\n please, make sure you provided a valid private key managed by your URL provider \n');
+
+	const web3 = new Web3(NODE_ADDRESS);
 	const gasPrice = await getGasPrice(web3);
 	const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
 	const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
-
 	const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
 	const tokenDecimals = { ETH: 18 };
+
+	await clean(CFG_FILE_NAME);
+
+	if(!flag) {
+		let f = require('./config_rsk.json');
+		let g = getConfig();
+		let k = Object.keys(f);
+		let phase = 0;
+		setConfig({ phase });
+		for (let i = 3; i < k.length ; i++) {
+			if (k[i] != 'newLiquidityPoolV1Converter' && k[i] != 'Oracle' && k[i] != 'oracleWhitelist') {
+				g[k[i]] = f[k[i]];
+				setConfig({ [k[i]] : g[k[i]] });	
+			}
+		}
+		let conTrol = await scan('\n please check status of config_rsk.json and addUSDSOV.json \n and press enter \n');
+	}
 
 	/*
     if (!getConfig().mocMedianizer) {
@@ -138,6 +188,7 @@ const run = async () => {
 		setConfig({ phase });
 	}
 	const execute = async (transaction, ...args) => {
+		console.log('\n the value of "phase" in the .json file is: ' + getConfig().phase + '\n and the actual value of phase is: ' + phase);		
 		if (getConfig().phase === phase++) {
 			await web3Func(send, transaction, ...args);
 			console.log(`phase ${phase} executed`);
@@ -172,7 +223,7 @@ const run = async () => {
 	// 	[]
 	// );
 	const oracleWhitelist = await web3Func(deploy, "oracleWhitelist", "Whitelist", []);
-	console.log(converterRegistry._address);
+	console.log('\n converterRegistry contract address: ' + converterRegistry._address);
 
 	const tokens = getConfig().reserves;
 	let medianizer = getConfig().mocMedianizer;
@@ -257,6 +308,8 @@ const run = async () => {
 		const newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
+		console.log('\n why is this transaction repeated?... NEEDS REFACTOR \n');
+	
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
 		console.log("New Converter is  ", newConverter);
 
@@ -267,7 +320,7 @@ const run = async () => {
 		console.log("Test3");
 
 		console.log("Calling anchors");
-		console.log(await converterRegistry.methods.getAnchors().call());
+		console.log('\n the list of anchors: \n' + await converterRegistry.methods.getAnchors().call());
 
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
 		const converterBase = deployed(web3, "ConverterBase", newConverter);
@@ -332,11 +385,20 @@ const run = async () => {
 		addresses[converter.symbol] = anchor._address;
 	}
 
-	await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), "0xB2A4dF67d6146067Ce20412B8a012BE9c3032614"));
-	await execute(conversionPathFinder.methods.setAnchorToken("0xB2A4dF67d6146067Ce20412B8a012BE9c3032614"));
-	
-	// await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addresses.RBTC));
-	// await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
+	if(flag) {
+		await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addresses.RBTC));
+		await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
+	} else {
+		let RBTC_ = require('./config_rsk.json').RBTC.addr;
+		if (RBTC_) console.log('\n please, copy - paste this address below: ' + RBTC_);
+		// in scan() there are instructions to do this very thing without "seadline-sync"
+		let addressWRBTC = await scan('Please, provide the WRBTC address: ');
+		addressWRBTC = addressWRBTC.toLowerCase();
+		console.log('\n address for WRBTC contract: ' + addressWRBTC + '\n');
+
+		await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addressWRBTC));
+		await execute(conversionPathFinder.methods.setAnchorToken(addressWRBTC));
+	}
 
 	await execute(sovrynSwapFormula.methods.init());
 	console.log("All done");
@@ -346,4 +408,4 @@ const run = async () => {
 	}
 };
 
-run();
+run(flag);
