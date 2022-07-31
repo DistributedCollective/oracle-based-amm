@@ -386,8 +386,13 @@ const run = async (flag) => {
 	}
 
 	if(flag) {
-		await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addresses.RBTC));
-		await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
+		if (web3.utils.isAddress(addresses.RBTC)) {
+			await execute(contractRegistry.methods.registerAddress(Web3.utils.asciiToHex("RBTCToken"), addresses.RBTC));
+			await execute(conversionPathFinder.methods.setAnchorToken(addresses.RBTC));
+		} else {
+			console.log('\n make sure you used the exact word "false" at the end of the console command \n');
+			return;
+		}
 	} else {
 		let RBTC_ = require('./config_rsk.json').RBTC.addr;
 		if (RBTC_) console.log('\n please, copy - paste this address below: ' + RBTC_);
