@@ -1,0 +1,48 @@
+{
+  "reserves": [
+      {
+          "symbol": "(WR)BTC",
+          "decimals": 18,
+          "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+      },
+      {
+          "symbol": "DLLR",
+          "decimals": 18,
+          "address": "0x007b3aa69a846cb1f76b60b3088230a52d2a83ac"
+      }
+  ],
+  "converters": [
+      {
+          "type": 1,
+          "symbol": "(WR)BTC/DLLR",
+          "decimals": 18,
+          "fee": "0.1%",
+          "reserves": [
+              {
+                  "symbol": "(WR)BTC",
+                  "weight": "50%",
+                  "balance": "0.027"
+              },
+              {
+                  "symbol": "DLLR",
+                  "weight": "50%",
+                  "balance": "100"
+              }
+          ]
+      }
+  ],
+  "phase": 4,
+  "(WR)BTC": {
+      "name": "(WR)BTC",
+      "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+  },
+  "DLLR": {
+      "name": "DLLR",
+      "addr": "0x007b3aa69a846cb1f76b60b3088230a52d2a83ac"
+  },
+  "newLiquidityPoolV1Converter": {
+      "name": "LiquidityPoolV1Converter",
+      "addr": "0x5fc0b3ac4683bd8af8e244e646d897a2c3f2a6ac",
+      "args": ""
+  }
+}

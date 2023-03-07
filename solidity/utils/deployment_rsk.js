@@ -70,7 +70,7 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
 				data: transaction.encodeABI(),
 				gas: Math.max(await transaction.estimateGas({ from: account.address, value: value }), MIN_GAS_LIMIT),
 				gasPrice: gasPrice || (await getGasPrice(web3)),
-				chainId: await web3.eth.net.getId(),
+				chainId: await web3.eth.getChainId(),
 				value: value,
 			};
 			const signed = await web3.eth.accounts.signTransaction(tx, account.privateKey);
@@ -153,7 +153,7 @@ const run = async () => {
 	const converterRegistryData = await web3Func(deploy, "converterRegistryData", "ConverterRegistryData", [contractRegistry._address]);
 	const liquidTokenConverterFactory = await web3Func(deploy, "liquidTokenConverterFactory", "LiquidTokenConverterFactory", []);
 	const liquidityPoolV1ConverterFactory = await web3Func(deploy, "liquidityPoolV1ConverterFactory", "LiquidityPoolV1ConverterFactory", []);
-	const liquidityPoolV2ConverterFactory = await web3Func(deploy, "liquidityPoolV2ConverterFactory", "LiquidityPoolV2ConverterFactory", []);
+	// const liquidityPoolV2ConverterFactory = await web3Func(deploy, "liquidityPoolV2ConverterFactory", "LiquidityPoolV2ConverterFactory", []);
 	const liquidityPoolV2ConverterAnchorFactory = await web3Func(
 		deploy,
 		"liquidityPoolV2ConverterAnchorFactory",
@@ -206,7 +206,7 @@ const run = async () => {
 	// initialize converter factory
 	await execute(converterFactory.methods.registerTypedConverterFactory(liquidTokenConverterFactory._address));
 	await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV1ConverterFactory._address));
-	await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address));
+	// await execute(converterFactory.methods.registerTypedConverterFactory(liquidityPoolV2ConverterFactory._address));
 	await execute(converterFactory.methods.registerTypedConverterAnchorFactory(liquidityPoolV2ConverterAnchorFactory._address));
 	await execute(converterFactory.methods.registerTypedConverterCustomFactory(liquidityPoolV2ConverterCustomFactory._address));
 
@@ -231,6 +231,7 @@ const run = async () => {
 
 	for (const converter of getConfig().converters) {
 		const type = converter.type;
+		if(type != 2) continue;
 		const name = converter.symbol + (type == 0 ? " Liquid Token" : " Liquidity Pool");
 		const symbol = converter.symbol;
 		const decimals = converter.decimals;

@@ -3,15 +3,15 @@ const path = require("path");
 const Web3 = require("web3");
 
 const TOKEN_NAME = process.argv[2];
-const NETWORK = process.argv[3];
+const TOKEN_CONFIG_FILENAME = process.argv[3];
+const DATA_FILENAME = process.argv[4];
 const NODE_ADDRESS = process.argv[5];
 const PRIVATE_KEY = process.argv[6];
 
-const ARTIFACTS_DIR = path.resolve(__dirname, "../build");
+const ARTIFACTS_DIR = path.resolve(__dirname, "../build/contracts");
 
 const MIN_GAS_LIMIT = 100000;
-const TOKEN_CONFIG_FILENAME = `config_${NETWORK}_${TOKEN_NAME}.json`;
-const DATA_FILENAME = `add_${TOKEN_NAME}.json`;
+
 String.prototype.replaceAll = function (exp, newStr) {
 	return this.replace(new RegExp(exp, "gm"), newStr);
 };
@@ -35,25 +35,19 @@ String.prototype.format = function (args) {
 	return result;
 };
 
-let web3;
-let gasPrice;
-let account;
-let phase = 0;
-
-const initialiseWeb3 = async () => {
-	const nodeURL = NODE_ADDRESS;
-	const privateKey = PRIVATE_KEY;
-	web3 = new Web3(nodeURL);
-	account = await web3.eth.accounts.privateKeyToAccount(privateKey);
-	gasPrice = await getGasPrice(web3);
-}
-
 const getConfig = () => {
+	//return JSON.parse(fs.readFileSync(path.join(__dirname, "add{token}.json".format({ token: TOKEN_NAME })), { encoding: "utf8" }));
 	return JSON.parse(fs.readFileSync(path.join(__dirname, TOKEN_CONFIG_FILENAME), { encoding: "utf8" }));
 };
 
+const getData = () => {
+	//TODO read the config according to the network; temporarily moved to input params
+	//return JSON.parse(fs.readFileSync("./config_rsk_testnet.json", { encoding: "utf8" }));
+	return JSON.parse(fs.readFileSync(DATA_FILENAME, { encoding: "utf8" }));
+};
+
 const setConfig = (record) => {
-	fs.writeFileSync(path.join(__dirname, DATA_FILENAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
+	fs.writeFileSync(path.join(__dirname, TOKEN_CONFIG_FILENAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
 };
 
 const scan = async (message) => {
@@ -125,15 +119,24 @@ const send = async (web3, account, gasPrice, transaction, value = 0) => {
 };
 
 const deploy = async (web3, account, gasPrice, contractId, contractName, contractArgs) => {
-	if (getConfig()[contractId] === undefined) {
+	if (getConfig()[contractId] === undefined || contractId === "Oracle") {
 		const buildFile = JSON.parse(fs.readFileSync(path.join(ARTIFACTS_DIR, contractName + ".json"), { encoding: "utf8" }));
-		const contract = new web3.eth.Contract(abi);
-		const options = { data: bin, arguments: contractArgs };
+
+		const contract = new web3.eth.Contract(buildFile.abi);
+		const options = { data: buildFile.bytecode, arguments: contractArgs };
 		const transaction = contract.deploy(options);
 		const receipt = await send(web3, account, gasPrice, transaction);
 		const args = transaction.encodeABI().slice(options.data.length);
 		console.log(`${contractId} deployed at ${receipt.contractAddress}`);
-		setConfig({ [contractId]: { name: contractName, addr: receipt.contractAddress, args: args } });
+
+		let configName = contractId;
+		let converterIndex = 0;
+		//TODO: IMPORTANT - FIGURE OUT HOW TO GET CONVERTER INDEX! IT WON'T WORK WITH MUlTIPLE CONVERTERS!
+		//TODO: move oracle to "converters"
+		//if (contractId === "Oracle") configName = `${contractId}${converterIndex++}`;
+		if (contractId === "Oracle") configName = `${contractId}`;
+		setConfig({ [configName]: { name: contractName, addr: receipt.contractAddress, args: args } });
+		return deployed(web3, contractName, receipt.contractAddress);
 	}
 	return deployed(web3, contractName, getConfig()[contractId].addr);
 };
@@ -152,19 +155,35 @@ const percentageToPPM = (value) => {
 	return decimalToInteger(value.replace("%", ""), 4);
 };
 
-const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
-const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
-const tokenDecimals = { ETH: 18 };
-
 const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, oracleMockHas) => {
-	await initialiseWeb3();
+	const web3 = new Web3(NODE_ADDRESS);
 
+	const gasPrice = await getGasPrice(web3);
+	const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
+	console.log("account: ", account);
+	const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
+
+	const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
+	const tokenDecimals = { ETH: 18 };
+
+	let phase = 0;
 	if (getConfig().phase === undefined) {
 		setConfig({ phase });
 	}
 
-	const converterRegistry = await deployed(web3, "ConverterRegistry", getConfig().converterRegistry.addr);
-	const oracleWhitelist = await deployed(web3, "Whitelist", getConfig().oracleWhitelist.addr);
+	const execute = async (transaction, ...args) => {
+		if (getConfig().phase === phase++) {
+			await web3Func(send, transaction, ...args);
+			console.log(`phase ${phase} executed`);
+			setConfig({ phase });
+		}
+	};
+
+	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
+	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
+	
+	let multiSigWallet;
+	if (getData().multiSigWallet.addr !== "") multiSigWallet = deployed(web3, getData().multiSigWallet.name, getData().multiSigWallet.addr);
 
 	//this block is just relevant for v2 pools
 	let underlyingOracleAddress = [];
@@ -232,7 +251,6 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
-		const oracle = await web3Func(deploy, "oracle", "Oracle", [newConverter]);
 		console.log("New Converter is  ", newConverter);
 		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 
@@ -241,7 +259,8 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
 
-		console.log("Anchor Taken: ", anchor._address)
+		// TODO: Remove next line, just here for checking which address is received from anchor. The last address shown from above anchor list should be shown.
+		//console.log("Anchor Taken: ", anchor);
 
 		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
@@ -252,11 +271,24 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		console.log("Done with conversion fee");
 
 		if (type === 1) {
+			console.log("Deploying Oracle");
+			const oracle = await web3Func(deploy, "Oracle", "Oracle", [converterBase._address, getConfig().btcAddress]);
+
+			console.log("Setting k", getConfig().k);
+			await execute(oracle.methods.setK(getConfig().k));
+
+			console.log("Setting oracle in converter", oracle._address);
 			const liquidityV1PoolConverter = deployed(web3, "LiquidityPoolV1Converter", converterBase._address);
 			await execute(liquidityV1PoolConverter.methods.setOracle(oracle._address));
 			console.log("Done with adding oracle");
-		}
 
+			if (multiSigWallet !== undefined) {
+				console.log("Updating oracle ownership");
+				await execute(oracle.methods.transferOwnership(multiSigWallet._address));
+			} else {
+				console.log("Oracle owner is account: ", await oracle.methods.owner().call());
+			}
+		}
 		//adding the liquidity and thereby seeting the price
 		if (type !== 0 && amounts.every((amount) => amount > 0)) {
 			for (let i = 0; i < converter.reserves.length; i++) {
@@ -273,7 +305,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 						const oracleName = reserve.symbol === "RBTC" ? "MocBTCToUSDOracle" : tokenOracleName;
 						//mocMedianizerMockUSDtoBTC is actually returning BTCtoUSD
 						const mocOracleArgs =
-							oracleName === "MocBTCToUSDOracle" ? [getConfig().mocMedianizerMockUSDtoBTC.addr] : [underlyingOracleAddress];
+							oracleName === "MocBTCToUSDOracle" ? [getData().mocMedianizerMockUSDtoBTC.addr] : [underlyingOracleAddress];
 						const mocPriceOracle = await web3Func(
 							deploy,
 							"mocPriceOracle" + converter.symbol + reserve.symbol,
@@ -311,6 +343,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		addresses[converter.symbol] = anchor._address;
 	}
 
+	//TODO: add transfer ownership of converter to multisig
 	console.log("All done");
 
 	if (web3.currentProvider.constructor.name === "WebsocketProvider") {

@@ -80,7 +80,7 @@
     },
     "liquidityPoolV1ConverterFactory": {
         "name": "LiquidityPoolV1ConverterFactory",
-        "addr": "0x812b156bFD6fA7C4c86d26E6699A82F75FA5AaEB",
+        "addr": "0xD9C68613bd33c3C47235AAb22A7152837ffff453",
         "args": ""
     },
     "liquidityPoolV2ConverterFactory": {
@@ -111,6 +111,11 @@
     "mocPriceOraclesUSDrBTCSUSD": {
         "name": "MocBTCToBTCOracle",
         "addr": "0xf5DF3b2AE0c4E2c8912E177f6BD8ca6d479397A2",
+        "args": ""
+    },
+    "multiSigWallet": {
+        "name": "MultiSigWallet",
+        "addr": "0x924f5ad34698Fd20c90Fe5D5A8A0abd3b42dc711",
         "args": ""
     }
 }

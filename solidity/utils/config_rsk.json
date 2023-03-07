@@ -32,5 +32,86 @@
                 }
             ]
         }
-    ]
+    ],
+    "phase": 19,
+    "contractRegistry": {
+        "name": "ContractRegistry",
+        "addr": "0xc7a8493be58E5ca8DEb71Fb22f66Df278E7FEEab",
+        "args": ""
+    },
+    "converterFactory": {
+        "name": "ConverterFactory",
+        "addr": "0xD04B9DA881DffDa154Bc4654A3212993a6063f04",
+        "args": ""
+    },
+    "sovrynSwapFormula": {
+        "name": "SovrynSwapFormula",
+        "addr": "0x8C1BeBbAB9bB76bDfa700864BbD75F71f95619Ef",
+        "args": ""
+    },
+    "sovrynSwapNetwork": {
+        "name": "SovrynSwapNetwork",
+        "addr": "0x4b84E8797f0CD280d8EA38eeB5eaDBC44173EbDF",
+        "args": "000000000000000000000000c7a8493be58e5ca8deb71fb22f66df278e7feeab"
+    },
+    "conversionPathFinder": {
+        "name": "ConversionPathFinder",
+        "addr": "0x71De192e3B47A11a0304c52c5f121Cf9ee0279DB",
+        "args": "000000000000000000000000c7a8493be58e5ca8deb71fb22f66df278e7feeab"
+    },
+    "converterUpgrader": {
+        "name": "ConverterUpgrader",
+        "addr": "0x254e2c0382C63FBAEbEaaf626EA603057d023732",
+        "args": "000000000000000000000000c7a8493be58e5ca8deb71fb22f66df278e7feeab000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "converterRegistry": {
+        "name": "ConverterRegistry",
+        "addr": "0x508dD2FeC0383B1d8a369ACDcBCfcdc2e6aA1808",
+        "args": "000000000000000000000000c7a8493be58e5ca8deb71fb22f66df278e7feeab"
+    },
+    "converterRegistryData": {
+        "name": "ConverterRegistryData",
+        "addr": "0x2eA8f9269214BEC4a7C659a2a06ae652f79290AE",
+        "args": "000000000000000000000000c7a8493be58e5ca8deb71fb22f66df278e7feeab"
+    },
+    "liquidTokenConverterFactory": {
+        "name": "LiquidTokenConverterFactory",
+        "addr": "0x171001D4AA7808b571be91Cb3b43e2eC77e03369",
+        "args": ""
+    },
+    "liquidityPoolV1ConverterFactory": {
+        "name": "LiquidityPoolV1ConverterFactory",
+        "addr": "0xA96De4807739DF2fcbeDE85A23966Dde45c614c1",
+        "args": ""
+    },
+    "liquidityPoolV2ConverterAnchorFactory": {
+        "name": "LiquidityPoolV2ConverterAnchorFactory",
+        "addr": "0x4426cA62580839e93d35cd2946454732A8489232",
+        "args": ""
+    },
+    "liquidityPoolV2ConverterCustomFactory": {
+        "name": "LiquidityPoolV2ConverterCustomFactory",
+        "addr": "0x1aFE5bB6B0A8D8b57d7DA7D4582f9d90031a3EFd",
+        "args": ""
+    },
+    "oracleWhitelist": {
+        "name": "Whitelist",
+        "addr": "0xEFB1FA3E17d39d861C3658C640D0a6722692C254",
+        "args": ""
+    },
+    "mocMedianizerMockUSDtoBTC": {
+        "name": "MoCMedianizerMock",
+        "addr": "0x8D130EaB6882E103E7cA9c61d4F64b7f9E9A8bBc",
+        "args": ""
+    },
+    "RBTC": {
+        "name": "WRBTC",
+        "addr": "0xD3302502646C3f4C65bC6062b5ff5278Ae490117",
+        "args": ""
+    },
+    "SUSD": {
+        "name": "ERC20Token",
+        "addr": "0x7D9053AA635a064698aFe904eDd09e3a0D2AA5B4",
+        "args": "000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000021e19e0c9bab24000000000000000000000000000000000000000000000000000000000000000000004535553440000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000045355534400000000000000000000000000000000000000000000000000000000"
+    }
 }
