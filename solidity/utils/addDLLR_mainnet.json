@@ -1,36 +1,55 @@
 {
-  "reserves": [
-      {
-          "symbol": "(WR)BTC",
-          "decimals": 18,
-          "address": "0x542fda317318ebf1d3deaf76e0b632741a7e677d"
-      },
-      {
-          "symbol": "DLLR",
-          "decimals": 18,
-          "address": "0xc1411567d2670e24d9C4DaAa7CdA95686e1250AA"
-      }
-  ],
-  "converters": [
-      {
-          "type": 1,
-          "symbol": "(WR)BTC/DLLR",
-          "decimals": 18,
-          "fee": "0.35%",
-          "reserves": [
-              {
-                  "symbol": "(WR)BTC",
-                  "weight": "50%",
-                  "balance": "0.027"
-              },
-              {
-                  "symbol": "DLLR",
-                  "weight": "50%",
-                  "balance": "100"
-              }
-          ]
-      }
-  ],
-  "k": 6779,
-  "btcAddress": "0x542fda317318ebf1d3deaf76e0b632741a7e677d"
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x542fda317318ebf1d3deaf76e0b632741a7e677d"
+        },
+        {
+            "symbol": "DLLR",
+            "decimals": 18,
+            "address": "0xc1411567d2670e24d9C4DaAa7CdA95686e1250AA"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/DLLR",
+            "decimals": 18,
+            "fee": "0.35%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0.027"
+                },
+                {
+                    "symbol": "DLLR",
+                    "weight": "50%",
+                    "balance": "100"
+                }
+            ]
+        }
+    ],
+    "k": 6779,
+    "btcAddress": "0x542fda317318ebf1d3deaf76e0b632741a7e677d",
+    "phase": 7,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x542fda317318ebf1d3deaf76e0b632741a7e677d"
+    },
+    "DLLR": {
+        "name": "DLLR",
+        "addr": "0xc1411567d2670e24d9C4DaAa7CdA95686e1250AA"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xe81373285eb8cdee2e0108e98c5aa022948da9d2",
+        "args": ""
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0x5B57E9d802dd196b37dDE7E54dE9B415866669c3",
+        "args": "000000000000000000000000e81373285eb8cdee2e0108e98c5aa022948da9d2000000000000000000000000542fda317318ebf1d3deaf76e0b632741a7e677d"
+    }
 }
