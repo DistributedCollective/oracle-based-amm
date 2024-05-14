@@ -8,6 +8,12 @@ const DATA_FILENAME = process.argv[4];
 const NODE_ADDRESS = process.argv[5];
 const PRIVATE_KEY = process.argv[6];
 
+console.log("TOKEN_NAME:", TOKEN_NAME);
+console.log("TOKEN_CONFIG_FILENAME:", TOKEN_CONFIG_FILENAME);
+console.log("DATA_FILENAME:", DATA_FILENAME);
+console.log("NODE_ADDRESS:", NODE_ADDRESS);
+console.log("PRIVATE_KEY:", PRIVATE_KEY);
+
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build/contracts");
 
 const MIN_GAS_LIMIT = 100000;
@@ -181,7 +187,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
 	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
-	
+
 	let multiSigWallet;
 	if (getData().multiSigWallet.addr !== "") multiSigWallet = deployed(web3, getData().multiSigWallet.name, getData().multiSigWallet.addr);
 
@@ -235,15 +241,19 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		const tokens = converter.reserves.map((reserve) => addresses[reserve.symbol]);
 		const weights = converter.reserves.map((reserve) => percentageToPPM(reserve.weight));
 		const amounts = converter.reserves.map((reserve) => decimalToInteger(reserve.balance, tokenDecimals[reserve.symbol]));
-		const value = 0; // amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'RBTC')];
+		const value = 0; // amounts[converter.reserves.findIndex(reserve => reserve.symbol === 'RBTC')]; //@todo uncomment?
+		//const value = amounts[converter.reserves.findIndex(reserve => reserve.symbol === '(WR)BTC')]; 
+		//console.log('value:', value);
 
 		console.log("Deploying converter for ", type, " - ", name, " with value ", value);
+		console.log("phase:", getConfig()["phase"]);
 		if (getConfig()["phase"] > 0) console.log(`Restarting from phase #${getConfig()["phase"]}`);
 
 		let newConverter;
 		//if the script breaks during execution, run it again, it will resume from the point of failure automagically
 		if (getConfig()["phase"] < 2) {
 			newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
+			console.log(newConverter);
 		} else {
 			newConverter = getConfig()[`newLiquidityPoolV${type}Converter`].addr;
 			console.log("Using previously created converter  ", newConverter);

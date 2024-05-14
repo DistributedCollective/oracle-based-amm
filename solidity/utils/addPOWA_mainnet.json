@@ -16,24 +16,24 @@
             "type": 1,
             "symbol": "(WR)BTC/POWA",
             "decimals": 18,
-            "fee": "0.35%",
+            "fee": "0.5%",
             "reserves": [
                 {
                     "symbol": "(WR)BTC",
                     "weight": "50%",
-                    "balance": "0.001"
+                    "balance": "0.001676709713680224"
                 },
                 {
                     "symbol": "POWA",
                     "weight": "50%",
-                    "balance": "100"
+                    "balance": "39840048"
                 }
             ]
         }
     ],
     "k": 6779,
     "btcAddress": "0x542fda317318ebf1d3deaf76e0b632741a7e677d",
-    "phase": 0,
+    "phase": 10,
     "(WR)BTC": {
         "name": "(WR)BTC",
         "addr": "0x542fda317318ebf1d3deaf76e0b632741a7e677d"
@@ -41,5 +41,15 @@
     "POWA": {
         "name": "POWA",
         "addr": "0xfe8929d36ac789c562008abd59f5dd7e1eb1f5b6"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0x4531DD0f24D204c08b251084E12ce3D3e70Dd03e",
+        "args": ""
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0xB6e20eC14109Ba3fd2716ff0dD2AAE4FE78e75E9",
+        "args": "0000000000000000000000004531dd0f24d204c08b251084e12ce3d3e70dd03e000000000000000000000000542fda317318ebf1d3deaf76e0b632741a7e677d"
     }
 }
