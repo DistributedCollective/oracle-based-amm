@@ -1,0 +1,45 @@
+{
+    "reserves": [
+        {
+            "symbol": "(WR)BTC",
+            "decimals": 18,
+            "address": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+        },
+        {
+            "symbol": "USDT0",
+            "decimals": 18,
+            "address": "0xc7d5944654eD41011efe0A4cB8446B0416545A11"
+        }
+    ],
+    "converters": [
+        {
+            "type": 1,
+            "symbol": "(WR)BTC/USDT0",
+            "decimals": 18,
+            "fee": "0.1%",
+            "reserves": [
+                {
+                    "symbol": "(WR)BTC",
+                    "weight": "50%",
+                    "balance": "0.0009"
+                },
+                {
+                    "symbol": "USDT0",
+                    "weight": "50%",
+                    "balance": "100"
+                }
+            ]
+        }
+    ],
+    "k": 6779,
+    "btcAddress": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab",
+    "phase": 0,
+    "(WR)BTC": {
+        "name": "(WR)BTC",
+        "addr": "0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab"
+    },
+    "USDT0": {
+        "name": "USDT0",
+        "addr": "0xc7d5944654eD41011efe0A4cB8446B0416545A11"
+    }
+}
