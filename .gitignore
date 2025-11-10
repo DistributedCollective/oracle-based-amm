@@ -49,3 +49,6 @@ cache/
 /security/echidna/coverage/
 /security/echidna/covered.txt
 /security/echidna/*.log
+
+# Security subproject vendored libs
+/security/foundry/lib/
