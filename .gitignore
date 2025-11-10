@@ -38,3 +38,14 @@ yarn.lock
 
 artifacts/
 cache/
+# --- Security subproject (Foundry / Echidna) ---
+/security/foundry/out/
+/security/foundry/cache/
+/security/foundry/broadcast/   # contiene URLs/API keys si hay scripts
+/security/foundry/coverage/
+
+# Echidna / crytic-compile outputs
+/security/echidna/crytic-export/
+/security/echidna/coverage/
+/security/echidna/covered.txt
+/security/echidna/*.log
