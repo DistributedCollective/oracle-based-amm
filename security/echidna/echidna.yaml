@@ -1,0 +1,5 @@
+testMode: property
+seqLen: 50
+testLimit: 50000
+shrinkLimit: 500
+seed: 12345
