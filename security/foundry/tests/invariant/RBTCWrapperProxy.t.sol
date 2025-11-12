@@ -19,8 +19,8 @@ contract RBTCWrapperProxy_Handler {
         ok; // ignore result; invariants decide pass/fail
     }
 
-    function call_updateRegistry(address newReg) external {
-        (bool ok,) = proxy.call(abi.encodeWithSignature("updateRegistry(address)", newReg));
+    function call_updateRegistry() external {
+        (bool ok,) = proxy.call(abi.encodeWithSignature("updateRegistry()"));
         ok;
     }
 

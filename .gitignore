@@ -52,3 +52,6 @@ cache/
 
 # Security subproject vendored libs
 /security/foundry/lib/
+
+# ignore additional echidna generated files through foundry
+/security/foundry/crytic-export/
