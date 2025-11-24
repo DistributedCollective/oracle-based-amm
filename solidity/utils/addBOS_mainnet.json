@@ -16,7 +16,7 @@
             "type": 1,
             "symbol": "(WR)BTC/BOS",
             "decimals": 18,
-            "fee": "0.3%",
+            "fee": "0.35%",
             "reserves": [
                 {
                     "symbol": "(WR)BTC",
@@ -26,7 +26,7 @@
                 {
                     "symbol": "BOS",
                     "weight": "50%",
-                    "balance": "25275.61"
+                    "balance": "23216.22"
                 }
             ]
         }
