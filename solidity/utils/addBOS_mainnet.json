@@ -8,7 +8,7 @@
         {
             "symbol": "BOS",
             "decimals": 18,
-            "address": ""
+            "address": "0x3E3006896458f0ACfE79B57a1A0FE067B3a1CE6f"
         }
     ],
     "converters": [
@@ -16,20 +16,21 @@
             "type": 1,
             "symbol": "(WR)BTC/BOS",
             "decimals": 18,
-            "fee": "",
+            "fee": "0.3%",
             "reserves": [
                 {
                     "symbol": "(WR)BTC",
                     "weight": "50%",
-                    "balance": ""
+                    "balance": "0.001"
                 },
                 {
                     "symbol": "BOS",
                     "weight": "50%",
-                    "balance": ""
+                    "balance": "25275.61"
                 }
             ]
         }
     ],
-    "btcAddress": "0x542fda317318ebf1d3deaf76e0b632741a7e677d",
+    "k": 6779,
+    "btcAddress": "0x542fda317318ebf1d3deaf76e0b632741a7e677d"
 }
