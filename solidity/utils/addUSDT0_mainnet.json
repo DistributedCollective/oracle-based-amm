@@ -8,7 +8,7 @@
         {
             "symbol": "USDT0",
             "decimals": 18,
-            "address": "0xc7d5944654eD41011efe0A4cB8446B0416545A11"
+            "address": "0x779Ded0c9e1022225f8E0630b35a9b54bE713736"
         }
     ],
     "converters": [
@@ -40,6 +40,6 @@
     },
     "USDT0": {
         "name": "USDT0",
-        "addr": "0xc7d5944654eD41011efe0A4cB8446B0416545A11"
+        "addr": "0x779Ded0c9e1022225f8E0630b35a9b54bE713736"
     }
 }
