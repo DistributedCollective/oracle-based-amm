@@ -7,33 +7,33 @@
         },
         {
             "symbol": "USDT0",
-            "decimals": 18,
+            "decimals": 6,
             "address": "0x779Ded0c9e1022225f8E0630b35a9b54bE713736"
         }
     ],
     "converters": [
         {
             "type": 1,
-            "symbol": "(WR)BTC/UDST0",
+            "symbol": "(WR)BTC/USDT0",
             "decimals": 18,
             "fee": "0.35%",
             "reserves": [
                 {
                     "symbol": "(WR)BTC",
                     "weight": "50%",
-                    "balance": "0.0009"
+                    "balance": "0"
                 },
                 {
                     "symbol": "USDT0",
                     "weight": "50%",
-                    "balance": "100"
+                    "balance": "0"
                 }
             ]
         }
     ],
     "k": 6779,
     "btcAddress": "0x542fda317318ebf1d3deaf76e0b632741a7e677d",
-    "phase": 0,
+    "phase": 7,
     "(WR)BTC": {
         "name": "(WR)BTC",
         "addr": "0x542fda317318ebf1d3deaf76e0b632741a7e677d"
@@ -41,5 +41,53 @@
     "USDT0": {
         "name": "USDT0",
         "addr": "0x779Ded0c9e1022225f8E0630b35a9b54bE713736"
+    },
+    "newLiquidityPoolV1Converter_WRBTCUSDT0": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xd107E06964112d3F70CFb386565dfbda16aE71F3",
+        "args": "000000000000000000000000591e07d721c2e22eeb4bf33d0b3377daca886fcc00000000000000000000000046ebc03ef2277308bdb106a73d11c65109c4b89b00000000000000000000000000000000000000000000000000000000000f4240"
+    },
+    "newLiquidityPoolV1Converter": {
+        "name": "LiquidityPoolV1Converter",
+        "addr": "0xd107E06964112d3F70CFb386565dfbda16aE71F3",
+        "args": "000000000000000000000000591e07d721c2e22eeb4bf33d0b3377daca886fcc00000000000000000000000046ebc03ef2277308bdb106a73d11c65109c4b89b00000000000000000000000000000000000000000000000000000000000f4240",
+        "legacyAliasOf": "newLiquidityPoolV1Converter_WRBTCUSDT0"
+    },
+    "liquidityPoolToken_WRBTCUSDT0": {
+        "name": "SmartToken",
+        "addr": "0x591E07d721c2e22EeB4BF33D0B3377DACa886Fcc",
+        "args": "000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000001c285752294254432f5553445430204c697175696469747920506f6f6c00000000000000000000000000000000000000000000000000000000000000000000000d285752294254432f555344543000000000000000000000000000000000000000"
+    },
+    "verification": {
+        "verifier": "blockscout",
+        "apiUrl": "https://rootstock.blockscout.com/api/v2",
+        "compilerVersion": "v0.4.26+commit.4563c3fc",
+        "optimization": {
+            "used": 1,
+            "runs": 200
+        },
+        "licenseType": "none",
+        "contracts": {
+            "liquidityPoolToken_WRBTCUSDT0": {
+                "name": "SmartToken",
+                "addr": "0x591E07d721c2e22EeB4BF33D0B3377DACa886Fcc",
+                "args": "000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000001c285752294254432f5553445430204c697175696469747920506f6f6c00000000000000000000000000000000000000000000000000000000000000000000000d285752294254432f555344543000000000000000000000000000000000000000"
+            },
+            "newLiquidityPoolV1Converter_WRBTCUSDT0": {
+                "name": "LiquidityPoolV1Converter",
+                "addr": "0xd107E06964112d3F70CFb386565dfbda16aE71F3",
+                "args": "000000000000000000000000591e07d721c2e22eeb4bf33d0b3377daca886fcc00000000000000000000000046ebc03ef2277308bdb106a73d11c65109c4b89b00000000000000000000000000000000000000000000000000000000000f4240"
+            },
+            "Oracle": {
+                "name": "Oracle",
+                "addr": "0x27EcD4496Dc9F1a00CE73220922e7bf68909644d",
+                "args": "000000000000000000000000d107e06964112d3f70cfb386565dfbda16ae71f3000000000000000000000000542fda317318ebf1d3deaf76e0b632741a7e677d"
+            }
+        }
+    },
+    "Oracle": {
+        "name": "Oracle",
+        "addr": "0x27EcD4496Dc9F1a00CE73220922e7bf68909644d",
+        "args": "000000000000000000000000d107e06964112d3f70cfb386565dfbda16ae71f3000000000000000000000000542fda317318ebf1d3deaf76e0b632741a7e677d"
     }
 }

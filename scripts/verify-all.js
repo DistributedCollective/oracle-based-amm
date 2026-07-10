@@ -8,9 +8,12 @@ const request = require('request');
 const spawnSync = require('child_process').spawnSync;
 
 const input = JSON.parse(fs.readFileSync(INPUT_FILE, { encoding: 'utf8' }));
+const verificationInput = input.verification ? { ...input, ...input.verification } : input;
 //  input example:
 //  {
+//      "verifier"       : "etherscan", // "etherscan" or "blockscout"
 //      "network"        : "api", // use "api" for mainnet or "api-<testnet>" for testnet
+//      "apiUrl"         : "https://rootstock.blockscout.com/api/v2", // required for blockscout, optional for etherscan
 //      "apiKey"         : "",    // generate this value at https://etherscan.io/myapikey
 //      "compilerVersion": "v0.4.26+commit.4563c3fc",
 //      "optimization"   : {"used": 1, "runs": 200},
@@ -23,14 +26,25 @@ const input = JSON.parse(fs.readFileSync(INPUT_FILE, { encoding: 'utf8' }));
 //  }
 
 const run = () => {
+    const contracts = getContracts();
     for (const pathName of getPathNames('contracts')) {
         const contractName = path.basename(pathName, '.sol');
-        for (const contractId of Object.keys(input.contracts)) {
-            if (input.contracts[contractId].name === contractName) {
-                post(contractId, getSourceCode(pathName));
+        for (const contractId of Object.keys(contracts)) {
+            if (contracts[contractId].name === contractName) {
+                post(contractId, contracts[contractId], getSourceCode(pathName));
             }
         }
     }
+};
+
+const getContracts = () => {
+    if (verificationInput.contracts) {
+        return verificationInput.contracts;
+    }
+    if (input.verification && input.verification.contracts) {
+        return input.verification.contracts;
+    }
+    throw new Error('No contracts found. Provide "contracts" or "verification.contracts" in the input JSON.');
 };
 
 const getPathNames = (dirName) => {
@@ -47,25 +61,39 @@ const getPathNames = (dirName) => {
 };
 
 const getSourceCode = (pathName) => {
-    const result = spawnSync('node', [NODE_DIR + '/truffle-flattener/index.js', pathName], { cwd: WORK_DIR });
-    return result.output.toString().slice(1, -1);
+    const result = spawnSync('node', [NODE_DIR + '/truffle-flattener/index.js', pathName], {
+        cwd: WORK_DIR,
+        env: { ...process.env, NODE_NO_WARNINGS: '1' }
+    });
+    if (result.status !== 0) {
+        throw new Error(result.stderr.toString() || result.stdout.toString());
+    }
+    return result.stdout.toString();
 };
 
-const post = (contractId, sourceCode) => {
+const post = (contractId, contract, sourceCode) => {
+    if (verificationInput.verifier === 'blockscout') {
+        postBlockscout(contractId, contract, sourceCode);
+    } else {
+        postEtherscan(contractId, contract, sourceCode);
+    }
+};
+
+const postEtherscan = (contractId, contract, sourceCode) => {
     console.log(contractId + ': sending verification request...');
     request.post({
-        url: 'https://' + input.network + '.etherscan.io/api',
+        url: verificationInput.apiUrl || 'https://' + verificationInput.network + '.etherscan.io/api',
         form: {
             module: 'contract',
             action: 'verifysourcecode',
             sourceCode: sourceCode,
-            apikey: input.apiKey,
-            compilerversion: input.compilerVersion,
-            optimizationUsed: input.optimization.used,
-            runs: input.optimization.runs,
-            contractname: input.contracts[contractId].name,
-            contractaddress: input.contracts[contractId].addr,
-            constructorArguements: input.contracts[contractId].args
+            apikey: verificationInput.apiKey,
+            compilerversion: verificationInput.compilerVersion,
+            optimizationUsed: verificationInput.optimization.used,
+            runs: verificationInput.optimization.runs,
+            contractname: contract.name,
+            contractaddress: contract.addr,
+            constructorArguements: contract.args
         }
     },
     (error, response, body) => {
@@ -84,10 +112,44 @@ const post = (contractId, sourceCode) => {
     });
 };
 
+const postBlockscout = (contractId, contract, sourceCode) => {
+    if (!verificationInput.apiUrl) {
+        throw new Error('Blockscout verification requires "apiUrl", for example "https://rootstock.blockscout.com/api/v2"');
+    }
+
+    const url = verificationInput.apiUrl.replace(/\/$/, '') + '/smart-contracts/' + contract.addr + '/verification/via/flattened-code';
+    console.log(contractId + ': sending Blockscout verification request...');
+
+    request.post({
+        url,
+        json: {
+            compiler_version: verificationInput.compilerVersion,
+            license_type: verificationInput.licenseType || 'none',
+            source_code: sourceCode,
+            is_optimization_enabled: verificationInput.optimization.used === 1 || verificationInput.optimization.used === true,
+            optimization_runs: verificationInput.optimization.runs,
+            constructor_args: contract.args || '',
+            contract_name: contract.name,
+            autodetect_constructor_args: true
+        }
+    },
+    (error, response, body) => {
+        if (error) {
+            console.log(contractId + ': ' + error);
+        }
+        else if (response.statusCode >= 200 && response.statusCode < 300) {
+            console.log(contractId + ': ' + (body && body.message ? body.message : 'verification request accepted'));
+        }
+        else {
+            console.log(contractId + ': HTTP ' + response.statusCode + ' ' + JSON.stringify(body));
+        }
+    });
+};
+
 const get = (contractId, guid) => {
     console.log(contractId + ': checking verification status...');
     request.get(
-        'https://' + input.network + '.etherscan.io/api?module=contract&action=checkverifystatus&guid=' + guid,
+        (verificationInput.apiUrl || 'https://' + verificationInput.network + '.etherscan.io/api') + '?module=contract&action=checkverifystatus&guid=' + guid,
         (error, response, body) => {
             if (error) {
                 console.log(contractId + ': ' + error);

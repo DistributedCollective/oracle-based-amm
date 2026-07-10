@@ -12,7 +12,7 @@ console.log("TOKEN_NAME:", TOKEN_NAME);
 console.log("TOKEN_CONFIG_FILENAME:", TOKEN_CONFIG_FILENAME);
 console.log("DATA_FILENAME:", DATA_FILENAME);
 console.log("NODE_ADDRESS:", NODE_ADDRESS);
-console.log("PRIVATE_KEY:", PRIVATE_KEY);
+console.log("PRIVATE_KEY:", PRIVATE_KEY ? "<redacted>" : "<missing>");
 
 const ARTIFACTS_DIR = path.resolve(__dirname, "../build/contracts");
 
@@ -54,6 +54,41 @@ const getData = () => {
 
 const setConfig = (record) => {
 	fs.writeFileSync(path.join(__dirname, TOKEN_CONFIG_FILENAME), JSON.stringify({ ...getConfig(), ...record }, null, 4));
+};
+
+const stripHexPrefix = (value) => value.replace(/^0x/, "");
+
+const encodeConstructorArgs = (web3, types, values) => {
+	return stripHexPrefix(web3.eth.abi.encodeParameters(types, values));
+};
+
+const verificationConfigKey = (prefix, symbol) => {
+	return `${prefix}_${symbol.replace(/[^a-zA-Z0-9]/g, "")}`;
+};
+
+const setVerificationContract = (contractId, name, addr, args) => {
+	const config = getConfig();
+	const verification = config.verification || {};
+	const contracts = verification.contracts || {};
+
+	setConfig({
+		verification: {
+			verifier: verification.verifier || "blockscout",
+			apiUrl: verification.apiUrl || "https://rootstock.blockscout.com/api/v2",
+			compilerVersion: verification.compilerVersion || "v0.4.26+commit.4563c3fc",
+			optimization: verification.optimization || { used: 1, runs: 200 },
+			licenseType: verification.licenseType || "none",
+			...verification,
+			contracts: {
+				...contracts,
+				[contractId]: {
+					name,
+					addr,
+					args: args || "",
+				},
+			},
+		},
+	});
 };
 
 const scan = async (message) => {
@@ -142,6 +177,7 @@ const deploy = async (web3, account, gasPrice, contractId, contractName, contrac
 		//if (contractId === "Oracle") configName = `${contractId}${converterIndex++}`;
 		if (contractId === "Oracle") configName = `${contractId}`;
 		setConfig({ [configName]: { name: contractName, addr: receipt.contractAddress, args: args } });
+		setVerificationContract(configName, contractName, receipt.contractAddress, args);
 		return deployed(web3, contractName, receipt.contractAddress);
 	}
 	return deployed(web3, contractName, getConfig()[contractId].addr);
@@ -161,12 +197,16 @@ const percentageToPPM = (value) => {
 	return decimalToInteger(value.replace("%", ""), 4);
 };
 
+const converterConfigKey = (converter) => {
+	return `newLiquidityPoolV${converter.type}Converter_${converter.symbol.replace(/[^a-zA-Z0-9]/g, "")}`;
+};
+
 const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, oracleMockHas) => {
 	const web3 = new Web3(NODE_ADDRESS);
 
 	const gasPrice = await getGasPrice(web3);
 	const account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
-	console.log("account: ", account);
+	console.log("account: ", account.address);
 	const web3Func = (func, ...args) => func(web3, account, gasPrice, ...args);
 
 	const addresses = { ETH: Web3.utils.toChecksumAddress("0x".padEnd(42, "e")) };
@@ -186,6 +226,7 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 	};
 
 	const converterRegistry = await deployed(web3, "ConverterRegistry", getData().converterRegistry.addr);
+	const contractRegistryAddress = getData().contractRegistry.addr;
 	const oracleWhitelist = await deployed(web3, "Whitelist", getData().oracleWhitelist.addr);
 
 	let multiSigWallet;
@@ -250,29 +291,86 @@ const addConverter = async (tokenOracleName, oracleMockName, oracleMockValue, or
 		if (getConfig()["phase"] > 0) console.log(`Restarting from phase #${getConfig()["phase"]}`);
 
 		let newConverter;
+		const newConverterConfigKey = converterConfigKey(converter);
+		// Compatibility alias for older one-pool configs. Prefer the symbol-specific key above.
+		const legacyNewConverterConfigKey = `newLiquidityPoolV${type}Converter`;
 		//if the script breaks during execution, run it again, it will resume from the point of failure automagically
-		if (getConfig()["phase"] < 2) {
+		if (getConfig()[newConverterConfigKey] !== undefined) {
+			newConverter = getConfig()[newConverterConfigKey].addr;
+			console.log("Using previously recorded converter  ", newConverter);
+		} else if (getConfig()[legacyNewConverterConfigKey] !== undefined) {
+			newConverter = getConfig()[legacyNewConverterConfigKey].addr;
+			console.log("Using previously recorded converter  ", newConverter);
+		} else {
 			newConverter = await converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights).call();
 			console.log(newConverter);
-		} else {
-			newConverter = getConfig()[`newLiquidityPoolV${type}Converter`].addr;
-			console.log("Using previously created converter  ", newConverter);
+			setConfig({ [newConverterConfigKey]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
 		}
 
 		await execute(converterRegistry.methods.newConverter(type, name, symbol, decimals, "1000000", tokens, weights));
 		await execute(converterRegistry.methods.setupConverter(type, tokens, weights, newConverter));
 		console.log("New Converter is  ", newConverter);
-		setConfig({ [`newLiquidityPoolV${type}Converter`]: { name: `LiquidityPoolV${type}Converter`, addr: newConverter, args: "" } });
+		setConfig({
+			[legacyNewConverterConfigKey]: {
+				name: `LiquidityPoolV${type}Converter`,
+				addr: newConverter,
+				args: "",
+				legacyAliasOf: newConverterConfigKey,
+			},
+		});
 
 		console.log("Calling anchors");
 		console.log(await converterRegistry.methods.getAnchors().call());
 
-		const anchor = deployed(web3, "IConverterAnchor", (await converterRegistry.methods.getAnchors().call()).slice(-1)[0]);
+		const converterBase = deployed(web3, "ConverterBase", newConverter);
+		const anchorAddress = await converterBase.methods.token().call();
+		const anchor = deployed(web3, "IConverterAnchor", anchorAddress);
+		const smartTokenConstructorArgs = encodeConstructorArgs(web3, ["string", "string", "uint8"], [name, symbol, decimals]);
+		const converterConstructorArgs = encodeConstructorArgs(
+			web3,
+			["address", "address", "uint32"],
+			[anchorAddress, contractRegistryAddress, "1000000"]
+		);
+		setConfig({
+			[verificationConfigKey("liquidityPoolToken", symbol)]: {
+				name: "SmartToken",
+				addr: anchorAddress,
+				args: smartTokenConstructorArgs,
+			},
+			[newConverterConfigKey]: {
+				name: `LiquidityPoolV${type}Converter`,
+				addr: newConverter,
+				args: converterConstructorArgs,
+			},
+			[legacyNewConverterConfigKey]: {
+				name: `LiquidityPoolV${type}Converter`,
+				addr: newConverter,
+				args: converterConstructorArgs,
+				legacyAliasOf: newConverterConfigKey,
+			},
+		});
+		setVerificationContract(
+			verificationConfigKey("liquidityPoolToken", symbol),
+			"SmartToken",
+			anchorAddress,
+			smartTokenConstructorArgs
+		);
+		setVerificationContract(
+			newConverterConfigKey,
+			`LiquidityPoolV${type}Converter`,
+			newConverter,
+			converterConstructorArgs
+		);
+		if (type !== 0) {
+			const isLiquidityPool = await converterRegistry.methods.isLiquidityPool(anchorAddress).call();
+			if (!isLiquidityPool) {
+				throw new Error(`Converter ${newConverter} anchor ${anchorAddress} is not registered as a liquidity pool`);
+			}
+			console.log("Verified liquidity pool registration for anchor ", anchorAddress);
+		}
 
 		// TODO: Remove next line, just here for checking which address is received from anchor. The last address shown from above anchor list should be shown.
 		//console.log("Anchor Taken: ", anchor);
-
-		const converterBase = deployed(web3, "ConverterBase", newConverter);
 
 		console.log("Now executing the settings on " + converterBase._address);
 		await execute(converterBase.methods.acceptOwnership());
